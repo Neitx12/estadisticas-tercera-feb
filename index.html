@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estadísticas Tercera FEB</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f9;
+      color: #1f2937;
+    }
+
+    header {
+      background: #17365d;
+      color: white;
+      padding: 28px 20px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .info {
+      background: white;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #d9e2f3;
+      color: #17365d;
+      font-weight: bold;
+    }
+
+    .tab-button.active {
+      background: #17365d;
+      color: white;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .table-wrapper {
+      background: white;
+      border-radius: 12px;
+      overflow-x: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1200px;
+    }
+
+    th {
+      background: #4472c4;
+      color: white;
+      padding: 11px 9px;
+      font-size: 12px;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+
+    td {
+      padding: 9px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: center;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    td:first-child,
+    th:first-child {
+      text-align: left;
+      position: sticky;
+      left: 0;
+      z-index: 2;
+    }
+
+    th:first-child {
+      background: #4472c4;
+    }
+
+    td:first-child {
+      background: white;
+      font-weight: bold;
+    }
+
+    tr:hover td {
+      background: #f7faff;
+    }
+
+    tr.media td {
+      background: #fff2cc !important;
+      font-weight: bold;
+    }
+
+    .positive {
+      color: #16803c;
+      font-weight: bold;
+    }
+
+    .negative {
+      color: #b42318;
+      font-weight: bold;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      color: #17365d;
+    }
+
+    .footer {
+      text-align: center;
+      color: #6b7280;
+      padding: 30px 10px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <h1>Estadísticas Tercera FEB</h1>
+    <p>Estadísticas base y avanzadas · Jornada 1 · Temporada 2026/27</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="info">
+    <h2 class="section-title">Jornada 1</h2>
+    <p>
+      14 equipos analizados · Los datos se actualizarán jornada a jornada.
+      La fila <strong>MEDIA LIGA</strong> representa la media de los 14 equipos.
+    </p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-button active" onclick="mostrarTab('completos', this)">
+      Datos Completos
+    </button>
+
+    <button class="tab-button" onclick="mostrarTab('base', this)">
+      Estadística Base
+    </button>
+
+    <button class="tab-button" onclick="mostrarTab('avanzada', this)">
+      Estadística Avanzada
+    </button>
+  </div>
+
+  <!-- DATOS COMPLETOS -->
+  <div id="completos" class="tab active">
+    <div class="table-wrapper">
+      <table id="tablaCompletos"></table>
+    </div>
+  </div>
+
+  <!-- ESTADÍSTICA BASE -->
+  <div id="base" class="tab">
+    <div class="table-wrapper">
+      <table id="tablaBase"></table>
+    </div>
+  </div>
+
+  <!-- ESTADÍSTICA AVANZADA -->
+  <div id="avanzada" class="tab">
+    <div class="table-wrapper">
+      <table id="tablaAvanzada"></table>
+    </div>
+  </div>
+
+  <div class="footer">
+    Estadísticas calculadas a partir de los box scores de cada partido.
+  </div>
+
+</div>
+
+<script>
+
+const equipos = [
+
+  {
+    nombre: "Piélagos",
+    pts: 91,
+    dosPM: 30, dosPA: 38,
+    tresPM: 6, tresPA: 35,
+    tlM: 13, tlA: 18,
+    orb: 11, drb: 33, trb: 44,
+    ast: 22, stl: 19, to: 17, blk: 3,
+    pf: 23, pfr: 20, val: 117, masmenos: 31,
+    rival: "La Flecha",
+    ptsR: 60,
+    dosPMR: 19, dosPAR: 45,
+    tresPMR: 3, tresPAR: 21,
+    tlMR: 13, tlAR: 22,
+    orbR: 13, drbR: 27, trbR: 40,
+    astR: 6, stlR: 10, toR: 28, blkR: 2,
+    pfR: 20, pfrR: 23, valR: 40
+  },
+
+  {
+    nombre: "La Flecha",
+    pts: 60,
+    dosPM: 19, dosPA: 45,
+    tresPM: 3, tresPA: 21,
+    tlM: 13, tlA: 22,
+    orb: 13, drb: 27, trb: 40,
+    ast: 6, stl: 10, to: 28, blk: 2,
+    pf: 20, pfr: 23, val: 40, masmenos: -31,
+    rival: "Piélagos",
+    ptsR: 91,
+    dosPMR: 30, dosPAR: 38,
+    tresPMR: 6, tresPAR: 35,
+    tlMR: 13, tlAR: 18,
+    orbR: 11, drbR: 33, trbR: 44,
+    astR: 22, stlR: 19, toR: 17, blkR: 3,
+    pfR: 23, pfrR: 20, valR: 117
+  },
+
+  {
+    nombre: "Ardoi",
+    pts: 65,
+    dosPM: 18, dosPA: 41,
+    tresPM: 6, tresPA: 25,
+    tlM: 11, tlA: 20,
+    orb: 9, drb: 21, trb: 30,
+    ast: 16, stl: 21, to: 19, blk: 0,
+    pf: 24, pfr: 20, val: 58, masmenos: -20,
+    rival: "Ulacia ZKE",
+    ptsR: 85,
+    dosPMR: 24, dosPAR: 39,
+    tresPMR: 8, tresPAR: 27,
+    tlMR: 13, tlAR: 21,
+    orbR: 16, drbR: 34, trbR: 50,
+    astR: 19, stlR: 11, toR: 28, blkR: 2,
+    pfR: 20, pfrR: 23, valR: 100
+  },
+
+  {
+    nombre: "Ulacia ZKE",
+    pts: 85,
+    dosPM: 24, dosPA: 39,
+    tresPM: 8, tresPA: 27,
+    tlM: 13, tlA: 21,
+    orb: 16, drb: 34, trb: 50,
+    ast: 19, stl: 11, to: 28, blk: 2,
+    pf: 20, pfr: 23, val: 100, masmenos: 20,
+    rival: "Ardoi",
+    ptsR: 65,
+    dosPMR: 18, dosPAR: 41,
+    tresPMR: 6, tresPAR: 25,
+    tlMR: 11, tlAR: 20,
+    orbR: 9, drbR: 21, trbR: 30,
+    astR: 16, stlR: 21, toR: 19, blkR: 0,
+    pfR: 24, pfrR: 20, valR: 58
+  },
+
+  {
+    nombre: "Tabirako",
+    pts: 70,
+    dosPM: 16, dosPA: 36,
+    tresPM: 7, tresPA: 27,
+    tlM: 17, tlA: 25,
+    orb: 9, drb: 31, trb: 40,
+    ast: 8, stl: 6, to: 13, blk: 3,
+    pf: 24, pfr: 21, val: 63, masmenos: -5,
+    rival: "Iruki Take",
+    ptsR: 75,
+    dosPMR: 14, dosPAR: 32,
+    tresPMR: 8, tresPAR: 30,
+    tlMR: 23, tlAR: 31,
+    orbR: 13, drbR: 34, trbR: 47,
+    astR: 11, stlR: 5, toR: 12, blkR: 3,
+    pfR: 22, pfrR: 21, valR: 80
+  },
+
+  {
+    nombre: "Iruki Take",
+    pts: 75,
+    dosPM: 14, dosPA: 32,
+    tresPM: 8, tresPA: 30,
+    tlM: 23, tlA: 31,
+    orb: 13, drb: 34, trb: 47,
+    ast: 11, stl: 5, to: 12, blk: 3,
+    pf: 22, pfr: 21, val: 80, masmenos: 5,
+    rival: "Tabirako",
+    ptsR: 70,
+    dosPMR: 16, dosPAR: 36,
+    tresPMR: 7, tresPAR: 27,
+    tlMR: 17, tlAR: 25,
+    orbR: 9, drbR: 31, trbR: 40,
+    astR: 8, stlR: 6, toR: 13, blkR: 3,
+    pfR: 24, pfrR: 21, valR: 63
+  },
+
+  {
+    nombre: "Solares",
+    pts: 70,
+    dosPM: 15, dosPA: 37,
+    tresPM: 9, tresPA: 38,
+    tlM: 13, tlA: 27,
+    orb: 23, drb: 29, trb: 52,
+    ast: 14, stl: 5, to: 11, blk: 4,
+    pf: 21, pfr: 24, val: 72, masmenos: 4,
+    rival: "San Prudencio",
+    ptsR: 66,
+    dosPMR: 18, dosPAR: 39,
+    tresPMR: 8, tresPAR: 35,
+    tlMR: 6, tlAR: 22,
+    orbR: 23, drbR: 36, trbR: 59,
+    astR: 11, stlR: 6, toR: 16, blkR: 5,
+    pfR: 25, pfrR: 21, valR: 63
+  },
+
+  {
+    nombre: "San Prudencio",
+    pts: 66,
+    dosPM: 18, dosPA: 39,
+    tresPM: 8, tresPA: 35,
+    tlM: 6, tlA: 22,
+    orb: 23, drb: 36, trb: 59,
+    ast: 11, stl: 6, to: 16, blk: 5,
+    pf: 25, pfr: 21, val: 63, masmenos: -4,
+    rival: "Solares",
+    ptsR: 70,
+    dosPMR: 15, dosPAR: 37,
+    tresPMR: 9, tresPAR: 38,
+    tlMR: 13, tlAR: 27,
+    orbR: 23, drbR: 29, trbR: 52,
+    astR: 14, stlR: 5, toR: 11, blkR: 4,
+    pfR: 21, pfrR: 24, valR: 72
+  },
+
+  {
+    nombre: "Zornotza",
+    pts: 92,
+    dosPM: 17, dosPA: 39,
+    tresPM: 14, tresPA: 36,
+    tlM: 16, tlA: 20,
+    orb: 15, drb: 30, trb: 45,
+    ast: 25, stl: 8, to: 9, blk: 2,
+    pf: 21, pfr: 21, val: 115, masmenos: 15,
+    rival: "Egüés",
+    ptsR: 77,
+    dosPMR: 17, dosPAR: 43,
+    tresPMR: 10, tresPAR: 27,
+    tlMR: 13, tlAR: 18,
+    orbR: 16, drbR: 31, trbR: 47,
+    astR: 18, stlR: 6, toR: 16, blkR: 3,
+    pfR: 23, pfrR: 20, valR: 84
+  },
+
+  {
+    nombre: "Egüés",
+    pts: 77,
+    dosPM: 17, dosPA: 43,
+    tresPM: 10, tresPA: 27,
+    tlM: 13, tlA: 18,
+    orb: 16, drb: 31, trb: 47,
+    ast: 18, stl: 6, to: 16, blk: 3,
+    pf: 23, pfr: 20, val: 84, masmenos: -15,
+    rival: "Zornotza",
+    ptsR: 92,
+    dosPMR: 17, dosPAR: 39,
+    tresPMR: 14, tresPAR: 36,
+    tlMR: 16, tlAR: 20,
+    orbR: 15, drbR: 30, trbR: 45,
+    astR: 25, stlR: 8, toR: 9, blkR: 2,
+    pfR: 21, pfrR: 21, valR: 115
+  },
+
+  {
+    nombre: "Deusto Loyola Indautxu",
+    pts: 90,
+    dosPM: 27, dosPA: 47,
+    tresPM: 5, tresPA: 21,
+    tlM: 21, tlA: 32,
+    orb: 16, drb: 22, trb: 38,
+    ast: 16, stl: 16, to: 16, blk: 4,
+    pf: 15, pfr: 30, val: 116, masmenos: 5,
+    rival: "Bezana",
+    ptsR: 85,
+    dosPMR: 16, dosPAR: 36,
+    tresPMR: 15, tresPAR: 36,
+    tlMR: 8, tlAR: 10,
+    orbR: 20, drbR: 24, trbR: 44,
+    astR: 17, stlR: 8, toR: 24, blkR: 2,
+    pfR: 31, pfrR: 15, valR: 73
+  },
+
+  {
+    nombre: "Bezana",
+    pts: 85,
+    dosPM: 16, dosPA: 36,
+    tresPM: 15, tresPA: 36,
+    tlM: 8, tlA: 10,
+    orb: 20, drb: 24, trb: 44,
+    ast: 17, stl: 8, to: 24, blk: 2,
+    pf: 31, pfr: 15, val: 73, masmenos: -5,
+    rival: "Deusto Loyola Indautxu",
+    ptsR: 90,
+    dosPMR: 27, dosPAR: 47,
+    tresPMR: 5, tresPAR: 21,
+    tlMR: 21, tlAR: 32,
+    orbR: 16, drbR: 22, trbR: 38,
+    astR: 16, stlR: 16, toR: 16, blkR: 4,
+    pfR: 15, pfrR: 30, valR: 116
+  },
+
+  {
+    nombre: "Cantbasket04",
+    pts: 96,
+    dosPM: 20, dosPA: 46,
+    tresPM: 15, tresPA: 39,
+    tlM: 11, tlA: 21,
+    orb: 23, drb: 24, trb: 47,
+    ast: 23, stl: 15, to: 17, blk: 2,
+    pf: 20, pfr: 19, val: 105, masmenos: 18,
+    rival: "Ávila Auténtica",
+    ptsR: 78,
+    dosPMR: 21, dosPAR: 42,
+    tresPMR: 7, tresPAR: 34,
+    tlMR: 15, tlAR: 22,
+    orbR: 24, drbR: 31, trbR: 55,
+    astR: 19, stlR: 6, toR: 22, blkR: 2,
+    pfR: 20, pfrR: 20, valR: 83
+  },
+
+  {
+    nombre: "Ávila Auténtica",
+    pts: 78,
+    dosPM: 21, dosPA: 42,
+    tresPM: 7, tresPA: 34,
+    tlM: 15, tlA: 22,
+    orb: 24, drb: 31, trb: 55,
+    ast: 19, stl: 6, to: 22, blk: 2,
+    pf: 20, pfr: 20, val: 83, masmenos: -18,
+    rival: "Cantbasket04",
+    ptsR: 96,
+    dosPMR: 20, dosPAR: 46,
+    tresPMR: 15, tresPAR: 39,
+    tlMR: 11, tlAR: 21,
+    orbR: 23, drbR: 24, trbR: 47,
+    astR: 23, stlR: 15, toR: 17, blkR: 2,
+    pfR: 20, pfrR: 19, valR: 105
+  }
+
+];
+
+function posesiones(e) {
+  return e.dosPA + e.tresPA + 0.44 * e.tlA - e.orb + e.to;
+}
+
+function posesionesRival(e) {
+  return e.dosPAR + e.tresPAR + 0.44 * e.tlAR - e.orbR + e.toR;
+}
+
+function avanzadas(e) {
+
+  const poss = posesiones(e);
+  const possR = posesionesRival(e);
+
+  const fga = e.dosPA + e.tresPA;
+  const fgaR = e.dosPAR + e.tresPAR;
+
+  return {
+    posesiones: poss,
+    ritmo: poss,
+    efOf: e.pts / poss * 100,
+    efDef: e.ptsR / possR * 100,
+    efNeta: e.pts / poss * 100 - e.ptsR / possR * 100,
+
+    rebDef:
+      e.drb / (e.drb + e.orbR),
+
+    rebOf:
+      e.orb / (e.orb + e.drbR),
+
+    rebTotal:
+      e.trb / (e.trb + e.trbR),
+
+    asPerd:
+      e.ast / e.to,
+
+    asistencias:
+      e.ast / (e.dosPM + e.tresPM),
+
+    tapones:
+      e.blk / e.dosPAR,
+
+    ts:
+      e.pts / (2 * (fga + 0.44 * e.tlA)),
+
+    efg:
+      (e.dosPM + e.tresPM + 0.5 * e.tresPM) / fga,
+
+    tov:
+      e.to / poss,
+
+    tresPA:
+      e.tresPA / fga,
+
+    ftr:
+      e.tlA / fga,
+
+    puntosTiro:
+      e.pts / fga,
+
+    efTiroRival:
+      e.ptsR / fgaR
+  };
+}
+
+function mediaEquipos() {
+
+  const media = {};
+
+  const numeric = [
+    "pts","dosPM","dosPA","tresPM","tresPA","tlM","tlA",
+    "orb","drb","trb","ast","stl","to","blk",
+    "pf","pfr","val","masmenos",
+    "ptsR","dosPMR","dosPAR","tresPMR","tresPAR",
+    "tlMR","tlAR","orbR","drbR","trbR",
+    "astR","stlR","toR","blkR","pfR","pfrR","valR"
+  ];
+
+  numeric.forEach(campo => {
+    media[campo] =
+      equipos.reduce((total,e) => total + e[campo],0) /
+      equipos.length;
+  });
+
+  const av = equipos.map(avanzadas);
+
+  Object.keys(av[0]).forEach(campo => {
+    media[campo] =
+      av.reduce((total,e) => total + e[campo],0) /
+      av.length;
+  });
+
+  return media;
+}
+
+function formatoNumero(valor) {
+  return Number(valor).toFixed(2);
+}
+
+function porcentaje(valor) {
+  return (valor * 100).toFixed(2) + "%";
+}
+
+function crearTablaBase() {
+
+  const columnas = [
+    ["Equipo","nombre"],
+    ["PTS","pts"],
+    ["2P M","dosPM"],
+    ["2P A","dosPA"],
+    ["2P %",e => e.dosPM/e.dosPA],
+    ["3P M","tresPM"],
+    ["3P A","tresPA"],
+    ["3P %",e => e.tresPM/e.tresPA],
+    ["TL M","tlM"],
+    ["TL A","tlA"],
+    ["TL %",e => e.tlM/e.tlA],
+    ["REB O","orb"],
+    ["REB D","drb"],
+    ["REB T","trb"],
+    ["AST","ast"],
+    ["REC","stl"],
+    ["PÉRD","to"],
+    ["TAP","blk"],
+    ["TAP REC","blkRec"],
+    ["FALTAS","pf"],
+    ["F REC","pfr"],
+    ["VAL","val"],
+    ["+/-","masmenos"]
+  ];
+
+  let html = "<thead><tr>";
+
+  columnas.forEach(c => {
+    html += `<th>${c[0]}</th>`;
+  });
+
+  html += "</tr></thead><tbody>";
+
+  equipos.forEach(e => {
+
+    html += "<tr>";
+
+    columnas.forEach(c => {
+
+      let valor =
+        typeof c[1] === "function"
+          ? c[1](e)
+          : e[c[1]];
+
+      if (["2P %","3P %","TL %"].includes(c[0])) {
+        valor = porcentaje(valor);
+      } else if (c[0] === "+/-") {
+        valor = formatoNumero(valor);
+
+      } else if (typeof valor === "number") {
+        valor = formatoNumero(valor);
+      }
+
+      html += `<td>${valor ?? 0}</td>`;
+    });
+
+    html += "</tr>";
+  });
+
+  const m = mediaEquipos();
+
+  html += `<tr class="media">`;
+
+  columnas.forEach(c => {
+
+    if (c[0] === "Equipo") {
+      html += "<td>MEDIA LIGA</td>";
+      return;
+    }
+
+    let valor;
+
+    if (typeof c[1] === "function") {
+
+      if (c[0] === "2P %") valor = m.dosPM/m.dosPA;
+      else if (c[0] === "3P %") valor = m.tresPM/m.tresPA;
+      else if (c[0] === "TL %") valor = m.tlM/m.tlA;
+
+    } else {
+      valor = m[c[1]];
+    }
+
+    if (["2P %","3P %","TL %"].includes(c[0])) {
+      html += `<td>${porcentaje(valor)}</td>`;
+    } else {
+      html += `<td>${formatoNumero(valor)}</td>`;
+    }
+  });
+
+  html += "</tr></tbody>";
+
+  document.getElementById("tablaBase").innerHTML = html;
+}
+
+function crearTablaAvanzada() {
+
+  const columnas = [
+    ["Equipo","nombre"],
+    ["Posesiones","posesiones"],
+    ["Ritmo","ritmo"],
+    ["EfOf","efOf"],
+    ["EfDef","efDef"],
+    ["EfNeta","efNeta"],
+    ["% Reb Def","rebDef"],
+    ["% Reb Of","rebOf"],
+    ["% Reb Total","rebTotal"],
+    ["As/Pérd","asPerd"],
+    ["% Asistencias","asistencias"],
+    ["% Tapones","tapones"],
+    ["TS%","ts"],
+    ["eFG%","efg"],
+    ["TOV%","tov"],
+    ["3PA%","tresPA"],
+    ["FTr","ftr"],
+    ["Pts/Tiro","puntosTiro"],
+    ["EfTiro","puntosTiro"],
+    ["EfTiro Rival","efTiroRival"]
+  ];
+
+  let html = "<thead><tr>";
+
+  columnas.forEach(c => {
+    html += `<th>${c[0]}</th>`;
+  });
+
+  html += "</tr></thead><tbody>";
+
+  equipos.forEach(e => {
+
+    const a = avanzadas(e);
+
+    html += "<tr>";
+
+    columnas.forEach(c => {
+
+      if (c[0] === "Equipo") {
+        html += `<td>${e.nombre}</td>`;
+        return;
+      }
+
+      let valor = a[c[1]];
+
+      if (
+        [
+          "% Reb Def",
+          "% Reb Of",
+          "% Reb Total",
+          "% Asistencias",
+          "% Tapones",
+          "TS%",
+          "eFG%",
+          "TOV%",
+          "3PA%",
+          "FTr"
+        ].includes(c[0])
+      ) {
+        valor = porcentaje(valor);
+      } else {
+        valor = formatoNumero(valor);
+      }
+
+      let clase = "";
+
+      if (c[0] === "EfNeta") {
+        clase =
+          valor >= 0
+            ? "positive"
+            : "negative";
+      }
+
+      html += `<td class="${clase}">${valor}</td>`;
+    });
+
+    html += "</tr>";
+  });
+
+  const av = mediaEquipos();
+
+  html += `<tr class="media">`;
+
+  columnas.forEach(c => {
+
+    if (c[0] === "Equipo") {
+      html += "<td>MEDIA LIGA</td>";
+      return;
+    }
+
+    let valor = av[c[1]];
+
+    if (
+      [
+        "% Reb Def",
+        "% Reb Of",
+        "% Reb Total",
+        "% Asistencias",
+        "% Tapones",
+        "TS%",
+        "eFG%",
+        "TOV%",
+        "3PA%",
+        "FTr"
+      ].includes(c[0])
+    ) {
+      valor = porcentaje(valor);
+    } else {
+      valor = formatoNumero(valor);
+    }
+
+    html += `<td>${valor}</td>`;
+  });
+
+  html += "</tr></tbody>";
+
+  document.getElementById("tablaAvanzada").innerHTML = html;
+}
+
+function crearTablaCompleta() {
+
+  const columnas = [
+    ["Equipo","nombre"],
+    ["PTS","pts"],
+    ["PTS Rival","ptsR"],
+    ["2P %",e => e.dosPM/e.dosPA],
+    ["3P %",e => e.tresPM/e.tresPA],
+    ["TL %",e => e.tlM/e.tlA],
+    ["REB T","trb"],
+    ["REB T Rival","trbR"],
+    ["AST","ast"],
+    ["PÉRD","to"],
+    ["TAP","blk"],
+    ["TAP REC","tapRec"],
+    ["VAL","val"],
+    ["+/-","masmenos"],
+    ["Ritmo",e => avanzadas(e).ritmo],
+    ["EfOf",e => avanzadas(e).efOf],
+    ["EfDef",e => avanzadas(e).efDef],
+    ["EfNeta",e => avanzadas(e).efNeta],
+    ["TS%",e => avanzadas(e).ts],
+    ["eFG%",e => avanzadas(e).efg],
+    ["TOV%",e => avanzadas(e).tov]
+  ];
+
+  let html = "<thead><tr>";
+
+  columnas.forEach(c => {
+    html += `<th>${c[0]}</th>`;
+  });
+
+  html += "</tr></thead><tbody>";
+
+  equipos.forEach(e => {
+
+    const a = avanzadas(e);
+
+    html += "<tr>";
+
+    columnas.forEach(c => {
+
+      let valor;
+
+      if (typeof c[1] === "function") {
+        valor = c[1](e);
+      } else {
+        valor = e[c[1]];
+      }
+
+      if (
+        ["2P %","3P %","TL %","TS%","eFG%","TOV%"].includes(c[0])
+      ) {
+        valor = porcentaje(valor);
+
+      } else if (
+        ["Ritmo","EfOf","EfDef","EfNeta"].includes(c[0])
+      ) {
+        valor = formatoNumero(valor);
+
+      } else if (c[0] === "+/-") {
+        valor = formatoNumero(valor);
+
+      } else {
+        valor = typeof valor === "number"
+          ? formatoNumero(valor)
+          : valor;
+      }
+
+      let clase = "";
+
+      if (c[0] === "EfNeta") {
+        clase =
+          parseFloat(valor) >= 0
+            ? "positive"
+            : "negative";
+      }
+
+      html += `<td class="${clase}">${valor ?? 0}</td>`;
+    });
+
+    html += "</tr>";
+  });
+
+  const m = mediaEquipos();
+
+  html += `<tr class="media">`;
+
+  columnas.forEach(c => {
+
+    if (c[0] === "Equipo") {
+      html += "<td>MEDIA LIGA</td>";
+      return;
+    }
+
+    let valor;
+
+    switch(c[0]) {
+
+      case "PTS": valor = m.pts; break;
+      case "PTS Rival": valor = m.ptsR; break;
+      case "2P %": valor = m.dosPM/m.dosPA; break;
+      case "3P %": valor = m.tresPM/m.tresPA; break;
+      case "TL %": valor = m.tlM/m.tlA; break;
+      case "REB T": valor = m.trb; break;
+      case "REB T Rival": valor = m.trbR; break;
+      case "AST": valor = m.ast; break;
+      case "PÉRD": valor = m.to; break;
+      case "TAP": valor = m.blk; break;
+      case "TAP REC": valor = m.blk; break;
+      case "VAL": valor = m.val; break;
+      case "+/-": valor = m.masmenos; break;
+      case "Ritmo": valor = m.ritmo; break;
+      case "EfOf": valor = m.efOf; break;
+      case "EfDef": valor = m.efDef; break;
+      case "EfNeta": valor = m.efNeta; break;
+      case "TS%": valor = m.ts; break;
+      case "eFG%": valor = m.efg; break;
+      case "TOV%": valor = m.tov; break;
+    }
+
+    if (
+      ["2P %","3P %","TL %","TS%","eFG%","TOV%"].includes(c[0])
+    ) {
+      valor = porcentaje(valor);
+    } else {
+      valor = formatoNumero(valor);
+    }
+
+    html += `<td>${valor}</td>`;
+  });
+
+  html += "</tr></tbody>";
+
+  document.getElementById("tablaCompletos").innerHTML = html;
+}
+
+function mostrarTab(id, boton) {
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  document.querySelectorAll(".tab-button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+  boton.classList.add("active");
+}
+
+
+/* Arranque de la página */
+
+crearTablaBase();
+crearTablaAvanzada();
+crearTablaCompleta();
+
+</script>
+
+</body>
+</html>
