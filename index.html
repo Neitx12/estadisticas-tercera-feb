@@ -440,7 +440,7 @@ let periodoSeleccionado=1;
 
 const columnasBase=[
   ["PTS","pts"],["2P M","dosPM"],["2P A","dosPA"],["2P %","dosPpct"],
-  ["3P M","tresPM"],["3P A","tresPA"],["3P %","tresPpct"],
+  ["3P M","tresPM"],["3P A",],["3P %","tresPpct"],
   ["TL M","tlM"],["TL A","tlA"],["TL %","tlPct"],
   ["REB O","orb"],["REB D","drb"],["REB T","trb"],
   ["AST","ast"],["REC","stl"],["PÉRD","to"],["TAP","blk"],
@@ -451,7 +451,7 @@ const columnasAvanzadas=[
   ["Posesiones","posesiones"],["Ritmo","ritmo"],["EfOf","efOf"],["EfDef","efDef"],
   ["EfNeta","efNeta"],["% Reb Def","rebDef"],["% Reb Of","rebOf"],["% Reb Total","rebTotal"],
   ["As/Pérd","asPerd"],["% Asistencias","asistencias"],["% Tapones","tapones"],
-  ["TS%","ts"],["eFG%","efg"],["TOV%","tov"],["3PA","tresPAInt"],["FTr","ftr"],
+  ["TS%","ts"],["eFG%","efg"],["TOV%","tov"],["3P A","tresPAInt"],["FTr","ftr"],
   ["Pts/Tiro","puntosTiro"],["Pts/Tiro 2","puntosTiro2"],["Pts/Tiro 3","puntosTiro3"]
 ];
 
@@ -463,7 +463,7 @@ const columnasCompletas=[
   ["TS%","ts"],["eFG%","efg"],["TOV%","tov"]
 ];
 
-const mapaPorcentaje=new Set(["dosPpct","tresPpct","tlPct","rebDef","rebOf","rebTotal","asistencias","tapones","ts","efg","tov","tresPA","ftr"]);
+const mapaPorcentaje=new Set(["dosPpct","tresPpct","tlPct","rebDef","rebOf","rebTotal","asistencias","tapones","ts","efg","tov","ftr"]);
 const menorEsMejor=new Set(["efDef","to","tov","ptsR"]);
 
 function num(v){return Number.isFinite(Number(v))?Number(v):0}
@@ -563,7 +563,7 @@ function agregarEquipo(e,stats,partidosEquipo){
 
   // Store counting stats as per-game averages for period selectors.
   const perGame = [
-    "pts","ptsR","dosPM","dosPA","tresPM","tresPA","tlM","tlA",
+    "pts","ptsR","dosPM","dosPA","tresPM","tlM","tlA",
     "orb","drb","trb","ast","stl","to","blk","pf","pfr","val","masmenos",
     "dosPAR","tresPAR","tlAR","toR","orbR","drbR","trbR"
   ];
