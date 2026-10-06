@@ -497,7 +497,7 @@ function avanzadas(e){
 }
 
 function posesionesRival(e){
-  return e.dosPAR + e.tresPAR + 0.44 * e.tlAR - e.orbR + e.to;
+  return e.dosPAR + e.tresPAR + 0.44 * e.tlAR - e.orbR + e.toR;
 }
 function agregarEquipo(e,stats,partidosEquipo){
   const games = partidosEquipo.length || 1;
@@ -506,7 +506,7 @@ function agregarEquipo(e,stats,partidosEquipo){
     id:e.id,nombre:e.nombre,escudo:escudos[e.nombre]||"",
     pts:0,ptsR:0,dosPM:0,dosPA:0,tresPM:0,tresPA:0,tlM:0,tlA:0,
     orb:0,drb:0,trb:0,ast:0,stl:0,to:0,blk:0,pf:0,pfr:0,val:0,masmenos:0,
-    dosPAR:0,tresPAR:0,tlAR:0,orbR:0,drbR:0,trbR:0
+    dosPAR:0,tresPAR:0,tlAR:0,toR:0,orbR:0,drbR:0,trbR:0
   };
 
   // Team statistics are additive over the selected games.
@@ -548,6 +548,7 @@ function agregarEquipo(e,stats,partidosEquipo){
       base.dosPAR += num(rival.dosp_intentos);
       base.tresPAR += num(rival.tresp_intentos);
       base.tlAR += num(rival.tl_intentos);
+      base.toR += num(rival.perdidas);
       base.orbR += num(rival.reb_ofensivos);
       base.drbR += num(rival.reb_defensivos);
       base.trbR += num(rival.reb_totales);
@@ -558,7 +559,7 @@ function agregarEquipo(e,stats,partidosEquipo){
   const perGame = [
     "pts","ptsR","dosPM","dosPA","tresPM","tresPA","tlM","tlA",
     "orb","drb","trb","ast","stl","to","blk","pf","pfr","val","masmenos",
-    "dosPAR","tresPAR","tlAR","orbR","drbR","trbR"
+    "dosPAR","tresPAR","tlAR","toR","orbR","drbR","trbR"
   ];
 
   perGame.forEach(k => base[k] = base[k] / games);
