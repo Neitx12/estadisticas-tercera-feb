@@ -105,7 +105,7 @@ function jugadoresDisponiblesDeEquipo(equipoId){
   );
 
   return jugadoresDB
-    .filter(j=>idsJugadores.has(num(j.id)))
+    .filter(j=>num(j.equipo_id)===num(equipoId) && idsJugadores.has(num(j.id)))
     .sort((a,b)=>String(a.nombre||a.name||"").localeCompare(String(b.nombre||b.name||""), "es"));
 }
 
