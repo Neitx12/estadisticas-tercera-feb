@@ -842,14 +842,20 @@ async function abrirModal(equipoId){
   document.getElementById("modalSubtitulo").textContent="Medias por partido · periodo seleccionado";
   document.getElementById("modalEscudo").src=escudos[e.nombre]||"";
 
-  const colores = await colorCabeceraEquipo(e.nombre);
-  const modalHead = document.querySelector(".modal-head");
-  modalHead.style.setProperty("--team-color-1", colores.c1);
-  modalHead.style.setProperty("--team-color-2", colores.c2);
+  // Abrir primero el modal para que el contenido sea visible aunque el escudo tarde en cargar.
+  const modal = document.getElementById("modalEquipo");
+  modal.classList.add("abierto");
+
   document.getElementById("rankingPuntos").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.puntos-a.puntos).slice(0,3),"puntos");
   document.getElementById("rankingRebotes").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.reb-a.reb).slice(0,3),"reb");
   document.getElementById("rankingValoracion").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.val-a.val).slice(0,3),"val");
-  document.getElementById("modalEquipo").classList.add("abierto");
+
+  // El color del encabezado se calcula aparte; si falla, no bloquea el modal.
+  colorCabeceraEquipo(e.nombre).then(colores=>{
+    const modalHead = document.querySelector(".modal-head");
+    modalHead.style.setProperty("--team-color-1", colores.c1);
+    modalHead.style.setProperty("--team-color-2", colores.c2);
+  }).catch(()=>{});
 }
 
 function cerrarModal(){document.getElementById("modalEquipo").classList.remove("abierto")}
