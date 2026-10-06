@@ -292,7 +292,7 @@ function puntosMedia(vals,stroke,label,dy){
 var out="";
 vals.forEach(function(v,i){if(v!==null){
 out+='<circle cx="'+xx(i)+'" cy="'+yy(v)+'" r="4" fill="'+stroke+'"/>';
-if(jornadas.length===1||i===vals.length-1)out+='<text x="'+(xx(i)+8)+'" y="'+(yy(v)+dy)+'" font-size="10" font-weight="700" fill="'+stroke+'">'+label+" "+fmtPerfil(v,1)+'</text>';
+if(jornadas.length===1||i===vals.length-1)out+='<text x="'+(xx(i)+8)+'" y="'+(yy(v)+dy)+'" font-size="13" font-weight="800" fill="'+stroke+'">'+label+" "+fmtPerfil(v,1)+'</text>';
 }});
 return out;
 }
