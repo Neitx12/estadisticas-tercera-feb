@@ -45,7 +45,9 @@
 
 
     <section class="resumen">     <div class="tarjeta"><small>Periodo</small><strong id="periodoTexto">Toda la temporada</strong></div>     <div class="tarjeta"><small>Equipos</small><strong id="totalEquipos">14</strong></div>     <div class="tarjeta"><small>Jornada más reciente</small><strong id="ultimaJornada">1</strong></div>   </section>    
-<section class="hot-streaks-section">
+<div id="moduloHotStreaks" class="modulo-analisis oculto-modulo">
+  <div class="modulo-cabecera"><strong>🔥 Hot Streaks</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div>
+  <section class="hot-streaks-section">
   <div class="hot-head">
     <div><h2>🔥 Hot Streaks</h2><p>Jugadores que están rindiendo por encima de su nivel de temporada.</p></div>
     <div class="hot-controls">
@@ -56,9 +58,11 @@
   </div>
   <div id="hotStreaksContenido"></div>
 </section>
+</div>
 
 <section class="modulos-analisis">
   <button type="button" class="modulo-btn" data-modulo="jugadores">👤 Análisis de jugadores</button>
+  <button type="button" class="modulo-btn" data-modulo="hot">🔥 Hot Streaks</button>
   <button type="button" class="modulo-btn" data-modulo="comparador">⚔️ Comparador</button>
   <button type="button" class="modulo-btn" data-modulo="percentiles">📊 Percentiles</button>
 </section>
@@ -438,6 +442,7 @@ function activarModulosAnalisis(){
   var botones=document.querySelectorAll(".modulo-btn");
   var modulos={
     jugadores:document.getElementById("moduloJugadores"),
+    hot:document.getElementById("moduloHotStreaks"),
     comparador:document.getElementById("moduloComparador"),
     percentiles:document.getElementById("moduloPercentiles")
   };
