@@ -411,6 +411,7 @@ document.getElementById("modalJugador")?.addEventListener("click",e=>{
 
 
 document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));   document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));   b.classList.add("activo");   document.getElementById(b.dataset.tab).classList.remove("oculto"); }));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
+poblarComparadores();
 cargarDatos().then(function(){ poblarComparadores(); renderComparador(); renderPercentiles(); }).catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); 
 
 function compEsc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]})}
@@ -426,7 +427,7 @@ function perfilComparador(id,periodo){
  return{g:t.g,pts:t.pts/t.g,reb:t.reb/t.g,ast:t.ast/t.g,stl:t.stl/t.g,blk:t.blk/t.g,val:t.val/t.g,ts:den?t.pts/den*100:null,efg:fga?(fgm+.5*t.d3m)/fga*100:null,p2:t.d2a?t.d2m/t.d2a*100:null,p3:t.d3a?t.d3m/t.d3a*100:null,ft:t.fta?t.ftm/t.fta*100:null,astto:t.perd?t.ast/t.perd:null,pts40:k?t.pts*k:null,val40:k?t.val*k:null}
 }
 function poblarComparadores(){
- var equiposOpciones=equiposDB.slice().sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")}).map(function(e){return'<option value="'+num(e.id)+'">'+compEsc(e.nombre||"Equipo")+'</option>'}).join("");
+ var fuenteEquipos=equiposDB.length?equiposDB:equiposFallback;var equiposOpciones=fuenteEquipos.slice().sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")}).map(function(e){return'<option value="'+num(e.id)+'">'+compEsc(e.nombre||"Equipo")+'</option>'}).join("");
  ["comparadorEquipoA","comparadorEquipoB","percentilEquipo"].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='<option value="">Selecciona equipo</option>'+equiposOpciones});
  var pj=document.getElementById("percentilJugador");if(pj){pj.innerHTML='<option value="">Selecciona primero un equipo</option>';pj.disabled=true}
 }
