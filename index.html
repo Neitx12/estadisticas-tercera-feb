@@ -414,6 +414,23 @@ const equiposFallback = [
 
 ];
 
+const rankingsStaticos = {
+1:{puntos:[["ARTEM YAILO",13],["MARIO SOLORZANO COLSA",12],["BAPTISTE CHAZELAS-",11]],reb:[["BAPTISTE CHAZELAS-",12],["DIEGO IBARLUCEA LAVIN",6],["BELTRAN DE LA LLAMA RUIZ",4]],val:[["BAPTISTE CHAZELAS-",23],["DIEGO IBARLUCEA LAVIN",17],["ARTEM YAILO",15]]},
+2:{puntos:[["ENRIQUE GUTIERREZ O",12],["JUAN GARCIA-MONGE DEL",11],["GONZALO GUTIERREZ O",10]],reb:[["JUAN GARCIA-MONGE DEL",8],["GONZALO GUTIERREZ O",8],["ENRIQUE GUTIERREZ O",6]],val:[["JUAN GARCIA-MONGE DEL",15],["ENRIQUE GUTIERREZ O",13],["GONZALO GUTIERREZ O",11]]},
+3:{puntos:[["ANDER ARBIZU MAIZA",18],["PABLO FERNANDEZ",13],["ANTON SAVITSKI SAVITSKAIA",9]],reb:[["IGNACIO VICUÑA ROYO",11],["LUCAS URREA GARCIA",3],["ANDER ARBIZU MAIZA",3]],val:[["ANDER ARBIZU MAIZA",13],["PABLO FERNANDEZ",11],["JON MENDIVIL ODERIZ",9]]},
+4:{puntos:[["IÑAKI ERAUNCETAMURGIL",22],["MIKEL ZUBIZARRETA ALBIZU",16],["IMANOL ARTECHE URRUZOLA",15]],reb:[["IÑAKI ERAUNCETAMURGIL",12],["IMANOL ARTECHE URRUZOLA",9],["MARTIN DORRONSORO",8]],val:[["IÑAKI ERAUNCETAMURGIL",34],["IMANOL ARTECHE URRUZOLA",21],["MARTIN DORRONSORO",17]]},
+5:{puntos:[["JON ALDECOA-OTALORA",22],["XABIER ARROITAJAUREGUI",20],["MARKEL ARANZABAL",13]],reb:[["MARKEL ARANZABAL",10],["XABIER ARROITAJAUREGUI",6],["LANDER BARRUETABEÑA",5]],val:[["XABIER ARROITAJAUREGUI",22],["JON ALDECOA-OTALORA",21],["MARKEL ARANZABAL",15]]},
+6:{puntos:[["PEDRO LUCAS SOUZA",20],["BEÑAT ETXEBERRIA",13],["ANDER GORDILLO BELTRAN",10]],reb:[["EUKEN HUIZI ZUBELDIA",9],["BEÑAT ETXEBERRIA",8],["PEDRO LUCAS SOUZA",6]],val:[["PEDRO LUCAS SOUZA",20],["BEÑAT ETXEBERRIA",15],["EUKEN HUIZI ZUBELDIA",11]]},
+7:{puntos:[["OLUWASANMI ROBERTO",16],["DANIEL GIOVANNY",12],["JORGE JAVIER GOMEZ",11]],reb:[["OLUWASANMI ROBERTO",12],["JORGE JAVIER GOMEZ",10],["ESTEBAN GANDARILLAS",7]],val:[["JORGE JAVIER GOMEZ",18],["OLUWASANMI ROBERTO",15],["ESTEBAN GANDARILLAS",10]]},
+8:{puntos:[["ASIER PEREZ PEREZ",17],["JAVIER LOPEZ MONTAÑA",16],["ALVARO ARAICO QUINTANA",12]],reb:[["ALVARO ARAICO QUINTANA",11],["MIKEL DE LA HOZ LASTRA",8],["AITOR LUZURIAGA ZORRILLA",7]],val:[["JAVIER LOPEZ MONTAÑA",16],["ASIER PEREZ PEREZ",13],["ALVARO ARAICO QUINTANA",14]]},
+9:{puntos:[["BORJA MENDIA SANGRONIZ",26],["ENAITZ ERRASTI DIEZ",18],["IKER SALAZAR ORTEGA",9]],reb:[["IKER SALAZAR ORTEGA",19],["IKER CHACON RODRIGUEZ",5],["MIKEL SAINZ DE LA MAZA",5]],val:[["IKER SALAZAR ORTEGA",33],["BORJA MENDIA SANGRONIZ",28],["ENAITZ ERRASTI DIEZ",19]]},
+10:{puntos:[["LUIS FILIPE FAIAL",22],["JAVIER LACUNZA ABECIA",18],["PABLO YARNOZ LUMBRERAS",12]],reb:[["JAVIER LACUNZA ABECIA",7],["KISINGO NARMAN DOMINGOS",7],["HECTOR ARANAZ ALVAREZ",6]],val:[["JAVIER LACUNZA ABECIA",24],["LUIS FILIPE FAIAL",22],["HECTOR ARANAZ ALVAREZ",16]]},
+11:{puntos:[["GONZALO HUESO GUTIERREZ",22],["GALDER MARTINEZ DE OSABA",14],["ARITZ GUTIEZ SALGADO",13]],reb:[["IKER MOJA GOICURIA",7],["ALEJANDRO KARATZAS",6],["ARITZ GUTIEZ SALGADO",4]],val:[["GONZALO HUESO GUTIERREZ",29],["IKER MOJA GOICURIA",22],["ARITZ GUTIEZ SALGADO",14]]},
+12:{puntos:[["NAHUEL DEL VAL GARCIA",18],["JERÓNIMO VILLEGAS HOYOS",17],["HUGO MAURY",9]],reb:[["JERÓNIMO VILLEGAS HOYOS",8],["NICOLAS DIAZ GARCIA",6],["ALVARO REYES ABAD",5]],val:[["JERÓNIMO VILLEGAS HOYOS",22],["NAHUEL DEL VAL GARCIA",17],["DIEGO FERNANDEZ MARTINEZ",12]]},
+13:{puntos:[["ADRIANO GASE SECO",26],["ALFONSO GARCIA NAVALON",15],["CLAYTON RIGGS LADINE",11]],reb:[["ADRIANO GASE SECO",9],["EL HADJI NGOM",9],["CARLOS ARANDA SUAREZ",6]],val:[["ADRIANO GASE SECO",30],["ALFONSO GARCIA NAVALON",20],["CLAYTON RIGGS LADINE",16]]},
+14:{puntos:[["ADRIAN VASQUEZ BAUTISTA",19],["DANIEL CARRETERO GARCIA",16],["ANXO IGLESIAS CAMINO",11]],reb:[["ALBERTO MARTÍN",12],["ADRIAN VASQUEZ BAUTISTA",10],["THIJS HEUKER",8]],val:[["ADRIAN VASQUEZ BAUTISTA",25],["ALBERTO MARTÍN",17],["DANIEL CARRETERO GARCIA",12]]}
+};
+
 const escudos = {
   "Piélagos":"escudos/pielagos.png",
   "La Flecha":"escudos/la-flecha.png",
@@ -846,9 +863,16 @@ async function abrirModal(equipoId){
   const modal = document.getElementById("modalEquipo");
   modal.classList.add("abierto");
 
-  document.getElementById("rankingPuntos").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.puntos-a.puntos).slice(0,3),"puntos");
-  document.getElementById("rankingRebotes").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.reb-a.reb).slice(0,3),"reb");
-  document.getElementById("rankingValoracion").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.val-a.val).slice(0,3),"val");
+  if(jugadores.length){
+    document.getElementById("rankingPuntos").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.puntos-a.puntos).slice(0,3).map(x=>({nombre:x.nombre,valor:x.puntos})));
+    document.getElementById("rankingRebotes").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.reb-a.reb).slice(0,3).map(x=>({nombre:x.nombre,valor:x.reb})));
+    document.getElementById("rankingValoracion").innerHTML=renderRanking([...jugadores].sort((a,b)=>b.val-a.val).slice(0,3).map(x=>({nombre:x.nombre,valor:x.val})));
+  }else{
+    const z=rankingsStaticos[num(equipoId)]||{puntos:[],reb:[],val:[]};
+    document.getElementById("rankingPuntos").innerHTML=renderRanking(z.puntos.map(x=>({nombre:x[0],valor:x[1]})));
+    document.getElementById("rankingRebotes").innerHTML=renderRanking(z.reb.map(x=>({nombre:x[0],valor:x[1]})));
+    document.getElementById("rankingValoracion").innerHTML=renderRanking(z.val.map(x=>({nombre:x[0],valor:x[1]})));
+  }
 
   // El color del encabezado se calcula aparte; si falla, no bloquea el modal.
   colorCabeceraEquipo(e.nombre).then(colores=>{
