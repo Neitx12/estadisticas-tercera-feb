@@ -92,9 +92,21 @@ function jugadorPorId(id){
 }
 
 function jugadoresDisponiblesDeEquipo(equipoId){
+  const idsPartidos=new Set(
+    partidosDB
+      .filter(p=>num(p.equipo_local_id)===num(equipoId)||num(p.equipo_visitante_id)===num(equipoId))
+      .map(p=>num(p.id))
+  );
+
+  const idsJugadores=new Set(
+    estadisticasJugadoresDB
+      .filter(s=>idsPartidos.has(num(s.partido_id)))
+      .map(s=>num(s.jugador_id))
+  );
+
   return jugadoresDB
-    .filter(j=>num(j.equipo_id)===num(equipoId))
-    .sort((a,b)=>String(a.nombre||"").localeCompare(String(b.nombre||""), "es"));
+    .filter(j=>idsJugadores.has(num(j.id)))
+    .sort((a,b)=>String(a.nombre||a.name||"").localeCompare(String(b.nombre||b.name||""), "es"));
 }
 
 function renderSelectorJugadores(){
@@ -145,12 +157,13 @@ function periodoRangoJugador(periodo){
 
 function estadisticasJugadorPeriodo(jugadorId,periodo){
   const jugador=jugadorPorId(jugadorId);
-  if(!jugador) return null;
+  const equipoId=equipoJugadorSeleccionadoId;
+  if(!jugador || !equipoId) return null;
 
   const {minJ}=periodoRangoJugador(periodo);
   const partidosPeriodo=partidosDB.filter(p=>{
-    const juegaEquipo=num(p.equipo_local_id)===num(jugador.equipo_id) ||
-      num(p.equipo_visitante_id)===num(jugador.equipo_id);
+    const juegaEquipo=num(p.equipo_local_id)===num(equipoId) ||
+      num(p.equipo_visitante_id)===num(equipoId);
     return juegaEquipo && num(p.jornada)>=minJ;
   });
   const idsPartidos=new Set(partidosPeriodo.map(p=>num(p.id)));
@@ -200,10 +213,10 @@ function renderPerfilJugador(){
   const datos=estadisticasJugadorPeriodo(jugadorSeleccionadoId,periodoJugadorSeleccionado);
   const cont=document.getElementById("perfilJugadorContenido");
   const jugador=jugadorPorId(jugadorSeleccionadoId);
-  const equipo=jugador ? equipoPorId(jugador.equipo_id) : null;
+  const equipo=equipoJugadorSeleccionadoId ? equipoPorId(equipoJugadorSeleccionadoId) : null;
   if(!cont || !jugador) return;
 
-  document.getElementById("perfilJugadorNombre").textContent=jugador.nombre || "Jugador";
+  document.getElementById("perfilJugadorNombre").textContent=jugador.nombre || jugador.name || "Jugador";
   document.getElementById("perfilJugadorSubtitulo").textContent=
     `${equipo ? equipo.nombre : "Equipo"} · ${textoPeriodoJugador(periodoJugadorSeleccionado)}`;
 
