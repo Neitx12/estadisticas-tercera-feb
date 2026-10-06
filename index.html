@@ -733,9 +733,9 @@ function jugadoresDeEquipo(equipoId){
   const ids=new Set(validos.map(p=>num(p.id)));
 
   const mapa=new Map();
-  estadisticasJugadoresDB.filter(s=>ids.has(num(s.partido_id)) && num(s.equipo_id)===num(equipoId)).forEach(s=>{
+  estadisticasJugadoresDB.filter(s=>ids.has(num(s.partido_id))).forEach(s=>{
     const j=jugadoresDB.find(x=>num(x.id)===num(s.jugador_id));
-    if(!j) return;
+    if(!j || num(j.equipo_id)!==num(equipoId)) return;
     const key=num(j.id);
     if(!mapa.has(key)) mapa.set(key,{nombre:j.nombre,partidos:0,puntos:0,reb:0,val:0});
     const x=mapa.get(key);
@@ -818,10 +818,10 @@ async function abrirModal(equipoId){
   const mapa = new Map();
   // Solo jugadores del equipo seleccionado y de los partidos del periodo.
   estadisticasJugadoresDB.filter(s=>
-    ids.has(num(s.partido_id)) && num(s.equipo_id)===num(equipoId)
+    ids.has(num(s.partido_id))
   ).forEach(s=>{
     const j=jugadoresDB.find(x=>num(x.id)===num(s.jugador_id));
-    if(!j) return;
+    if(!j || num(j.equipo_id)!==num(equipoId)) return;
     const key=num(j.id);
     if(!mapa.has(key)) mapa.set(key,{nombre:j.nombre,partidos:0,puntos:0,reb:0,val:0});
     const x=mapa.get(key);
