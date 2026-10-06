@@ -452,16 +452,34 @@ function renderPercentiles(){
  box.innerHTML='<div class="percentil-grid">'+ms.map(function(m){var q=calcularPercentil(act.s[m[1]],all.map(function(x){return x.s[m[1]]}));return'<div class="percentil-card"><small>'+m[0]+'</small><strong>'+(q==null?"—":q)+'</strong><div class="percentil-bar"><i style="width:'+(q||0)+'%"></i></div><div>Percentil</div></div>'}).join("")+'</div><div class="percentiles-nota">Comparado con '+all.length+' jugadores con al menos '+mg+' partidos.</div>'
 }
 function activarComparadorPercentiles(){
- ["A","B"].forEach(function(lado){
-   var equipo=document.getElementById("comparadorEquipo"+lado),jugador=document.getElementById("comparadorJugador"+lado);
-   equipo?.addEventListener("change",function(){jugador.value="";poblarJugadoresComparador(equipo.value,jugador.id);renderComparador()});
-   jugador?.addEventListener("change",renderComparador);
- });
+ function conectar(lado){
+   var eq=document.getElementById("comparadorEquipo"+lado),ju=document.getElementById("comparadorJugador"+lado);
+   if(!eq||!ju)return;
+   eq.addEventListener("change",function(){
+     poblarJugadoresComparador(eq.value,ju.id);
+     renderComparador();
+   });
+   ju.addEventListener("change",renderComparador);
+ }
+ conectar("A");conectar("B");
  var pe=document.getElementById("percentilEquipo"),pj=document.getElementById("percentilJugador");
- pe?.addEventListener("change",function(){pj.value="";poblarJugadoresComparador(pe.value,"percentilJugador");renderPercentiles()});
- pj?.addEventListener("change",renderPercentiles);
- document.querySelectorAll(".comparador-periodo").forEach(function(b){b.addEventListener("click",function(){window.comparadorPeriodo=b.dataset.compPeriodo;document.querySelectorAll(".comparador-periodo").forEach(function(x){x.classList.remove("activo")});b.classList.add("activo");renderComparador()})});
- ["percentilPeriodo","percentilMinPartidos"].forEach(function(id){document.getElementById(id)?.addEventListener("change",renderPercentiles)})
+ if(pe&&pj){
+   pe.addEventListener("change",function(){
+     poblarJugadoresComparador(pe.value,"percentilJugador");
+     renderPercentiles();
+   });
+   pj.addEventListener("change",renderPercentiles);
+ }
+ document.querySelectorAll(".comparador-periodo").forEach(function(b){
+   b.addEventListener("click",function(){
+     window.comparadorPeriodo=b.dataset.compPeriodo;
+     document.querySelectorAll(".comparador-periodo").forEach(function(x){x.classList.remove("activo")});
+     b.classList.add("activo");renderComparador();
+   });
+ });
+ ["percentilPeriodo","percentilMinPartidos"].forEach(function(id){
+   var e=document.getElementById(id);if(e)e.addEventListener("change",renderPercentiles);
+ });
 }
 function hotParseMin(v){
   var s=String(v||"").trim(),m=s.match(/^(\d+):(\d{1,2})$/);
