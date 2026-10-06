@@ -263,7 +263,7 @@ function calcularPerfilJugadorNuevo(jugadorId,periodo){
   t.mpg=t.min/t.partidos;t.ptsA=t.pts/t.partidos;t.rebA=t.reb/t.partidos;t.astA=t.ast/t.partidos;t.recA=t.rec/t.partidos;t.tapA=t.tap/t.partidos;t.perdA=t.perd/t.partidos;t.valA=t.val/t.partidos;
   t.p2=t.d2a?t.d2m/t.d2a*100:null;t.p3=t.d3a?t.d3m/t.d3a*100:null;t.ft=t.fta?t.ftm/t.fta*100:null;
   t.efg=fga?(fgm+0.5*t.d3m)/fga*100:null;t.ts=denTS?t.pts/denTS*100:null;t.astto=t.perd?t.ast/t.perd:null;
-  var k=t.min?40/t.min:null;t.pts40=k?t.pts*k:null;t.reb40=k?t.reb*k:null;t.ast40=k?t.ast*k:null;t.val40=k?t.val*k:null;
+  var k=t.min?2400/t.min:null;t.pts40=k?t.pts*k:null;t.reb40=k?t.reb*k:null;t.ast40=k?t.ast*k:null;t.val40=k?t.val*k:null;
   return t;
 }
 
