@@ -39,7 +39,7 @@
 .comp-grid{display:grid;gap:8px}.comp-row{display:grid;grid-template-columns:90px 1fr 110px 1fr 90px;gap:10px;align-items:center;padding:9px 10px;border:1px solid #edf0f3;border-radius:10px;background:#fafcfd}.comp-name{text-align:center;font-weight:900}.comp-value{text-align:center;font-weight:900;font-size:16px}.comp-value-a{text-align:right}.comp-value-b{text-align:left}.comp-track{height:9px;background:#e9eef2;border-radius:99px;overflow:hidden}.comp-fill{height:100%;border-radius:99px}.comp-fill-a{margin-left:auto;background:#00a6a6}.comp-fill-b{background:#f59e0b}.comp-winner{color:#007f7f}.comp-nombres{text-align:center;margin-top:12px;color:#6b7280;font-size:13px}
 .percentiles-head{align-items:center}.percentiles-controls{display:flex;gap:7px;flex-wrap:wrap;min-width:460px}.percentiles-controls select{min-width:135px}.percentil-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.percentil-card{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#f8fafc;text-align:center}.percentil-card small{display:block;color:#6b7280;font-weight:800;font-size:11px}.percentil-card strong{display:block;font-size:28px;margin:4px 0}.percentil-bar{height:9px;background:#e6ebef;border-radius:99px;overflow:hidden}.percentil-bar i{display:block;height:100%;border-radius:99px;transition:width .35s ease,background .35s ease}.percentil-card{transition:border-color .35s ease,box-shadow .35s ease}.percentiles-nota{margin-top:12px;color:#6b7280;font-size:12px}
 @media(max-width:900px){.comparador-head,.percentiles-head{flex-direction:column}.percentiles-controls{min-width:0;width:100%}.percentil-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.comparador-selectores{grid-template-columns:1fr}.comparador-vs{padding:0}.comp-row{grid-template-columns:62px 1fr 75px 1fr 62px;gap:5px}}
-</style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5</button>       <button class="periodo" data-periodo="10">Últimas 10</button>       <button class="periodo" data-periodo="15">Últimas 15</button>       <button class="periodo" data-periodo="season">Temporada</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
+</style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="season">Toda la temporada</button>       <button class="periodo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5 jornadas</button>       <button class="periodo" data-periodo="10">Últimas 10 jornadas</button>       <button class="periodo" data-periodo="15">Últimas 15 jornadas</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
 
 <section class="toolbar analizar-jugador">
   <h3>👤 Analizar jugador</h3>
@@ -60,13 +60,13 @@
   </div>
 </section>
 
-    <section class="resumen">     <div class="tarjeta"><small>Periodo</small><strong id="periodoTexto">Última jornada</strong></div>     <div class="tarjeta"><small>Equipos</small><strong id="totalEquipos">14</strong></div>     <div class="tarjeta"><small>Jornada más reciente</small><strong id="ultimaJornada">1</strong></div>   </section>    
+    <section class="resumen">     <div class="tarjeta"><small>Periodo</small><strong id="periodoTexto">Toda la temporada</strong></div>     <div class="tarjeta"><small>Equipos</small><strong id="totalEquipos">14</strong></div>     <div class="tarjeta"><small>Jornada más reciente</small><strong id="ultimaJornada">1</strong></div>   </section>    
 <section class="hot-streaks-section">
   <div class="hot-head">
     <div><h2>🔥 Hot Streaks</h2><p>Jugadores que están rindiendo por encima de su nivel de temporada.</p></div>
     <div class="hot-controls">
       <select id="hotCategoria"><option value="global">🔥 Global</option><option value="pts">PTS</option><option value="val">VAL</option><option value="ts">TS%</option><option value="ast">AST</option><option value="reb">REB</option></select>
-      <select id="hotPeriodo"><option value="5">Últimas 5</option><option value="10">Últimas 10</option><option value="15">Últimas 15</option></select>
+      <select id="hotPeriodo"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select>
       <select id="hotMinPartidos"><option value="3">Mín. 3 partidos</option><option value="5">Mín. 5 partidos</option><option value="8">Mín. 8 partidos</option></select>
     </div>
   </div>
@@ -99,7 +99,7 @@
     <div class="percentiles-controls">
       <select id="percentilEquipo"><option value="">Selecciona equipo</option></select>
       <select id="percentilJugador" disabled><option value="">Selecciona primero un equipo</option></select>
-      <select id="percentilPeriodo"><option value="season">Temporada</option><option value="15">Últimos 15</option><option value="10">Últimos 10</option><option value="5">Últimos 5</option></select>
+      <select id="percentilPeriodo"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select>
       <select id="percentilMinPartidos"><option value="3">Mín. 3 partidos</option><option value="5">Mín. 5 partidos</option><option value="1">Mín. 1 partido</option></select>
     </div>
   </div>
@@ -261,7 +261,7 @@ function estadisticasJugadorPeriodo(jugadorId,periodo){
 }
 
 function textoPeriodoJugador(periodo){
-  return ({season:"Temporada",15:"Últimas 15",10:"Últimas 10",5:"Últimas 5",1:"Última jornada"})[periodo] || "Periodo seleccionado";
+  return ({season:"Toda la temporada",1:"Última jornada",5:"Últimas 5 jornadas",10:"Últimas 10 jornadas",15:"Últimas 15 jornadas"})[periodo] || "Periodo seleccionado";
 }
 
 function parseMinutosPerfil(v){
@@ -502,12 +502,12 @@ function hotFilasJugador(j){
   return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(j.id)&&mapa.has(num(s.partido_id))}).map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}}).sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
 }
 function hotRanking(){
-  var periodo=Number(document.getElementById("hotPeriodo").value),cat=document.getElementById("hotCategoria").value,minG=Number(document.getElementById("hotMinPartidos").value);
+  var periodoValor=document.getElementById("hotPeriodo").value,periodo=periodoValor==="season"?"season":Number(periodoValor),cat=document.getElementById("hotCategoria").value,minG=Number(document.getElementById("hotMinPartidos").value);
   var salida=[];
   jugadoresDB.forEach(function(j){
     var filas=hotFilasJugador(j), season=hotStats(filas);
     if(!season||season.g<minG)return;
-    var recent=hotStats(filas.slice(-periodo)); if(!recent||recent.g<Math.min(minG,periodo))return;
+    var recent=periodo==="season"?season:hotStats(filas.slice(-periodo)); if(!recent||recent.g<minG)return;
     var metric=cat==="pts"?"pts":cat==="reb"?"reb":cat==="ast"?"ast":cat==="val"?"val":"ts";
     var delta=recent[metric]!==null&&season[metric]!==null?recent[metric]-season[metric]:null;
     if(delta===null)return;
