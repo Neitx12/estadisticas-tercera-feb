@@ -272,7 +272,7 @@ var filas=filasPerfilJugador(jugadorId,"season");if(!filas.length)return '<div c
 var jugador=jugadorPorId(jugadorId),equipoId=jugador?num(jugador.equipo_id):0;
 var metricas=[{key:"valoracion",label:"Valoración",campo:"valoracion"},{key:"puntos",label:"Anotación",campo:"puntos"},{key:"rebotes",label:"Rebotes",campo:"reb_totales"},{key:"asistencias",label:"Asistencias",campo:"asistencias"}];
 var activa=window.perfilEvolucionMetrica||"valoracion";if(!metricas.some(function(m){return m.key===activa}))activa="valoracion";window.perfilEvolucionMetrica=activa;
-var metrica=metricas.find(function(m){return m.key===activa}), jornadas=filas.map(function(x){return num(x.p.jornada)});
+var metrica=metricas.find(function(m){return m.key===activa}),jornadas=filas.map(function(x){return num(x.p.jornada)});
 function filasJornada(j){return estadisticasJugadoresDB.filter(function(st){var p=partidosDB.find(function(pp){return num(pp.id)===num(st.partido_id)&&num(pp.jornada)===j});return !!p});}
 function promedio(j,teamOnly){
 var vals=filasJornada(j).filter(function(st){var jg=jugadorPorId(st.jugador_id);return jg&&(!teamOnly||num(jg.equipo_id)===equipoId)}).map(function(st){return num(st[metrica.campo])});
@@ -280,17 +280,29 @@ return vals.length?vals.reduce(function(a,b){return a+b},0)/vals.length:null;
 }
 var playerVals=filas.map(function(x){return num(x.s[metrica.campo])}),teamVals=jornadas.map(function(j){return promedio(j,true)}),leagueVals=jornadas.map(function(j){return promedio(j,false)});
 var todos=playerVals.concat(teamVals.filter(function(v){return v!==null}),leagueVals.filter(function(v){return v!==null}));
-var w=700,h=260,pl=44,pr=18,pt=24,pb=42,minV=Math.min.apply(null,[0].concat(todos)),maxV=Math.max.apply(null,[1].concat(todos)),rg=Math.max(1,maxV-minV);
-function xx(i){return pl+(jornadas.length===1?(w-pl-pr)/2:i/(jornadas.length-1)*(w-pl-pr))}function yy(v){return pt+(1-(v-minV)/rg)*(h-pt-pb)}
+var w=700,h=280,pl=50,pr=20,pt=30,pb=48,minV=Math.min.apply(null,[0].concat(todos)),maxV=Math.max.apply(null,[1].concat(todos)),rg=Math.max(1,maxV-minV);
+function xx(i){return pl+(jornadas.length===1?(w-pl-pr)/2:i/(jornadas.length-1)*(w-pl-pr))}
+function yy(v){return pt+(1-(v-minV)/rg)*(h-pt-pb)}
 function linea(vals,stroke,width,dash){
-var pts=[];vals.forEach(function(v,i){if(v!==null)pts.push(xx(i)+","+yy(v));});if(pts.length<2)return "";return '<polyline fill="none" stroke="'+stroke+'" stroke-width="'+width+'" '+(dash?'stroke-dasharray="'+dash+'" ':'')+'stroke-linecap="round" stroke-linejoin="round" points="'+pts.join(" ")+'"/>';
+var pts=[];vals.forEach(function(v,i){if(v!==null)pts.push(xx(i)+","+yy(v));});
+if(pts.length<2)return "";
+return '<polyline fill="none" stroke="'+stroke+'" stroke-width="'+width+'" '+(dash?'stroke-dasharray="'+dash+'" ':'')+'stroke-linecap="round" stroke-linejoin="round" points="'+pts.join(" ")+'"/>';
+}
+function puntosMedia(vals,stroke,label,dy){
+var out="";
+vals.forEach(function(v,i){if(v!==null){
+out+='<circle cx="'+xx(i)+'" cy="'+yy(v)+'" r="4" fill="'+stroke+'"/>';
+if(jornadas.length===1||i===vals.length-1)out+='<text x="'+(xx(i)+8)+'" y="'+(yy(v)+dy)+'" font-size="10" font-weight="700" fill="'+stroke+'">'+label+" "+fmtPerfil(v,1)+'</text>';
+}});
+return out;
 }
 var svg='<svg class="evolucion-svg" viewBox="0 0 '+w+' '+h+'"><line x1="'+pl+'" y1="'+yy(0)+'" x2="'+(w-pr)+'" y2="'+yy(0)+'" stroke="#cbd5e1"/>';
 svg+=linea(leagueVals,"#64748b",2,"6 5")+linea(teamVals,"#f59e0b",2,"3 4")+linea(playerVals,"#00a6a6",3,"");
-filas.forEach(function(x,i){var v=playerVals[i];svg+='<circle cx="'+xx(i)+'" cy="'+yy(v)+'" r="4.5" fill="#f0007f"/><text x="'+xx(i)+'" y="'+Math.max(13,yy(v)-10)+'" text-anchor="middle" font-size="10" font-weight="700">'+fmtPerfil(v,1)+'</text><text x="'+xx(i)+'" y="'+(h-15)+'" text-anchor="middle" font-size="10" fill="#6b7280">J'+num(x.p.jornada)+'</text>';});svg+='</svg>';
+svg+=puntosMedia(leagueVals,"#64748b","Liga",12)+puntosMedia(teamVals,"#f59e0b","Equipo",-12);
+filas.forEach(function(x,i){var v=playerVals[i];svg+='<circle cx="'+xx(i)+'" cy="'+yy(v)+'" r="4.5" fill="#00a6a6"/><text x="'+xx(i)+'" y="'+Math.max(15,yy(v)-10)+'" text-anchor="middle" font-size="10" font-weight="700" fill="#111827">'+fmtPerfil(v,1)+'</text><text x="'+xx(i)+'" y="'+(h-16)+'" text-anchor="middle" font-size="10" fill="#6b7280">J'+num(x.p.jornada)+'</text>';});svg+='</svg>';
 var botones=metricas.map(function(m){return '<button type="button" class="periodo-jugador '+(m.key===activa?"activo":"")+'" data-evolucion-metrica="'+m.key+'">'+m.label+'</button>';}).join("");
 var leyenda='<div class="evolucion-leyenda"><span><i style="background:#00a6a6"></i>Jugador</span><span><i style="background:#f59e0b"></i>Media equipo</span><span><i style="background:#64748b"></i>Media liga</span></div>';
-return '<div class="perfil-seccion"><h3>Evolución</h3><div class="periodos-jugador" style="margin-bottom:8px">'+botones+'</div>'+svg+leyenda+'<div class="evolucion-nota">Medias calculadas por jornada sobre los jugadores con estadísticas en los boxscores; se usa el mismo periodo de jornadas para las tres referencias.</div></div>';
+return '<div class="perfil-seccion"><h3>Evolución</h3><div class="periodos-jugador" style="margin-bottom:8px">'+botones+'</div>'+svg+leyenda+'<div class="evolucion-nota">Selecciona una métrica para cambiar la gráfica. Las medias de equipo y liga se calculan por jornada únicamente con los jugadores presentes en los boxscores cargados.</div></div>';
 }
 function tablaPerfilJugador(jugadorId){
   var filas=filasPerfilJugador(jugadorId,"season").slice().reverse(), equipoId=equipoJugadorSeleccionadoId;
