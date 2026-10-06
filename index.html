@@ -268,22 +268,17 @@ function calcularPerfilJugadorNuevo(jugadorId,periodo){
 }
 
 function evolucionPerfilJugador(jugadorId){
-  var filas=filasPerfilJugador(jugadorId,"season");
-  if(!filas.length) return '<div class="perfil-seccion"><div class="mensaje">No hay datos de evolución.</div></div>';
-  var w=700,h=220,pl=42,pr=18,pt=18,pb=35,vals=filas.map(function(x){return num(x.s.valoracion)}),minV=Math.min.apply(null,[0].concat(vals)),maxV=Math.max.apply(null,[1].concat(vals)),rg=Math.max(1,maxV-minV);
-  function xx(i){return pl+(filas.length===1?(w-pl-pr)/2:i/(filas.length-1)*(w-pl-pr))}
-  function yy(v){return pt+(1-(v-minV)/rg)*(h-pt-pb)}
-  var svg='<svg class="evolucion-svg" viewBox="0 0 '+w+' '+h+'"><line x1="'+pl+'" y1="'+yy(0)+'" x2="'+(w-pr)+'" y2="'+yy(0)+'" stroke="#cbd5e1"/>';
-  if(filas.length>1) svg+='<polyline fill="none" stroke="#00a6a6" stroke-width="3" points="'+filas.map(function(x,i){return xx(i)+","+yy(num(x.s.valoracion))}).join(" ")+'"/>';
-  filas.forEach(function(x,i){
-    svg+='<circle cx="'+xx(i)+'" cy="'+yy(num(x.s.valoracion))+'" r="4" fill="#f0007f"/>';
-    svg+='<text x="'+xx(i)+'" y="'+Math.max(12,yy(num(x.s.valoracion))-8)+'" text-anchor="middle" font-size="10" font-weight="700">'+num(x.s.valoracion)+'</text>';
-    svg+='<text x="'+xx(i)+'" y="'+(h-12)+'" text-anchor="middle" font-size="10" fill="#6b7280">'+num(x.p.jornada)+'</text>';
-  });
-  svg+='</svg>';
-  return '<div class="perfil-seccion"><h3>Evolución de valoración</h3>'+svg+'<div class="evolucion-nota">Datos únicamente de los partidos presentes en los boxscores.</div></div>';
+var filas=filasPerfilJugador(jugadorId,"season");if(!filas.length)return '<div class="perfil-seccion"><div class="mensaje">No hay datos de evolución.</div></div>';
+var metricas=[{key:"valoracion",label:"Valoración",campo:"valoracion"},{key:"puntos",label:"Anotación",campo:"puntos"},{key:"rebotes",label:"Rebotes",campo:"reb_totales"},{key:"asistencias",label:"Asistencias",campo:"asistencias"}];
+var activa=window.perfilEvolucionMetrica||"valoracion";if(!metricas.some(function(m){return m.key===activa}))activa="valoracion";window.perfilEvolucionMetrica=activa;
+var metrica=metricas.find(function(m){return m.key===activa}),valores=filas.map(function(x){return num(x.s[metrica.campo])}),w=700,h=240,pl=44,pr=18,pt=24,pb=42,minV=Math.min.apply(null,[0].concat(valores)),maxV=Math.max.apply(null,[1].concat(valores)),rg=Math.max(1,maxV-minV);
+function xx(i){return pl+(filas.length===1?(w-pl-pr)/2:i/(filas.length-1)*(w-pl-pr))}function yy(v){return pt+(1-(v-minV)/rg)*(h-pt-pb)}
+var svg='<svg class="evolucion-svg" viewBox="0 0 '+w+' '+h+'"><line x1="'+pl+'" y1="'+yy(0)+'" x2="'+(w-pr)+'" y2="'+yy(0)+'" stroke="#cbd5e1"/>';
+if(filas.length>1)svg+='<polyline fill="none" stroke="#00a6a6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="'+filas.map(function(x,i){return xx(i)+","+yy(num(x.s[metrica.campo]))}).join(" ")+'"/>';
+filas.forEach(function(x,i){var v=num(x.s[metrica.campo]);svg+='<circle cx="'+xx(i)+'" cy="'+yy(v)+'" r="4.5" fill="#f0007f"/><text x="'+xx(i)+'" y="'+Math.max(13,yy(v)-10)+'" text-anchor="middle" font-size="10" font-weight="700">'+fmtPerfil(v,1)+'</text><text x="'+xx(i)+'" y="'+(h-15)+'" text-anchor="middle" font-size="10" fill="#6b7280">J'+num(x.p.jornada)+'</text>';});svg+='</svg>';
+var botones=metricas.map(function(m){return '<button type="button" class="periodo-jugador '+(m.key===activa?"activo":"")+'" data-evolucion-metrica="'+m.key+'">'+m.label+'</button>';}).join("");
+return '<div class="perfil-seccion"><h3>Evolución</h3><div class="periodos-jugador" style="margin-bottom:8px">'+botones+'</div>'+svg+'<div class="evolucion-nota">Evolución por jornada. Solo partidos presentes en los boxscores.</div></div>';
 }
-
 function tablaPerfilJugador(jugadorId){
   var filas=filasPerfilJugador(jugadorId,"season").slice().reverse(), equipoId=equipoJugadorSeleccionadoId;
   var body=filas.map(function(x){
@@ -294,6 +289,7 @@ function tablaPerfilJugador(jugadorId){
   return '<div class="perfil-seccion perfil-tabla"><h3>Partido a partido</h3><table><thead><tr><th>J</th><th>Fecha</th><th>Rival</th><th>Resultado</th><th>MIN</th><th>PTS</th><th>REB</th><th>AST</th><th>REC</th><th>TAP</th><th>PÉRD</th><th>VAL</th></tr></thead><tbody>'+body+'</tbody></table></div>';
 }
 
+function activarEvolucionPerfil(){document.querySelectorAll("[data-evolucion-metrica]").forEach(function(b){b.addEventListener("click",function(){window.perfilEvolucionMetrica=b.getAttribute("data-evolucion-metrica");renderPerfilJugador();activarEvolucionPerfil();});});}
 function renderPerfilJugador(){
   if(!jugadorSeleccionadoId) return;
   var jugador=jugadorPorId(jugadorSeleccionadoId),equipo=equipoJugadorSeleccionadoId?equipoPorId(equipoJugadorSeleccionadoId):null,periodo=periodoJugadorSeleccionado,datos=calcularPerfilJugadorNuevo(jugadorSeleccionadoId,periodo),cont=document.getElementById("perfilJugadorContenido");
@@ -302,7 +298,7 @@ function renderPerfilJugador(){
   document.getElementById("perfilJugadorSubtitulo").textContent=(equipo?equipo.nombre:"Equipo")+" · "+textoPeriodoJugador(periodo);
   if(!datos){cont.innerHTML='<div class="mensaje">No hay estadísticas para este periodo.</div>';return}
   function card(l,v){return '<div class="perfil-stat"><small>'+l+'</small><strong>'+v+'</strong></div>'}
-  var met=[["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS/40",fmtPerfil(datos.pts40,1)],["REB/40",fmtPerfil(datos.reb40,1)],["AST/40",fmtPerfil(datos.ast40,1)],["VAL/40",fmtPerfil(datos.val40,1)]];
+  var met=[["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS x40",fmtPerfil(datos.pts40,1)],["REB x40",fmtPerfil(datos.reb40,1)],["AST x40",fmtPerfil(datos.ast40,1)],["VAL x40",fmtPerfil(datos.val40,1)]];
   cont.innerHTML='<div class="perfil-resumen">'+card("Partidos",datos.partidos)+card("MIN",minTextoPerfil(datos.mpg))+card("PTS",fmtPerfil(datos.ptsA))+card("REB",fmtPerfil(datos.rebA))+card("AST",fmtPerfil(datos.astA))+card("REC",fmtPerfil(datos.recA))+card("TAP",fmtPerfil(datos.tapA))+card("VAL",fmtPerfil(datos.valA))+'</div>'+
     '<div class="perfil-jugador-grid"><div class="perfil-seccion"><h3>Producción y rendimiento</h3><div class="perfil-metricas">'+met.map(function(m){return '<div class="perfil-metrica"><small>'+m[0]+'</small><strong>'+m[1]+'</strong></div>'}).join("")+'</div></div>'+evolucionPerfilJugador(jugadorSeleccionadoId)+'</div>'+tablaPerfilJugador(jugadorSeleccionadoId);
 }function abrirPerfilJugador(){
