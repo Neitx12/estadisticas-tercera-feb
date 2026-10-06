@@ -523,6 +523,11 @@ function agregarEquipo(e,stats){
       base.orbR+=num(rival.reb_ofensivos); base.drbR+=num(rival.reb_defensivos); base.trbR+=num(rival.reb_totales);
     }
   });
+  // Porcentajes de tiro: se calculan aquí para que la tabla los pueda mostrar.
+  base.dosPpct = pct(base.dosPM, base.dosPA);
+  base.tresPpct = pct(base.tresPM, base.tresPA);
+  base.tlPct = pct(base.tlM, base.tlA);
+
   Object.assign(base,avanzadas(base));
   return base;
 }
@@ -533,9 +538,48 @@ function calcularEquipos(periodo){
   const minJ=periodo==="season"?1:Math.max(1,maxJ-num(periodo)+1);
   const ps=partidosDB.filter(p=>num(p.jornada)>=minJ);
   return equiposDB.map(e=>{
-    const ids=new Set(ps.filter(p=>num(p.equipo_local_id)===num(e.id)||num(p.equipo_visitante_id)===num(e.id)).map(p=>num(p.id)));
-    const st=estadisticasDB.filter(s=>num(s.equipo_id)===num(e.id)&&ids.has(num(s.partido_id)));
-    return agregarEquipo(e,st);
+    const partidosSeleccionados = ps.filter(p =>
+      num(p.equipo_local_id)===num(e.id) || num(p.equipo_visitante_id)===num(e.id)
+    );
+    const ids=new Set(partidosSeleccionados.map(p=>num(p.id)));
+    const st=estadisticasDB.filter(s =>
+      num(s.equipo_id)===num(e.id) && ids.has(num(s.partido_id))
+    );
+
+    const fila = agregarEquipo(e,st);
+
+    // Recalcular puntos y rivales únicamente para el periodo seleccionado.
+    fila.pts = partidosSeleccionados.reduce((s,p)=>{
+      return s + (num(p.equipo_local_id)===num(e.id) ? num(p.puntos_local) : num(p.puntos_visitante));
+    },0);
+
+    fila.ptsR = partidosSeleccionados.reduce((s,p)=>{
+      return s + (num(p.equipo_local_id)===num(e.id) ? num(p.puntos_visitante) : num(p.puntos_local));
+    },0);
+
+    fila.masmenos = fila.pts - fila.ptsR;
+
+    fila.dosPAR=fila.tresPAR=fila.tlAR=fila.orbR=fila.drbR=fila.trbR=0;
+    partidosSeleccionados.forEach(p=>{
+      const local=num(p.equipo_local_id)===num(e.id);
+      const rivalId=local?num(p.equipo_visitante_id):num(p.equipo_local_id);
+      const rival=estadisticasDB.find(s=>num(s.partido_id)===num(p.id)&&num(s.equipo_id)===rivalId);
+      if(rival){
+        fila.dosPAR+=num(rival.dosp_intentos);
+        fila.tresPAR+=num(rival.tresp_intentos);
+        fila.tlAR+=num(rival.tl_intentos);
+        fila.orbR+=num(rival.reb_ofensivos);
+        fila.drbR+=num(rival.reb_defensivos);
+        fila.trbR+=num(rival.reb_totales);
+      }
+    });
+
+    fila.dosPpct=pct(fila.dosPM,fila.dosPA);
+    fila.tresPpct=pct(fila.tresPM,fila.tresPA);
+    fila.tlPct=pct(fila.tlM,fila.tlA);
+
+    Object.assign(fila,avanzadas(fila));
+    return fila;
   });
 }
 
