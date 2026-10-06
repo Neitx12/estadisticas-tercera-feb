@@ -426,9 +426,8 @@ function perfilComparador(id,periodo){
 }
 function poblarComparadores(){
  var equiposOpciones=equiposDB.slice().sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")}).map(function(e){return'<option value="'+num(e.id)+'">'+compEsc(e.nombre||"Equipo")+'</option>'}).join("");
- ["comparadorEquipoA","comparadorEquipoB"].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='<option value="">Selecciona equipo</option>'+equiposOpciones});
- var pj=document.getElementById("percentilJugador"),op=jugadoresDB.slice().sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")}).map(function(j){return'<option value="'+num(j.id)+'">'+compEsc(j.nombre||"Jugador")+'</option>'}).join("");
- if(pj)pj.innerHTML='<option value="">Selecciona jugador</option>'+op;
+ ["comparadorEquipoA","comparadorEquipoB","percentilEquipo"].forEach(function(id){var e=document.getElementById(id);if(e)e.innerHTML='<option value="">Selecciona equipo</option>'+equiposOpciones});
+ var pj=document.getElementById("percentilJugador");if(pj){pj.innerHTML='<option value="">Selecciona primero un equipo</option>';pj.disabled=true}
 }
 function poblarJugadoresComparador(equipoId,jugadorSelectId){
  var sel=document.getElementById(jugadorSelectId);if(!sel)return;
@@ -458,8 +457,11 @@ function activarComparadorPercentiles(){
    equipo?.addEventListener("change",function(){jugador.value="";poblarJugadoresComparador(equipo.value,jugador.id);renderComparador()});
    jugador?.addEventListener("change",renderComparador);
  });
+ var pe=document.getElementById("percentilEquipo"),pj=document.getElementById("percentilJugador");
+ pe?.addEventListener("change",function(){pj.value="";poblarJugadoresComparador(pe.value,"percentilJugador");renderPercentiles()});
+ pj?.addEventListener("change",renderPercentiles);
  document.querySelectorAll(".comparador-periodo").forEach(function(b){b.addEventListener("click",function(){window.comparadorPeriodo=b.dataset.compPeriodo;document.querySelectorAll(".comparador-periodo").forEach(function(x){x.classList.remove("activo")});b.classList.add("activo");renderComparador()})});
- ["percentilJugador","percentilPeriodo","percentilMinPartidos"].forEach(function(id){document.getElementById(id)?.addEventListener("change",renderPercentiles)})
+ ["percentilPeriodo","percentilMinPartidos"].forEach(function(id){document.getElementById(id)?.addEventListener("change",renderPercentiles)})
 }
 function hotParseMin(v){
   var s=String(v||"").trim(),m=s.match(/^(\d+):(\d{1,2})$/);
