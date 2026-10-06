@@ -30,7 +30,7 @@
   .jugador-field{min-width:100%}
 }
 
-.perfil-jugador-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-bottom:16px}.perfil-seccion{border:1px solid #e5e7eb;border-radius:12px;padding:14px;background:#fff}.perfil-seccion h3{margin:0 0 10px;color:#12343b;font-size:15px}.perfil-metricas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.perfil-metrica{background:#f7fafc;border:1px solid #e5e7eb;border-radius:9px;padding:9px}.perfil-metrica small{display:block;color:#6b7280;font-size:10px;font-weight:800}.perfil-metrica strong{display:block;color:#12343b;margin-top:3px}.evolucion-svg{width:100%;height:225px;display:block}.evolucion-nota{font-size:11px;color:#6b7280}.perfil-tabla table{min-width:980px}.perfil-tabla .positivo{color:#196b24;font-weight:800}.perfil-tabla .negativo{color:#9c0006;font-weight:800}@media(max-width:900px){.perfil-jugador-grid{grid-template-columns:1fr}.perfil-metricas{grid-template-columns:repeat(2,minmax(0,1fr))}}</style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5</button>       <button class="periodo" data-periodo="10">Últimas 10</button>       <button class="periodo" data-periodo="15">Últimas 15</button>       <button class="periodo" data-periodo="season">Temporada</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
+.perfil-jugador-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-bottom:16px}.perfil-seccion{border:1px solid #e5e7eb;border-radius:12px;padding:14px;background:#fff}.perfil-seccion h3{margin:0 0 10px;color:#12343b;font-size:15px}.perfil-metricas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.perfil-metrica{background:#f7fafc;border:1px solid #e5e7eb;border-radius:9px;padding:9px}.perfil-metrica small{display:block;color:#6b7280;font-size:10px;font-weight:800}.perfil-metrica strong{display:block;color:#12343b;margin-top:3px}.evolucion-svg{width:100%;height:225px;display:block}.evolucion-nota{font-size:11px;color:#6b7280}.perfil-tabla table{min-width:980px}.perfil-tabla .positivo{color:#196b24;font-weight:800}.perfil-tabla .negativo{color:#9c0006;font-weight:800}@media(max-width:900px){.perfil-jugador-grid{grid-template-columns:1fr}.perfil-metricas{grid-template-columns:repeat(2,minmax(0,1fr))}}.hot-streaks-section{margin:18px 0;padding:16px;border:1px solid #e5e7eb;border-radius:14px;background:#fff}.hot-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.hot-head h2{margin:0;color:#12343b}.hot-head p{margin:4px 0 0;color:#6b7280;font-size:12px}.hot-controls{display:flex;gap:7px;flex-wrap:wrap}.hot-controls select{border:1px solid #dbe2e8;border-radius:8px;padding:7px;background:#fff}.hot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hot-card{border:1px solid #e5e7eb;border-radius:10px;padding:11px;background:#f8fafc}.hot-card .top{display:flex;justify-content:space-between;gap:8px}.hot-card .name{font-weight:800;color:#12343b}.hot-card .team{font-size:11px;color:#6b7280;margin-top:2px}.hot-card .delta{font-size:16px;font-weight:900}.hot-card .up{color:#16803a}.hot-card .down{color:#9c0006}.hot-card .detail{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:#4b5563}.hot-empty{padding:20px;text-align:center;color:#6b7280}@media(max-width:900px){.hot-head{flex-direction:column}.hot-grid{grid-template-columns:1fr}}</style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5</button>       <button class="periodo" data-periodo="10">Últimas 10</button>       <button class="periodo" data-periodo="15">Últimas 15</button>       <button class="periodo" data-periodo="season">Temporada</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
 
 <section class="toolbar analizar-jugador">
   <h3>👤 Analizar jugador</h3>
@@ -51,7 +51,20 @@
   </div>
 </section>
 
-    <section class="resumen">     <div class="tarjeta"><small>Periodo</small><strong id="periodoTexto">Última jornada</strong></div>     <div class="tarjeta"><small>Equipos</small><strong id="totalEquipos">14</strong></div>     <div class="tarjeta"><small>Jornada más reciente</small><strong id="ultimaJornada">1</strong></div>   </section>    <section id="completos" class="contenido-tab">     <div id="tablaCompletosWrap" class="tabla-wrap"></div>   </section>   <section id="base" class="contenido-tab oculto">     <div id="tablaBaseWrap" class="tabla-wrap"></div>   </section>   <section id="avanzada" class="contenido-tab oculto">     <div id="tablaAvanzadaWrap" class="tabla-wrap"></div>   </section> </main>  
+    <section class="resumen">     <div class="tarjeta"><small>Periodo</small><strong id="periodoTexto">Última jornada</strong></div>     <div class="tarjeta"><small>Equipos</small><strong id="totalEquipos">14</strong></div>     <div class="tarjeta"><small>Jornada más reciente</small><strong id="ultimaJornada">1</strong></div>   </section>    
+<section class="hot-streaks-section">
+  <div class="hot-head">
+    <div><h2>🔥 Hot Streaks</h2><p>Jugadores que están rindiendo por encima de su nivel de temporada.</p></div>
+    <div class="hot-controls">
+      <select id="hotCategoria"><option value="global">🔥 Global</option><option value="pts">PTS</option><option value="val">VAL</option><option value="ts">TS%</option><option value="ast">AST</option><option value="reb">REB</option></select>
+      <select id="hotPeriodo"><option value="5">Últimas 5</option><option value="10">Últimas 10</option><option value="15">Últimas 15</option></select>
+      <select id="hotMinPartidos"><option value="3">Mín. 3 partidos</option><option value="5">Mín. 5 partidos</option><option value="8">Mín. 8 partidos</option></select>
+    </div>
+  </div>
+  <div id="hotStreaksContenido"></div>
+</section>
+
+<section id="completos" class="contenido-tab">     <div id="tablaCompletosWrap" class="tabla-wrap"></div>   </section>   <section id="base" class="contenido-tab oculto">     <div id="tablaBaseWrap" class="tabla-wrap"></div>   </section>   <section id="avanzada" class="contenido-tab oculto">     <div id="tablaAvanzadaWrap" class="tabla-wrap"></div>   </section> </main>  
 <div id="modalJugador" class="modal">
   <div class="modal-jugador-card">
     <div class="perfil-jugador-head">
@@ -332,4 +345,54 @@ document.getElementById("modalJugador")?.addEventListener("click",e=>{
 });
 
 
-document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));   document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));   b.classList.add("activo");   document.getElementById(b.dataset.tab).classList.remove("oculto"); }));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  cargarDatos().catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); </script> </body> </html>
+document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));   document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));   b.classList.add("activo");   document.getElementById(b.dataset.tab).classList.remove("oculto"); }));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  cargarDatos().catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); 
+function hotParseMin(v){
+  var s=String(v||"").trim(),m=s.match(/^(\d+):(\d{1,2})$/);
+  if(m)return Number(m[1])*60+Number(m[2]);
+  var n=Number(s.replace(",","."));return Number.isFinite(n)?n*60:0;
+}
+function hotPct(m,a){return Number(a)>0?Number(m)/Number(a)*100:null}
+function hotStats(filas){
+  if(!filas.length)return null;
+  var t={g:filas.length,min:0,pts:0,reb:0,ast:0,val:0,d2m:0,d2a:0,d3m:0,d3a:0,ftm:0,fta:0};
+  filas.forEach(function(x){var s=x.s;t.min+=hotParseMin(s.minutos);t.pts+=num(s.puntos);t.reb+=num(s.reb_totales);t.ast+=num(s.asistencias);t.val+=num(s.valoracion);t.d2m+=num(s.dosp_anotados);t.d2a+=num(s.dosp_intentos);t.d3m+=num(s.tresp_anotados);t.d3a+=num(s.tresp_intentos);t.ftm+=num(s.tl_anotados);t.fta+=num(s.tl_intentos)});
+  var fga=t.d2a+t.d3a,fgm=t.d2m+t.d3m,tsden=2*(fga+.44*t.fta);
+  return {g:t.g,pts:t.pts/t.g,reb:t.reb/t.g,ast:t.ast/t.g,val:t.val/t.g,ts:tsden>0?t.pts/tsden*100:null};
+}
+function hotFilasJugador(j){
+  var eq=num(j.equipo_id),ps=partidosDB.filter(function(p){return num(p.equipo_local_id)===eq||num(p.equipo_visitante_id)===eq}).sort(function(a,b){return num(a.jornada)-num(b.jornada)});
+  var mapa=new Map(ps.map(function(p){return [num(p.id),p]}));
+  return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(j.id)&&mapa.has(num(s.partido_id))}).map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}}).sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
+}
+function hotRanking(){
+  var periodo=Number(document.getElementById("hotPeriodo").value),cat=document.getElementById("hotCategoria").value,minG=Number(document.getElementById("hotMinPartidos").value);
+  var salida=[];
+  jugadoresDB.forEach(function(j){
+    var filas=hotFilasJugador(j), season=hotStats(filas);
+    if(!season||season.g<minG)return;
+    var recent=hotStats(filas.slice(-periodo)); if(!recent||recent.g<Math.min(minG,periodo))return;
+    var metric=cat==="pts"?"pts":cat==="reb"?"reb":cat==="ast"?"ast":cat==="val"?"val":"ts";
+    var delta=recent[metric]!==null&&season[metric]!==null?recent[metric]-season[metric]:null;
+    if(delta===null)return;
+    salida.push({j:j,eq:equiposDB.find(function(e){return num(e.id)===num(j.equipo_id)}),season:season,recent:recent,metric:metric,delta:delta});
+  });
+  if(cat==="global"){
+    salida.forEach(function(x){x.delta=(x.recent.pts-x.season.pts)*.30+(x.recent.val-x.season.val)*.35+(x.recent.reb-x.season.reb)*.15+(x.recent.ast-x.season.ast)*.10+((x.recent.ts??x.season.ts)-(x.season.ts??x.recent.ts))*.10});
+  }
+  return salida.sort(function(a,b){return b.delta-a.delta}).slice(0,9);
+}
+function renderHotStreaks(){
+  var box=document.getElementById("hotStreaksContenido");if(!box)return;
+  var rows=hotRanking();
+  if(!rows.length){box.innerHTML='<div class="hot-empty">No hay suficientes partidos para calcular Hot Streaks con los filtros actuales.</div>';return}
+  box.innerHTML='<div class="hot-grid">'+rows.map(function(x){
+    var unit=x.metric==="ts"?" pp":"";var sign=x.delta>=0?"+":"";
+    var metricName=x.metric==="pts"?"PTS":x.metric==="reb"?"REB":x.metric==="ast"?"AST":x.metric==="val"?"VAL":x.metric==="ts"?"TS%":"Índice";
+    return '<div class="hot-card"><div class="top"><div><div class="name">'+x.j.nombre+'</div><div class="team">'+(x.eq?x.eq.nombre:"—")+'</div></div><div class="delta '+(x.delta>=0?"up":"down")+'">'+sign+x.delta.toFixed(1)+unit+'</div></div><div class="detail"><span>'+metricName+' temporada: '+(x.season[x.metric]===null?"—":x.season[x.metric].toFixed(1))+'</span><span>últimas: '+(x.recent[x.metric]===null?"—":x.recent[x.metric].toFixed(1))+'</span></div></div>'
+  }).join("")+'</div>';
+}
+document.getElementById("hotCategoria")?.addEventListener("change",renderHotStreaks);
+document.getElementById("hotPeriodo")?.addEventListener("change",renderHotStreaks);
+document.getElementById("hotMinPartidos")?.addEventListener("change",renderHotStreaks);
+
+</script> </body> </html>
