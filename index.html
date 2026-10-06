@@ -451,7 +451,8 @@ const columnasAvanzadas=[
   ["Posesiones","posesiones"],["Ritmo","ritmo"],["EfOf","efOf"],["EfDef","efDef"],
   ["EfNeta","efNeta"],["% Reb Def","rebDef"],["% Reb Of","rebOf"],["% Reb Total","rebTotal"],
   ["As/Pérd","asPerd"],["% Asistencias","asistencias"],["% Tapones","tapones"],
-  ["TS%","ts"],["eFG%","efg"],["TOV%","tov"],["3PA%","tresPA"],["FTr","ftr"]
+  ["TS%","ts"],["eFG%","efg"],["TOV%","tov"],["3PA%","tresPA"],["FTr","ftr"],
+  ["Pts/Tiro","puntosTiro"],["Pts/Tiro 2","puntosTiro2"],["Pts/Tiro 3","puntosTiro3"]
 ];
 
 const columnasCompletas=[
@@ -492,7 +493,12 @@ function avanzadas(e){
     efg: fga ? (e.dosPM + e.tresPM + 0.5 * e.tresPM) / fga : 0,
     tov: poss ? e.to / poss : 0,
     tresPA: fga ? e.tresPA / fga : 0,
-    ftr: fga ? e.tlA / fga : 0
+    ftr: fga ? e.tlA / fga : 0,
+
+    // Puntos anotados por cada intento de tiro de campo.
+    puntosTiro: fga ? e.pts / fga : 0,
+    puntosTiro2: e.dosPA ? (2 * e.dosPM) / e.dosPA : 0,
+    puntosTiro3: e.tresPA ? (3 * e.tresPM) / e.tresPA : 0
   };
 }
 
