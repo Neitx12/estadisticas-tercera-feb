@@ -40,6 +40,8 @@
 .comp-grid{display:grid;gap:8px}.comp-row{display:grid;grid-template-columns:90px 1fr 110px 1fr 90px;gap:10px;align-items:center;padding:9px 10px;border:1px solid #edf0f3;border-radius:10px;background:#fafcfd}.comp-name{text-align:center;font-weight:900}.comp-value{text-align:center;font-weight:900;font-size:16px}.comp-value-a{text-align:right}.comp-value-b{text-align:left}.comp-track{height:9px;background:#e9eef2;border-radius:99px;overflow:hidden}.comp-fill{height:100%;border-radius:99px}.comp-fill-a{margin-left:auto;background:#00a6a6}.comp-fill-b{background:#f59e0b}.comp-winner{color:#007f7f}.comp-nombres{text-align:center;margin-top:12px;color:#6b7280;font-size:13px}
 .percentiles-head{align-items:center}.percentiles-controls{display:flex;gap:7px;flex-wrap:wrap;min-width:460px}.percentiles-controls select{min-width:135px}.percentil-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.percentil-card{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#f8fafc;text-align:center}.percentil-card small{display:block;color:#6b7280;font-weight:800;font-size:11px}.percentil-card strong{display:block;font-size:28px;margin:4px 0}.percentil-bar{height:9px;background:#e6ebef;border-radius:99px;overflow:hidden}.percentil-bar i{display:block;height:100%;border-radius:99px;transition:width .35s ease,background .35s ease}.percentil-card{transition:border-color .35s ease,box-shadow .35s ease}.percentiles-nota{margin-top:12px;color:#6b7280;font-size:12px}
 @media(max-width:900px){.comparador-head,.percentiles-head{flex-direction:column}.percentiles-controls{min-width:0;width:100%}.percentil-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.comparador-selectores{grid-template-columns:1fr}.comparador-vs{padding:0}.comp-row{grid-template-columns:62px 1fr 75px 1fr 62px;gap:5px}}
+
+.analisis-jugador-contexto{margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.analisis-jugador-bloque{border:1px solid #e5eaf0;border-radius:12px;padding:14px;background:#fff}.analisis-jugador-bloque h3{margin:0 0 10px;font-size:14px}.analisis-jugador-dato{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #eef1f4}.analisis-jugador-dato:last-child{border-bottom:0}.analisis-jugador-dato small{color:#6b7280}.analisis-jugador-dato strong{color:#12343b}.analisis-jugador-conclusion{margin-top:12px;padding:12px;border-radius:10px;background:#f7fafc;color:#12343b;font-size:13px;line-height:1.45}@media(max-width:800px){.analisis-jugador-contexto{grid-template-columns:1fr}}
 </style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="season">Toda la temporada</button>       <button class="periodo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5 jornadas</button>       <button class="periodo" data-periodo="10">Últimas 10 jornadas</button>       <button class="periodo" data-periodo="15">Últimas 15 jornadas</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
 
 
@@ -499,6 +501,43 @@ function tablaPerfilJugador(jugadorId){
 }
 
 function activarEvolucionPerfil(){document.querySelectorAll("[data-evolucion-metrica]").forEach(function(b){b.addEventListener("click",function(){window.perfilEvolucionMetrica=b.getAttribute("data-evolucion-metrica");renderPerfilJugador();activarEvolucionPerfil();});});}
+function datosContextoJugador(jugadorId,periodo){
+  var j=jugadorPorId(jugadorId);if(!j)return null;
+  var eq=num(j.equipo_id);
+  var juegosEquipo=partidosDB.filter(function(p){return num(p.equipo_local_id)===eq||num(p.equipo_visitante_id)===eq});
+  var maxJ=Math.max.apply(null,juegosEquipo.map(function(p){return num(p.jornada)}).concat([0]));
+  var minJ=periodo==="season"?0:Math.max(0,maxJ-Number(periodo)+1);
+  var partidosPeriodo=partidosDB.filter(function(p){var e=num(p.equipo_local_id)===eq||num(p.equipo_visitante_id)===eq;return e&&num(p.jornada)>=minJ&&num(p.jornada)<=maxJ});
+  var ids=new Set(partidosPeriodo.map(function(p){return num(p.id)}));
+  var filas=estadisticasJugadoresDB.filter(function(s){return ids.has(num(s.partido_id))});
+  function mediaJugador(id){
+    var fs=filas.filter(function(s){return num(s.jugador_id)===num(id)});if(!fs.length)return null;
+    var z={g:fs.length,pts:0,reb:0,ast:0,rec:0,tap:0,val:0};
+    fs.forEach(function(s){z.pts+=num(s.puntos);z.reb+=num(s.reb_totales);z.ast+=num(s.asistencias);z.rec+=num(s.recuperaciones);z.tap+=num(s.tapones);z.val+=num(s.valoracion)});
+    return {g:z.g,pts:z.pts/z.g,reb:z.reb/z.g,ast:z.ast/z.g,rec:z.rec/z.g,tap:z.tap/z.g,val:z.val/z.g};
+  }
+  var jugador=mediaJugador(jugadorId);
+  if(!jugador)return null;
+  var jugadoresPeriodo=jugadoresDB.map(function(x){return mediaJugador(x.id)?{id:num(x.id),equipo:num(x.equipo_id),m:mediaJugador(x.id)}:null}).filter(Boolean);
+  var equipoJug=jugadoresPeriodo.filter(function(x){return x.equipo===eq});
+  function promedio(lista,campo){var a=lista.map(function(x){return x.m[campo]}).filter(function(v){return Number.isFinite(v)});return a.length?a.reduce(function(s,v){return s+v},0)/a.length:null}
+  var liga=jugadoresPeriodo;
+  return {jugador:jugador,equipo:{pts:promedio(equipoJug,"pts"),reb:promedio(equipoJug,"reb"),ast:promedio(equipoJug,"ast"),val:promedio(equipoJug,"val")},liga:{pts:promedio(liga,"pts"),reb:promedio(liga,"reb"),ast:promedio(liga,"ast"),val:promedio(liga,"val")}};
+}
+function renderContextoJugador(jugadorId,periodo){
+  var d=datosContextoJugador(jugadorId,periodo);if(!d)return "";
+  var j=d.jugador;
+  function f(v){return v==null?"—":fmtPerfil(v,1)}
+  function dif(v,ref){return v==null||ref==null?"—":(v-ref>=0?"+":"")+fmtPerfil(v-ref,1)}
+  var filas=[
+    ["PTS",j.pts,d.equipo.pts,d.liga.pts],
+    ["REB",j.reb,d.equipo.reb,d.liga.reb],
+    ["AST",j.ast,d.equipo.ast,d.liga.ast],
+    ["VAL",j.val,d.equipo.val,d.liga.val]
+  ];
+  var mejores=filas.slice().sort(function(a,b){return (b[1]-(b[3]||b[1]))-(a[1]-(a[3]||a[1]))}).slice(0,2).map(function(x){return x[0]}).join(" y ");
+  return '<div class="analisis-jugador-contexto"><div class="analisis-jugador-bloque"><h3>📊 Jugador</h3>'+filas.map(function(x){return '<div class="analisis-jugador-dato"><small>'+x[0]+'</small><strong>'+f(x[1])+'</strong></div>'}).join("")+'</div><div class="analisis-jugador-bloque"><h3>🏀 Media de su equipo</h3>'+filas.map(function(x){return '<div class="analisis-jugador-dato"><small>'+x[0]+'</small><strong>'+f(x[2])+' · '+dif(x[1],x[2])+'</strong></div>'}).join("")+'</div><div class="analisis-jugador-bloque"><h3>🌐 Media de jugadores</h3>'+filas.map(function(x){return '<div class="analisis-jugador-dato"><small>'+x[0]+'</small><strong>'+f(x[3])+' · '+dif(x[1],x[3])+'</strong></div>'}).join("")+'</div></div><div class="analisis-jugador-conclusion">Lectura rápida: sus principales diferencias frente a la media de jugadores aparecen en <strong>'+mejores+'</strong>. Todas las cifras proceden de los boxscores disponibles y del periodo seleccionado.</div>';
+}
 function renderPerfilJugador(){
   if(!jugadorSeleccionadoId) return;
   var jugador=jugadorPorId(jugadorSeleccionadoId),equipo=equipoJugadorSeleccionadoId?equipoPorId(equipoJugadorSeleccionadoId):null,periodo=periodoJugadorSeleccionado,datos=calcularPerfilJugadorNuevo(jugadorSeleccionadoId,periodo),cont=document.getElementById("perfilJugadorContenido");
@@ -509,7 +548,7 @@ function renderPerfilJugador(){
   function card(l,v){return '<div class="perfil-stat"><small>'+l+'</small><strong>'+v+'</strong></div>'}
   var met=[["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS x40",fmtPerfil(datos.pts40,1)],["REB x40",fmtPerfil(datos.reb40,1)],["AST x40",fmtPerfil(datos.ast40,1)],["VAL x40",fmtPerfil(datos.val40,1)]];
   cont.innerHTML='<div class="perfil-resumen">'+card("Partidos",datos.partidos)+card("MIN",minTextoPerfil(datos.mpg))+card("PTS",fmtPerfil(datos.ptsA))+card("REB",fmtPerfil(datos.rebA))+card("AST",fmtPerfil(datos.astA))+card("REC",fmtPerfil(datos.recA))+card("TAP",fmtPerfil(datos.tapA))+card("VAL",fmtPerfil(datos.valA))+'</div>'+
-    '<div class="perfil-jugador-grid"><div class="perfil-seccion"><h3>Producción y rendimiento</h3><div class="perfil-metricas">'+met.map(function(m){return '<div class="perfil-metrica"><small>'+m[0]+'</small><strong>'+m[1]+'</strong></div>'}).join("")+'</div></div>'+evolucionPerfilJugador(jugadorSeleccionadoId)+'</div>'+tablaPerfilJugador(jugadorSeleccionadoId);
+    '<div class="perfil-jugador-grid"><div class="perfil-seccion"><h3>Producción y rendimiento</h3><div class="perfil-metricas">'+met.map(function(m){return '<div class="perfil-metrica"><small>'+m[0]+'</small><strong>'+m[1]+'</strong></div>'}).join("")+'</div></div>'+evolucionPerfilJugador(jugadorSeleccionadoId)+'</div>'+renderContextoJugador(jugadorSeleccionadoId,periodo)+tablaPerfilJugador(jugadorSeleccionadoId);
   activarEvolucionPerfil();
 }function abrirPerfilJugador(){
   const sel=document.getElementById("selectorJugador");
