@@ -32,6 +32,7 @@
 
 .perfil-jugador-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-bottom:16px}.perfil-seccion{border:1px solid #e5e7eb;border-radius:12px;padding:14px;background:#fff}.perfil-seccion h3{margin:0 0 10px;color:#12343b;font-size:15px}.perfil-metricas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.perfil-metrica{background:#f7fafc;border:1px solid #e5e7eb;border-radius:9px;padding:9px}.perfil-metrica small{display:block;color:#6b7280;font-size:10px;font-weight:800}.perfil-metrica strong{display:block;color:#12343b;margin-top:3px}.evolucion-svg{width:100%;height:225px;display:block}.evolucion-nota{font-size:11px;color:#6b7280}.perfil-tabla table{min-width:980px}.perfil-tabla .positivo{color:#196b24;font-weight:800}.perfil-tabla .negativo{color:#9c0006;font-weight:800}@media(max-width:900px){.perfil-jugador-grid{grid-template-columns:1fr}.perfil-metricas{grid-template-columns:repeat(2,minmax(0,1fr))}}.hot-streaks-section{margin:18px 0;padding:16px;border:1px solid #e5e7eb;border-radius:14px;background:#fff}.hot-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.hot-head h2{margin:0;color:#12343b}.hot-head p{margin:4px 0 0;color:#6b7280;font-size:12px}.hot-controls{display:flex;gap:7px;flex-wrap:wrap}.hot-controls select{border:1px solid #dbe2e8;border-radius:8px;padding:7px;background:#fff}.hot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hot-card{border:1px solid #e5e7eb;border-radius:10px;padding:11px;background:#f8fafc}.hot-card .top{display:flex;justify-content:space-between;gap:8px}.hot-card .name{font-weight:800;color:#12343b}.hot-card .team{font-size:11px;color:#6b7280;margin-top:2px}.hot-card .delta{font-size:16px;font-weight:900}.hot-card .up{color:#16803a}.hot-card .down{color:#9c0006}.hot-card .detail{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:#4b5563}.hot-empty{padding:20px;text-align:center;color:#6b7280}@media(max-width:900px){.hot-head{flex-direction:column}.hot-grid{grid-template-columns:1fr}}.evolucion-leyenda{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:6px 0 4px;font-size:12px;color:#6b7280}.evolucion-leyenda span{display:inline-flex;align-items:center;gap:6px}.evolucion-leyenda i{display:inline-block;width:18px;height:3px;border-radius:2px}
 .comparador-section,.percentiles-section{margin:18px 0;padding:18px;background:#fff;border:1px solid #e5e7eb;border-radius:14px}
+.modulos-analisis{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.modulo-btn{border:1px solid #cdd6e2;border-radius:10px;padding:11px 16px;background:#fff;color:#12343b;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.04)}.modulo-btn:hover{border-color:#00a6a6}.modulo-btn.activo{background:#00a6a6;color:#fff;border-color:#12343b}.modulo-analisis.oculto-modulo{display:none}.modulo-cabecera{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 8px}.volver-modulos{border:0;background:#eef2f7;color:#12343b;border-radius:8px;padding:7px 10px;font-weight:700;cursor:pointer}
 .comparador-head,.percentiles-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px}
 .comparador-head h2,.percentiles-head h2{margin:0;color:#12343b}.comparador-head p,.percentiles-head p{margin:4px 0 0;color:#6b7280;font-size:13px}
 .comparador-periodos{display:flex;gap:6px;flex-wrap:wrap}.comparador-periodo{border:1px solid #cdd6e2;border-radius:8px;padding:8px 11px;background:#fff;font-weight:700;cursor:pointer}.comparador-periodo.activo{background:#00a6a6;color:#fff}
@@ -72,7 +73,15 @@
   </div>
   <div id="hotStreaksContenido"></div>
 </section>
-<section class="comparador-section">
+
+<section class="modulos-analisis">
+  <button type="button" class="modulo-btn" data-modulo="comparador">⚔️ Comparador</button>
+  <button type="button" class="modulo-btn" data-modulo="percentiles">📊 Percentiles</button>
+</section>
+
+<div id="moduloComparador" class="modulo-analisis oculto-modulo">
+  <div class="modulo-cabecera"><strong>⚔️ Comparador de jugadores</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div>
+  <section class="comparador-section">
   <div class="comparador-head"><div><h2>⚔️ Comparador</h2><p>Compara dos jugadores con los boxscores cargados.</p></div>
     <div class="comparador-periodos">
       <button type="button" class="comparador-periodo activo" data-comp-periodo="season">Toda la temporada</button>
@@ -95,7 +104,12 @@
   </div>
   <div id="comparadorContenido"><div class="mensaje">Selecciona dos jugadores.</div></div>
 </section>
-<section class="percentiles-section">
+
+</div>
+
+<div id="moduloPercentiles" class="modulo-analisis oculto-modulo">
+  <div class="modulo-cabecera"><strong>📊 Percentiles de jugadores</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div>
+  <section class="percentiles-section">
   <div class="percentiles-head"><div><h2>📊 Percentiles</h2><p>Rendimiento frente al resto de jugadores con muestra suficiente.</p></div>
     <div class="percentiles-controls">
       <select id="percentilEquipo"><option value="">Selecciona equipo</option></select>
@@ -106,6 +120,8 @@
   </div>
   <div id="percentilesContenido"><div class="mensaje">Selecciona un jugador.</div></div>
 </section>
+</div>
+
 
 
 <section id="completos" class="contenido-tab">     <div id="tablaCompletosWrap" class="tabla-wrap"></div>   </section>   <section id="base" class="contenido-tab oculto">     <div id="tablaBaseWrap" class="tabla-wrap"></div>   </section>   <section id="avanzada" class="contenido-tab oculto">     <div id="tablaAvanzadaWrap" class="tabla-wrap"></div>   </section> </main>  
@@ -410,6 +426,28 @@ document.getElementById("modalJugador")?.addEventListener("click",e=>{
   if(e.target.id==="modalJugador") cerrarModalJugador();
 });
 
+
+
+function activarModulosAnalisis(){
+  var botones=document.querySelectorAll(".modulo-btn"),comp=document.getElementById("moduloComparador"),pct=document.getElementById("moduloPercentiles");
+  botones.forEach(function(b){
+    b.addEventListener("click",function(){
+      var tipo=b.dataset.modulo;
+      comp.classList.toggle("oculto-modulo",tipo!=="comparador");
+      pct.classList.toggle("oculto-modulo",tipo!=="percentiles");
+      botones.forEach(function(x){x.classList.toggle("activo",x===b)});
+      (tipo==="comparador"?comp:pct).scrollIntoView({behavior:"smooth",block:"start"});
+    });
+  });
+  document.querySelectorAll("[data-volver-modulos]").forEach(function(b){
+    b.addEventListener("click",function(){
+      comp.classList.add("oculto-modulo");pct.classList.add("oculto-modulo");
+      botones.forEach(function(x){x.classList.remove("activo")});
+      document.querySelector(".modulos-analisis")?.scrollIntoView({behavior:"smooth",block:"center"});
+    });
+  });
+}
+activarModulosAnalisis();
 
 document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));   document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));   b.classList.add("activo");   document.getElementById(b.dataset.tab).classList.remove("oculto"); }));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
 poblarComparadores();
