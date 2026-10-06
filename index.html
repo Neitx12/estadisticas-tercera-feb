@@ -42,7 +42,7 @@
 @media(max-width:900px){.comparador-head,.percentiles-head{flex-direction:column}.percentiles-controls{min-width:0;width:100%}.percentil-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.comparador-selectores{grid-template-columns:1fr}.comparador-vs{padding:0}.comp-row{grid-template-columns:62px 1fr 75px 1fr 62px;gap:5px}}
 
 .analisis-jugador-contexto{margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.analisis-jugador-bloque{border:1px solid #e5eaf0;border-radius:12px;padding:14px;background:#fff}.analisis-jugador-bloque h3{margin:0 0 10px;font-size:14px}.analisis-jugador-dato{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #eef1f4}.analisis-jugador-dato:last-child{border-bottom:0}.analisis-jugador-dato small{color:#6b7280}.analisis-jugador-dato strong{color:#12343b}.analisis-jugador-conclusion{margin-top:12px;padding:12px;border-radius:10px;background:#f7fafc;color:#12343b;font-size:13px;line-height:1.45}@media(max-width:800px){.analisis-jugador-contexto{grid-template-columns:1fr}}
-</style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="season">Toda la temporada</button>       <button class="periodo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5 jornadas</button>       <button class="periodo" data-periodo="10">Últimas 10 jornadas</button>       <button class="periodo" data-periodo="15">Últimas 15 jornadas</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
+.perfil-jugador-visual{display:flex;align-items:center;gap:12px}.perfil-jugador-foto{width:86px;height:104px;border-radius:14px;object-fit:cover;background:#eef2f7;border:2px solid rgba(255,255,255,.85)}.perfil-jugador-foto-fallback{width:86px;height:104px;border-radius:14px;background:#e8f7f4;color:#12343b;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:900;border:2px solid rgba(255,255,255,.85)}.perfil-jugador-escudo{width:44px;height:44px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}.perfil-jugador-meta{font-size:12px}.perfil-jugador-meta .dorsal{font-weight:900;background:rgba(255,255,255,.18);padding:3px 7px;border-radius:6px}@media(max-width:600px){.perfil-jugador-foto,.perfil-jugador-foto-fallback{width:70px;height:88px}}</style> </head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="season">Toda la temporada</button>       <button class="periodo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5 jornadas</button>       <button class="periodo" data-periodo="10">Últimas 10 jornadas</button>       <button class="periodo" data-periodo="15">Últimas 15 jornadas</button>     </div>      <div class="tabs">       <button class="tab-button activo" data-tab="completos">Datos completos</button>       <button class="tab-button" data-tab="base">Estadística base</button>       <button class="tab-button" data-tab="avanzada">Estadística avanzada</button>     </div>   </section>
 
 
 
@@ -319,6 +319,9 @@ function equipoPorId(id){
   return equiposDB.find(e=>num(e.id)===num(id)) || equiposFallback.find(e=>num(e.id)===num(id));
 }
 
+const fotosJugadores={};
+function inicialesJugador(j){return String(j&&j.nombre||"Jugador").split(/\s+/).filter(Boolean).slice(0,2).map(function(x){return x.charAt(0)}).join("").toUpperCase()}
+function fotoJugadorUrl(j){return j&&fotosJugadores[num(j.id)]||""}
 function jugadorPorId(id){
   return jugadoresDB.find(j=>num(j.id)===num(id));
 }
@@ -577,6 +580,11 @@ function renderPerfilJugador(){
   if(!jugador||!cont)return;
   document.getElementById("perfilJugadorNombre").textContent=jugador.nombre||jugador.name||"Jugador";
   document.getElementById("perfilJugadorSubtitulo").textContent=(equipo?equipo.nombre:"Equipo")+" · "+textoPeriodoJugador(periodo);
+  var visual=document.getElementById("perfilJugadorAvatar");
+  if(visual){
+    var foto=fotoJugadorUrl(jugador),esc=equipo&&escudos[equipo.nombre]?escudos[equipo.nombre]:"",ini=inicialesJugador(jugador),dorsal=jugador.numero!=null?jugador.numero:"—";
+    visual.innerHTML='<div class="perfil-jugador-visual">'+(foto?'<img class="perfil-jugador-foto" src="'+foto+'" alt="">':'<div class="perfil-jugador-foto-fallback">'+ini+'</div>')+(esc?'<img class="perfil-jugador-escudo" src="'+esc+'" alt="">':'')+'<div class="perfil-jugador-meta"><span class="dorsal">#'+dorsal+'</span></div></div>';
+  }
   if(!datos){cont.innerHTML='<div class="mensaje">No hay estadísticas para este periodo.</div>';return}
   function card(l,v){return '<div class="perfil-stat"><small>'+l+'</small><strong>'+v+'</strong></div>'}
   var met=[["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS x40",fmtPerfil(datos.pts40,1)],["REB x40",fmtPerfil(datos.reb40,1)],["AST x40",fmtPerfil(datos.ast40,1)],["VAL x40",fmtPerfil(datos.val40,1)]];
