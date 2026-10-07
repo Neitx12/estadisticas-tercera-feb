@@ -333,10 +333,13 @@ function activarVistasEquipoModal(){
   document.getElementById("equipoAnalisisRival")?.addEventListener("change",()=>actualizarVistaEquipoModal("analisis"));
   document.getElementById("equipoPlantillaRival")?.addEventListener("change",()=>actualizarVistaEquipoModal("plantilla"));
   document.getElementById("btnAnalizarJugadorEquipo")?.addEventListener("click",()=>{
-    const sel=document.getElementById("equipoJugadorSeleccion"),id=sel&&sel.value?num(sel.value):null;
+    const sel=document.getElementById("equipoJugadorSeleccion");
+    const id=sel&&sel.value?num(sel.value):null;
     if(!id)return;
+    const jugador=jugadoresDB.find(j=>num(j.id)===id);
+    if(!jugador)return;
     jugadorSeleccionadoId=id;
-    equipoJugadorSeleccionadoId=window.equipoModalId;
+    equipoJugadorSeleccionadoId=window.equipoModalId || num(jugador.equipo_id);
     periodoJugadorSeleccionado=periodoSeleccionado;
     document.getElementById("modalJugador").classList.add("abierto");
     renderPerfilJugador();
@@ -662,6 +665,8 @@ function renderPerfilJugador(){
   }
   if(!datos){cont.innerHTML='<div class="mensaje">No hay estadísticas para este periodo.</div>';return}
   function card(l,v){return '<div class="perfil-stat"><small>'+l+'</small><strong>'+v+'</strong></div>'}
+  var esPruebaFEB=String(jugador&&jugador.nombre||"").toUpperCase()==="IMANOL ARTECHE URRUZOLA";
+  var febUrl="https://baloncestoenvivo.feb.es/jugador/1009106/1314145";
   var met=[["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS x40",fmtPerfil(datos.pts40,1)],["REB x40",fmtPerfil(datos.reb40,1)],["AST x40",fmtPerfil(datos.ast40,1)],["VAL x40",fmtPerfil(datos.val40,1)]];
   var bloqueFEB=esPruebaFEB?'<div class="perfil-feb-panel"><div class="perfil-feb-panel-head"><span>🏀 Prueba visual · ficha FEB</span><a href="'+febUrl+'" target="_blank" rel="noopener">Abrir ficha ↗</a></div><iframe src="'+febUrl+'" title="Ficha FEB del jugador" loading="lazy"></iframe><div class="perfil-feb-fallback">Si tu navegador bloquea la ficha dentro de la web, usa <a href="'+febUrl+'" target="_blank" rel="noopener">Abrir ficha FEB</a>. La URL mostrada es exactamente la que has proporcionado.</div></div>':"";
   cont.innerHTML=bloqueFEB+'<div class="perfil-resumen">'+card("Partidos",datos.partidos)+card("MIN",minTextoPerfil(datos.mpg))+card("PTS",fmtPerfil(datos.ptsA))+card("REB",fmtPerfil(datos.rebA))+card("AST",fmtPerfil(datos.astA))+card("REC",fmtPerfil(datos.recA))+card("TAP",fmtPerfil(datos.tapA))+card("VAL",fmtPerfil(datos.valA))+'</div>'+
