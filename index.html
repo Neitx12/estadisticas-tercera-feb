@@ -1594,6 +1594,37 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
   };
 })();
 </script>
+<script id="portada-navigation-fix">
+(function(){
+  function initPortada(){
+    window.seleccionarPeriodoPrincipal=function(periodo){
+      var bs=document.querySelectorAll(".periodo");
+      for(var i=0;i<bs.length;i++)bs[i].classList.toggle("activo",String(bs[i].getAttribute("data-periodo"))===String(periodo));
+      if(typeof periodoSeleccionado!=="undefined") periodoSeleccionado=periodo==="season"?"season":Number(periodo);
+      if(typeof window.render==="function") window.render();
+      var el=document.getElementById("base");
+      if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+    };
+    window.seleccionarJornadaPrincipal=function(jornada){
+      if(!jornada)return;
+      if(typeof periodoSeleccionado!=="undefined") periodoSeleccionado="jornada:"+jornada;
+      if(typeof window.render==="function") window.render();
+      var el=document.getElementById("base");
+      if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
+    };
+    window.abrirSeccionEstadistica=function(id){
+      var el=document.getElementById(id);
+      if(!el)return;
+      var tabs=document.querySelectorAll(".tab-button"),secs=document.querySelectorAll(".contenido-tab");
+      for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle("activo",tabs[i].getAttribute("data-tab")===id);
+      for(var j=0;j<secs.length;j++)secs[j].classList.add("oculto");
+      el.classList.remove("oculto");
+      el.scrollIntoView({behavior:"smooth",block:"start"});
+    };
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initPortada);else initPortada();
+})();
+</script>
 </body>
 <!-- SCOUTING-DEPLOY-TRIGGER-2026-10-07 -->
 </html>
