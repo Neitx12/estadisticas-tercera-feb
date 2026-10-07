@@ -642,7 +642,7 @@ function calcularPerfilJugadorNuevo(jugadorId,periodo){
     });
   }
   var denomUSG=t.min*(equipo.fga+0.44*equipo.fta+equipo.to);
-  t.usg=denomUSG>0?100*(fga+0.44*t.fta+t.perd)*(equipo.min/60/5)/denomUSG:null;
+  t.usg=denomUSG>0?100*(fga+0.44*t.fta+t.perd)*(equipo.min/5)/denomUSG:null;
 
   var k=t.min?2400/t.min:null;t.pts40=k?t.pts*k:null;t.reb40=k?t.reb*k:null;t.ast40=k?t.ast*k:null;t.val40=k?t.val*k:null;
   return t;
