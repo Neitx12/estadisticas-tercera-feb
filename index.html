@@ -1271,7 +1271,49 @@ function roster(team){
  }).join("")+
  "</tbody></table></div><div class='scdb-note'>★: &lt;20% de sus tiros de campo son de 3 · ★★: 20–49,9% · ★★★: ≥50%. Los promedios se calculan con los partidos registrados.</div>";
 }
-window.syncScouting=function(){return sync()}; window.renderScouting=function(){return render()}; function pbpCurrent(){try{return typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null}catch(e){return null}}
+function renderScoutingUI(){
+ var content=document.getElementById("scdbContent"),nav=document.getElementById("scdbNav");
+ if(!content)return;
+ var names=Object.keys(DB.teams||{}), own=DB.teams["Ulacia ZKE"], rivals=names.filter(function(x){return x!=="Ulacia ZKE";});
+ var tab=(nav&&nav.getAttribute("data-active"))||"own";
+ if(!["own","rival","matchup"].includes(tab))tab="own";
+ if(nav){
+   nav.querySelectorAll("button").forEach(function(b){b.classList.toggle("activo",b.getAttribute("data-tab")===tab);});
+   nav.querySelectorAll("button").forEach(function(b){b.onclick=function(){nav.setAttribute("data-active",b.getAttribute("data-tab"));renderScoutingUI();};});
+ }
+ var summary=function(team){
+   var s=teamSummary(team),t=DB.teams[team],tt=s.team||teamTotals(team);
+   return "<div class='scdb-summary'>"+
+    "<div class='scdb-stat'><small>Partidos</small><strong>"+s.pj+"</strong><span>registrados</span></div>"+
+    "<div class='scdb-stat'><small>Jugadores</small><strong>"+s.jug+"</strong><span>con boxscore</span></div>"+
+    "<div class='scdb-stat'><small>Máx. anotador</small><strong>"+esc(s.top)+"</strong><span>"+(s.pts==="—"?"":s.pts+" PTS/PJ")+"</span></div>"+
+    "<div class='scdb-stat'><small>Rebotes</small><strong>"+esc(s.reb)+"</strong><span>líder del equipo</span></div>"+
+    "<div class='scdb-stat'><small>Valoración</small><strong>"+esc(s.val)+"</strong><span>líder del equipo</span></div>"+
+    "<div class='scdb-stat'><small>Pérdidas</small><strong>"+esc(s.to)+"</strong><span>por partido</span></div></div>"+
+    "<section class='scdb-panel'><h3>Plantilla y producción</h3>"+roster(team)+"</section>";
+ };
+ var gameList=function(team){
+   var t=DB.teams[team],gs=t?t.games:[],html="<div class='scdb-games'>";
+   gs.forEach(function(g){html+="<div class='scdb-game'><strong>"+esc(g.home)+" · "+g.final[0]+" — "+g.final[1]+" · "+esc(g.away)+"</strong><span>Jornada "+esc(g.jornada)+" · "+esc(g.fecha||"")+"</span></div>";});
+   return html+"</div>";
+ };
+ if(tab==="own"&&own){
+   content.innerHTML="<section class='scdb-panel'><h3>🟢 Ulacia ZKE · scouting propio</h3><p class='scdb-note'>Base real cargada: "+DB.games.length+" partidos y "+DB.boxscores.length+" registros de boxscore.</p></section>"+summary("Ulacia ZKE")+"<section class='scdb-panel'><h3>Partidos registrados</h3>"+gameList("Ulacia ZKE")+"</section>";
+   return;
+ }
+ if(tab==="rival"){
+   var rival=rivals[0];
+   if(!rival){content.innerHTML="<div class='scdb-empty'>No hay rivales con partidos registrados.</div>";return;}
+   content.innerHTML="<section class='scdb-panel'><div class='scdb-controls'><div class='scdb-field'><label>Rival</label><select id='scdbRival'>"+rivals.map(function(x){return "<option>"+esc(x)+"</option>";}).join("")+"</select></div></div></section>"+summary(rival)+"<section class='scdb-panel'><h3>Partidos del rival</h3>"+gameList(rival)+"</section>";
+   var sel=document.getElementById("scdbRival"); if(sel){sel.value=rival;sel.onchange=function(){content.dataset.rival=this.value;renderScoutingUI();};}
+   return;
+ }
+ var opp=rivals[0];
+ if(!own||!opp){content.innerHTML="<div class='scdb-empty'>No hay datos suficientes para el matchup.</div>";return;}
+ var a=teamSummary("Ulacia ZKE"),b=teamSummary(opp);
+ content.innerHTML="<section class='scdb-panel'><h3>⚔️ Matchup · Ulacia ZKE vs "+esc(opp)+"</h3><div class='scdb-matchup'><div><strong>ULACIA ZKE</strong><p>"+a.jug+" jugadores · "+a.pts+" PTS/PJ</p><div class='scdb-bar'><i style='width:"+Math.min(100,(n(a.team&&a.team.pts)||0)/(Math.max(1,n(a.team&&a.team.pts)||0)+n(b.team&&b.team.pts)||1)*100)+"%'></i></div></div><div class='scdb-vs'>VS</div><div><strong>"+esc(opp)+"</strong><p>"+b.jug+" jugadores · "+b.pts+" PTS/PJ</p></div></div></section>"+summary("Ulacia ZKE")+"<section class='scdb-panel'><h3>📌 Rival seleccionado</h3>"+summary(opp)+"</section>";
+}
+window.syncScouting=function(){return sync()}; window.renderScouting=function(){return renderScoutingUI()}; function pbpCurrent(){try{return typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null}catch(e){return null}}
 function addPbp(p){if(!p||!p.gameId)return;DB.pbp=DB.pbp.filter(function(x){return x.gameId!==p.gameId});DB.pbp.push(p)}
 function openScout(){var modal=document.getElementById("scdbModal");if(!modal){install();modal=document.getElementById("scdbModal")}if(!modal)return;modal.classList.add("abierto");modal.setAttribute("aria-hidden","false");var content=document.getElementById("scdbContent");try{var ok=sync();var p=pbpCurrent();if(p)addPbp(p);if(ok){if(window.renderScouting)window.renderScouting();else render()}else if(content){content.innerHTML="<div style=\"padding:20px\"><h3>Scouting sin datos</h3><p>Los datos de la página todavía se están cargando.</p></div>"}}catch(e){console.error("Scouting:",e);if(content)content.innerHTML="<div style=\"padding:20px\"><h3>Error de Scouting</h3><p>"+esc(e.message||e)+"</p></div>"}}
 window.openScout=function(){openScout()};
