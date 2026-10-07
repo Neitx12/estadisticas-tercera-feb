@@ -9,12 +9,7 @@
 .boton-perfil{border:1px solid #12343b;background:#00a6a6;color:#fff;border-radius:9px;padding:10px 18px;font-weight:800;cursor:pointer;min-height:42px}
 .boton-perfil:disabled{opacity:.45;cursor:not-allowed}
 .modal-jugador-card{width:min(1050px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}
-.perfil-jugador-head{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:-22px -22px 18px;padding:18px 22px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff}
-.perfil-jugador-identidad{display:flex;gap:14px;align-items:center}
-.perfil-jugador-avatar{width:68px;height:68px;border-radius:12px;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;color:#12343b;font-size:28px;font-weight:900}
-.perfil-jugador-head h2{margin:0 0 4px;color:#fff}
-.perfil-jugador-head .subtitulo{color:rgba(255,255,255,.88)}
-.periodos-jugador{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
+.perfil-jugador-head{display:flex;justify-content:space-between;gap:18px;align-items:center;margin:-22px -22px 18px;padding:18px 22px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff}.perfil-jugador-identidad{display:flex;gap:14px;align-items:center;min-width:0}.perfil-jugador-avatar{display:flex;align-items:center;gap:14px;min-width:0}.perfil-jugador-escudo{width:64px;height:64px;object-fit:contain;background:rgba(255,255,255,.96);border-radius:12px;padding:4px;flex:0 0 auto}.perfil-jugador-foto{width:110px;height:110px;object-fit:cover;object-position:center top;border-radius:14px;background:#fff;flex:0 0 auto;border:3px solid rgba(255,255,255,.9)}.perfil-jugador-foto-fallback{width:110px;height:110px;border-radius:14px;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;color:#12343b;font-size:34px;font-weight:900}.perfil-jugador-meta{display:flex;align-items:center;gap:12px}.perfil-jugador-meta .dorsal{font-size:26px;font-weight:900;color:#fff}.perfil-jugador-identidad>div:last-child h2{margin:0 0 3px;font-size:25px}.perfil-jugador-head .subtitulo{color:rgba(255,255,255,.88)}.periodos-jugador{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
 .periodo-jugador{border:1px solid #cdd6e2;border-radius:8px;padding:8px 11px;background:#fff;color:#12343b;font-weight:700;cursor:pointer}
 .periodo-jugador.activo{background:#00a6a6;color:#fff;border-color:#12343b}
 .perfil-resumen{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
@@ -141,7 +136,7 @@
   <div class="modal-jugador-card">
     <div class="perfil-jugador-head">
       <div class="perfil-jugador-identidad">
-        <div id="perfilJugadorAvatar" class="perfil-jugador-avatar">👤</div>
+        <div id="perfilJugadorAvatar" class="perfil-jugador-avatar"></div>
         <div>
           <h2 id="perfilJugadorNombre"></h2>
           <div id="perfilJugadorSubtitulo" class="subtitulo"></div>
@@ -641,13 +636,13 @@ function renderPerfilJugador(){
   var jugador=jugadorPorId(jugadorSeleccionadoId),equipo=equipoJugadorSeleccionadoId?equipoPorId(equipoJugadorSeleccionadoId):null,periodo=periodoJugadorSeleccionado,datos=calcularPerfilJugadorNuevo(jugadorSeleccionadoId,periodo),cont=document.getElementById("perfilJugadorContenido");
   if(!jugador||!cont)return;
   document.getElementById("perfilJugadorNombre").textContent=jugador.nombre||jugador.name||"Jugador";
-  document.getElementById("perfilJugadorSubtitulo").textContent=(equipo?equipo.nombre:"Equipo")+" · "+textoPeriodoJugador(periodo);
+  document.getElementById("perfilJugadorSubtitulo").textContent=(equipo?equipo.nombre:"Equipo");
   var visual=document.getElementById("perfilJugadorAvatar");
   if(visual){
     var foto=fotoJugadorUrl(jugador),esc=equipo&&escudos[equipo.nombre]?escudos[equipo.nombre]:"",ini=inicialesJugador(jugador),dorsal=jugador.numero!=null?jugador.numero:"—";
     var esPruebaFEB=String(jugador&&jugador.nombre||"").toUpperCase()==="IMANOL ARTECHE URRUZOLA";
     var febUrl="https://baloncestoenvivo.feb.es/jugador/1009106/1314145";
-    visual.innerHTML='<div class="perfil-jugador-visual">'+(foto?'<img class="perfil-jugador-foto" src="'+foto+'" alt="">':'<div class="perfil-jugador-foto-fallback">'+ini+'</div>')+(esc?'<img class="perfil-jugador-escudo" src="'+esc+'" alt="">':'')+'<div class="perfil-jugador-meta"><span class="dorsal">#'+dorsal+'</span>'+(esPruebaFEB?'<div class="perfil-feb-prueba"><a href="'+febUrl+'" target="_blank" rel="noopener">🏀 Ficha FEB</a></div>':'')+'</div></div>';
+    visual.innerHTML=(esc?'<img class="perfil-jugador-escudo" src="'+esc+'" alt="Escudo de '+(equipo?equipo.nombre:'')+'">':'')+(foto?'<img class="perfil-jugador-foto" src="'+foto+'" alt="Foto de '+(jugador.nombre||'Jugador')+'">':'<div class="perfil-jugador-foto-fallback">'+ini+'</div>')+'<div class="perfil-jugador-meta"><span class="dorsal">#'+dorsal+'</span></div>';
   }
   if(!datos){cont.innerHTML='<div class="mensaje">No hay estadísticas para este periodo.</div>';return}
   function card(l,v){return '<div class="perfil-stat"><small>'+l+'</small><strong>'+v+'</strong></div>'}
