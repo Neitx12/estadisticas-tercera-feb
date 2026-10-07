@@ -536,6 +536,10 @@ const columnasAvanzadasJugadores=[
 const porcentajeJugador=new Set(["d2pct","d3pct","ftpct","ts","efg","tov","usg","ftr","p3tc"]);
 function textoDatoJugador(v,key){
   if(v===null||v===undefined||!Number.isFinite(Number(v)))return "—";
+  if(key==="min"){
+    var total=Math.round(Number(v)*60),mm=Math.floor(total/60),ss=total%60;
+    return String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0");
+  }
   return porcentajeJugador.has(key)?(Number(v)*100).toFixed(1)+"%":Number(v).toFixed(1);
 }
 function construirTablaJugadores(rows,columnas,targetId){
