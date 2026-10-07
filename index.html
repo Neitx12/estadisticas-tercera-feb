@@ -1084,7 +1084,6 @@ function pbpRender(){
   '<section class="pbp-panel"><h3>📜 PBP completo</h3><p class="pbp-note" style="margin-bottom:8px">538 acciones reconstruidas. Se muestran en orden de partido para poder auditar cualquier momento detectado.</p><div class="pbp-chronology">'+pbpChrono(events).map(e=>'<div class="pbp-eventrow '+(pbpPoints(e.action)?'score':'')+'"><div class="q">Q'+e.q+'</div><div class="clock">'+e.clock+'</div><div class="action"><b>'+pbpShort(e.team)+'</b> · '+pbpEsc(e.action)+'</div></div>').join('')+'</div></section>';
   } catch(err) { box.innerHTML='<div class="pbp-panel"><h3>⚠️ Error al generar el análisis</h3><p class="pbp-note">'+pbpEsc(err&&err.message?err.message:String(err))+'</p><p class="pbp-note">Los datos PBP están cargados, pero el navegador ha encontrado un error al procesarlos.</p></div>'; console.error('PBP avanzado:',err); }
 }
-}
 function abrirAnalisisPBP(){document.getElementById('modalPBPAnalisis')?.classList.add('abierto');pbpRender()}
 function cerrarAnalisisPBP(){document.getElementById('modalPBPAnalisis')?.classList.remove('abierto')}
 </script></body> </html>
