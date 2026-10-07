@@ -1090,7 +1090,7 @@ window.pbpRender=render;
   function fmt(s){s=Math.max(0,Math.round(Number(s)||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
   function short(t){return t==="MEGACALZADO ARDOI"?"Ardoi":t==="ULACIA ZKE"?"Ulacia ZKE":t||"Equipo";}
   function data(){
-    var p=window.PBP_ADV_DATA;
+    var p=(typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null);
     if(!p) throw new Error("No se ha cargado PBP_ADV_DATA.");
     var acts=Array.isArray(p.actions)?p.actions.slice():[];
     acts.sort(function(a,b){return Number(a.q)-Number(b.q)||sec(b.clock)-sec(a.clock);});
