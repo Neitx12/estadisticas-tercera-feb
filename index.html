@@ -605,7 +605,45 @@ function calcularPerfilJugadorNuevo(jugadorId,periodo){
   var fga=t.d2a+t.d3a, fgm=t.d2m+t.d3m, denTS=2*(fga+0.44*t.fta);
   t.mpg=t.min/t.partidos;t.ptsA=t.pts/t.partidos;t.rebA=t.reb/t.partidos;t.astA=t.ast/t.partidos;t.recA=t.rec/t.partidos;t.tapA=t.tap/t.partidos;t.perdA=t.perd/t.partidos;t.valA=t.val/t.partidos;
   t.p2=t.d2a?t.d2m/t.d2a*100:null;t.p3=t.d3a?t.d3m/t.d3a*100:null;t.ft=t.fta?t.ftm/t.fta*100:null;
+  t.p3tc=fga?t.d3a/fga*100:null;
   t.efg=fga?(fgm+0.5*t.d3m)/fga*100:null;t.ts=denTS?t.pts/denTS*100:null;t.astto=t.perd?t.ast/t.perd:null;
+
+  // USG% Basketball Reference: se calcula con los totales de toda la muestra,
+  // nunca promediando los USG% de los partidos individuales.
+  var equipoId=num(equipoJugadorSeleccionadoId||jugador.equipo_id);
+  var partidosMuestra=partidosDB.filter(function(p){
+    return num(p.equipo_local_id)===equipoId||num(p.equipo_visitante_id)===equipoId;
+  });
+  var maxM=Math.max.apply(null,partidosMuestra.map(function(p){return num(p.jornada)}).concat([0]));
+  var minM=periodo==="season"?0:Math.max(0,maxM-Number(periodo)+1);
+  var idsMuestra=new Set(partidosMuestra.filter(function(p){return num(p.jornada)>=minM&&num(p.jornada)<=maxM;}).map(function(p){return num(p.id)}));
+  var equipo={min:0,fga:0,fta:0,to:0};
+  estadisticasJugadoresDB.forEach(function(s){
+    var pj=jugadorPorId(s.jugador_id);
+    if(pj&&num(pj.equipo_id)===equipoId&&idsMuestra.has(num(s.partido_id))){
+      equipo.min+=parseMinutosPerfil(s.minutos);
+    }
+  });
+  estadisticasDB.forEach(function(s){
+    if(num(s.equipo_id)!==equipoId||!idsMuestra.has(num(s.partido_id)))return;
+    equipo.fga+=num(s.dosp_intentos)+num(s.tresp_intentos);
+    equipo.fta+=num(s.tl_intentos);
+    equipo.to+=num(s.perdidas);
+  });
+  // Si faltara algún team boxscore, los datos de los jugadores sirven como respaldo.
+  if(!equipo.fga&&!equipo.fta&&!equipo.to){
+    estadisticasJugadoresDB.forEach(function(s){
+      var pj=jugadorPorId(s.jugador_id);
+      if(pj&&num(pj.equipo_id)===equipoId&&idsMuestra.has(num(s.partido_id))){
+        equipo.fga+=num(s.dosp_intentos)+num(s.tresp_intentos);
+        equipo.fta+=num(s.tl_intentos);
+        equipo.to+=num(s.perdidas);
+      }
+    });
+  }
+  var denomUSG=t.min*(equipo.fga+0.44*equipo.fta+equipo.to);
+  t.usg=denomUSG>0?100*(fga+0.44*t.fta+t.perd)*(equipo.min/60/5)/denomUSG:null;
+
   var k=t.min?2400/t.min:null;t.pts40=k?t.pts*k:null;t.reb40=k?t.reb*k:null;t.ast40=k?t.ast*k:null;t.val40=k?t.val*k:null;
   return t;
 }
@@ -721,7 +759,7 @@ function renderPerfilJugador(){
   function card(l,v){return '<div class="perfil-stat"><small>'+l+'</small><strong>'+v+'</strong></div>'}
   var esPruebaFEB=String(jugador&&jugador.nombre||"").toUpperCase()==="IMANOL ARTECHE URRUZOLA";
   var febUrl="https://baloncestoenvivo.feb.es/jugador/1009106/1314145";
-  var met=[["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS x40",fmtPerfil(datos.pts40,1)],["REB x40",fmtPerfil(datos.reb40,1)],["AST x40",fmtPerfil(datos.ast40,1)],["VAL x40",fmtPerfil(datos.val40,1)]];
+  var met=[["%3PT/TC",fmtPctPerfil(datos.p3tc)+" <small>("+datos.d3a+"/"+(datos.d2a+datos.d3a)+")</small>"],["USG%",fmtPctPerfil(datos.usg)],["2P%",fmtPctPerfil(datos.p2)+" <small>("+datos.d2m+"/"+datos.d2a+")</small>"],["3P%",fmtPctPerfil(datos.p3)+" <small>("+datos.d3m+"/"+datos.d3a+")</small>"],["TL%",fmtPctPerfil(datos.ft)+" <small>("+datos.ftm+"/"+datos.fta+")</small>"],["eFG%",fmtPctPerfil(datos.efg)],["TS%",fmtPctPerfil(datos.ts)],["AST/TO",fmtPerfil(datos.astto,2)],["MIN",minTextoPerfil(datos.mpg)],["PTS x40",fmtPerfil(datos.pts40,1)],["REB x40",fmtPerfil(datos.reb40,1)],["AST x40",fmtPerfil(datos.ast40,1)],["VAL x40",fmtPerfil(datos.val40,1)]];
   var bloqueFEB=esPruebaFEB?'<div class="perfil-feb-panel"><div class="perfil-feb-panel-head"><span>🏀 Prueba visual · ficha FEB</span><a href="'+febUrl+'" target="_blank" rel="noopener">Abrir ficha ↗</a></div><iframe src="'+febUrl+'" title="Ficha FEB del jugador" loading="lazy"></iframe><div class="perfil-feb-fallback">Si tu navegador bloquea la ficha dentro de la web, usa <a href="'+febUrl+'" target="_blank" rel="noopener">Abrir ficha FEB</a>. La URL mostrada es exactamente la que has proporcionado.</div></div>':"";
   cont.innerHTML=bloqueFEB+'<div class="perfil-resumen">'+card("Partidos",datos.partidos)+card("MIN",minTextoPerfil(datos.mpg))+card("PTS",fmtPerfil(datos.ptsA))+card("REB",fmtPerfil(datos.rebA))+card("AST",fmtPerfil(datos.astA))+card("REC",fmtPerfil(datos.recA))+card("TAP",fmtPerfil(datos.tapA))+card("VAL",fmtPerfil(datos.valA))+'</div>'+
     '<div class="perfil-jugador-grid"><div class="perfil-seccion"><h3>Producción y rendimiento</h3><div class="perfil-metricas">'+met.map(function(m){return '<div class="perfil-metrica"><small>'+m[0]+'</small><strong>'+m[1]+'</strong></div>'}).join("")+'</div></div>'+evolucionPerfilJugador(jugadorSeleccionadoId)+'</div>'+renderContextoJugador(jugadorSeleccionadoId,periodo)+tablaPerfilJugador(jugadorSeleccionadoId);
