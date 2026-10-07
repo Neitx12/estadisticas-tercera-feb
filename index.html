@@ -1278,9 +1278,48 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 <div id="scdbModal" class="scdb-modal" aria-hidden="true"><div class="scdb-card"><div class="scdb-head"><div><h2>Centro de Scouting · V2</h2><p>Datos cuantitativos de Supabase · conclusiones tácticas solo con evidencia</p></div><button class="scdb-close" type="button" onclick="document.getElementById('scdbModal').classList.remove('abierto')">Cerrar</button></div><div class="scdb-nav" id="scdbNav"><button data-tab="own">🟢 Ulacia · propio</button><button data-tab="rival">🔴 Rival · para Ulacia</button><button data-tab="matchup">⚔️ Matchup</button></div><div id="scdbContent"><div style="padding:18px"><h3>Scouting</h3><p>Panel de scouting cargado. Los datos se están preparando…</p></div></div></div></div><section id="scoutingDirect" class="scouting-direct" style="margin:24px 0;padding:22px;border-radius:18px;background:#f8fafc;border:1px solid #dbe3ef;scroll-margin-top:20px">
 <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
 <div><h2 style="margin:0 0 5px">🧠 Centro de Scouting</h2><p style="margin:0;color:#64748b">Análisis propio · rival · matchup</p></div>
-<button type="button" onclick="if(window.openScout)window.openScout();" style="padding:10px 16px;border:0;border-radius:10px;cursor:pointer;font-weight:700">Abrir panel completo</button>
+<div style="display:flex;gap:8px;align-items:center"><label style="font-weight:700">Rival</label><select id="scoutDirectRival" style="padding:10px;border:1px solid #cbd5e1;border-radius:9px"></select></div>
 </div>
-<div style="margin-top:18px;padding:16px;background:white;border-radius:12px"><strong>Scouting conectado</strong><p style="margin:7px 0 0;color:#64748b">Los datos se calculan a partir de los boxscores registrados. Usa «Abrir panel completo» para ver el análisis.</p></div>
-</section></body> </html>
+<div id="scoutDirectContent" style="margin-top:18px"><div style="padding:18px;background:white;border-radius:12px">Cargando Scouting…</div></div>
+</section>
+<script>
+(function(){
+function sn(v){var x=Number(v);return Number.isFinite(x)?x:0}
+function sf(v){return sn(v).toFixed(1).replace(".",",")}
+function sp(v){return sn(v).toFixed(1).replace(".",",")+"%"}
+async function directScout(){
+ var box=document.getElementById("scoutDirectContent"),sel=document.getElementById("scoutDirectRival");
+ if(!box||!sel||typeof supabaseClient==="undefined")return;
+ try{
+  var q=await Promise.all([
+   supabaseClient.from("equipos").select("*").order("nombre"),
+   supabaseClient.from("partidos").select("*").order("jornada"),
+   supabaseClient.from("jugadores").select("*").order("id"),
+   supabaseClient.from("estadisticas_jugador").select("*").order("id")
+  ]);
+  if(q[0].error)throw q[0].error;if(q[1].error)throw q[1].error;if(q[2].error)throw q[2].error;if(q[3].error)throw q[3].error;
+  var teams=q[0].data||[],games=q[1].data||[],players=q[2].data||[],stats=q[3].data||[];
+  var names=teams.map(function(t){return t.nombre}).filter(function(x){return x!=="Ulacia ZKE"}).sort();
+  sel.innerHTML=names.map(function(x){return "<option>"+x.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+"</option>"}).join("");
+  function teamStats(name){
+   var t=teams.find(function(x){return x.nombre===name}), ids=players.filter(function(p){return t&&sn(p.equipo_id)===sn(t.id)}).map(function(p){return sn(p.id)});
+   var rows=stats.filter(function(x){return ids.indexOf(sn(x.jugador_id))>=0}),g=games.filter(function(x){return t&&(sn(x.equipo_local_id)===sn(t.id)||sn(x.equipo_visitante_id)===sn(t.id))});
+   var z={pj:g.length,pts:0,reb:0,ast:0,to:0,val:0,t2m:0,t2a:0,t3m:0,t3a:0};
+   rows.forEach(function(x){z.pts+=sn(x.puntos);z.reb+=sn(x.reb_totales);z.ast+=sn(x.asistencias);z.to+=sn(x.perdidas);z.val+=sn(x.valoracion);z.t2m+=sn(x.dosp_anotados);z.t2a+=sn(x.dosp_intentos);z.t3m+=sn(x.tresp_anotados);z.t3a+=sn(x.tresp_intentos)});
+   var div=Math.max(z.pj,1),fga=z.t2a+z.t3a;
+   return {pj:z.pj,pts:z.pts/div,reb:z.reb/div,ast:z.ast/div,to:z.to/div,val:z.val/div,t2:z.t2a?100*z.t2m/z.t2a:0,t3:z.t3a?100*z.t3m/z.t3a:0,threeShare:fga?100*z.t3a/fga:0};
+  }
+  function draw(){
+   var r=sel.value,a=teamStats("Ulacia ZKE"),b=teamStats(r);
+   box.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">'+
+   [["PTS/PJ",a.pts,b.pts],["REB/PJ",a.reb,b.reb],["AST/PJ",a.ast,b.ast],["PÉRD/PJ",a.to,b.to],["VAL/PJ",a.val,b.val],["2P%",a.t2,b.t2],["3P%",a.t3,b.t3]].map(function(x){return '<div style="background:white;border-radius:12px;padding:14px"><small>'+x[0]+'</small><div style="font-size:20px;font-weight:800;margin-top:4px">Ulacia '+sf(x[1])+'</div><div style="color:#64748b">'+r+' '+sf(x[2])+'</div></div>'}).join("")+
+   '</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:16px"><div style="background:white;border-radius:12px;padding:16px"><h3 style="margin-top:0">🟢 Ulacia · propio</h3><p>Producción: <b>'+sf(a.pts)+' PTS</b>, <b>'+sf(a.reb)+' REB</b>, <b>'+sf(a.ast)+' AST</b> y <b>'+sf(a.val)+' VAL</b> por partido.</p><p>Volumen exterior: <b>'+sf(a.t3)+'% en triples</b>; los triples representan <b>'+sf(a.threeShare)+'%</b> de sus tiros de campo.</p></div><div style="background:white;border-radius:12px;padding:16px"><h3 style="margin-top:0">🔴 '+r+' · rival</h3><p>Producción: <b>'+sf(b.pts)+' PTS</b>, <b>'+sf(b.reb)+' REB</b>, <b>'+sf(b.ast)+' AST</b> y <b>'+sf(b.val)+' VAL</b> por partido.</p><p>Volumen exterior: <b>'+sf(b.t3)+'% en triples</b>; los triples representan <b>'+sf(b.threeShare)+'%</b> de sus tiros de campo.</p></div></div><div style="background:white;border-radius:12px;padding:16px;margin-top:14px"><h3 style="margin-top:0">⚔️ Matchup · dato cuantitativo</h3><p>Ulacia supera al rival en '+(["PTS","REB","AST","VAL"].filter(function(k){return a[{PTS:"pts",REB:"reb",AST:"ast",VAL:"val"}[k]]>b[{PTS:"pts",REB:"reb",AST:"ast",VAL:"val"}[k]]}).join(", ")||"ninguna de las cuatro métricas principales")+'. Las pérdidas se interpretan al revés: menor cifra es mejor.</p></div>';
+  }
+  sel.onchange=draw;draw();
+ }catch(err){box.innerHTML='<div style="background:#fff;padding:18px;border-radius:12px"><h3>Error cargando Scouting</h3><p>'+String(err.message||err).replace(/</g,"&lt;")+'</p></div>'}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",directScout);else directScout();
+})();
+</script></body> </html>
 
 <!-- pages-refresh-2026-10-07 -->
