@@ -78,7 +78,7 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .cal-resultado .derrotado{color:#6b7280;font-weight:700}
 @media(max-width:900px){.liga-home-grid{grid-template-columns:1fr}.liga-home-grid .clasificacion-principal{width:100%}}
 @media(max-width:520px){.calendario-head-inner{align-items:flex-start}.calendario-head h2{font-size:16px}.calendario-head p{font-size:10px}.cal-nav-label{min-width:62px}.cal-partido{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);padding:6px 0;min-height:36px}.cal-equipo-link{font-size:9px}.cal-escudo{width:16px;height:16px}}
-</style> <style id="pbp-avanzado-css">
+.cal-resultado-link{display:inline-flex;align-items:center;justify-content:center;gap:0;width:100%;min-height:42px;color:inherit;text-decoration:none;cursor:pointer;position:relative;z-index:3;border-radius:9px}.cal-resultado-link:hover{filter:brightness(.96);text-decoration:none}.cal-resultado-link.sin-boxscore{cursor:default}.cal-resultado-link .ganador,.cal-resultado-link .derrotado{pointer-events:none}</style> <style id="pbp-avanzado-css">
 .pbp-analisis-modal{position:fixed;inset:0;background:rgba(15,23,42,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.pbp-analisis-modal.abierto{display:flex}.pbp-analisis-modal .modal-card{width:min(1180px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}
 .pbp-av-head{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.pbp-filter{border:1px solid #cdd6e2;border-radius:9px;padding:8px 11px;background:#fff;color:#12343b;font-weight:800}.pbp-filter.activo{background:#00a6a6;color:#fff}
 .pbp-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}.pbp-kpi{background:#f7fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px}.pbp-kpi small{display:block;color:#6b7280;font-size:10px;font-weight:800;text-transform:uppercase}.pbp-kpi strong{display:block;color:#12343b;font-size:18px;margin-top:4px}
@@ -327,6 +327,20 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
   return all.map(function(ps,i){return {j:i+1,f:dates[i],p:ps.map(function(x){return [byId[x.h].n,byId[x.v].n];})};});
 })();
 var jornadaCalendarioActual=1;
+
+/* BoxScore de cada partido registrado en la primera tanda de partidos. */
+const BOXSCOR​ES_PARTIDOS={
+  1:"./JORNADA%201/2536663-BoxScore.pdf",
+  2:"./JORNADA%201/2536662-BoxScore.pdf",
+  3:"./JORNADA%201/2536661-BoxScore.pdf",
+  4:"./JORNADA%201/2536667-BoxScore.pdf",
+  5:"./JORNADA%201/2536666-BoxScore.pdf",
+  6:"./JORNADA%201/2536665-BoxScore.pdf",
+  7:"./JORNADA%201/2536664-BoxScore.pdf"
+};
+function boxScoreUrl(partidoId){
+  return BOXSCOR​ES_PARTIDOS[num(partidoId)]||"";
+}
 function normalizaNombreCalendario(v){
   return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/gi,"").toLowerCase();
 }
@@ -357,9 +371,13 @@ function renderCalendarioCompeticion(){
       var linkL=local?'<button type="button" class="cal-equipo-link" onclick="abrirModal('+num(local.id)+')">'+escL+'<strong>'+compEsc(local.nombre)+'</strong></button>':'<strong>'+compEsc(par[0])+'</strong>';
       var linkV=visitante?'<button type="button" class="cal-equipo-link" onclick="abrirModal('+num(visitante.id)+')"><strong>'+compEsc(visitante.nombre)+'</strong>'+escV+'</button>':'<strong>'+compEsc(par[1])+'</strong>';
       var resultado;
+      var boxscore=jugado?boxScoreUrl(p.id):"";
       if(jugado){
         var pl=num(p.puntos_local),pa=num(p.puntos_visitante);
-        resultado='<span class="'+(pl>=pa?"ganador":"derrotado")+'">'+pl+'</span><span class="cal-puntos-separador"></span><span class="'+(pa>=pl?"ganador":"derrotado")+'">'+pa+'</span>';
+        var marcador='<span class="'+(pl>=pa?"ganador":"derrotado")+'">'+pl+'</span><span class="cal-puntos-separador"></span><span class="'+(pa>=pl?"ganador":"derrotado")+'">'+pa+'</span>';
+        resultado=boxscore
+          ? '<a class="cal-resultado-link" href="'+boxscore+'" target="_blank" rel="noopener" title="Abrir BoxScore">'+marcador+'</a>'
+          : '<span class="cal-resultado-link sin-boxscore">'+marcador+'</span>';
       }else resultado='<span class="pendiente">—</span>';
       html+='<div class="cal-partido"><div class="cal-equipo local">'+linkL+'</div><div class="cal-resultado '+(jugado?"":"pendiente")+'">'+resultado+'</div><div class="cal-equipo visitante">'+linkV+'</div></div>';
     });
