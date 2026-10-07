@@ -1209,7 +1209,9 @@ function activarModulosAnalisis(){
 }
 activarModulosAnalisis();
 
-document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  function cerrarModalEstadisticas(){document.getElementById("modalEstadisticas")?.classList.remove("abierto")}
+document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  function cerrarModalEstadisticas(){
+  document.getElementById("modalEstadisticas")?.classList.remove("abierto");
+}
 function abrirModalEstadisticas(tipo){
   var mapa={
     base:["Equipos · Estadística base","Estadísticas base de todos los equipos","tablaBaseWrap"],
@@ -1220,9 +1222,29 @@ function abrirModalEstadisticas(tipo){
   var d=mapa[tipo];if(!d)return;
   document.getElementById("estadisticasModalTitulo").textContent=d[0];
   document.getElementById("estadisticasModalSubtitulo").textContent=d[1]+" · "+document.getElementById("periodoTexto").textContent;
-  document.getElementById("estadisticasModalContenido").innerHTML=document.getElementById(d[2]).innerHTML;
+  var origen=document.getElementById(d[2]);
+  var destino=document.getElementById("estadisticasModalContenido");
+  destino.innerHTML=origen?origen.innerHTML:"";
+  destino.dataset.origen=d[2];
   document.getElementById("modalEstadisticas").classList.add("abierto");
+  activarControlesTablaModal(destino,d[2]);
   document.getElementById("modalEstadisticas").scrollTop=0;
+}
+function activarControlesTablaModal(destino,origenId){
+  destino.querySelectorAll(".sort-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var origen=document.getElementById(origenId);
+      var botonOrigen=origen?origen.querySelector('.sort-btn[data-sort="'+btn.dataset.sort+'"]'):null;
+      if(botonOrigen){botonOrigen.click();abrirModalEstadisticas(origenId==="tablaBaseWrap"?"base":origenId==="tablaAvanzadaWrap"?"avanzada":origenId==="tablaJugadoresBaseWrap"?"jugadoresBase":"jugadoresAvanzada");}
+    });
+  });
+  destino.querySelectorAll(".filtro").forEach(function(input){
+    input.addEventListener("input",function(){
+      var origen=document.getElementById(origenId);
+      var inputOrigen=origen?origen.querySelector('.filtro[data-key="'+input.dataset.key+'"]'):null;
+      if(inputOrigen){inputOrigen.value=input.value;inputOrigen.dispatchEvent(new Event("input",{bubbles:true}));}
+    });
+  });
 }
 document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));
