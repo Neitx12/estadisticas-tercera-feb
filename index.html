@@ -329,7 +329,7 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 var jornadaCalendarioActual=1;
 
 /* BoxScore de cada partido registrado en la primera tanda de partidos. */
-const BOXSCOR​ES_PARTIDOS={
+const BOXSCORES_PARTIDOS={
   1:"./JORNADA%201/2536663-BoxScore.pdf",
   2:"./JORNADA%201/2536662-BoxScore.pdf",
   3:"./JORNADA%201/2536661-BoxScore.pdf",
@@ -339,7 +339,7 @@ const BOXSCOR​ES_PARTIDOS={
   7:"./JORNADA%201/2536664-BoxScore.pdf"
 };
 function boxScoreUrl(partidoId){
-  return BOXSCOR​ES_PARTIDOS[num(partidoId)]||"";
+  return BOXSCORES_PARTIDOS[num(partidoId)]||"";
 }
 function normalizaNombreCalendario(v){
   return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/gi,"").toLowerCase();
