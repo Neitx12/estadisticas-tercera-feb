@@ -1217,7 +1217,7 @@ var pct=function(v){return n(v).toFixed(1).replace(".",",")+"%"};
 var profile=function(t,a){return a?(n(t)/n(a)>=.5?3:n(t)/n(a)>=.2?2:1):0};
 var stars=function(p){return p===3?"★★★":p===2?"★★":"★"};
 function sync(){
- var teams=Array.isArray(window.equiposDB)?window.equiposDB:[],games=Array.isArray(window.partidosDB)?window.partidosDB:[],players=Array.isArray(window.jugadoresDB)?window.jugadoresDB:[],stats=Array.isArray(window.estadisticasJugadoresDB)?window.estadisticasJugadoresDB:[];
+ var teams=typeof equiposDB!=="undefined"&&Array.isArray(equiposDB)?equiposDB:[],games=typeof partidosDB!=="undefined"&&Array.isArray(partidosDB)?partidosDB:[],players=typeof jugadoresDB!=="undefined"&&Array.isArray(jugadoresDB)?jugadoresDB:[],stats=typeof estadisticasJugadoresDB!=="undefined"&&Array.isArray(estadisticasJugadoresDB)?estadisticasJugadoresDB:[];
  if(!teams.length||!games.length||!players.length||!stats.length)return false;
  DB.teams={};teams.forEach(function(t){DB.teams[t.nombre]={name:t.nombre,id:n(t.id),role:t.nombre==="Ulacia ZKE"?"own":"opponent",roster:[],games:[],totals:{pts:0,reb:0,ast:0,to:0,val:0,t2m:0,t2a:0,t3m:0,t3a:0,ftm:0,fta:0,pf:0}};});
  DB.games=games.map(function(g){var h=teams.find(function(t){return n(t.id)===n(g.equipo_local_id)}),a=teams.find(function(t){return n(t.id)===n(g.equipo_visitante_id)});return{id:n(g.id),jornada:n(g.jornada),fecha:g.fecha,home:h?h.nombre:"",away:a?a.nombre:"",final:[n(g.puntos_local),n(g.puntos_visitante)]};});
