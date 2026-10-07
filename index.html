@@ -1201,6 +1201,144 @@ window.pbpRender=render;
 })();
 </script>
 <!-- POST-GAME-SCOUT-V1 -->
+
+<style id="scouting-database-css">
+.scdb-modal{position:fixed;inset:0;background:rgba(15,23,42,.62);display:none;align-items:center;justify-content:center;padding:16px;z-index:40}.scdb-modal.abierto{display:flex}.scdb-card{width:min(1250px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}.scdb-head{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:-22px -22px 18px;padding:18px 22px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff}.scdb-head h2{margin:0;color:#fff}.scdb-head p{margin:4px 0 0;color:rgba(255,255,255,.9);font-size:12px}.scdb-close{border:0;border-radius:8px;padding:9px 12px;font-weight:800;cursor:pointer}.scdb-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.scdb-nav button{border:1px solid #cdd6e2;background:#fff;color:#12343b;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer}.scdb-nav button.activo{background:#00a6a6;color:#fff;border-color:#12343b}.scdb-controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:14px}.scdb-field{display:flex;flex-direction:column;gap:5px}.scdb-field label{font-size:10px;text-transform:uppercase;font-weight:900;color:#6b7280}.scdb-field select{border:1px solid #cdd6e2;border-radius:8px;padding:9px 11px;background:#fff;color:#12343b;font-weight:700;min-width:220px}.scdb-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.scdb-stat{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fff}.scdb-stat small{display:block;color:#6b7280;font-size:10px;text-transform:uppercase;font-weight:900}.scdb-stat strong{display:block;font-size:21px;color:#12343b;margin-top:4px}.scdb-stat span{display:block;color:#6b7280;font-size:11px;margin-top:3px}.scdb-panel{border:1px solid #e5e7eb;border-radius:14px;background:#fff;padding:15px;margin-bottom:12px}.scdb-panel h3{margin:0 0 11px;color:#12343b;font-size:15px}.scdb-table-wrap{overflow:auto}.scdb-table{width:100%;border-collapse:collapse;min-width:980px}.scdb-table th,.scdb-table td{padding:9px 8px;border-bottom:1px solid #edf0f4;text-align:right;white-space:nowrap;font-size:12px}.scdb-table th{background:#f4f7f9;color:#5f6874;text-transform:uppercase;font-size:10px}.scdb-table th:first-child,.scdb-table td:first-child{text-align:left}.scdb-player{font-weight:900;color:#12343b}.scdb-stars{letter-spacing:1px}.scdb-profile-3{color:#007f7f;font-weight:900}.scdb-profile-2{color:#b7791f;font-weight:900}.scdb-profile-1{color:#6b7280;font-weight:900}.scdb-note{padding:11px 12px;border-radius:10px;background:#f7fafc;color:#68717c;font-size:11px;line-height:1.5}.scdb-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.scdb-box{border:1px solid #e5e7eb;border-radius:12px;padding:13px;background:#fafcfd}.scdb-box.good{border-left:4px solid #2e8b57}.scdb-box.bad{border-left:4px solid #d94a4a}.scdb-box h4{margin:0 0 7px;color:#12343b;font-size:12px}.scdb-box p{margin:0;color:#5f6874;font-size:12px;line-height:1.5}.scdb-matchup{display:grid;grid-template-columns:1fr 90px 1fr;gap:12px;align-items:center}.scdb-vs{text-align:center;font-weight:900;color:#00a6a6;font-size:22px}.scdb-empty{padding:22px;text-align:center;color:#6b7280;border:1px dashed #cdd6e2;border-radius:12px;background:#fafcfd}.scdb-launch{margin-left:auto;border:1px solid #12343b;background:#00a6a6;color:#fff;border-radius:9px;padding:10px 14px;font-weight:900;cursor:pointer}.scdb-launch:hover{filter:brightness(.96)}@media(max-width:900px){.scdb-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.scdb-two{grid-template-columns:1fr}.scdb-matchup{grid-template-columns:1fr}.scdb-vs{padding:2px}}@media(max-width:600px){.scdb-summary{grid-template-columns:1fr}.scdb-card{padding:16px}.scdb-head{margin:-16px -16px 16px}}
+</style>
+
+<script id="scouting-database-js">
+(function(){
+"use strict";
+var SCOUTING_DB={
+ version:1,
+ baseTeam:"ULACIA ZKE",
+ teams:{
+  "ULACIA ZKE":{name:"ULACIA ZKE",role:"own",roster:[],games:[]},
+  "ESTUDIANTES":{name:"ESTUDIANTES",role:"opponent",roster:[
+   {jugador:"Micah Speight",pj:2,min:22.2,pts:13.5,reb:3,ast:6,bp:2,tc:62.5,perfil:3},
+   {jugador:"Omar Silverio",pj:2,min:19.1,pts:12,reb:2,ast:1.5,bp:2.5,tc:78.9,perfil:3},
+   {jugador:"Kaspar Treier",pj:2,min:18.4,pts:9.5,reb:2,ast:1,bp:.5,tc:64.3,perfil:3},
+   {jugador:"Millán Jiménez",pj:2,min:19.3,pts:9.5,reb:5,ast:0,bp:2,tc:60,perfil:3},
+   {jugador:"Jordan Walker",pj:2,min:16.5,pts:9,reb:1,ast:1,bp:1,tc:53.3,perfil:3},
+   {jugador:"Juampi Vaulet",pj:2,min:19.1,pts:8,reb:6,ast:1,bp:1,tc:18.2,perfil:1},
+   {jugador:"Travis Munnings",pj:2,min:21.8,pts:6.5,reb:8,ast:1,bp:0,tc:58.3,perfil:3},
+   {jugador:"Petit Niang",pj:2,min:19.5,pts:4.5,reb:4.5,ast:0,bp:.5,tc:0,perfil:1},
+   {jugador:"Lucas Giovannetti",pj:2,min:12.9,pts:3.5,reb:1,ast:.5,bp:0,tc:50,perfil:3},
+   {jugador:"Léo Westermann",pj:1,min:18.3,pts:3,reb:0,ast:5,bp:3,tc:62.5,perfil:3},
+   {jugador:"Jehyve Floyd",pj:2,min:17.7,pts:1.5,reb:4,ast:1,bp:1.5,tc:0,perfil:1},
+   {jugador:"Miguel Sola Idrisu",pj:1,min:2.8,pts:0,reb:1,ast:0,bp:1,tc:null,perfil:0},
+   {jugador:"Boris Tisma",pj:1,min:5,pts:0,reb:2,ast:0,bp:0,tc:null,perfil:0}
+  ],games:[]}
+ },
+ boxscores:[],
+ pbp:[],
+ rivalMap:{}
+};
+window.SCOUTING_DB=SCOUTING_DB;
+
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function stars(n){return n?new Array(n+1).join("★"):"Sin tiros";}
+function teamNames(){return Object.keys(SCOUTING_DB.teams);}
+function currentPbp(){
+ try{return typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null;}catch(e){return null;}
+}
+function syncCurrentPbp(){
+ var p=currentPbp(); if(!p)return;
+ var id=p.gameId||"pbp-current";
+ if(!SCOUTING_DB.pbp.some(function(x){return x.gameId===id;})){
+  SCOUTING_DB.pbp.push({gameId:id,home:p.home,away:p.away,final:p.final,source:"PBP_ADV_DATA",actions:p.actions||[]});
+ }
+ if(p.home&&!SCOUTING_DB.teams[p.home])SCOUTING_DB.teams[p.home]={name:p.home,role:"other",roster:[],games:[]};
+ if(p.away&&!SCOUTING_DB.teams[p.away])SCOUTING_DB.teams[p.away]={name:p.away,role:"other",roster:[],games:[]};
+}
+function registerTeam(name,role){
+ if(!name)return;
+ if(!SCOUTING_DB.teams[name])SCOUTING_DB.teams[name]={name:name,role:role||"other",roster:[],games:[]};
+}
+function addBoxscore(game){
+ if(!game||!game.gameId||!game.team)return;
+ registerTeam(game.team);
+ SCOUTING_DB.boxscores=SCOUTING_DB.boxscores.filter(function(x){return x.gameId!==game.gameId||x.team!==game.team;});
+ SCOUTING_DB.boxscores.push(game);
+}
+function addPBP(game){
+ if(!game||!game.gameId)return;
+ SCOUTING_DB.pbp=SCOUTING_DB.pbp.filter(function(x){return x.gameId!==game.gameId;});
+ SCOUTING_DB.pbp.push(game);
+}
+window.scoutingRegisterTeam=registerTeam;
+window.scoutingAddBoxscore=addBoxscore;
+window.scoutingAddPBP=addPBP;
+
+function profileText(p){return p.tc==null?"Sin tiros":stars(p.perfil);}
+function rosterTable(team){
+ var t=SCOUTING_DB.teams[team],rows=(t&&t.roster)||[];
+ if(!rows.length)return '<div class="scdb-empty">Todavía no hay boxscores cargados para '+esc(team)+'.<br>La estructura ya está preparada para añadirlos jornada a jornada.</div>';
+ rows=rows.slice().sort(function(a,b){return (b.pts||0)-(a.pts||0);});
+ var body=rows.map(function(r){return '<tr><td class="scdb-player">'+esc(r.jugador)+'</td><td>'+esc(r.pj)+'</td><td>'+Number(r.min||0).toFixed(1).replace(".",",")+'</td><td>'+Number(r.pts||0).toFixed(1).replace(".",",")+'</td><td>'+Number(r.reb||0).toFixed(1).replace(".",",")+'</td><td>'+Number(r.ast||0).toFixed(1).replace(".",",")+'</td><td>'+Number(r.bp||0).toFixed(1).replace(".",",")+'</td><td>'+(r.tc==null?"—":Number(r.tc).toFixed(1).replace(".",",")+"%")+'</td><td class="scdb-stars scdb-profile-'+(r.perfil||0)+'">'+esc(profileText(r))+'</td></tr>';}).join("");
+ return '<div class="scdb-table-wrap"><table class="scdb-table"><thead><tr><th>Jugador</th><th>PJ</th><th>MIN/PJ</th><th>PTS</th><th>REB</th><th>AS</th><th>BP</th><th>% TC</th><th>Perfil</th></tr></thead><tbody>'+body+'</tbody></table></div><div class="scdb-note">Medias por partido disputado. ★★★ ≥50% de los TC son triples · ★★ 20–49,9% · ★ <20%. Sin intentos no se clasifica.</div>';
+}
+function teamSummary(team){
+ var t=SCOUTING_DB.teams[team],r=(t&&t.roster)||[];
+ if(!r.length)return {players:0,top:"—",minutes:"—",three:"—"};
+ var top=r.slice().sort(function(a,b){return (b.pts||0)-(a.pts||0);})[0];
+ var three=r.filter(function(x){return x.perfil===3;}).length;
+ return {players:r.length,top:top?top.jugador:"—",minutes:top?Number(top.min||0).toFixed(1).replace(".",","):"—",three:three};
+}
+function pbpForTeam(team){
+ var p=currentPbp(); if(p&&(p.home===team||p.away===team))return p;
+ var list=SCOUTING_DB.pbp.filter(function(x){return x.home===team||x.away===team;});
+ return list.length?list[list.length-1]:null;
+}
+function simplePbp(team){
+ var p=pbpForTeam(team);
+ if(!p)return null;
+ var opp=p.home===team?p.away:p.home;
+ var f=p.final||[0,0],score=team===p.home?f[0]+" - "+f[1]:f[1]+" - "+f[0];
+ var acts=p.actions||[],pts=0,threes=0,turn=0;
+ acts.forEach(function(a){if(a.team===team){if(/TIRO DE 3 ANOTADO/.test(a.action||"")){pts+=3;threes++;}else if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a.action||""))pts+=2;else if(/TIRO DE 1 ANOTADO/.test(a.action||""))pts++;if(/PÉRDIDA/.test(a.action||""))turn++;}});
+ return {opponent:opp,score:score,points:pts,threes:threes,turn:turn,gameId:p.gameId};
+}
+function renderOwn(){
+ var s=teamSummary("ULACIA ZKE"), p=simplePbp("ULACIA ZKE");
+ var scout=p?'<div class="scdb-two"><div class="scdb-box good"><h4>🟢 PBP PROPIO</h4><p>Último partido disponible: '+esc(p.score)+' vs '+esc(p.opponent)+'. El motor PBP queda conectado a esta capa y crecerá con cada partido de Ulacia que añadamos.</p></div><div class="scdb-box"><h4>📈 DATOS ACUMULADOS</h4><p>Jugadores registrados: <b>'+s.players+'</b>. El perfil de tiro y las medias se actualizarán al incorporar nuevos boxscores.</p></div></div>':'<div class="scdb-empty">El scouting propio ya está creado, pero todavía necesitamos los boxscores/PBP de Ulacia para alimentarlo.</div>';
+ return '<div class="scdb-summary"><div class="scdb-stat"><small>Jugadores</small><strong>'+s.players+'</strong><span>registrados</span></div><div class="scdb-stat"><small>Máximo anotador</small><strong>'+esc(s.top)+'</strong><span>según datos cargados</span></div><div class="scdb-stat"><small>Minutos del líder</small><strong>'+s.minutes+'</strong><span>min/PJ</span></div><div class="scdb-stat"><small>Perfil ★★★</small><strong>'+s.three+'</strong><span>amenazas exteriores</span></div></div><section class="scdb-panel"><h3>🟢 SCOUTING PROPIO · ULACIA ZKE</h3>'+scout+'</section><section class="scdb-panel"><h3>👥 Plantilla y perfiles</h3>'+rosterTable("ULACIA ZKE")+'</section>';
+}
+function renderRival(rival){
+ var s=teamSummary(rival),p=simplePbp(rival);
+ return '<div class="scdb-summary"><div class="scdb-stat"><small>Jugadores</small><strong>'+s.players+'</strong><span>registrados</span></div><div class="scdb-stat"><small>Máximo anotador</small><strong>'+esc(s.top)+'</strong><span>PTS/PJ</span></div><div class="scdb-stat"><small>Minutos líder</small><strong>'+s.minutes+'</strong><span>MIN/PJ</span></div><div class="scdb-stat"><small>Perfil ★★★</small><strong>'+s.three+'</strong><span>amenazas exteriores</span></div></div><section class="scdb-panel"><h3>🔴 SCOUTING DEL RIVAL · PARA ULACIA</h3><div class="scdb-two"><div class="scdb-box good"><h4>🎯 AMENAZAS A CONTROLAR</h4><p>La tabla identifica automáticamente los jugadores con mayor producción y los perfiles ★★★ para priorizar el análisis exterior.</p></div><div class="scdb-box bad"><h4>🧩 PBP DEL RIVAL</h4><p>'+(p?'Ya hay PBP conectado de '+esc(rival)+'. Partido disponible: '+esc(p.score)+' vs '+esc(p.opponent)+'.':'Cuando añadamos los PBP de '+esc(rival)+' aquí aparecerán sus rachas, sequías, momentos críticos y patrones repetidos.')+'</p></div></div></section><section class="scdb-panel"><h3>👥 Plantilla y perfiles de tiro · '+esc(rival)+'</h3>'+rosterTable(rival)+'</section>';
+}
+function renderMatchup(rival){
+ var own=teamSummary("ULACIA ZKE"),r=teamSummary(rival);
+ return '<section class="scdb-panel"><h3>⚔️ MATCHUP · ULACIA ZKE vs '+esc(rival)+'</h3><div class="scdb-matchup"><div class="scdb-box"><h4>ULACIA ZKE</h4><p>Jugadores: <b>'+own.players+'</b><br>Máximo anotador: <b>'+esc(own.top)+'</b><br>Perfiles ★★★: <b>'+own.three+'</b></p></div><div class="scdb-vs">VS</div><div class="scdb-box"><h4>'+esc(rival)+'</h4><p>Jugadores: <b>'+r.players+'</b><br>Máximo anotador: <b>'+esc(r.top)+'</b><br>Perfiles ★★★: <b>'+r.three+'</b></p></div></div><div class="scdb-note" style="margin-top:12px"><b>Preparado para la siguiente fase:</b> al tener varios boxscores y PBP de ambos equipos, este apartado cruzará fortalezas de Ulacia con amenazas y debilidades observadas del rival.</div></section>';
+}
+function openScout(){
+ syncCurrentPbp();
+ var m=document.getElementById("scdbModal");if(m)m.classList.add("abierto");
+ render();
+}
+function render(){
+ var box=document.getElementById("scdbContent");if(!box)return;
+ var nav=document.getElementById("scdbNav"), tab=window._scdbTab||"own", rivals=teamNames().filter(function(x){return x!=="ULACIA ZKE";}), rival=window._scdbRival||rivals[0]||"ESTUDIANTES";
+ var html='<div class="scdb-controls"><div class="scdb-field"><label>Rival</label><select id="scdbRival">'+rivals.map(function(x){return '<option value="'+esc(x)+'" '+(x===rival?"selected":"")+'>'+esc(x)+'</option>';}).join("")+'</select></div></div>';
+ if(tab==="own")html+=renderOwn(); else if(tab==="rival")html+=renderRival(rival); else html+=renderMatchup(rival);
+ box.innerHTML=html;
+ nav.querySelectorAll("button").forEach(function(b){b.classList.toggle("activo",b.dataset.tab===tab);b.onclick=function(){window._scdbTab=b.dataset.tab;render();};});
+ var rs=document.getElementById("scdbRival");if(rs)rs.onchange=function(){window._scdbRival=rs.value;render();};
+}
+function closeScout(){var m=document.getElementById("scdbModal");if(m)m.classList.remove("abierto");}
+function install(){
+ var target=document.querySelector(".tabs")||document.querySelector(".toolbar-row");
+ if(target&&!document.getElementById("scdbLaunch")){var b=document.createElement("button");b.id="scdbLaunch";b.className="scdb-launch";b.textContent="🧠 Scouting";b.onclick=openScout;target.appendChild(b);}
+ if(!document.getElementById("scdbModal")){
+  var d=document.createElement("div");d.id="scdbModal";d.className="scdb-modal";d.innerHTML='<div class="scdb-card"><div class="scdb-head"><div><h2>Centro de Scouting</h2><p>Base acumulativa de Ulacia ZKE · datos de boxscore + PBP</p></div><button class="scdb-close" onclick="window.cerrarScoutingDB()">Cerrar</button></div><div class="scdb-nav" id="scdbNav"><button data-tab="own">🟢 Ulacia · propio</button><button data-tab="rival">🔴 Rival · para Ulacia</button><button data-tab="matchup">⚔️ Matchup</button></div><div id="scdbContent"></div></div>';document.body.appendChild(d);
+ }
+ window.cerrarScoutingDB=closeScout;
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",install);else install();
+})();
+</script>
+<!-- SCOUTING-DATABASE-V1 -->
 </body> </html>
 
 <!-- pages-refresh-2026-10-07 -->
