@@ -1230,27 +1230,26 @@ async function syncScoutingFromSupabase(){
     if(j.error) throw j.error;
     if(sj.error) throw sj.error;
     equiposDB=e.data||[]; partidosDB=p.data||[]; jugadoresDB=j.data||[]; estadisticasJugadoresDB=sj.data||[];
-    /* El scouting solo puede usar equipos que participan en los partidos cargados.
-       Así ningún equipo ajeno a la competición puede aparecer como rival por una carga antigua. */
-    var equiposConPartido={};
-    partidosDB.forEach(function(g){
-      equiposConPartido[n(g.equipo_local_id)]=true;
-      equiposConPartido[n(g.equipo_visitante_id)]=true;
-    });
-    equiposDB=equiposDB.filter(function(t){return !!equiposConPartido[n(t.id)]});
-    var idsEquiposValidos={};
-    equiposDB.forEach(function(t){idsEquiposValidos[n(t.id)]=true});
-    jugadoresDB=jugadoresDB.filter(function(j){return !!idsEquiposValidos[n(j.equipo_id)]});
-    var idsJugadoresValidos={};
-    jugadoresDB.forEach(function(j){idsJugadoresValidos[n(j.id)]=true});
-    estadisticasJugadoresDB=estadisticasJugadoresDB.filter(function(s){return !!idsJugadoresValidos[n(s.jugador_id)]});
     window.equiposDB=equiposDB; window.partidosDB=partidosDB; window.jugadoresDB=jugadoresDB; window.estadisticasJugadoresDB=estadisticasJugadoresDB;
     return sync();
   }catch(err){console.error("Scouting Supabase:",err);return false}
 }
 function sync(){
- var teams=typeof equiposDB!=="undefined"&&Array.isArray(equiposDB)?equiposDB:[],games=typeof partidosDB!=="undefined"&&Array.isArray(partidosDB)?partidosDB:[],players=typeof jugadoresDB!=="undefined"&&Array.isArray(jugadoresDB)?jugadoresDB:[],stats=typeof estadisticasJugadoresDB!=="undefined"&&Array.isArray(estadisticasJugadoresDB)?estadisticasJugadoresDB:[];
- if(!teams.length||!games.length||!players.length||!stats.length)return false;
+ var allTeams=typeof equiposDB!=="undefined"&&Array.isArray(equiposDB)?equiposDB:[],
+     games=typeof partidosDB!=="undefined"&&Array.isArray(partidosDB)?partidosDB:[],
+     allPlayers=typeof jugadoresDB!=="undefined"&&Array.isArray(jugadoresDB)?jugadoresDB:[],
+     allStats=typeof estadisticasJugadoresDB!=="undefined"&&Array.isArray(estadisticasJugadoresDB)?estadisticasJugadoresDB:[];
+ if(!allTeams.length||!games.length||!allPlayers.length||!allStats.length)return false;
+ var equiposConPartido={};
+ games.forEach(function(g){
+   equiposConPartido[n(g.equipo_local_id)]=true;
+   equiposConPartido[n(g.equipo_visitante_id)]=true;
+ });
+ var teams=allTeams.filter(function(t){return !!equiposConPartido[n(t.id)]});
+ var idsEquiposValidos={};teams.forEach(function(t){idsEquiposValidos[n(t.id)]=true});
+ var players=allPlayers.filter(function(p){return !!idsEquiposValidos[n(p.equipo_id)]});
+ var idsJugadoresValidos={};players.forEach(function(p){idsJugadoresValidos[n(p.id)]=true});
+ var stats=allStats.filter(function(s){return !!idsJugadoresValidos[n(s.jugador_id)]});
  DB.teams={};teams.forEach(function(t){DB.teams[t.nombre]={name:t.nombre,id:n(t.id),role:t.nombre==="Ulacia ZKE"?"own":"opponent",roster:[],games:[],totals:{pts:0,reb:0,ast:0,to:0,val:0,t2m:0,t2a:0,t3m:0,t3a:0,ftm:0,fta:0,pf:0}};});
  DB.games=games.map(function(g){var h=teams.find(function(t){return n(t.id)===n(g.equipo_local_id)}),a=teams.find(function(t){return n(t.id)===n(g.equipo_visitante_id)});return{id:n(g.id),jornada:n(g.jornada),fecha:g.fecha,home:h?h.nombre:"",away:a?a.nombre:"",final:[n(g.puntos_local),n(g.puntos_visitante)]};});
  DB.boxscores=stats.slice();
