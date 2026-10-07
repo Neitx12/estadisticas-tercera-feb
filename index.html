@@ -1010,14 +1010,30 @@ function renderPortadaLiga(){
   renderJornadaLiga(hasNext?next:(max||1));
   renderTablasJugadoresPrincipal();
 }
-document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));
 document.getElementById("selectorJornadaPrincipal")?.addEventListener("change",function(){
   if(!this.value)return;
   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));
   periodoSeleccionado="jornada:"+this.value;
   render();
 });
-document.getElementById("selectorJornadaLiga")?.addEventListener("change",function(){renderJornadaLiga(this.value);});  document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));   document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));   b.classList.add("activo");   document.getElementById(b.dataset.tab).classList.remove("oculto"); }));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
+document.getElementById("selectorJornadaLiga")?.addEventListener("change",function(){renderJornadaLiga(this.value);});
+document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",function(e){
+  e.preventDefault();
+  const destino=document.getElementById(this.dataset.tab);
+  if(!destino)return;
+  document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));
+  document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));
+  this.classList.add("activo");
+  destino.classList.remove("oculto");
+  setTimeout(()=>destino.scrollIntoView({behavior:"smooth",block:"start"}),20);
+}));
+document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",function(){
+  document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));
+  this.classList.add("activo");
+  periodoSeleccionado=this.dataset.periodo==="season"?"season":Number(this.dataset.periodo);
+  render();
+  setTimeout(()=>document.getElementById("base")?.scrollIntoView({behavior:"smooth",block:"start"}),20);
+}));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
 poblarComparadores();
 cargarDatos().then(function(){ poblarComparadores(); renderComparador(); renderPercentiles(); }).catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); 
 
