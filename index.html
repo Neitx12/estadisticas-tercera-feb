@@ -35,7 +35,7 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .comparador-head h2,.percentiles-head h2{margin:0;color:#12343b}.comparador-head p,.percentiles-head p{margin:4px 0 0;color:#6b7280;font-size:13px}
 .comparador-periodos{display:flex;gap:6px;flex-wrap:wrap}.comparador-periodo{border:1px solid #cdd6e2;border-radius:8px;padding:8px 11px;background:#fff;font-weight:700;cursor:pointer}.comparador-periodo.activo{background:#00a6a6;color:#fff}
 .comparador-lado{display:grid;gap:9px}.comparador-selectores{display:grid;grid-template-columns:1fr 70px 1fr;gap:12px;align-items:end;margin-bottom:18px}.comparador-selectores label{display:block;font-size:11px;font-weight:800;color:#6b7280;margin-bottom:5px}.comparador-selectores select,.percentiles-controls select{width:100%;padding:9px;border:1px solid #cdd6e2;border-radius:8px;background:#fff}.comparador-vs{text-align:center;font-weight:900;color:#00a6a6;font-size:20px;padding-bottom:7px}
-.comp-grid{display:grid;gap:8px}.comp-row{display:grid;grid-template-columns:90px 1fr 110px 1fr 90px;gap:10px;align-items:center;padding:9px 10px;border:1px solid #edf0f3;border-radius:10px;background:#fafcfd}.comp-name{text-align:center;font-weight:900}.comp-value{text-align:center;font-weight:900;font-size:16px}.comp-value-a{text-align:right}.comp-value-b{text-align:left}.comp-track{height:9px;background:#e9eef2;border-radius:99px;overflow:hidden}.comp-fill{height:100%;border-radius:99px}.comp-fill-a{margin-left:auto;background:#00a6a6}.comp-fill-b{background:#f59e0b}.comp-winner{color:#007f7f}.comp-nombres{text-align:center;margin-top:12px;color:#6b7280;font-size:13px}
+.comp-grid{display:grid;gap:8px}.comp-volume-cell{min-width:0}.comp-volume-stars{display:inline-flex;letter-spacing:1.5px;font-size:15px;line-height:1;white-space:nowrap}.comp-volume-stars.nivel-1{color:#94a3b8}.comp-volume-stars.nivel-2{color:#64748b}.comp-volume-stars.nivel-3{color:#d97706}.comp-volume-stars.nivel-4{color:#ea580c;text-shadow:0 1px 4px rgba(234,88,12,.22)}.comp-volume-stars.nivel-5{color:#dc2626;text-shadow:0 1px 5px rgba(220,38,38,.25)}.comp-volume-stars.sin-datos{color:#9ca3af}.comp-row{display:grid;grid-template-columns:90px 1fr 110px 1fr 90px;gap:10px;align-items:center;padding:9px 10px;border:1px solid #edf0f3;border-radius:10px;background:#fafcfd}.comp-name{text-align:center;font-weight:900}.comp-value{text-align:center;font-weight:900;font-size:16px}.comp-value-a{text-align:right}.comp-value-b{text-align:left}.comp-track{height:9px;background:#e9eef2;border-radius:99px;overflow:hidden}.comp-fill{height:100%;border-radius:99px}.comp-fill-a{margin-left:auto;background:#00a6a6}.comp-fill-b{background:#f59e0b}.comp-winner{color:#007f7f}.comp-nombres{text-align:center;margin-top:12px;color:#6b7280;font-size:13px}
 .percentiles-head{align-items:center}.percentiles-controls{display:flex;gap:7px;flex-wrap:wrap;min-width:460px}.percentiles-controls select{min-width:135px}.percentil-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.percentil-card{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#f8fafc;text-align:center}.percentil-card small{display:block;color:#6b7280;font-weight:800;font-size:11px}.percentil-card strong{display:block;font-size:28px;margin:4px 0}.percentil-bar{height:9px;background:#e6ebef;border-radius:99px;overflow:hidden}.percentil-bar i{display:block;height:100%;border-radius:99px;transition:width .35s ease,background .35s ease}.percentil-card{transition:border-color .35s ease,box-shadow .35s ease}.percentiles-nota{margin-top:12px;color:#6b7280;font-size:12px}
 @media(max-width:900px){.comparador-head,.percentiles-head{flex-direction:column}.percentiles-controls{min-width:0;width:100%}.percentil-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.comparador-selectores{grid-template-columns:1fr}.comparador-vs{padding:0}.comp-row{grid-template-columns:62px 1fr 75px 1fr 62px;gap:5px}}
 
@@ -920,7 +920,24 @@ function perfilComparador(id,periodo){
  var t={g:fs.length,min:0,pts:0,reb:0,ast:0,stl:0,blk:0,val:0,perd:0,d2m:0,d2a:0,d3m:0,d3a:0,ftm:0,fta:0};
  fs.forEach(function(s){t.min+=parseMinutosPerfil(s.minutos);t.pts+=num(s.puntos);t.reb+=num(s.reb_totales);t.ast+=num(s.asistencias);t.stl+=num(s.recuperaciones);t.blk+=num(s.tapones);t.val+=num(s.valoracion);t.perd+=num(s.perdidas);t.d2m+=num(s.dosp_anotados);t.d2a+=num(s.dosp_intentos);t.d3m+=num(s.tresp_anotados);t.d3a+=num(s.tresp_intentos);t.ftm+=num(s.tl_anotados);t.fta+=num(s.tl_intentos)});
  var fga=t.d2a+t.d3a,fgm=t.d2m+t.d3m,den=2*(fga+.44*t.fta),k=t.min?2400/t.min:null;
- return{g:t.g,pts:t.pts/t.g,reb:t.reb/t.g,ast:t.ast/t.g,stl:t.stl/t.g,blk:t.blk/t.g,val:t.val/t.g,ts:den?t.pts/den*100:null,efg:fga?(fgm+.5*t.d3m)/fga*100:null,p2:t.d2a?t.d2m/t.d2a*100:null,p3:t.d3a?t.d3m/t.d3a*100:null,ft:t.fta?t.ftm/t.fta*100:null,astto:t.perd?t.ast/t.perd:null,pts40:k?t.pts*k:null,val40:k?t.val*k:null}
+ var equipo={min:0,fga:0,fta:0,to:0};
+ estadisticasJugadoresDB.forEach(function(s){
+   if(!ids.has(num(s.partido_id)))return;
+   var pj=jugadorPorId(s.jugador_id);if(!pj||num(pj.equipo_id)!==eq)return;
+   equipo.min+=parseMinutosPerfil(s.minutos);
+   equipo.fga+=num(s.dosp_intentos)+num(s.tresp_intentos);
+   equipo.fta+=num(s.tl_intentos);
+   equipo.to+=num(s.perdidas);
+ });
+ var denomUSG=t.min*(equipo.fga+0.44*equipo.fta+equipo.to);
+ var usg=denomUSG>0?100*(fga+0.44*t.fta+t.perd)*(equipo.min/5)/denomUSG:null;
+ return{
+   g:t.g,min:t.min/t.g,pts:t.pts/t.g,reb:t.reb/t.g,ast:t.ast/t.g,stl:t.stl/t.g,blk:t.blk/t.g,val:t.val/t.g,
+   ts:den?t.pts/den*100:null,efg:fga?(fgm+.5*t.d3m)/fga*100:null,p2:t.d2a?t.d2m/t.d2a*100:null,
+   p3:t.d3a?t.d3m/t.d3a*100:null,ft:t.fta?t.ftm/t.fta*100:null,astto:t.perd?t.ast/t.perd:null,
+   usg:usg,pts40:k?t.pts*k:null,val40:k?t.val*k:null,reb40:k?t.reb*k:null,ast40:k?t.ast*k:null,
+   p3tc:fga?t.d3a/fga*100:null
+ };
 }
 function poblarComparadores(){
  var fuenteEquipos=equiposDB.length?equiposDB:equiposFallback;var equiposOpciones=fuenteEquipos.slice().sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")}).map(function(e){return'<option value="'+num(e.id)+'">'+compEsc(e.nombre||"Equipo")+'</option>'}).join("");
@@ -937,8 +954,24 @@ function renderComparador(){
  var box=document.getElementById("comparadorContenido");if(!box)return;var a=document.getElementById("comparadorJugadorA").value,b=document.getElementById("comparadorJugadorB").value,p=window.comparadorPeriodo||"season";
  if(!a||!b||a===b){box.innerHTML='<div class="mensaje">Selecciona dos jugadores diferentes.</div>';return}
  var A=perfilComparador(num(a),p),B=perfilComparador(num(b),p);if(!A||!B){box.innerHTML='<div class="mensaje">No hay datos suficientes para esta comparación.</div>';return}
- var ms=[["PTS","pts"],["REB","reb"],["AST","ast"],["STL","stl"],["BLK","blk"],["VAL","val"],["TS%","ts"],["eFG%","efg"],["2P%","p2"],["3P%","p3"],["TL%","ft"],["AST/TO","astto"],["PTS x40","pts40"],["VAL x40","val40"]];
- box.innerHTML='<div class="comp-grid">'+ms.map(function(m){var va=A[m[1]],vb=B[m[1]],mx=Math.max(Math.abs(va||0),Math.abs(vb||0),.0001),wa=Math.min(100,Math.abs(va||0)/mx*100),wb=Math.min(100,Math.abs(vb||0)/mx*100),s=m[0].indexOf("%")>=0?"%":"";return'<div class="comp-row"><div class="comp-value comp-value-a '+(va>vb?"comp-winner":"")+'">'+fmtPerfil(va,1)+s+'</div><div class="comp-track"><div class="comp-fill comp-fill-a" style="width:'+wa+'%"></div></div><div class="comp-name">'+m[0]+'</div><div class="comp-track"><div class="comp-fill comp-fill-b" style="width:'+wb+'%"></div></div><div class="comp-value comp-value-b '+(vb>va?"comp-winner":"")+'">'+fmtPerfil(vb,1)+s+'</div></div>'}).join("")+'</div><div class="comp-nombres"><strong>'+compEsc(jugadorPorId(a)?.nombre||"Jugador A")+'</strong> 🆚 <strong>'+compEsc(jugadorPorId(b)?.nombre||"Jugador B")+'</strong></div>'
+ var nivelVolumen=function(v){return v==null?0:(v<20?1:v<30?2:v<40?3:v<50?4:5)};
+ var estrellas=function(v){
+   var n=nivelVolumen(v);if(!n)return '<span class="comp-volume-stars sin-datos">—</span>';
+   return '<span class="comp-volume-stars nivel-'+n+'" aria-label="Nivel '+n+' de 5">'+("★".repeat(n))+("☆".repeat(5-n))+'</span>';
+ };
+ var ms=[
+   ["MIN","min","min"],["2P%","p2","pct"],["3P%","p3","pct"],["TL%","ft","pct"],
+   ["AST/TO","astto","num"],["USG%","usg","pct"],["PTS x40","pts40","num"],
+   ["REB x40","reb40","num"],["AST x40","ast40","num"],["VAL x40","val40","num"],
+   ["%3P/TC","p3tc","pct"],["VOLUMEN 3PA","p3tc","volumen"]
+ ];
+ var valor=function(v,t){if(t==="volumen")return estrellas(v);return fmtPerfil(v,t==="pct"?1:1)+(t==="pct"?"%":"")};
+ box.innerHTML='<div class="comp-grid">'+ms.map(function(m){
+   var va=A[m[1]],vb=B[m[1]],mx=Math.max(Math.abs(va||0),Math.abs(vb||0),.0001),wa=Math.min(100,Math.abs(va||0)/mx*100),wb=Math.min(100,Math.abs(vb||0)/mx*100);
+   if(m[2]==="volumen"){wa=nivelVolumen(va)*20;wb=nivelVolumen(vb)*20}
+   var extra=m[2]==="volumen"?' class="comp-volume-cell"':'';
+   return'<div class="comp-row"><div class="comp-value comp-value-a '+(va>vb?"comp-winner":"")+'">'+valor(va,m[2])+'</div><div class="comp-track"><div class="comp-fill comp-fill-a" style="width:'+wa+'%"></div></div><div class="comp-name">'+m[0]+'</div><div class="comp-track"><div class="comp-fill comp-fill-b" style="width:'+wb+'%"></div></div><div class="comp-value comp-value-b '+(vb>va?"comp-winner":"")+'">'+valor(vb,m[2])+'</div></div>';
+ }).join("")+'</div><div class="comp-nombres"><strong>'+compEsc(jugadorPorId(a)?.nombre||"Jugador A")+'</strong> 🆚 <strong>'+compEsc(jugadorPorId(b)?.nombre||"Jugador B")+'</strong></div>';
 }
 function calcularPercentil(v,arr){var n=Number(v),a=arr.filter(function(x){return Number.isFinite(Number(x))}).map(Number).sort(function(x,y){return x-y});if(!Number.isFinite(n)||!a.length)return null;if(a.length===1)return 50;return Math.round((a.filter(function(x){return x<=n}).length-1)/(a.length-1)*100)}
 function renderPercentiles(){
