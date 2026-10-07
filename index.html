@@ -78,7 +78,7 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .cal-resultado .derrotado{color:#6b7280;font-weight:700}
 @media(max-width:900px){.liga-home-grid{grid-template-columns:1fr}.liga-home-grid .clasificacion-principal{width:100%}}
 @media(max-width:520px){.calendario-head-inner{align-items:flex-start}.calendario-head h2{font-size:16px}.calendario-head p{font-size:10px}.cal-nav-label{min-width:62px}.cal-partido{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);padding:6px 0;min-height:36px}.cal-equipo-link{font-size:9px}.cal-escudo{width:16px;height:16px}}
-.cal-resultado-link{display:inline-flex;align-items:center;justify-content:center;gap:0;width:100%;min-height:42px;color:inherit;text-decoration:none;cursor:pointer;position:relative;z-index:3;border-radius:9px}.cal-resultado-link:hover{filter:brightness(.96);text-decoration:none}.cal-resultado-link.sin-boxscore{cursor:default}.cal-resultado-link .ganador,.cal-resultado-link .derrotado{pointer-events:none}</style> <style id="pbp-avanzado-css">
+.cal-resultado-link{display:inline-flex;align-items:center;justify-content:center;gap:0;width:100%;min-height:42px;color:inherit;text-decoration:none;cursor:pointer;position:relative;z-index:3;border-radius:9px}.cal-resultado-link:hover{filter:brightness(.96);text-decoration:none}.cal-resultado-link.sin-boxscore{cursor:default}.cal-resultado-link .ganador,.cal-resultado-link .derrotado{pointer-events:none}.estadisticas-modal-card{width:min(96vw,1550px);max-height:92vh;overflow:hidden}.estadisticas-modal-card #estadisticasModalContenido{max-height:calc(92vh - 95px);overflow:auto}.estadisticas-modal-card .tabla-wrap{box-shadow:none;border-radius:0}.estadisticas-modal-card table{min-width:1450px}</style> <style id="pbp-avanzado-css">
 .pbp-analisis-modal{position:fixed;inset:0;background:rgba(15,23,42,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.pbp-analisis-modal.abierto{display:flex}.pbp-analisis-modal .modal-card{width:min(1180px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}
 .pbp-av-head{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.pbp-filter{border:1px solid #cdd6e2;border-radius:9px;padding:8px 11px;background:#fff;color:#12343b;font-weight:800}.pbp-filter.activo{background:#00a6a6;color:#fff}
 .pbp-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}.pbp-kpi{background:#f7fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px}.pbp-kpi small{display:block;color:#6b7280;font-size:10px;font-weight:800;text-transform:uppercase}.pbp-kpi strong{display:block;color:#12343b;font-size:18px;margin-top:4px}
@@ -243,6 +243,15 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
   </div>
 </div>
 
+<div id="modalEstadisticas" class="modal estadisticas-modal">
+  <div class="modal-card estadisticas-modal-card">
+    <div class="modal-head">
+      <div class="modal-title"><div><h2 id="estadisticasModalTitulo" style="margin:0 0 4px">Estadísticas</h2><div id="estadisticasModalSubtitulo" class="subtitulo"></div></div></div>
+      <button class="cerrar" type="button" onclick="cerrarModalEstadisticas()">Cerrar</button>
+    </div>
+    <div id="estadisticasModalContenido"></div>
+  </div>
+</div>
 <div id="modalEquipo" class="modal">
   <div class="modal-card">
     <div class="modal-head">
@@ -1200,7 +1209,27 @@ function activarModulosAnalisis(){
 }
 activarModulosAnalisis();
 
-document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));   document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));   b.classList.add("activo");   document.getElementById(b.dataset.tab).classList.remove("oculto"); }));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
+document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",()=>{   document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));   b.classList.add("activo");   periodoSeleccionado=b.dataset.periodo==="season"?"season":Number(b.dataset.periodo);   render(); }));  function cerrarModalEstadisticas(){document.getElementById("modalEstadisticas")?.classList.remove("abierto")}
+function abrirModalEstadisticas(tipo){
+  var mapa={
+    base:["Equipos · Estadística base","Estadísticas base de todos los equipos","tablaBaseWrap"],
+    avanzada:["Equipos · Estadística avanzada","Estadísticas avanzadas de todos los equipos","tablaAvanzadaWrap"],
+    jugadoresBase:["Jugadores · Estadística base","Estadísticas base de todos los jugadores","tablaJugadoresBaseWrap"],
+    jugadoresAvanzada:["Jugadores · Estadística avanzada","Estadísticas avanzadas de todos los jugadores","tablaJugadoresAvanzadaWrap"]
+  };
+  var d=mapa[tipo];if(!d)return;
+  document.getElementById("estadisticasModalTitulo").textContent=d[0];
+  document.getElementById("estadisticasModalSubtitulo").textContent=d[1]+" · "+document.getElementById("periodoTexto").textContent;
+  document.getElementById("estadisticasModalContenido").innerHTML=document.getElementById(d[2]).innerHTML;
+  document.getElementById("modalEstadisticas").classList.add("abierto");
+  document.getElementById("modalEstadisticas").scrollTop=0;
+}
+document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));
+  b.classList.add("activo");
+  abrirModalEstadisticas(b.dataset.tab);
+}));
+document.getElementById("modalEstadisticas")?.addEventListener("click",e=>{if(e.target.id==="modalEstadisticas")cerrarModalEstadisticas()});  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
 poblarComparadores();
 cargarDatos().then(function(){ poblarComparadores(); renderComparador(); renderPercentiles(); }).catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); 
 
