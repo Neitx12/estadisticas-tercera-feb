@@ -775,7 +775,8 @@ function activarModulosAnalisis(){
     jugadores:document.getElementById("moduloJugadores"),
     hot:document.getElementById("moduloHotStreaks"),
     comparador:document.getElementById("moduloComparador"),
-    percentiles:document.getElementById("moduloPercentiles")
+    percentiles:document.getElementById("moduloPercentiles"),
+    combinaciones:document.getElementById("moduloCombinaciones")
   };
   botones.forEach(function(b){
     b.addEventListener("click",function(){
@@ -784,7 +785,7 @@ function activarModulosAnalisis(){
         if(modulos[k]) modulos[k].classList.toggle("oculto-modulo",k!==tipo);
       });
       botones.forEach(function(x){x.classList.toggle("activo",x===b)});
-      if(modulos[tipo]) modulos[tipo].scrollIntoView({behavior:"smooth",block:"start"});
+      if(modulos[tipo]) { modulos[tipo].scrollIntoView({behavior:"smooth",block:"start"}); if(tipo==="combinaciones"){ renderCombinacionesPBP(); } }
     });
   });
   document.querySelectorAll("[data-volver-modulos]").forEach(function(b){
