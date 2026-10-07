@@ -368,7 +368,7 @@ async function abrirModal(equipoId){
   window.equipoModalId=num(equipoId);
   const d=datosEquipoModal(equipoId,"");
   const jugadoresMap=new Map();
-  d.filas.forEach(s=>{const j=jugadoresDB.find(x=>num(x.id)===num(s.jugador_id));if(!j)return;const k=num(j.id);if(!jugadoresMap.has(k))jugadoresMap.set(k,{nombre:j.nombre,partidos:0,puntos:0,reb:0,val:0});const x=jugadoresMap.get(k);x.partidos++;x.puntos+=num(s.puntos);x.reb+=num(s.reb_totales);x.val+=num(s.valoracion)});
+  d.filas.forEach(s=>{const j=jugadoresDB.find(x=>num(x.id)===num(s.jugador_id));if(!j)return;const k=num(j.id);if(!jugadoresMap.has(k))jugadoresMap.set(k,{jugadorId:num(j.id),equipoId:num(j.equipo_id),nombre:j.nombre,partidos:0,puntos:0,reb:0,val:0});const x=jugadoresMap.get(k);x.partidos++;x.puntos+=num(s.puntos);x.reb+=num(s.reb_totales);x.val+=num(s.valoracion)});
   const jugadores=[...jugadoresMap.values()].map(x=>({jugadorId:x.jugadorId,equipoId:x.equipoId,nombre:x.nombre,puntos:x.puntos/(x.partidos||1),reb:x.reb/(x.partidos||1),val:x.val/(x.partidos||1)}));
   document.getElementById("modalNombre").textContent=e.nombre;
   document.getElementById("modalSubtitulo").textContent="Periodo seleccionado · "+(periodoSeleccionado==="season"?"Toda la temporada":"Últimas "+periodoSeleccionado+" jornadas");
