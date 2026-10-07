@@ -1216,6 +1216,24 @@ var f=function(v){return n(v).toFixed(1).replace(".",",")};
 var pct=function(v){return n(v).toFixed(1).replace(".",",")+"%"};
 var profile=function(t,a){return a?(n(t)/n(a)>=.5?3:n(t)/n(a)>=.2?2:1):0};
 var stars=function(p){return p===3?"★★★":p===2?"★★":"★"};
+async function syncScoutingFromSupabase(){
+  if(typeof supabaseClient==="undefined") return false;
+  try{
+    const [e,p,j,sj]=await Promise.all([
+      supabaseClient.from("equipos").select("*").order("nombre"),
+      supabaseClient.from("partidos").select("*").order("jornada"),
+      supabaseClient.from("jugadores").select("*").order("id"),
+      supabaseClient.from("estadisticas_jugador").select("*").order("id")
+    ]);
+    if(e.error) throw e.error;
+    if(p.error) throw p.error;
+    if(j.error) throw j.error;
+    if(sj.error) throw sj.error;
+    equiposDB=e.data||[]; partidosDB=p.data||[]; jugadoresDB=j.data||[]; estadisticasJugadoresDB=sj.data||[];
+    window.equiposDB=equiposDB; window.partidosDB=partidosDB; window.jugadoresDB=jugadoresDB; window.estadisticasJugadoresDB=estadisticasJugadoresDB;
+    return sync();
+  }catch(err){console.error("Scouting Supabase:",err);return false}
+}
 function sync(){
  var teams=typeof equiposDB!=="undefined"&&Array.isArray(equiposDB)?equiposDB:[],games=typeof partidosDB!=="undefined"&&Array.isArray(partidosDB)?partidosDB:[],players=typeof jugadoresDB!=="undefined"&&Array.isArray(jugadoresDB)?jugadoresDB:[],stats=typeof estadisticasJugadoresDB!=="undefined"&&Array.isArray(estadisticasJugadoresDB)?estadisticasJugadoresDB:[];
  if(!teams.length||!games.length||!players.length||!stats.length)return false;
@@ -1245,7 +1263,7 @@ function render(){
 }
 window.syncScouting=function(){return sync()}; window.renderScouting=function(){return render()}; function pbpCurrent(){try{return typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null}catch(e){return null}}
 function addPbp(p){if(!p||!p.gameId)return;DB.pbp=DB.pbp.filter(function(x){return x.gameId!==p.gameId});DB.pbp.push(p)}
-function openScout(){var modal=document.getElementById("scdbModal");if(!modal){install();modal=document.getElementById("scdbModal")}if(!modal)return;modal.classList.add("abierto");try{if(window.syncScouting)window.syncScouting();var p=pbpCurrent();if(p)addPbp(p);if(window.renderScouting)window.renderScouting();else render()}catch(e){console.error("Scouting:",e);var c=document.getElementById("scdbContent");if(c)c.innerHTML="<div style=\"padding:20px\"><h3>Error de Scouting</h3><p>"+esc(e.message||e)+"</p></div>"}}\nwindow.openScout=function(){openScout()};
+async function openScout(){var modal=document.getElementById("scdbModal");if(!modal){install();modal=document.getElementById("scdbModal")}if(!modal)return;modal.classList.add("abierto");var content=document.getElementById("scdbContent");if(content)content.innerHTML="<div style=\"padding:20px\"><h3>Cargando Scouting…</h3><p>Consultando los datos reales de Supabase.</p></div>";try{var ok=await syncScoutingFromSupabase();var p=pbpCurrent();if(p)addPbp(p);if(window.renderScouting)window.renderScouting();else render();if(!ok&&content)content.innerHTML="<div style=\"padding:20px\"><h3>Scouting sin datos</h3><p>No se pudieron cargar los datos de Supabase.</p></div>"}catch(e){console.error("Scouting:",e);if(content)content.innerHTML="<div style=\"padding:20px\"><h3>Error de Scouting</h3><p>"+esc(e.message||e)+"</p></div>"}}\nwindow.openScout=function(){openScout()};
 function install(){
  var target=document.querySelector(".tabs")||document.querySelector(".toolbar-row");
  var staticBtn=document.getElementById("scdbStaticLaunch"); if(staticBtn){staticBtn.onclick=function(e){e.preventDefault();openScout()};staticBtn.addEventListener("click",openScout)} else if(target&&!document.getElementById("scdbLaunch")){var b=document.createElement("button");b.id="scdbLaunch";b.className="scdb-launch";b.textContent="🧠 Scouting";b.type="button";b.onclick=openScout;target.appendChild(b)}
