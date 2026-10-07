@@ -62,7 +62,7 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .cal-jornada-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:#f7fafc;border-bottom:1px solid #e5e7eb}
 .cal-jornada-titulo{font-weight:900;color:#12343b;font-size:13px}
 .cal-jornada-fecha{font-size:10px;color:#6b7280;font-weight:700;white-space:nowrap}
-.cal-partido{display:grid;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr);gap:2px;align-items:center;padding:7px 4px;border-top:1px solid #f0f2f4;font-size:10px;min-height:39px;box-sizing:border-box}
+.cal-partido{display:grid;grid-template-columns:minmax(0,1fr) 78px minmax(0,1fr);gap:0;align-items:center;padding:7px 0;border-top:1px solid #f0f2f4;font-size:10px;min-height:39px;box-sizing:border-box}
 .cal-equipo{min-width:0;color:#334155;line-height:1.15}
 .cal-equipo.local{text-align:right;padding-left:0}
 .cal-equipo.visitante{text-align:left;padding-right:0}
@@ -71,13 +71,13 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .cal-equipo-link strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;min-width:0}
 .cal-equipo.local .cal-equipo-link{justify-content:flex-end}
 .cal-equipo.visitante .cal-equipo-link{justify-content:flex-start}
-.cal-escudo{width:18px;height:18px;object-fit:contain;flex:0 0 auto}
+.cal-escudo{width:18px;height:18px;object-fit:contain;flex:0 0 auto}.cal-puntos-separador{display:inline-block;width:8px}
 .cal-resultado{text-align:center;font-weight:900;color:#12343b;white-space:nowrap}
 .cal-resultado.pendiente{color:#9ca3af;font-weight:700}
 .cal-resultado .ganador{color:#007f7f}
 .cal-resultado .derrotado{color:#6b7280;font-weight:700}
 @media(max-width:900px){.liga-home-grid{grid-template-columns:1fr}.liga-home-grid .clasificacion-principal{width:100%}}
-@media(max-width:520px){.calendario-head-inner{align-items:flex-start}.calendario-head h2{font-size:16px}.calendario-head p{font-size:10px}.cal-nav-label{min-width:62px}.cal-partido{grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);padding:6px 7px;min-height:36px}.cal-equipo-link{font-size:9px}.cal-escudo{width:16px;height:16px}}
+@media(max-width:520px){.calendario-head-inner{align-items:flex-start}.calendario-head h2{font-size:16px}.calendario-head p{font-size:10px}.cal-nav-label{min-width:62px}.cal-partido{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);padding:6px 0;min-height:36px}.cal-equipo-link{font-size:9px}.cal-escudo{width:16px;height:16px}}
 </style> <style id="pbp-avanzado-css">
 .pbp-analisis-modal{position:fixed;inset:0;background:rgba(15,23,42,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.pbp-analisis-modal.abierto{display:flex}.pbp-analisis-modal .modal-card{width:min(1180px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}
 .pbp-av-head{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.pbp-filter{border:1px solid #cdd6e2;border-radius:9px;padding:8px 11px;background:#fff;color:#12343b;font-weight:800}.pbp-filter.activo{background:#00a6a6;color:#fff}
@@ -355,11 +355,11 @@ function renderCalendarioCompeticion(){
       var escL=local&&escudos[local.nombre]?'<img class="cal-escudo" src="'+escudos[local.nombre]+'" alt="" onerror="this.style.display=\'none\'">':"";
       var escV=visitante&&escudos[visitante.nombre]?'<img class="cal-escudo" src="'+escudos[visitante.nombre]+'" alt="" onerror="this.style.display=\'none\'">':"";
       var linkL=local?'<button type="button" class="cal-equipo-link" onclick="abrirModal('+num(local.id)+')">'+escL+'<strong>'+compEsc(local.nombre)+'</strong></button>':'<strong>'+compEsc(par[0])+'</strong>';
-      var linkV=visitante?'<button type="button" class="cal-equipo-link" onclick="abrirModal('+num(visitante.id)+')">'+escV+'<strong>'+compEsc(visitante.nombre)+'</strong></button>':'<strong>'+compEsc(par[1])+'</strong>';
+      var linkV=visitante?'<button type="button" class="cal-equipo-link" onclick="abrirModal('+num(visitante.id)+')"><strong>'+compEsc(visitante.nombre)+'</strong>'+escV+'</button>':'<strong>'+compEsc(par[1])+'</strong>';
       var resultado;
       if(jugado){
         var pl=num(p.puntos_local),pa=num(p.puntos_visitante);
-        resultado='<span class="'+(pl>=pa?"ganador":"derrotado")+'">'+pl+'</span> - <span class="'+(pa>=pl?"ganador":"derrotado")+'">'+pa+'</span>';
+        resultado='<span class="'+(pl>=pa?"ganador":"derrotado")+'">'+pl+'</span><span class="cal-puntos-separador"></span><span class="'+(pa>=pl?"ganador":"derrotado")+'">'+pa+'</span>';
       }else resultado='<span class="pendiente">—</span>';
       html+='<div class="cal-partido"><div class="cal-equipo local">'+linkL+'</div><div class="cal-resultado '+(jugado?"":"pendiente")+'">'+resultado+'</div><div class="cal-equipo visitante">'+linkV+'</div></div>';
     });
