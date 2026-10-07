@@ -83,12 +83,12 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .pbp-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.pbp-statline{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #edf0f4}.pbp-statline:last-child{border-bottom:0}.pbp-statline span{color:#6b7280;font-size:12px}.pbp-statline strong{color:#12343b}
 .pbp-chronology{max-height:430px;overflow:auto;border:1px solid #e5e7eb;border-radius:10px}.pbp-eventrow{display:grid;grid-template-columns:42px 55px 1fr;gap:8px;padding:7px 9px;border-bottom:1px solid #f0f2f4;font-size:11px}.pbp-eventrow:last-child{border-bottom:0}.pbp-eventrow .q{font-weight:900;color:#007f7f}.pbp-eventrow .clock{font-weight:800;color:#6b7280}.pbp-eventrow .action{color:#374151}.pbp-eventrow.score{background:#f7fafc}.pbp-eventrow.score .action{font-weight:800;color:#12343b}
 @media(max-width:950px){.pbp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.pbp-grid2,.pbp-sections{grid-template-columns:1fr}}@media(max-width:600px){.pbp-kpis{grid-template-columns:1fr}.pbp-item{grid-template-columns:62px 1fr}.pbp-item .badge{grid-column:2;justify-self:start}}
-.pbp-scout-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.pbp-scout-head h3{margin:8px 0 4px;color:#12343b}.pbp-scout-head p{margin:0;color:#6b7280;font-size:12px}.pbp-scout-select{min-width:190px}.pbp-scout-select label{display:block;font-size:10px;text-transform:uppercase;font-weight:900;color:#6b7280;margin-bottom:5px}.pbp-scout-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pbp-scout-result{display:grid;grid-template-columns:210px 1fr;gap:12px;margin-bottom:14px}.pbp-scout-score{background:#eef6f6;border:1px solid #d9eeee;border-radius:14px;padding:15px}.pbp-scout-score small{display:block;color:#6b7280;font-size:10px;text-transform:uppercase;font-weight:900}.pbp-scout-score strong{display:block;font-size:30px;color:#12343b;margin:5px 0}.pbp-scout-score span{font-size:12px;color:#007f7f;font-weight:800}.pbp-scout-summary{border:1px solid #e5e7eb;border-radius:14px;padding:15px;background:#fff}.pbp-scout-summary strong{color:#12343b}.pbp-scout-summary p{margin:7px 0 0;color:#374151;line-height:1.55;font-size:13px}.pbp-scout-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.pbp-scout-card{display:flex;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fafcfd}.pbp-scout-card.good{border-left:4px solid #00a6a6}.pbp-scout-card.bad{border-left:4px solid #f0007f}.pbp-scout-icon{font-size:19px}.pbp-scout-card strong{display:block;color:#12343b;font-size:13px}.pbp-scout-card p{margin:5px 0 0;color:#5f6874;font-size:11px;line-height:1.45}.pbp-scout-turning{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:12px;background:#f8fafc}.pbp-scout-bigclock{font-size:24px;font-weight:900;color:#007f7f;min-width:60px}.pbp-scout-turning strong{color:#12343b}.pbp-scout-turning p{margin:5px 0 0;color:#5f6874;font-size:12px;line-height:1.45}.pbp-coach-box{padding:14px;border-radius:12px;background:#eef6f6;color:#12343b;line-height:1.5;font-size:13px}.pbp-coach-box p{margin:0 0 9px}.pbp-coach-box p:last-child{margin-bottom:0}@media(max-width:800px){.pbp-scout-head,.pbp-scout-result{grid-template-columns:1fr;display:grid}.pbp-scout-select{min-width:0}.pbp-scout-grid{grid-template-columns:1fr}.pbp-scout-bigclock{min-width:48px;font-size:20px}}</style></head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="season">Toda la temporada</button>       <button class="periodo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5 jornadas</button>       <button class="periodo" data-periodo="10">Últimas 10 jornadas</button>       <button class="periodo" data-periodo="15">Últimas 15 jornadas</button>
-      <label class="periodo-selector-jornada"><span>Seleccionar jornada</span><select id="selectorJornadaPrincipal"><option value="">Jornada...</option></select></label>     </div>      <div class="tabs estadisticas-nav">
-      <button class="tab-button activo" data-tab="base">📊 Estadística Base Equipo</button>
-      <button class="tab-button" data-tab="avanzada">📈 Estadística Avanzada Equipo</button>
-      <button class="tab-button" data-tab="baseJugadores">👤 Estadística Base Jugadores</button>
-      <button class="tab-button" data-tab="avanzadaJugadores">🧠 Estadística Avanzada Jugadores</button>
+.pbp-scout-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.pbp-scout-head h3{margin:8px 0 4px;color:#12343b}.pbp-scout-head p{margin:0;color:#6b7280;font-size:12px}.pbp-scout-select{min-width:190px}.pbp-scout-select label{display:block;font-size:10px;text-transform:uppercase;font-weight:900;color:#6b7280;margin-bottom:5px}.pbp-scout-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pbp-scout-result{display:grid;grid-template-columns:210px 1fr;gap:12px;margin-bottom:14px}.pbp-scout-score{background:#eef6f6;border:1px solid #d9eeee;border-radius:14px;padding:15px}.pbp-scout-score small{display:block;color:#6b7280;font-size:10px;text-transform:uppercase;font-weight:900}.pbp-scout-score strong{display:block;font-size:30px;color:#12343b;margin:5px 0}.pbp-scout-score span{font-size:12px;color:#007f7f;font-weight:800}.pbp-scout-summary{border:1px solid #e5e7eb;border-radius:14px;padding:15px;background:#fff}.pbp-scout-summary strong{color:#12343b}.pbp-scout-summary p{margin:7px 0 0;color:#374151;line-height:1.55;font-size:13px}.pbp-scout-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.pbp-scout-card{display:flex;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fafcfd}.pbp-scout-card.good{border-left:4px solid #00a6a6}.pbp-scout-card.bad{border-left:4px solid #f0007f}.pbp-scout-icon{font-size:19px}.pbp-scout-card strong{display:block;color:#12343b;font-size:13px}.pbp-scout-card p{margin:5px 0 0;color:#5f6874;font-size:11px;line-height:1.45}.pbp-scout-turning{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:12px;background:#f8fafc}.pbp-scout-bigclock{font-size:24px;font-weight:900;color:#007f7f;min-width:60px}.pbp-scout-turning strong{color:#12343b}.pbp-scout-turning p{margin:5px 0 0;color:#5f6874;font-size:12px;line-height:1.45}.pbp-coach-box{padding:14px;border-radius:12px;background:#eef6f6;color:#12343b;line-height:1.5;font-size:13px}.pbp-coach-box p{margin:0 0 9px}.pbp-coach-box p:last-child{margin-bottom:0}@media(max-width:800px){.pbp-scout-head,.pbp-scout-result{grid-template-columns:1fr;display:grid}.pbp-scout-select{min-width:0}.pbp-scout-grid{grid-template-columns:1fr}.pbp-scout-bigclock{min-width:48px;font-size:20px}}</style></head>  <body> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button type="button" class="periodo activo" data-periodo="season" onclick="seleccionarPeriodoPrincipal('season')">Toda la temporada</button>       <button type="button" class="periodo" data-periodo="1" onclick="seleccionarPeriodoPrincipal(1)">Última jornada</button>       <button type="button" class="periodo" data-periodo="5" onclick="seleccionarPeriodoPrincipal(5)">Últimas 5 jornadas</button>       <button type="button" class="periodo" data-periodo="10" onclick="seleccionarPeriodoPrincipal(10)">Últimas 10 jornadas</button>       <button type="button" class="periodo" data-periodo="15" onclick="seleccionarPeriodoPrincipal(15)">Últimas 15 jornadas</button>
+      <label class="periodo-selector-jornada"><span>Seleccionar jornada</span><select id="selectorJornadaPrincipal" onchange="seleccionarJornadaPrincipal(this.value)"><option value="">Jornada...</option></select></label>     </div>      <div class="tabs estadisticas-nav">
+      <button type="button" class="tab-button activo" data-tab="base" onclick="abrirSeccionEstadistica('base')">📊 Estadística Base Equipo</button>
+      <button type="button" class="tab-button" data-tab="avanzada" onclick="abrirSeccionEstadistica('avanzada')">📈 Estadística Avanzada Equipo</button>
+      <button type="button" class="tab-button" data-tab="baseJugadores" onclick="abrirSeccionEstadistica('baseJugadores')">👤 Estadística Base Jugadores</button>
+      <button type="button" class="tab-button" data-tab="avanzadaJugadores" onclick="abrirSeccionEstadistica('avanzadaJugadores')">🧠 Estadística Avanzada Jugadores</button>
     </div>   </section>
 
 
@@ -923,6 +923,34 @@ function activarModulosAnalisis(){
 activarModulosAnalisis();
 
 
+// Controles directos de la portada
+function seleccionarPeriodoPrincipal(periodo){
+  document.querySelectorAll(".periodo").forEach(function(x){x.classList.remove("activo");});
+  var selector=document.querySelector('.periodo[data-periodo="'+periodo+'"]');
+  if(selector)selector.classList.add("activo");
+  periodoSeleccionado=periodo==="season"?"season":Number(periodo);
+  render();
+  var destino=document.getElementById("base");
+  if(destino)setTimeout(function(){destino.scrollIntoView({behavior:"smooth",block:"start"});},30);
+}
+function seleccionarJornadaPrincipal(jornada){
+  if(!jornada)return;
+  document.querySelectorAll(".periodo").forEach(function(x){x.classList.remove("activo");});
+  periodoSeleccionado="jornada:"+jornada;
+  render();
+  var destino=document.getElementById("base");
+  if(destino)setTimeout(function(){destino.scrollIntoView({behavior:"smooth",block:"start"});},30);
+}
+function abrirSeccionEstadistica(id){
+  var destino=document.getElementById(id);
+  if(!destino)return;
+  document.querySelectorAll(".tab-button").forEach(function(x){x.classList.remove("activo");});
+  document.querySelectorAll(".contenido-tab").forEach(function(x){x.classList.add("oculto");});
+  var boton=document.querySelector('.tab-button[data-tab="'+id+'"]');
+  if(boton)boton.classList.add("activo");
+  destino.classList.remove("oculto");
+  setTimeout(function(){destino.scrollIntoView({behavior:"smooth",block:"start"});},30);
+}
 // ===== PORTADA LIGA + ESTADÍSTICAS DE JUGADORES =====
 function periodoPartidosPrincipal(periodo){
   const maxJ=Math.max(0,...partidosDB.map(p=>num(p.jornada)));
@@ -1010,30 +1038,8 @@ function renderPortadaLiga(){
   renderJornadaLiga(hasNext?next:(max||1));
   renderTablasJugadoresPrincipal();
 }
-document.getElementById("selectorJornadaPrincipal")?.addEventListener("change",function(){
-  if(!this.value)return;
-  document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));
-  periodoSeleccionado="jornada:"+this.value;
-  render();
-});
 document.getElementById("selectorJornadaLiga")?.addEventListener("change",function(){renderJornadaLiga(this.value);});
-document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",function(e){
-  e.preventDefault();
-  const destino=document.getElementById(this.dataset.tab);
-  if(!destino)return;
-  document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));
-  document.querySelectorAll(".contenido-tab").forEach(x=>x.classList.add("oculto"));
-  this.classList.add("activo");
-  destino.classList.remove("oculto");
-  setTimeout(()=>destino.scrollIntoView({behavior:"smooth",block:"start"}),20);
-}));
-document.querySelectorAll(".periodo").forEach(b=>b.addEventListener("click",function(){
-  document.querySelectorAll(".periodo").forEach(x=>x.classList.remove("activo"));
-  this.classList.add("activo");
-  periodoSeleccionado=this.dataset.periodo==="season"?"season":Number(this.dataset.periodo);
-  render();
-  setTimeout(()=>document.getElementById("base")?.scrollIntoView({behavior:"smooth",block:"start"}),20);
-}));  document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
+document.getElementById("modalEquipo").addEventListener("click",e=>{if(e.target.id==="modalEquipo")cerrarModal()});  activarComparadorPercentiles();
 poblarComparadores();
 cargarDatos().then(function(){ poblarComparadores(); renderComparador(); renderPercentiles(); }).catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); 
 
