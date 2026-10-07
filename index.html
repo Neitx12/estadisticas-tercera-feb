@@ -1057,12 +1057,13 @@ function pbpRenderSvg(sc){
   return '<svg class="pbp-svg" viewBox="0 0 '+W+' '+H+'"><line x1="'+L+'" y1="'+y(0)+'" x2="'+(W-R)+'" y2="'+y(0)+'" stroke="#cfd7dc" stroke-width="2"/><polyline points="'+poly+'" fill="none" stroke="#00a6a6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'+pts.map((p,i)=>'<circle cx="'+x(i)+'" cy="'+y(p.d)+'" r="7" fill="#00a6a6"/><text x="'+x(i)+'" y="'+(y(p.d)-12)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#12343b">'+(p.d>0?'+':'')+p.d+'</text><text x="'+x(i)+'" y="'+(H-12)+'" text-anchor="middle" font-size="12" fill="#6b7280">Q'+p.q+'</text>').join('')+'</svg>';
 }
 function pbpRender(){
+  try {
   const box=document.getElementById('pbpDynamic');if(!box)return;
   const events=PBP_ADV_DATA.actions, sc=pbpScoring(events), qs=pbpQuarterStats(sc), lead=pbpLead(sc), runs=pbpRuns(sc), droughts=pbpDroughts(sc), triples=pbpTripleStreaks(sc);
   const turnover=pbpActionStreaks(events,e=>/PÉRDIDA/.test(e.action),2), misses=pbpActionStreaks(events,e=>/TIRO DE [123] FALLADO/.test(e.action),3);
   const q4=sc.filter(x=>x.q===4), half= PBP_ADV_DATA.startScores[3], final=PBP_ADV_DATA.final;
   const clutch=q4.filter(x=>pbpSec(x.clock)<=300), clutchPts=clutch.reduce((s,x)=>s+x.pts,0);
-  const biggestRun=runs[0], maxDrought=droughts[0], triple=triples[0];
+  const biggestRun=runs[0]||{total:0,count:0,start:{clock:'—'},end:{clock:'—'},team:PBP_ADV_DATA.away}; const maxDrought=droughts[0]||{sec:0,from:'—',to:'—',team:PBP_ADV_DATA.home}; const triple=triples[0]||null;
   const momentum=pbpMomentum(sc);
   const runHtml=runs.slice(0,10).map((r,i)=>'<div class="pbp-item '+(r.team===PBP_ADV_DATA.home?'bad':'')+'"><div class="time">Q'+r.q+' · '+r.start.clock+'</div><div><div class="title">'+(r.total>=10?'🔥 ':'')+pbpShort(r.team)+' · '+r.total+'-0</div><div class="desc">'+r.count+' anotaciones consecutivas · desde '+r.start.clock+' hasta '+r.end.clock+' · marcador termina '+r.end.score.join('-')+'</div></div><span class="badge">'+(r.total>=10?'MUY GRANDE':'PARCIAL')+'</span></div>').join('');
   const droughtHtml=droughts.slice(0,8).map(r=>'<div class="pbp-item '+(r.team===PBP_ADV_DATA.home?'bad':'')+'"><div class="time">Q'+r.q+' · '+r.from+'</div><div><div class="title">⏱️ '+pbpShort(r.team)+' sin anotar</div><div class="desc">'+Math.floor(r.sec/60)+':'+String(r.sec%60).padStart(2,'0')+' sin canasta entre '+r.from+' y '+r.to+'</div></div><span class="badge">'+(r.sec>=180?'ALARMA':'SEQUÍA')+'</span></div>').join('');
@@ -1078,9 +1079,11 @@ function pbpRender(){
   '<section class="pbp-panel"><h3>⏱️ Sequías de anotación</h3><p class="pbp-note" style="margin-bottom:9px">Se mide el tiempo de juego entre una anotación y la siguiente del mismo equipo dentro de cada cuarto.</p><div class="pbp-list">'+droughtHtml+'</div></section>'+
   '<div class="pbp-sections"><section class="pbp-panel"><h3>🎯 Triples consecutivos</h3>'+tripleHtml+'</section><section class="pbp-panel"><h3>🧨 Pérdidas y tiros fallados en cadena</h3>'+turnoverHtml+missHtml+'</section></div>'+
   '<section class="pbp-panel"><h3>🧠 Momentos clave · para bien y para mal</h3><div class="pbp-timeline">'+keyHtml+'</div></section>'+
-  '<section class="pbp-panel"><h3>📊 Desglose cronológico por cuartos</h3><div class="pbp-table-wrap"><table class="pbp-table"><thead><tr><th>Cuarto</th><th>Ardoi</th><th>Ulacia</th><th>Cambio ventaja</th><th>Marcador</th></tr></thead><tbody>'+qRows+'</tbody></table></div></section>'+
+  
   '<section class="pbp-panel"><h3>🕒 Últimos 5 minutos · clutch</h3><p class="pbp-note">En Q4, los últimos cinco minutos concentran '+clutchPts+' puntos del partido. La tabla de abajo permite revisar cada anotación de ese tramo.</p><div class="pbp-chronology">'+clutch.map(e=>'<div class="pbp-eventrow score"><div class="q">Q4</div><div class="clock">'+e.clock+'</div><div class="action">'+pbpShort(e.team)+' · '+pbpPlayer(e.action)+' · +'+e.pts+' · marcador '+e.score.join('-')+'</div></div>').join('')+'</div></section>'+
   '<section class="pbp-panel"><h3>📜 PBP completo</h3><p class="pbp-note" style="margin-bottom:8px">538 acciones reconstruidas. Se muestran en orden de partido para poder auditar cualquier momento detectado.</p><div class="pbp-chronology">'+pbpChrono(events).map(e=>'<div class="pbp-eventrow '+(pbpPoints(e.action)?'score':'')+'"><div class="q">Q'+e.q+'</div><div class="clock">'+e.clock+'</div><div class="action"><b>'+pbpShort(e.team)+'</b> · '+pbpEsc(e.action)+'</div></div>').join('')+'</div></section>';
+  } catch(err) { box.innerHTML='<div class="pbp-panel"><h3>⚠️ Error al generar el análisis</h3><p class="pbp-note">'+pbpEsc(err&&err.message?err.message:String(err))+'</p><p class="pbp-note">Los datos PBP están cargados, pero el navegador ha encontrado un error al procesarlos.</p></div>'; console.error('PBP avanzado:',err); }
+}
 }
 function abrirAnalisisPBP(){document.getElementById('modalPBPAnalisis')?.classList.add('abierto');pbpRender()}
 function cerrarAnalisisPBP(){document.getElementById('modalPBPAnalisis')?.classList.remove('abierto')}
