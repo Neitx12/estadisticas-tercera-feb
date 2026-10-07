@@ -1083,73 +1083,121 @@ window.pbpRender=render;
 </style>
 <script id="post-game-scout-js">
 (function(){
-  function escPGS(v){return String(v==null?"":v).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]})}
-  function secPGS(c){var p=String(c||"0:00").split(":");return Number(p[0])*60+Number(p[1]||0)}
-  function ptsPGS(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0}
-  function fmtPGS(s){s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
-  function teamShortPGS(t){if(!t)return "Equipo";return t===PBP_ADV_DATA.home?"Ardoi":t===PBP_ADV_DATA.away?"Ulacia ZKE":t}
-  function chronoPGS(a){return (a||[]).slice().sort(function(x,y){return Number(x.q)-Number(y.q)||secPGS(y.clock)-secPGS(x.clock)})}
-  function buildPGS(){
-    var actions=chronoPGS(PBP_ADV_DATA.actions||[]);
-    var scores={1:(PBP_ADV_DATA.startScores[1]||[0,0]).slice(),2:(PBP_ADV_DATA.startScores[2]||[0,0]).slice(),3:(PBP_ADV_DATA.startScores[3]||[0,0]).slice(),4:(PBP_ADV_DATA.startScores[4]||[0,0]).slice()};
+  "use strict";
+  function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function sec(c){var p=String(c||"0:00").split(":");return (Number(p[0])||0)*60+(Number(p[1])||0);}
+  function points(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0;}
+  function fmt(s){s=Math.max(0,Math.round(Number(s)||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+  function short(t){return t==="MEGACALZADO ARDOI"?"Ardoi":t==="ULACIA ZKE"?"Ulacia ZKE":t||"Equipo";}
+  function data(){
+    var p=window.PBP_ADV_DATA;
+    if(!p) throw new Error("No se ha cargado PBP_ADV_DATA.");
+    var acts=Array.isArray(p.actions)?p.actions.slice():[];
+    acts.sort(function(a,b){return Number(a.q)-Number(b.q)||sec(b.clock)-sec(a.clock);});
+    var scores={};
+    [1,2,3,4].forEach(function(q){scores[q]=(p.startScores&&p.startScores[q]?p.startScores[q]:[0,0]).slice();});
     var scoring=[];
-    actions.forEach(function(e){var p=ptsPGS(e.action);if(!p)return;var side=e.team===PBP_ADV_DATA.home?0:1;scores[e.q][side]+=p;scoring.push({q:e.q,clock:e.clock,team:e.team,pts:p,score:scores[e.q].slice(),action:e.action})});
-    var qdata=[1,2,3,4].map(function(q){
-      var start=PBP_ADV_DATA.startScores[q]||[0,0], end=q===4?(PBP_ADV_DATA.final||[0,0]):(PBP_ADV_DATA.startScores[q+1]||[0,0]);
-      return {q:q,start:start,end:end,home:end[0]-start[0],away:end[1]-start[1]};
+    acts.forEach(function(e){
+      var pts=points(e.action); if(!pts)return;
+      var side=e.team===p.home?0:1;
+      if(!scores[e.q])scores[e.q]=[0,0];
+      scores[e.q][side]+=pts;
+      scoring.push({q:Number(e.q),clock:e.clock||"0:00",team:e.team,pts:pts,score:scores[e.q].slice()});
     });
     var runs=[];
-    [1,2,3,4].forEach(function(q){var arr=scoring.filter(function(e){return e.q===q}),cur=null,total=0,start=null,end=null;
-      function flush(){if(cur&&total>=6)runs.push({q:q,team:cur,total:total,start:start,end:end})}
-      arr.forEach(function(e){if(e.team===cur){total+=e.pts;end=e}else{flush();cur=e.team;total=e.pts;start=e;end=e}});flush()
+    [1,2,3,4].forEach(function(q){
+      var arr=scoring.filter(function(e){return e.q===q;}), cur=null,total=0,start=null,end=null;
+      function flush(){if(cur&&total>=6)runs.push({q:q,team:cur,total:total,start:start,end:end});}
+      arr.forEach(function(e){if(e.team===cur){total+=e.pts;end=e;}else{flush();cur=e.team;total=e.pts;start=e;end=e;}});
+      flush();
     });
-    runs.sort(function(a,b){return b.total-a.total||a.q-b.q});
-    var made3={},turn={},miss={},foul={};
-    actions.forEach(function(e){var t=e.team,a=String(e.action||"");made3[t]=(made3[t]||0)+(/TIRO DE 3 ANOTADO/.test(a)?1:0);turn[t]=(turn[t]||0)+(/PÉRDIDA/.test(a)?1:0);miss[t]=(miss[t]||0)+(/TIRO DE [123] FALLADO/.test(a)?1:0);foul[t]=(foul[t]||0)+(/FALTA Personal/.test(a)?1:0)});
-    var teamRuns=function(t){return runs.filter(function(r){return r.team===t})};
     var droughts=[];
-    [1,2,3,4].forEach(function(q){[PBP_ADV_DATA.home,PBP_ADV_DATA.away].forEach(function(t){var arr=scoring.filter(function(e){return e.q===q&&e.team===t}),gaps=[];
-      if(arr.length){gaps.push({s:600-secPGS(arr[0].clock),from:"10:00",to:arr[0].clock});for(var i=1;i<arr.length;i++)gaps.push({s:secPGS(arr[i-1].clock)-secPGS(arr[i].clock),from:arr[i-1].clock,to:arr[i].clock});gaps.push({s:secPGS(arr[arr.length-1].clock),from:arr[arr.length-1].clock,to:"00:00"});gaps.sort(function(a,b){return b.s-a.s});if(gaps[0].s>=60)droughts.push({q:q,team:t,s:gaps[0].s,from:gaps[0].from,to:gaps[0].to})}
-    })});
-    var leads=scoring.map(function(e){var idx=e.team===PBP_ADV_DATA.home?0:1;return {q:e.q,clock:e.clock,d:e.score[idx]-e.score[1-idx],score:e.score}});
-    var critical=[];
-    runs.forEach(function(r){var idx=r.team===PBP_ADV_DATA.home?0:1;critical.push({type:"run",q:r.q,clock:r.start.clock,score:r.end.score,impact:r.total,team:r.team,text:"Parcial "+r.total+"-0 de "+teamShortPGS(r.team)+" entre "+r.start.clock+" y "+r.end.clock})});
-    droughts.forEach(function(d){critical.push({type:"drought",q:d.q,clock:d.from,impact:Math.min(10,Math.round(d.s/30)),team:d.team,text:"Sequía de "+fmtPGS(d.s)+" de "+teamShortPGS(d.team)+" entre "+d.from+" y "+d.to})});
-    critical.sort(function(a,b){return b.impact-a.impact||a.q-b.q});
-    return {actions:actions,scoring:scoring,qdata:qdata,runs:runs,droughts:droughts,leads:leads,critical:critical,made3:made3,turn:turn,miss:miss,foul:foul,teamRuns:teamRuns};
+    [1,2,3,4].forEach(function(q){
+      [p.home,p.away].forEach(function(team){
+        var arr=scoring.filter(function(e){return e.q===q&&e.team===team;});
+        var gaps=[];
+        if(arr.length){
+          gaps.push({s:600-sec(arr[0].clock),from:"10:00",to:arr[0].clock});
+          for(var i=1;i<arr.length;i++)gaps.push({s:sec(arr[i-1].clock)-sec(arr[i].clock),from:arr[i-1].clock,to:arr[i].clock});
+          gaps.push({s:sec(arr[arr.length-1].clock),from:arr[arr.length-1].clock,to:"00:00"});
+          gaps.sort(function(a,b){return b.s-a.s;});
+          if(gaps[0].s>=60)droughts.push({q:q,team:team,s:gaps[0].s,from:gaps[0].from,to:gaps[0].to});
+        }
+      });
+    });
+    var stats={}; [p.home,p.away].forEach(function(t){stats[t]={three:0,turn:0,miss:0,foul:0};});
+    acts.forEach(function(e){
+      var t=e.team,a=String(e.action||""); if(!stats[t])stats[t]={three:0,turn:0,miss:0,foul:0};
+      if(/TIRO DE 3 ANOTADO/.test(a))stats[t].three++;
+      if(/PÉRDIDA/.test(a))stats[t].turn++;
+      if(/TIRO DE [123] FALLADO/.test(a))stats[t].miss++;
+      if(/FALTA Personal/.test(a))stats[t].foul++;
+    });
+    return {p:p,acts:acts,scoring:scoring,runs:runs,droughts:droughts,stats:stats};
   }
-  function renderPGS(){
-    var box=document.getElementById("pbpDynamic");if(!box||!window.PBP_ADV_DATA)return;
-    var d=buildPGS(), team=(document.getElementById("pgsTeam")||{}).value||PBP_ADV_DATA.home, opp=team===PBP_ADV_DATA.home?PBP_ADV_DATA.away:PBP_ADV_DATA.home;
-    var ti=team===PBP_ADV_DATA.home?0:1, oi=1-ti, tn=teamShortPGS(team), on=teamShortPGS(opp), final=PBP_ADV_DATA.final||[0,0], tf=final[ti], of=final[oi], margin=tf-of;
-    var tr=d.teamRuns(team), or=d.teamRuns(opp), td=d.droughts.filter(function(x){return x.team===team}), od=d.droughts.filter(function(x){return x.team===opp});
-    var best=tr[0], worst=or[0], drought=td.slice().sort(function(a,b){return b.s-a.s})[0], rivalDrought=od.slice().sort(function(a,b){return b.s-a.s})[0];
-    var qcards=d.qdata.map(function(q){var a=ti===0?q.home:q.away,m=oi===0?q.home:q.away;return '<div class="pgs-quarter"><div class="qhead"><strong>Q'+q.q+'</strong><span class="margin '+(a>m?"pos":a<m?"neg":"neu")+'">'+(a-m>0?"+":"")+ (a-m)+'</span></div><div class="qscore">'+a+' - '+m+'</div><div class="qdetails"><span>Equipo: <b>'+a+'</b></span><span>Rival: <b>'+m+'</b></span><span>Lectura: <b>'+ (a-m>=6?"tramo dominante":a-m<=-6?"tramo problemático":"equilibrado")+'</b></span></div></div>'}).join("");
-    var maxAbs=Math.max.apply(null,d.qdata.map(function(q){return Math.max(1,Math.abs((ti===0?q.home:q.away)-(oi===0?q.home:q.away)))}));
-    var bars=d.qdata.map(function(q){var v=(ti===0?q.home:q.away)-(oi===0?q.home:q.away);return '<div class="pgs-bar-row"><span>Q'+q.q+'</span><div class="pgs-bar-track"><div class="pgs-bar-fill '+(v<0?"neg":"")+'" style="width:'+Math.max(4,Math.round(Math.abs(v)/maxAbs*100))+'%"></div></div><b>'+(v>0?"+":"")+v+'</b></div>'}).join("");
-    var events=d.critical.slice(0,5).map(function(e){var own=e.team===team;return '<div class="pgs-event"><div class="time">Q'+e.q+' · '+escPGS(e.clock)+'</div><div><strong>'+escPGS(e.text)+'</strong><p>'+(own?"Impacto positivo para "+escPGS(tn)+".":"Impacto negativo: "+escPGS(on)+" cambia la dinámica.")+'</p></div><span class="pgs-badge '+(own?"good":"bad")+'">'+(own?"A FAVOR":"EN CONTRA")+'</span></div>'}).join("");
-    var narrative;
-    if(margin>0)narrative="Victoria por "+margin+" puntos. El patrón dominante fue la capacidad de convertir los mejores parciales en ventaja y sostenerla. La lectura debe centrarse en repetir los tramos positivos y reducir las ventanas en las que el rival consiguió responder.";
-    else if(margin<0)narrative="Derrota por "+Math.abs(margin)+" puntos. El problema principal no se resume en el resultado final: hay que localizar los tramos donde un parcial rival o una sequía ofensiva cambió la estructura del partido y evaluar la respuesta posterior.";
-    else narrative="Empate. El PBP muestra un partido sin dominio sostenido; el foco debe ponerse en las pequeñas rachas que alteraron el equilibrio.";
-    var strengths=best?"El mejor tramo ofensivo fue un parcial "+best.total+"-0 en Q"+best.q+", entre "+best.start.clock+" y "+best.end.clock+".":"No hubo parciales propios de 6+ puntos consecutivos.";
-    var weakness=worst?"El mayor golpe fue un parcial "+worst.total+"-0 del rival en Q"+worst.q+".":"No hubo un parcial rival de 6+ puntos consecutivos.";
-    var droughtText=drought?"La mayor sequía anotadora propia fue de "+fmtPGS(drought.s)+" en Q"+drought.q+".":"No se detectó una sequía propia superior a un minuto.";
-    var responseText=rivalDrought?"El rival tuvo una sequía máxima de "+fmtPGS(rivalDrought.s)+", una ventana que "+tn+" pudo aprovechar.":"No aparece una sequía rival superior a un minuto.";
-    box.innerHTML='<div class="pgs-wrap">'+
-      '<div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>'+escPGS(tn)+'</h3><p>'+narrative+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+escPGS(tn)+' vs '+escPGS(on)+'</span></div></div><div class="pgs-select"><label>Prisma del scouting</label><select id="pgsTeam"><option value="'+escPGS(PBP_ADV_DATA.home)+'">'+escPGS(teamShortPGS(PBP_ADV_DATA.home))+'</option><option value="'+escPGS(PBP_ADV_DATA.away)+'">'+escPGS(teamShortPGS(PBP_ADV_DATA.away))+'</option></select><div style="margin-top:10px;color:#6b7280;font-size:11px;line-height:1.45">El mismo partido se reinterpreta desde el equipo seleccionado. Las conclusiones se apoyan en eventos observables del PBP.</div></div></div>'+
-      '<div class="pgs-grid"><div class="pgs-stat"><small>Mejor parcial</small><strong>'+(best?best.total+"-0":"—")+'</strong><span>'+(best?"Q"+best.q+" · "+best.start.clock:"Sin racha ≥6")+'</span></div><div class="pgs-stat"><small>Peor parcial</small><strong>'+(worst?worst.total+"-0":"—")+'</strong><span>'+(worst?"Q"+worst.q+" · rival":"Sin racha rival ≥6")+'</span></div><div class="pgs-stat"><small>Sequía máxima</small><strong>'+(drought?fmtPGS(drought.s):"—")+'</strong><span>'+(drought?"Q"+drought.q:"Sin sequía >1:00")+'</span></div><div class="pgs-stat"><small>Racha exterior</small><strong>'+(d.made3[team]||0)+'</strong><span>triples anotados detectados</span></div></div>'+
-      '<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+strengths+' '+responseText+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+weakness+' '+droughtText+'</p></div></div></section>'+
-      '<section class="pgs-panel"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+qcards+'</div><div style="margin-top:13px" class="pgs-bars">'+bars+'</div></section>'+
-      '<section class="pgs-panel"><h3>🚨 Momentos que cambiaron el partido</h3><div class="pgs-events">'+(events||'<div class="pgs-footer">No se ha identificado un evento dominante con las reglas actuales.</div>')+'</div></section>'+
-      '<section class="pgs-panel"><h3>🔎 Evidencia para el scouting</h3><div class="pgs-insights"><div class="pgs-insight"><h4>Producción y continuidad</h4><p>'+escPGS(tn)+' registró <b>'+(d.made3[team]||0)+'</b> triples anotados, <b>'+(d.turn[team]||0)+'</b> pérdidas y <b>'+(d.miss[team]||0)+'</b> tiros fallados detectados en el PBP. Son indicadores de contexto, no una medición completa de eficiencia.</p></div><div class="pgs-insight"><h4>Respuesta al rival</h4><p>'+escPGS(on)+' registró <b>'+(d.made3[opp]||0)+'</b> triples, <b>'+(d.turn[opp]||0)+'</b> pérdidas y <b>'+(d.miss[opp]||0)+'</b> tiros fallados. '+(rivalDrought?escPGS(on)+' tuvo una ventana de '+fmtPGS(rivalDrought.s)+' sin anotar.':"No aparece una ventana rival especialmente larga sin anotación.")+'</p></div></div></section>'+
-      '<section class="pgs-panel"><h3>🎯 Recomendación de revisión</h3><div class="pgs-footer"><b>Para vídeo/scouting:</b> revisar primero los cinco momentos destacados de arriba. La herramienta identifica <b>cuándo</b> cambió el partido; el vídeo y el conocimiento táctico deben determinar <b>por qué</b> ocurrió. Evitamos presentar como hecho táctico algo que el PBP por sí solo no puede demostrar.</div></section>'+
-      '</div>';
-    var s=document.getElementById("pgsTeam");if(s){s.value=team;s.addEventListener("change",renderPGS)}
+  function render(){
+    var box=document.getElementById("pbpDynamic");
+    if(!box)return;
+    try{
+      var d=data(),p=d.p;
+      var select=document.getElementById("pgsTeam");
+      var team=select&&select.value?select.value:p.home;
+      if(team!==p.home&&team!==p.away)team=p.home;
+      var opp=team===p.home?p.away:p.home, ti=team===p.home?0:1, oi=1-ti;
+      var final=Array.isArray(p.final)?p.final:[0,0], tf=final[ti]||0, of=final[oi]||0, margin=tf-of;
+      var tr=d.runs.filter(function(x){return x.team===team;}).sort(function(a,b){return b.total-a.total;});
+      var or=d.runs.filter(function(x){return x.team===opp;}).sort(function(a,b){return b.total-a.total;});
+      var td=d.droughts.filter(function(x){return x.team===team;}).sort(function(a,b){return b.s-a.s;});
+      var od=d.droughts.filter(function(x){return x.team===opp;}).sort(function(a,b){return b.s-a.s;});
+      var best=tr[0], worst=or[0], drought=td[0], oppDrought=od[0];
+      var qcards=[1,2,3,4].map(function(q){
+        var start=(p.startScores&&p.startScores[q])||[0,0];
+        var end=q===4?final:((p.startScores&&p.startScores[q+1])||start);
+        var a=(end[ti]||0)-(start[ti]||0), b=(end[oi]||0)-(start[oi]||0), diff=a-b;
+        return '<div class="pgs-quarter"><div class="qhead"><strong>Q'+q+'</strong><span class="margin '+(diff>0?"pos":diff<0?"neg":"neu")+'">'+(diff>0?"+":"")+diff+'</span></div><div class="qscore">'+a+' - '+b+'</div><div class="qdetails"><span>'+esc(short(team))+': <b>'+a+'</b></span><span>'+esc(short(opp))+': <b>'+b+'</b></span><span>Lectura: <b>'+ (diff>=6?"dominante":diff<=-6?"problemático":"equilibrado") +'</b></span></div></div>';
+      }).join("");
+      var moments=[];
+      d.runs.concat(d.droughts.map(function(x){return {q:x.q,team:x.team,total:Math.min(10,Math.round(x.s/30)),start:{clock:x.from},end:{clock:x.to},drought:true};}))
+        .sort(function(a,b){return (b.total||0)-(a.total||0);})
+        .slice(0,5).forEach(function(x){
+          var own=x.team===team;
+          moments.push('<div class="pgs-event"><div class="time">Q'+x.q+' · '+esc(x.start.clock)+'</div><div><strong>'+esc(x.drought?"Sequía de "+fmt(x.end?sec(x.end.clock?x.end.clock:"0:00")-sec(x.start.clock):0):"Parcial "+x.total+"-0 de "+short(x.team))+'</strong><p>'+(own?"A favor del equipo analizado.":"El rival cambia la dinámica.")+'</p></div><span class="pgs-badge '+(own?"good":"bad")+'">'+(own?"A FAVOR":"EN CONTRA")+'</span></div>');
+        });
+      var narrative=margin>0
+        ?"Victoria por "+margin+" puntos. El foco está en repetir los parciales propios que generaron ventaja y cortar antes las respuestas del rival."
+        :margin<0
+        ?"Derrota por "+Math.abs(margin)+" puntos. El foco está en localizar los parciales recibidos y las sequías ofensivas que ampliaron la diferencia."
+        :"Empate. El partido se decidió por pequeñas rachas y ventanas de anotación.";
+      box.innerHTML='<div class="pgs-wrap">'+
+        '<div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>'+esc(short(team))+'</h3><p>'+narrative+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div>'+
+        '<div class="pgs-select"><label>Prisma del scouting</label><select id="pgsTeam"><option value="'+esc(p.home)+'">'+esc(short(p.home))+'</option><option value="'+esc(p.away)+'">'+esc(short(p.away))+'</option></select><div style="margin-top:10px;color:#6b7280;font-size:11px;line-height:1.45">Mismo partido, dos lecturas distintas según el equipo seleccionado.</div></div></div>'+
+        '<div class="pgs-grid"><div class="pgs-stat"><small>Mejor parcial</small><strong>'+(best?best.total+"-0":"—")+'</strong><span>'+(best?"Q"+best.q+" · "+best.start.clock:"Sin racha ≥6")+'</span></div>'+
+        '<div class="pgs-stat"><small>Peor parcial recibido</small><strong>'+(worst?worst.total+"-0":"—")+'</strong><span>'+(worst?"Q"+worst.q+" · rival":"Sin racha ≥6")+'</span></div>'+
+        '<div class="pgs-stat"><small>Sequía máxima</small><strong>'+(drought?fmt(drought.s):"—")+'</strong><span>'+(drought?"Q"+drought.q:"Sin sequía >1:00")+'</span></div>'+
+        '<div class="pgs-stat"><small>Triples</small><strong>'+(d.stats[team]?d.stats[team].three:0)+'</strong><span>anotados detectados</span></div></div>'+
+        '<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue un parcial "+best.total+"-0 en Q"+best.q+".":"No hubo un parcial propio de 6+ puntos.")+' '+(oppDrought?"El rival tuvo una sequía de "+fmt(oppDrought.s)+".":"No hubo una sequía rival superior a un minuto.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El mayor golpe fue un parcial rival de "+worst.total+"-0 en Q"+worst.q+".":"No hubo un parcial rival de 6+ puntos.")+' '+(drought?"La mayor sequía propia fue de "+fmt(drought.s)+".":"No se detectó una sequía propia superior a un minuto.")+'</p></div></div></section>'+
+        '<section class="pgs-panel"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+qcards+'</div></section>'+
+        '<section class="pgs-panel"><h3>🚨 Momentos que cambiaron el partido</h3><div class="pgs-events">'+(moments.join("")||'<div class="pgs-footer">No se ha identificado un momento dominante con las reglas actuales.</div>')+'</div></section>'+
+        '<section class="pgs-panel"><h3>🔎 Evidencia para el scouting</h3><div class="pgs-insights"><div class="pgs-insight"><h4>Producción y continuidad</h4><p>'+esc(short(team))+' registró <b>'+(d.stats[team]?d.stats[team].three:0)+'</b> triples, <b>'+(d.stats[team]?d.stats[team].turn:0)+'</b> pérdidas y <b>'+(d.stats[team]?d.stats[team].miss:0)+'</b> tiros fallados detectados.</p></div><div class="pgs-insight"><h4>Respuesta al rival</h4><p>'+esc(short(opp))+' registró <b>'+(d.stats[opp]?d.stats[opp].three:0)+'</b> triples, <b>'+(d.stats[opp]?d.stats[opp].turn:0)+'</b> pérdidas y <b>'+(d.stats[opp]?d.stats[opp].miss:0)+'</b> tiros fallados detectados.</p></div></div></section>'+
+        '<section class="pgs-panel"><h3>🎯 Recomendación de revisión</h3><div class="pgs-footer"><b>Para vídeo:</b> revisar primero los momentos destacados. El PBP identifica <b>cuándo</b> cambió el partido; el vídeo debe explicar <b>por qué</b>.</div></section>'+
+        '</div>';
+      var s=document.getElementById("pgsTeam");
+      if(s)s.addEventListener("change",render);
+    }catch(err){
+      box.innerHTML='<section class="pgs-panel"><h3>⚠️ Error al generar el scouting</h3><p class="pgs-footer">'+esc(err&&err.message?err.message:err)+'</p></section>';
+      console.error("POST-GAME-SCOUT",err);
+    }
   }
-  window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");renderPGS()};
-  window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto")};
-  window.pbpRender=renderPGS;
+  window.abrirAnalisisPBP=function(){
+    var m=document.getElementById("modalPBPAnalisis");
+    if(m)m.classList.add("abierto");
+    render();
+  };
+  window.cerrarAnalisisPBP=function(){
+    var m=document.getElementById("modalPBPAnalisis");
+    if(m)m.classList.remove("abierto");
+  };
+  window.pbpRender=render;
 })();
 </script>
 <!-- POST-GAME-SCOUT-V1 -->
