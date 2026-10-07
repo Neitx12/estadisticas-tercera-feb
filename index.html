@@ -62,14 +62,15 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .cal-jornada-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:#f7fafc;border-bottom:1px solid #e5e7eb}
 .cal-jornada-titulo{font-weight:900;color:#12343b;font-size:13px}
 .cal-jornada-fecha{font-size:10px;color:#6b7280;font-weight:700;white-space:nowrap}
-.cal-partido{display:grid;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr);gap:5px;align-items:center;padding:7px 10px;border-top:1px solid #f0f2f4;font-size:10px;min-height:39px;box-sizing:border-box}
+.cal-partido{display:grid;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr);gap:2px;align-items:center;padding:7px 4px;border-top:1px solid #f0f2f4;font-size:10px;min-height:39px;box-sizing:border-box}
 .cal-equipo{min-width:0;color:#334155;line-height:1.15}
-.cal-equipo.local{text-align:right}
-.cal-equipo.visitante{text-align:left}
+.cal-equipo.local{text-align:right;padding-left:0}
+.cal-equipo.visitante{text-align:left;padding-right:0}
 .cal-equipo-link{display:inline-flex;align-items:center;gap:4px;max-width:100%;border:0;background:transparent;padding:0;color:inherit;font:inherit;font-weight:700;cursor:pointer;min-width:0}
 .cal-equipo-link:hover{text-decoration:underline;color:#007f7f}
 .cal-equipo-link strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;min-width:0}
 .cal-equipo.local .cal-equipo-link{justify-content:flex-end}
+.cal-equipo.visitante .cal-equipo-link{justify-content:flex-start}
 .cal-escudo{width:18px;height:18px;object-fit:contain;flex:0 0 auto}
 .cal-resultado{text-align:center;font-weight:900;color:#12343b;white-space:nowrap}
 .cal-resultado.pendiente{color:#9ca3af;font-weight:700}
