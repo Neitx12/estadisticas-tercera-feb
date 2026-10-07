@@ -9,7 +9,7 @@
 .boton-perfil{border:1px solid #12343b;background:#00a6a6;color:#fff;border-radius:9px;padding:10px 18px;font-weight:800;cursor:pointer;min-height:42px}
 .boton-perfil:disabled{opacity:.45;cursor:not-allowed}
 .modal-jugador-card{width:min(1050px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}
-.perfil-jugador-head{display:flex;justify-content:space-between;gap:18px;align-items:center;margin:-22px -22px 18px;padding:18px 22px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff}.perfil-jugador-identidad{display:flex;gap:14px;align-items:center;min-width:0}.perfil-jugador-avatar{display:flex;align-items:center;gap:14px;min-width:0}.perfil-jugador-escudo{width:64px;height:64px;object-fit:contain;background:rgba(255,255,255,.96);border-radius:12px;padding:4px;flex:0 0 auto}.perfil-jugador-foto{width:110px;height:110px;object-fit:cover;object-position:center top;border-radius:14px;background:#fff;flex:0 0 auto;border:3px solid rgba(255,255,255,.9)}.perfil-jugador-foto-fallback{width:110px;height:110px;border-radius:14px;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;color:#12343b;font-size:34px;font-weight:900}.perfil-jugador-meta{display:flex;align-items:center;gap:12px}.perfil-jugador-meta .dorsal{font-size:26px;font-weight:900;color:#fff}.perfil-jugador-identidad>div:last-child h2{margin:0 0 3px;font-size:25px}.perfil-jugador-head .subtitulo{color:rgba(255,255,255,.88)}.periodos-jugador{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
+.perfil-jugador-head{display:flex;justify-content:space-between;gap:18px;align-items:center;margin:-22px -22px 18px;padding:18px 22px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff}.perfil-jugador-identidad{display:flex;gap:14px;align-items:center;min-width:0}.perfil-jugador-avatar{display:flex;align-items:center;gap:14px;min-width:0}.perfil-jugador-escudo{width:64px;height:64px;object-fit:contain;background:rgba(255,255,255,.96);border-radius:12px;padding:4px;flex:0 0 auto}.perfil-jugador-foto{width:110px;height:110px;object-fit:cover;object-position:center top;border-radius:14px;background:#fff;flex:0 0 auto;border:3px solid rgba(255,255,255,.9)}.perfil-jugador-foto-fallback{width:110px;height:110px;border-radius:14px;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;color:#12343b;font-size:34px;font-weight:900}.perfil-jugador-meta{display:flex;align-items:center;gap:12px}.perfil-jugador-meta .dorsal{font-size:26px;font-weight:900;color:#fff}.perfil-jugador-identidad>div:last-child h2{margin:0 0 3px;font-size:25px}.perfil-jugador-head .subtitulo{color:rgba(255,255,255,.88)}.perfil-accesos{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 8px}.perfil-acceso{border:0;border-radius:10px;padding:10px 16px;background:#f1f5f9;color:#172033;font-weight:700;cursor:pointer;transition:.2s}.perfil-acceso:hover{transform:translateY(-1px);background:#e2e8f0}.periodos-jugador{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
 .periodo-jugador{border:1px solid #cdd6e2;border-radius:8px;padding:8px 11px;background:#fff;color:#12343b;font-weight:700;cursor:pointer}
 .periodo-jugador.activo{background:#00a6a6;color:#fff;border-color:#12343b}
 .perfil-resumen{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
@@ -155,6 +155,10 @@
       <button class="periodo-jugador" data-periodo-jugador="1">Última jornada</button>
     </div>
 
+    <div class="perfil-accesos">
+      <button type="button" class="perfil-acceso" onclick="irAComparadorDesdePerfil()">⚖️ Comparador</button>
+      <button type="button" class="perfil-acceso" onclick="irAPercentilesDesdePerfil()">📊 Percentiles</button>
+    </div>
     <div id="perfilJugadorContenido"></div>
   </div>
 </div>
@@ -701,6 +705,30 @@ function renderPerfilJugador(){
   renderPerfilJugador();
 }
 
+function irAComparadorDesdePerfil(){
+  const j=jugadoresDB.find(x=>num(x.id)===num(jugadorSeleccionadoId));
+  if(!j)return;
+  cerrarModalJugador();
+  document.querySelectorAll(".modulo-analisis").forEach(x=>x.classList.add("oculto-modulo"));
+  const mod=document.getElementById("moduloComparador");
+  if(mod)mod.classList.remove("oculto-modulo");
+  poblarComparadores();
+  const eq=document.getElementById("comparadorEquipoA"), pj=document.getElementById("comparadorJugadorA");
+  if(eq){eq.value=String(j.equipo_id);eq.dispatchEvent(new Event("change"));}
+  setTimeout(()=>{if(pj){pj.value=String(j.id);pj.dispatchEvent(new Event("change"));}},0);
+}
+function irAPercentilesDesdePerfil(){
+  const j=jugadoresDB.find(x=>num(x.id)===num(jugadorSeleccionadoId));
+  if(!j)return;
+  cerrarModalJugador();
+  document.querySelectorAll(".modulo-analisis").forEach(x=>x.classList.add("oculto-modulo"));
+  const mod=document.getElementById("moduloPercentiles");
+  if(mod)mod.classList.remove("oculto-modulo");
+  renderPercentiles();
+  const eq=document.getElementById("percentilEquipo"), pj=document.getElementById("percentilJugador");
+  if(eq){eq.value=String(j.equipo_id);eq.dispatchEvent(new Event("change"));}
+  setTimeout(()=>{if(pj){pj.value=String(j.id);pj.dispatchEvent(new Event("change"));}},0);
+}
 function cerrarModalJugador(){
   document.getElementById("modalJugador").classList.remove("abierto");
 }
