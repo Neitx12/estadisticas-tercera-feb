@@ -520,17 +520,23 @@ function fmtPerfil(v,d){return Number.isFinite(Number(v))?Number(v).toFixed(d||1
 function fmtPctPerfil(v){return Number.isFinite(Number(v))?Number(v).toFixed(1)+"%":"—"}
 
 function filasPerfilJugador(jugadorId,periodo){
-  var jugador=jugadorPorId(jugadorId), equipoId=equipoJugadorSeleccionadoId;
-  if(!jugador||!equipoId) return [];
-  var maxJ=Math.max.apply(null,partidosDB.filter(function(p){return num(p.equipo_local_id)===num(equipoId)||num(p.equipo_visitante_id)===num(equipoId)}).map(function(p){return num(p.jornada)}).concat([0]));
-  var minJ=periodo==="season"?0:Math.max(0,maxJ-Number(periodo)+1);
-  var ps=partidosDB.filter(function(p){
-    return (num(p.equipo_local_id)===num(equipoId)||num(p.equipo_visitante_id)===num(equipoId))&&num(p.jornada)>=minJ&&num(p.jornada)<=maxJ;
+  var jugador=jugadorPorId(jugadorId);
+  if(!jugador) return [];
+  var equipoId=equipoJugadorSeleccionadoId || num(jugador.equipo_id);
+  var partidosEquipo=partidosDB.filter(function(p){
+    return num(p.equipo_local_id)===num(equipoId)||num(p.equipo_visitante_id)===num(equipoId);
   });
-  var mapa=new Map(ps.map(function(p){return [num(p.id),p]}));
-  return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(jugadorId)&&mapa.has(num(s.partido_id))})
-    .map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}})
-    .sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
+  var maxJ=Math.max.apply(null,partidosEquipo.map(function(p){return num(p.jornada)}).concat([0]));
+  var minJ=periodo==="season"?0:Math.max(0,maxJ-Number(periodo)+1);
+  var mapa=new Map(partidosEquipo.filter(function(p){
+    return num(p.jornada)>=minJ&&num(p.jornada)<=maxJ;
+  }).map(function(p){return [num(p.id),p]}));
+  var filas=estadisticasJugadoresDB.filter(function(st){
+    return num(st.jugador_id)===num(jugadorId) && (!mapa.size || mapa.has(num(st.partido_id)));
+  }).map(function(st){
+    return {s:st,p:mapa.get(num(st.partido_id))||{id:st.partido_id,jornada:0}};
+  });
+  return filas.sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
 }
 
 function calcularPerfilJugadorNuevo(jugadorId,periodo){
@@ -637,8 +643,14 @@ function renderContextoJugador(jugadorId,periodo){
 }
 function renderPerfilJugador(){
   if(!jugadorSeleccionadoId) return;
-  var jugador=jugadorPorId(jugadorSeleccionadoId),equipo=equipoJugadorSeleccionadoId?equipoPorId(equipoJugadorSeleccionadoId):null,periodo=periodoJugadorSeleccionado,datos=calcularPerfilJugadorNuevo(jugadorSeleccionadoId,periodo),cont=document.getElementById("perfilJugadorContenido");
-  if(!jugador||!cont)return;
+  var jugador=jugadorPorId(jugadorSeleccionadoId);
+  if(!jugador) return;
+  if(!equipoJugadorSeleccionadoId) equipoJugadorSeleccionadoId=num(jugador.equipo_id);
+  var equipo=equipoJugadorSeleccionadoId?equipoPorId(equipoJugadorSeleccionadoId):null;
+  var periodo=periodoJugadorSeleccionado||"season";
+  var datos=calcularPerfilJugadorNuevo(jugadorSeleccionadoId,periodo);
+  var cont=document.getElementById("perfilJugadorContenido");
+  if(!cont)return;
   document.getElementById("perfilJugadorNombre").textContent=jugador.nombre||jugador.name||"Jugador";
   document.getElementById("perfilJugadorSubtitulo").textContent=(equipo?equipo.nombre:"Equipo");
   var visual=document.getElementById("perfilJugadorAvatar"),fotoBox=document.getElementById("perfilJugadorFoto"),dorsalBox=document.getElementById("perfilJugadorDorsal");
