@@ -802,13 +802,13 @@ poblarComparadores();
 cargarDatos().then(function(){ poblarComparadores(); renderComparador(); renderPercentiles(); }).catch(err=>{   console.error(err);   equiposDB=[];   partidosDB=[];   estadisticasDB=[];   equiposFallback.forEach((e,i)=>e.id=i+1);   renderSelectorJugadores();   render();   document.getElementById("tablaCompletosWrap").insertAdjacentHTML("beforebegin",     '<div class="mensaje">Mostrando los datos actuales de la web. La conexión con Supabase no ha podido completarse todavía.</div>'); }); 
 
 const ACTAS_PARTIDOS={
-  1:"./actas/jornada-1/2536663-BoxScore.pdf",
-  2:"./actas/jornada-1/2536662-BoxScore.pdf",
-  3:"./actas/jornada-1/2536661-BoxScore.pdf",
-  4:"./actas/jornada-1/2536667-BoxScore.pdf",
-  5:"./actas/jornada-1/2536666-BoxScore.pdf",
-  6:"./actas/jornada-1/2536665-BoxScore.pdf",
-  7:"./actas/jornada-1/2536664-BoxScore.pdf"
+  1:"./JORNADA%201/2536663-BoxScore.pdf",
+  2:"./JORNADA%201/2536662-BoxScore.pdf",
+  3:"./JORNADA%201/2536661-BoxScore.pdf",
+  4:"./JORNADA%201/2536667-BoxScore.pdf",
+  5:"./JORNADA%201/2536666-BoxScore.pdf",
+  6:"./JORNADA%201/2536665-BoxScore.pdf",
+  7:"./JORNADA%201/2536664-BoxScore.pdf"
 };
 function actaUrl(partidoId){return ACTAS_PARTIDOS[num(partidoId)]||""}
 function abrirJornada(jornada){
