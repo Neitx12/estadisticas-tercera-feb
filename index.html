@@ -78,7 +78,124 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 .cal-resultado .derrotado{color:#6b7280;font-weight:700}
 @media(max-width:900px){.liga-home-grid{grid-template-columns:1fr}.liga-home-grid .clasificacion-principal{width:100%}}
 @media(max-width:520px){.calendario-head-inner{align-items:flex-start}.calendario-head h2{font-size:16px}.calendario-head p{font-size:10px}.cal-nav-label{min-width:62px}.cal-partido{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);padding:6px 0;min-height:36px}.cal-equipo-link{font-size:9px}.cal-escudo{width:16px;height:16px}}
-.cal-resultado-link{display:inline-flex;align-items:center;justify-content:center;gap:0;width:100%;min-height:42px;color:inherit;text-decoration:none;cursor:pointer;position:relative;z-index:3;border-radius:9px}.cal-resultado-link:hover{filter:brightness(.96);text-decoration:none}.cal-resultado-link.sin-boxscore{cursor:default}.cal-resultado-link .ganador,.cal-resultado-link .derrotado{pointer-events:none}.estadisticas-modal-card{width:min(96vw,1550px);max-height:92vh;overflow:hidden}.estadisticas-modal-card #estadisticasModalContenido{max-height:calc(92vh - 95px);overflow:auto}.estadisticas-modal-card .tabla-wrap{box-shadow:none;border-radius:0}.estadisticas-modal-card table{min-width:1450px}</style> <style id="pbp-avanzado-css">
+.cal-resultado-link{display:inline-flex;align-items:center;justify-content:center;gap:0;width:100%;min-height:42px;color:inherit;text-decoration:none;cursor:pointer;position:relative;z-index:3;border-radius:9px}.cal-resultado-link:hover{filter:brightness(.96);text-decoration:none}.cal-resultado-link.sin-boxscore{cursor:default}.cal-resultado-link .ganador,.cal-resultado-link .derrotado{pointer-events:none}.estadisticas-modal-card{width:min(96vw,1550px);max-height:92vh;overflow:hidden}.estadisticas-modal-card #estadisticasModalContenido{max-height:calc(92vh - 95px);overflow:auto}.estadisticas-modal-card .tabla-wrap{box-shadow:none;border-radius:0}.estadisticas-modal-card table{min-width:1450px}<style>
+/* Cabecera de perfil: distribución compacta y equilibrada */
+.perfil-jugador-head{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 96px auto auto;
+  align-items:center;
+  gap:16px;
+  margin:-22px -22px 18px;
+  padding:14px 22px;
+  background:linear-gradient(135deg,#00a6a6,#f0007f);
+  color:#fff;
+}
+.perfil-jugador-identidad{
+  display:flex !important;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.perfil-jugador-avatar{
+  width:52px !important;
+  height:52px !important;
+  flex:0 0 52px !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.perfil-jugador-avatar .perfil-jugador-escudo{
+  width:52px !important;
+  height:52px !important;
+}
+.perfil-jugador-datos{
+  min-width:0;
+}
+.perfil-jugador-identidad>div:last-child h2,
+.perfil-jugador-datos h2{
+  margin:0 0 3px !important;
+  font-size:22px !important;
+  line-height:1.08 !important;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.perfil-jugador-nacimiento{
+  font-size:11px !important;
+  margin:1px 0 2px !important;
+}
+.perfil-jugador-identidad .subtitulo{
+  font-size:12px !important;
+  margin:0 !important;
+}
+.perfil-jugador-dorsal{
+  display:inline-flex !important;
+  margin-top:6px !important;
+  padding:3px 8px !important;
+  font-size:16px !important;
+}
+.perfil-jugador-foto-wrap{
+  width:96px !important;
+  height:96px !important;
+  flex:0 0 96px !important;
+  overflow:hidden;
+  border-radius:12px;
+}
+.perfil-jugador-foto-wrap .perfil-jugador-foto,
+.perfil-jugador-foto{
+  width:96px !important;
+  height:96px !important;
+  display:block !important;
+  object-fit:cover !important;
+  object-position:center 14% !important;
+  border-radius:12px !important;
+  border:2px solid rgba(255,255,255,.9) !important;
+}
+.perfil-jugador-foto-fallback{
+  width:96px !important;
+  height:96px !important;
+  border-radius:12px !important;
+  font-size:28px !important;
+}
+.perfil-accesos-foto{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:7px !important;
+  margin-left:0 !important;
+  align-self:center !important;
+}
+.perfil-acceso{
+  padding:8px 12px !important;
+  font-size:11px !important;
+}
+.perfil-jugador-head>.cerrar{
+  align-self:start;
+  margin-top:2px;
+}
+@media(max-width:760px){
+  .perfil-jugador-head{
+    grid-template-columns:minmax(0,1fr) 76px auto;
+    gap:10px;
+    padding:12px 14px;
+  }
+  .perfil-jugador-foto-wrap,
+  .perfil-jugador-foto-wrap .perfil-jugador-foto,
+  .perfil-jugador-foto,
+  .perfil-jugador-foto-fallback{
+    width:76px !important;
+    height:76px !important;
+  }
+  .perfil-jugador-head>.cerrar{
+    grid-column:3;
+    grid-row:1;
+  }
+  .perfil-accesos-foto{
+    grid-column:1;
+    grid-row:2;
+    flex-direction:row !important;
+  }
+}
+</style></style> <style id="pbp-avanzado-css">
 .pbp-analisis-modal{position:fixed;inset:0;background:rgba(15,23,42,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:30}.pbp-analisis-modal.abierto{display:flex}.pbp-analisis-modal .modal-card{width:min(1180px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:18px;padding:22px}
 .pbp-av-head{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.pbp-filter{border:1px solid #cdd6e2;border-radius:9px;padding:8px 11px;background:#fff;color:#12343b;font-weight:800}.pbp-filter.activo{background:#00a6a6;color:#fff}
 .pbp-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}.pbp-kpi{background:#f7fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px}.pbp-kpi small{display:block;color:#6b7280;font-size:10px;font-weight:800;text-transform:uppercase}.pbp-kpi strong{display:block;color:#12343b;font-size:18px;margin-top:4px}
@@ -223,11 +340,11 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
           <div id="perfilJugadorSubtitulo" class="subtitulo"></div>
           <div id="perfilJugadorDorsal" class="perfil-jugador-dorsal">#—</div>
         </div>
-        <div id="perfilJugadorFoto" class="perfil-jugador-foto-wrap"></div>
-        <div class="perfil-accesos perfil-accesos-foto" style="display:flex !important;visibility:visible !important;opacity:1 !important;">
-          <button type="button" class="perfil-acceso" onclick="irAComparadorDesdePerfil()">⚖️ Comparador</button>
-          <button type="button" class="perfil-acceso" onclick="irAPercentilesDesdePerfil()">📊 Percentiles</button>
-        </div>
+      </div>
+      <div id="perfilJugadorFoto" class="perfil-jugador-foto-wrap"></div>
+      <div class="perfil-accesos perfil-accesos-foto" style="display:flex !important;visibility:visible !important;opacity:1 !important;">
+        <button type="button" class="perfil-acceso" onclick="irAComparadorDesdePerfil()">⚖️ Comparador</button>
+        <button type="button" class="perfil-acceso" onclick="irAPercentilesDesdePerfil()">📊 Percentiles</button>
       </div>
       <button class="cerrar" onclick="cerrarModalJugador()">Cerrar</button>
     </div>
