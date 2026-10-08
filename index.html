@@ -446,8 +446,8 @@ body.auth-admin-user .auth-admin{display:block}
 </div>  <script> const SUPABASE_URL = "https://pivtvarfnidrxeljqzbx.supabase.co"; const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_RXfNNLFEf4zlXaAZg4mUAw_fXVcVeDN"; const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 (function(){
   var gate=document.getElementById("authGate"),form=document.getElementById("authForm"),errorBox=document.getElementById("authError"),submit=document.getElementById("authSubmit"),logout=document.getElementById("authLogout"),adminBtn=document.getElementById("authAdmin"),adminModal=document.getElementById("authAdminModal"),adminClose=document.getElementById("authAdminClose"),adminCancel=document.getElementById("authAdminCancel"),passwordForm=document.getElementById("authPasswordForm"),passwordSubmit=document.getElementById("authPasswordSubmit"),passwordError=document.getElementById("authPasswordError"),passwordSuccess=document.getElementById("authPasswordSuccess");
-  var ADMIN_EMAIL="partidosngm@gmail.com";
-  function isAdminSession(session){return !!(session&&session.user&&String(session.user.email||"").toLowerCase()===ADMIN_EMAIL);}
+  var ADMIN_EMAILS=["partidosngm@gmail.com","natxogmonleon@gmail.com"];
+  function isAdminSession(session){var email=session&&session.user?String(session.user.email||"").toLowerCase():"";return ADMIN_EMAILS.indexOf(email)!==-1;}
   function syncAdminUI(session){
     document.body.classList.toggle("auth-admin-user",isAdminSession(session));
     if(!isAdminSession(session)&&adminModal)adminModal.classList.remove("abierto");
