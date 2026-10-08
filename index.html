@@ -748,7 +748,75 @@ function render(){renderClasificacionLiga();renderCalendarioCompeticion();
   construirTablaJugadores(jugadoresTabla,columnasAvanzadasJugadores,"tablaJugadoresAvanzadaWrap");
 }
 
-async function cargarDatos(){   const [e,p,s]=await Promise.all([     supabaseClient.from("equipos").select("*").order("nombre"),     supabaseClient.from("partidos").select("*").order("jornada"),     supabaseClient.from("estadisticas_partido").select("*")   ]);   if(e.error||p.error||s.error) throw(e.error||p.error||s.error);   equiposDB=e.data||[]; partidosDB=p.data||[]; estadisticasDB=s.data||[];   const [j,sj]=await Promise.all([     supabaseClient.from("jugadores").select("*").order("id"),     supabaseClient.from("estadisticas_jugador").select("*").order("id")   ]);   if(j.error) console.error("Error cargando jugadores:",j.error);   if(sj.error) console.error("Error cargando estadísticas de jugadores:",sj.error);   jugadoresDB=(j.data&&j.data.length)?j.data:jugadoresFallbackDB.slice();   estadisticasJugadoresDB=(sj.data&&sj.data.length)?sj.data:estadisticasJugadoresFallbackDB.slice();   window.equiposDB=equiposDB; window.partidosDB=partidosDB; poblarEquiposCombinacionesPBP(); window.estadisticasDB=estadisticasDB; window.jugadoresDB=jugadoresDB; window.estadisticasJugadoresDB=estadisticasJugadoresDB;   if(window.syncScouting){try{window.syncScouting();if(window.renderScouting&&document.getElementById("scdbModal")?.classList.contains("abierto"))window.renderScouting();}catch(err){console.error("Scouting:",err)}}   renderSelectorJugadores();   poblarComparadores();   renderComparador();   renderPercentiles();   renderCombinacionesPBP();   render(); }  function renderRanking(items,key,decimales=1){
+async function cargarDatos(){
+  var equiposRes=null,partidosRes=null,statsRes=null,jugadoresRes=null,statsJugadoresRes=null;
+
+  try{
+    equiposRes=await supabaseClient.from("equipos").select("*").order("nombre");
+    if(equiposRes.error)throw equiposRes.error;
+    equiposDB=equiposRes.data||[];
+  }catch(err){
+    console.error("Error cargando equipos:",err);
+    equiposDB=[];
+  }
+
+  try{
+    partidosRes=await supabaseClient.from("partidos").select("*").order("jornada");
+    if(partidosRes.error)throw partidosRes.error;
+    partidosDB=partidosRes.data||[];
+  }catch(err){
+    console.error("Error cargando partidos:",err);
+    partidosDB=[];
+  }
+
+  try{
+    statsRes=await supabaseClient.from("estadisticas_partido").select("*");
+    if(statsRes.error)throw statsRes.error;
+    estadisticasDB=statsRes.data||[];
+  }catch(err){
+    console.error("Error cargando estadísticas de partido:",err);
+    estadisticasDB=[];
+  }
+
+  try{
+    jugadoresRes=await supabaseClient.from("jugadores").select("*").order("id");
+    if(jugadoresRes.error)throw jugadoresRes.error;
+    jugadoresDB=(jugadoresRes.data&&jugadoresRes.data.length)?jugadoresRes.data:jugadoresFallbackDB.slice();
+  }catch(err){
+    console.error("Error cargando jugadores:",err);
+    jugadoresDB=jugadoresFallbackDB.slice();
+  }
+
+  try{
+    statsJugadoresRes=await supabaseClient.from("estadisticas_jugador").select("*").order("id");
+    if(statsJugadoresRes.error)throw statsJugadoresRes.error;
+    estadisticasJugadoresDB=(statsJugadoresRes.data&&statsJugadoresRes.data.length)?statsJugadoresRes.data:estadisticasJugadoresFallbackDB.slice();
+  }catch(err){
+    console.error("Error cargando estadísticas de jugadores:",err);
+    estadisticasJugadoresDB=estadisticasJugadoresFallbackDB.slice();
+  }
+
+  window.equiposDB=equiposDB;
+  window.partidosDB=partidosDB;
+  window.estadisticasDB=estadisticasDB;
+  window.jugadoresDB=jugadoresDB;
+  window.estadisticasJugadoresDB=estadisticasJugadoresDB;
+  poblarEquiposCombinacionesPBP();
+
+  if(window.syncScouting){
+    try{
+      window.syncScouting();
+      if(window.renderScouting&&document.getElementById("scdbModal")?.classList.contains("abierto"))window.renderScouting();
+    }catch(err){console.error("Scouting:",err)}
+  }
+
+  renderSelectorJugadores();
+  poblarComparadores();
+  renderComparador();
+  renderPercentiles();
+  renderCombinacionesPBP();
+  render();
+}  function renderRanking(items,key,decimales=1){
   if(!items.length) return '<div class="mensaje">Todavía no hay datos de jugadores disponibles.</div>';
   return items.map((x,i)=>{
     const boton=x.jugadorId?'<button type="button" class="jugador-destacado" onclick="abrirPerfilDesdeDestacado('+num(x.jugadorId)+','+num(x.equipoId)+')"><span>'+ (i+1)+'. '+compEsc(x.nombre)+'</span><strong>'+num(x.valor).toFixed(decimales)+'</strong></button>':'<div class="fila"><span>'+ (i+1)+'. '+compEsc(x.nombre)+'</span><strong>'+num(x.valor).toFixed(decimales)+'</strong></div>';
