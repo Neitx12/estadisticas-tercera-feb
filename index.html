@@ -1710,7 +1710,7 @@ function short(t){var m={"CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS":"Piélago
 function pts(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0;}
 function originalSummary(p){
 var ev=(p.actions||[]).map(function(x){var z=pts(x.action);return z?[Number(x.q),sec(x.clock),x.team,z,x.action]:null;}).filter(Boolean);
-var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:[[0,0],[0,0],[0,0],[0,0]],stats:[{three:0,turn:0,miss:0},{three:0,turn:0,miss:0}],runs:[],droughts:[]};
+var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:[[0,0],[0,0],[0,0],[0,0]],stats:[{three:0,turn:0,miss:0},{three:0,turn:0,miss:0}],threes:[[],[]],runs:[],droughts:[]};
 (p.actions||[]).forEach(function(x){var side=x.team===p.home?0:1,a=String(x.action||"");if(/TIRO DE 3 ANOTADO/.test(a)){g.stats[side].three++;g.threes[side].push({q:Number(x.q),clock:String(x.clock||""),player:String(a).split(": TIRO DE 3 ANOTADO")[0].trim()});}if(/PÉRDIDA/.test(a))g.stats[side].turn++;if(/TIRO DE [123] FALLADO/.test(a))g.stats[side].miss++;});
 ev.forEach(function(x){var side=x[2]===p.home?0:1;g.quarters[x[0]-1][side]+=x[3];});
 [1,2,3,4].forEach(function(q){
