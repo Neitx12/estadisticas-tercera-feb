@@ -777,8 +777,6 @@ function render(){renderClasificacionLiga();renderCalendarioCompeticion();
   const rowsAvanzada=calcularEquipos(pAvanzada);
   const seasonRows=calcularEquipos("season");
   actualizarTextoPeriodo();
-  document.getElementById("totalEquipos").textContent=rowsBase.length;
-  document.getElementById("ultimaJornada").textContent=Math.max(0,...partidosDB.map(p=>num(p.jornada)))||1;
   construirTabla(calcularEquipos(periodoSeleccionado),seasonRows,columnasCompletas,"tablaCompletosWrap");
   construirTabla(rowsBase,seasonRows,columnasBase,"tablaBaseWrap");
   construirTabla(rowsAvanzada,seasonRows,columnasAvanzadas,"tablaAvanzadaWrap");
