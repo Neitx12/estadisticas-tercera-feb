@@ -379,6 +379,7 @@ body.authenticated .auth-logout{display:block}
       <div class="modal-title"><div><h2 id="estadisticasModalTitulo" style="margin:0 0 4px">Estadísticas</h2><div id="estadisticasModalSubtitulo" class="subtitulo"></div></div></div>
       <button class="cerrar" type="button" onclick="cerrarModalEstadisticas()">Cerrar</button>
     </div>
+    <div id="estadisticasModalPeriodo" class="toolbar-row" style="margin:0 0 14px"></div>
     <div id="estadisticasModalContenido"></div>
   </div>
 </div>
@@ -1443,7 +1444,24 @@ function abrirModalEstadisticas(tipo){
   };
   var d=mapa[tipo];if(!d)return;
   document.getElementById("estadisticasModalTitulo").textContent=d[0];
-  var periodoModal=periodosEstadisticas[tipo]||"season"; document.getElementById("estadisticasModalSubtitulo").textContent=d[1]+" · "+periodoNombre(periodoModal);
+  var periodoModal=periodosEstadisticas[tipo]||"season";
+  document.getElementById("estadisticasModalSubtitulo").textContent=d[1]+" · "+periodoNombre(periodoModal);
+  var periodoBox=document.getElementById("estadisticasModalPeriodo");
+  if(periodoBox){
+    periodoBox.innerHTML=["season",1,5,10,15].map(function(v){
+      var label=periodoNombre(v);
+      return '<button type="button" class="periodo '+(String(periodoModal)===String(v)?"activo":"")+'" data-modal-periodo="'+v+'">'+label+'</button>';
+    }).join("");
+    periodoBox.querySelectorAll("[data-modal-periodo]").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        var nuevo=periodoValor(btn.dataset.modalPeriodo);
+        periodosEstadisticas[tipo]=nuevo;
+        if(tipo==="base"||tipo==="avanzada")periodoSeleccionado=nuevo;
+        render();
+        abrirModalEstadisticas(tipo);
+      });
+    });
+  }
   var origen=document.getElementById(d[2]);
   var destino=document.getElementById("estadisticasModalContenido");
   destino.innerHTML=origen?origen.innerHTML:"";
