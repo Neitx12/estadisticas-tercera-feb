@@ -216,7 +216,7 @@ function cerrarAnalisisPBP(){document.getElementById("modalPBPAnalisis")?.classL
 
 <div id="modalPBPAnalisis" class="pbp-analisis-modal"><div class="modal-card">
 <div class="modal-head"><div class="modal-title"><div><h2 style="margin:0 0 4px">📈 Análisis PBP avanzado</h2><div class="subtitulo">Análisis automático del Play by Play: parciales, sequías, triples, pérdidas, remontadas y momentos decisivos.</div></div></div><button class="cerrar" type="button" onclick="cerrarAnalisisPBP()">Cerrar</button></div>
-<div class="pgs-global-select"><label>🧠 Equipo analizado · Prisma de scouting</label><select id="pgsTeam"><option value="">Selecciona equipo</option><option value="CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS">Piélagos</option><option value="BALONCESTO LA FLECHA">La Flecha</option><option value="MEGACALZADO ARDOI">Ardoi</option><option value="ULACIA ZKE">Ulacia ZKE</option><option value="TABIRAKO BAQUE">Tabirako</option><option value="IRUKI TAKE">Iruki Take</option><option value="RESTAURANTE LOS ARCOS CB SOLARES">Solares</option><option value="SAN PRUDENCIO">San Prudencio</option><option value="TEKNEI BIZKAIA ZORNOTZA">Zornotza</option><option value="ELABORADOS NATURALES VALLE DE EGÜÉS">Egüés</option><option value="UNIVERSIDAD DEUSTO LOIOLA INDAUTXU">Deusto Loyola Indautxu</option><option value="LIS DATA SOLUTIONS BEZANA">Bezana</option><option value="DE MORRO FINO CANTBASKET04">Cantbasket04</option><option value="HOTEL 4POSTES - ÁVILA AUTÉNTICA - EL BULEVAR">Ávila Auténtica</option></select><div>Selecciona cualquiera de los 14 equipos para interpretar el partido desde su perspectiva.</div></div><div id="pbpDynamic"></div>
+<div class="pgs-global-select pgs-scout-selectors"><label>Jornada</label><select id="pgsJornada"></select><label>Partido</label><select id="pgsPartido"></select><label>Prisma de scouting</label><select id="pgsPrisma"></select><div class="pgs-select-help">Selecciona jornada, partido y después el equipo desde cuyo prisma quieres analizar el encuentro.</div></div><div id="pbpDynamic"></div>
 </div></div><div id="moduloCombinaciones" class="modal-combinaciones"><div class="modal-card"><div class="modal-head"><div class="modal-title"><div><h2 style="margin:0 0 4px">🧩 Combinaciones PBP</h2><div class="subtitulo">Parejas, tríos y quintetos reconstruidos desde el Play by Play.</div></div></div><button class="cerrar" type="button" onclick="cerrarCombinacionesPBP()">Cerrar</button></div><div class="modulo-cabecera"><strong>🧩 Combinaciones PBP</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><section class="combinaciones-section"><div class="comparador-head"><div><h2>🧩 Parejas, tríos y quintetos</h2><p>Combinaciones reconstruidas a partir del Play by Play del partido.</p></div></div><div class="combinaciones-controls"><label>Equipo<select id="combinacionesEquipo" onchange="renderCombinacionesPBP()"><option value="">Selecciona equipo</option><option value="1">Piélagos</option><option value="2">La Flecha</option><option value="3">Ardoi</option><option value="4">Ulacia ZKE</option><option value="5">Tabirako</option><option value="6">Iruki Take</option><option value="7">Solares</option><option value="8">San Prudencio</option><option value="9">Zornotza</option><option value="10">Egüés</option><option value="11">Deusto Loyola Indautxu</option><option value="12">Bezana</option><option value="13">Cantbasket04</option><option value="14">Ávila Auténtica</option></select></label><label>Periodo<select id="combinacionesPeriodo" onchange="renderCombinacionesPBP()"><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option><option value="season">Toda la liga</option></select></label><label>Jornada<select id="combinacionesJornada" onchange="renderCombinacionesPBP()"><option value="1">Jornada 1</option></select></label><div class="combinaciones-tipos"><button type="button" class="combinacion-tab activo" data-combinacion-tipo="2" onclick="seleccionarCombinacion(2)">👥 Parejas</button><button type="button" class="combinacion-tab" data-combinacion-tipo="3" onclick="seleccionarCombinacion(3)">👥👥 Tríos</button><button type="button" class="combinacion-tab" data-combinacion-tipo="5" onclick="seleccionarCombinacion(5)">🖐️ Quintetos</button></div></div><div id="combinacionesResumen"></div><div id="combinacionesTabla" class="combinaciones-tabla"></div><div class="combinaciones-nota">Nota: los minutos se reconstruyen siguiendo las sustituciones registradas en el PBP. Los cambios que aparecen con la misma marca temporal se ordenan según la secuencia publicada por FEB.</div></section> </div></div><div id="moduloJornada" class="modulo-analisis oculto-modulo">
   <div class="modulo-cabecera"><strong>📅 Jornada</strong><button type="button" class="volver-modulos" data-volver-modulos-jornada>← Volver</button></div>
   <section class="jornada-modulo">
@@ -1677,126 +1677,51 @@ window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnali
 window.pbpRender=render;
 })();
 </script>
-<style id="post-game-scout-global-select">.pgs-global-select{display:grid;grid-template-columns:minmax(220px,1fr) minmax(260px,1.4fr);gap:6px 12px;align-items:center;margin:0 0 14px;padding:13px 15px;border:1px solid #e4e9ee;border-radius:14px;background:#fff}.pgs-global-select label{font-size:11px;font-weight:900;text-transform:uppercase;color:#12343b}.pgs-global-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pgs-global-select div{grid-column:1/-1;color:#6b7280;font-size:11px}@media(max-width:760px){.pgs-global-select{grid-template-columns:1fr}.pgs-global-select div{grid-column:auto}}</style><style id="post-game-scout-css">
+<style id="post-game-scout-global-select">.pgs-global-select{display:grid;grid-template-columns:90px 1fr 90px 1.5fr 150px 1fr;gap:8px 10px;align-items:center;margin:0 0 14px;padding:13px 15px;border:1px solid #e4e9ee;border-radius:14px;background:#fff}.pgs-global-select label{font-size:10px;text-transform:uppercase;font-weight:900;color:#12343b}.pgs-global-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pgs-select-help{grid-column:1/-1;color:#6b7280;font-size:11px}@media(max-width:900px){.pgs-global-select{grid-template-columns:1fr 1fr}.pgs-select-help{grid-column:1/-1}}@media(max-width:600px){.pgs-global-select{grid-template-columns:1fr}.pgs-select-help{grid-column:auto}}</style><style id="post-game-scout-css">
 .pgs-wrap{display:grid;gap:14px}.pgs-top{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:12px}.pgs-hero{border:1px solid #e4e9ee;border-radius:14px;padding:16px;background:linear-gradient(135deg,#f7fbfb,#fff)}.pgs-kicker{display:inline-flex;padding:5px 8px;border-radius:999px;background:#e7f7f6;color:#007f7f;font-size:10px;font-weight:900;letter-spacing:.08em}.pgs-hero h3{margin:8px 0 5px;color:#12343b;font-size:21px}.pgs-hero p{margin:0;color:#5f6874;font-size:13px;line-height:1.5}.pgs-select{border:1px solid #e4e9ee;border-radius:14px;padding:14px;background:#fff}.pgs-select label{display:block;font-size:10px;text-transform:uppercase;font-weight:900;color:#6b7280;margin-bottom:6px}.pgs-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pgs-score{display:flex;align-items:center;gap:14px;margin-top:14px}.pgs-score strong{font-size:32px;color:#12343b}.pgs-score span{font-size:12px;color:#6b7280}.pgs-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.pgs-stat{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fff}.pgs-stat small{display:block;color:#6b7280;font-size:10px;font-weight:800;text-transform:uppercase}.pgs-stat strong{display:block;font-size:21px;color:#12343b;margin-top:4px}.pgs-stat span{display:block;color:#6b7280;font-size:11px;margin-top:3px}.pgs-panel{border:1px solid #e5e7eb;border-radius:14px;background:#fff;padding:15px}.pgs-panel>h3{margin:0 0 11px;color:#12343b;font-size:15px}.pgs-exec{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pgs-exec>div{padding:13px;border-radius:11px;background:#f7fafc}.pgs-exec strong{display:block;color:#12343b;font-size:12px}.pgs-exec p{margin:6px 0 0;color:#5f6874;font-size:12px;line-height:1.5}.pgs-positive{border-left:4px solid #2e8b57!important}.pgs-negative{border-left:4px solid #d94a4a!important}.pgs-quarter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.pgs-quarter{border:1px solid #e5e7eb;border-radius:11px;padding:12px;background:#fafcfd}.pgs-quarter .qhead{display:flex;justify-content:space-between;gap:8px;align-items:center}.pgs-quarter .qhead strong{color:#12343b}.pgs-quarter .margin{font-weight:900}.pgs-quarter .margin.pos{color:#16803a}.pgs-quarter .margin.neg{color:#b42318}.pgs-quarter .margin.neu{color:#6b7280}.pgs-quarter .qscore{font-size:20px;font-weight:900;margin:8px 0;color:#12343b}.pgs-quarter .qdetails{display:grid;gap:5px;color:#5f6874;font-size:11px}.pgs-quarter .qdetails b{color:#12343b}.pgs-bars{display:grid;gap:8px}.pgs-bar-row{display:grid;grid-template-columns:38px 1fr 55px;gap:8px;align-items:center;font-size:11px}.pgs-bar-track{height:10px;border-radius:99px;background:#edf1f4;overflow:hidden}.pgs-bar-fill{height:100%;border-radius:99px;background:#00a6a6}.pgs-bar-fill.neg{background:#d94a4a}.pgs-events{display:grid;gap:8px}.pgs-event{display:grid;grid-template-columns:54px 1fr auto;gap:10px;align-items:center;border:1px solid #edf0f3;border-radius:10px;padding:10px;background:#fbfcfd}.pgs-event .time{font-size:12px;font-weight:900;color:#007f7f}.pgs-event strong{font-size:12px;color:#12343b}.pgs-event p{margin:3px 0 0;color:#68717c;font-size:11px;line-height:1.4}.pgs-badge{font-size:10px;font-weight:900;padding:4px 7px;border-radius:999px;background:#f1f5f9;color:#475569;white-space:nowrap}.pgs-badge.bad{background:#fdecec;color:#a33a32}.pgs-badge.good{background:#e9f7ee;color:#26743d}.pgs-insights{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pgs-insight{border:1px solid #e5e7eb;border-radius:11px;padding:12px}.pgs-insight h4{margin:0 0 7px;font-size:12px;color:#12343b}.pgs-insight p{margin:0;color:#5f6874;font-size:11px;line-height:1.5}.pgs-footer{padding:10px 12px;border-radius:10px;background:#f7fafc;color:#6b7280;font-size:10px;line-height:1.45}.pgs-footer b{color:#475569}@media(max-width:900px){.pgs-top,.pgs-exec,.pgs-insights{grid-template-columns:1fr}.pgs-grid,.pgs-quarter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.pgs-grid,.pgs-quarter-grid{grid-template-columns:1fr}.pgs-event{grid-template-columns:48px 1fr}.pgs-event .pgs-badge{grid-column:2;justify-self:start}}
 </style>
 <script id="post-game-scout-js">
 (function(){
-  "use strict";
-  function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
-  function sec(c){var p=String(c||"0:00").split(":");return (Number(p[0])||0)*60+(Number(p[1])||0);}
-  function points(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0;}
-  function fmt(s){s=Math.max(0,Math.round(Number(s)||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
-  function short(t){return t==="MEGACALZADO ARDOI"?"Ardoi":t==="ULACIA ZKE"?"Ulacia ZKE":t||"Equipo";}
-  function data(){
-    var p=(typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null);
-    if(!p) throw new Error("No se ha cargado PBP_ADV_DATA.");
-    var acts=Array.isArray(p.actions)?p.actions.slice():[];
-    acts.sort(function(a,b){return Number(a.q)-Number(b.q)||sec(b.clock)-sec(a.clock);});
-    var scores={};
-    [1,2,3,4].forEach(function(q){scores[q]=(p.startScores&&p.startScores[q]?p.startScores[q]:[0,0]).slice();});
-    var scoring=[];
-    acts.forEach(function(e){
-      var pts=points(e.action); if(!pts)return;
-      var side=e.team===p.home?0:1;
-      if(!scores[e.q])scores[e.q]=[0,0];
-      scores[e.q][side]+=pts;
-      scoring.push({q:Number(e.q),clock:e.clock||"0:00",team:e.team,pts:pts,score:scores[e.q].slice()});
-    });
-    var runs=[];
-    [1,2,3,4].forEach(function(q){
-      var arr=scoring.filter(function(e){return e.q===q;}), cur=null,total=0,start=null,end=null;
-      function flush(){if(cur&&total>=6)runs.push({q:q,team:cur,total:total,start:start,end:end});}
-      arr.forEach(function(e){if(e.team===cur){total+=e.pts;end=e;}else{flush();cur=e.team;total=e.pts;start=e;end=e;}});
-      flush();
-    });
-    var droughts=[];
-    [1,2,3,4].forEach(function(q){
-      [p.home,p.away].forEach(function(team){
-        var arr=scoring.filter(function(e){return e.q===q&&e.team===team;});
-        var gaps=[];
-        if(arr.length){
-          gaps.push({s:600-sec(arr[0].clock),from:"10:00",to:arr[0].clock});
-          for(var i=1;i<arr.length;i++)gaps.push({s:sec(arr[i-1].clock)-sec(arr[i].clock),from:arr[i-1].clock,to:arr[i].clock});
-          gaps.push({s:sec(arr[arr.length-1].clock),from:arr[arr.length-1].clock,to:"00:00"});
-          gaps.sort(function(a,b){return b.s-a.s;});
-          if(gaps[0].s>=60)droughts.push({q:q,team:team,s:gaps[0].s,from:gaps[0].from,to:gaps[0].to});
-        }
-      });
-    });
-    var stats={}; [p.home,p.away].forEach(function(t){stats[t]={three:0,turn:0,miss:0,foul:0};});
-    acts.forEach(function(e){
-      var t=e.team,a=String(e.action||""); if(!stats[t])stats[t]={three:0,turn:0,miss:0,foul:0};
-      if(/TIRO DE 3 ANOTADO/.test(a))stats[t].three++;
-      if(/PÉRDIDA/.test(a))stats[t].turn++;
-      if(/TIRO DE [123] FALLADO/.test(a))stats[t].miss++;
-      if(/FALTA Personal/.test(a))stats[t].foul++;
-    });
-    return {p:p,acts:acts,scoring:scoring,runs:runs,droughts:droughts,stats:stats};
-  }
-  function render(){
-    var box=document.getElementById("pbpDynamic");
-    if(!box)return;
-    try{
-      var d=data(),p=d.p;
-      var select=document.getElementById("pgsTeam");
-      var team=select&&select.value?select.value:p.home;
-      if(team!==p.home&&team!==p.away)team=p.home;
-      var opp=team===p.home?p.away:p.home, ti=team===p.home?0:1, oi=1-ti;
-      var final=Array.isArray(p.final)?p.final:[0,0], tf=final[ti]||0, of=final[oi]||0, margin=tf-of;
-      var tr=d.runs.filter(function(x){return x.team===team;}).sort(function(a,b){return b.total-a.total;});
-      var or=d.runs.filter(function(x){return x.team===opp;}).sort(function(a,b){return b.total-a.total;});
-      var td=d.droughts.filter(function(x){return x.team===team;}).sort(function(a,b){return b.s-a.s;});
-      var od=d.droughts.filter(function(x){return x.team===opp;}).sort(function(a,b){return b.s-a.s;});
-      var best=tr[0], worst=or[0], drought=td[0], oppDrought=od[0];
-      var qcards=[1,2,3,4].map(function(q){
-        var start=(p.startScores&&p.startScores[q])||[0,0];
-        var end=q===4?final:((p.startScores&&p.startScores[q+1])||start);
-        var a=(end[ti]||0)-(start[ti]||0), b=(end[oi]||0)-(start[oi]||0), diff=a-b;
-        return '<div class="pgs-quarter"><div class="qhead"><strong>Q'+q+'</strong><span class="margin '+(diff>0?"pos":diff<0?"neg":"neu")+'">'+(diff>0?"+":"")+diff+'</span></div><div class="qscore">'+a+' - '+b+'</div><div class="qdetails"><span>'+esc(short(team))+': <b>'+a+'</b></span><span>'+esc(short(opp))+': <b>'+b+'</b></span><span>Lectura: <b>'+ (diff>=6?"dominante":diff<=-6?"problemático":"equilibrado") +'</b></span></div></div>';
-      }).join("");
-      var moments=[];
-      d.runs.concat(d.droughts.map(function(x){return {q:x.q,team:x.team,total:Math.min(10,Math.round(x.s/30)),start:{clock:x.from},end:{clock:x.to},drought:true};}))
-        .sort(function(a,b){return (b.total||0)-(a.total||0);})
-        .slice(0,5).forEach(function(x){
-          var own=x.team===team;
-          moments.push('<div class="pgs-event"><div class="time">Q'+x.q+' · '+esc(x.start.clock)+'</div><div><strong>'+esc(x.drought?"Sequía de "+fmt(x.end?sec(x.end.clock?x.end.clock:"0:00")-sec(x.start.clock):0):"Parcial "+x.total+"-0 de "+short(x.team))+'</strong><p>'+(own?"A favor del equipo analizado.":"El rival cambia la dinámica.")+'</p></div><span class="pgs-badge '+(own?"good":"bad")+'">'+(own?"A FAVOR":"EN CONTRA")+'</span></div>');
-        });
-      var narrative=margin>0
-        ?"Victoria por "+margin+" puntos. El foco está en repetir los parciales propios que generaron ventaja y cortar antes las respuestas del rival."
-        :margin<0
-        ?"Derrota por "+Math.abs(margin)+" puntos. El foco está en localizar los parciales recibidos y las sequías ofensivas que ampliaron la diferencia."
-        :"Empate. El partido se decidió por pequeñas rachas y ventanas de anotación.";
-      box.innerHTML='<div class="pgs-wrap">'+
-        '<div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>'+esc(short(team))+'</h3><p>'+narrative+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div>'+
-        '<div class="pgs-select"><label>Prisma del scouting</label><select id="pgsTeam"><option value="'+esc(p.home)+'">'+esc(short(p.home))+'</option><option value="'+esc(p.away)+'">'+esc(short(p.away))+'</option></select><div style="margin-top:10px;color:#6b7280;font-size:11px;line-height:1.45">Mismo partido, dos lecturas distintas según el equipo seleccionado.</div></div></div>'+
-        '<div class="pgs-grid"><div class="pgs-stat"><small>Mejor parcial</small><strong>'+(best?best.total+"-0":"—")+'</strong><span>'+(best?"Q"+best.q+" · "+best.start.clock:"Sin racha ≥6")+'</span></div>'+
-        '<div class="pgs-stat"><small>Peor parcial recibido</small><strong>'+(worst?worst.total+"-0":"—")+'</strong><span>'+(worst?"Q"+worst.q+" · rival":"Sin racha ≥6")+'</span></div>'+
-        '<div class="pgs-stat"><small>Sequía máxima</small><strong>'+(drought?fmt(drought.s):"—")+'</strong><span>'+(drought?"Q"+drought.q:"Sin sequía >1:00")+'</span></div>'+
-        '<div class="pgs-stat"><small>Triples</small><strong>'+(d.stats[team]?d.stats[team].three:0)+'</strong><span>anotados detectados</span></div></div>'+
-        '<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue un parcial "+best.total+"-0 en Q"+best.q+".":"No hubo un parcial propio de 6+ puntos.")+' '+(oppDrought?"El rival tuvo una sequía de "+fmt(oppDrought.s)+".":"No hubo una sequía rival superior a un minuto.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El mayor golpe fue un parcial rival de "+worst.total+"-0 en Q"+worst.q+".":"No hubo un parcial rival de 6+ puntos.")+' '+(drought?"La mayor sequía propia fue de "+fmt(drought.s)+".":"No se detectó una sequía propia superior a un minuto.")+'</p></div></div></section>'+
-        '<section class="pgs-panel"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+qcards+'</div></section>'+
-        '<section class="pgs-panel"><h3>🚨 Momentos que cambiaron el partido</h3><div class="pgs-events">'+(moments.join("")||'<div class="pgs-footer">No se ha identificado un momento dominante con las reglas actuales.</div>')+'</div></section>'+
-        '<section class="pgs-panel"><h3>🔎 Evidencia para el scouting</h3><div class="pgs-insights"><div class="pgs-insight"><h4>Producción y continuidad</h4><p>'+esc(short(team))+' registró <b>'+(d.stats[team]?d.stats[team].three:0)+'</b> triples, <b>'+(d.stats[team]?d.stats[team].turn:0)+'</b> pérdidas y <b>'+(d.stats[team]?d.stats[team].miss:0)+'</b> tiros fallados detectados.</p></div><div class="pgs-insight"><h4>Respuesta al rival</h4><p>'+esc(short(opp))+' registró <b>'+(d.stats[opp]?d.stats[opp].three:0)+'</b> triples, <b>'+(d.stats[opp]?d.stats[opp].turn:0)+'</b> pérdidas y <b>'+(d.stats[opp]?d.stats[opp].miss:0)+'</b> tiros fallados detectados.</p></div></div></section>'+
-        '<section class="pgs-panel"><h3>🎯 Recomendación de revisión</h3><div class="pgs-footer"><b>Para vídeo:</b> revisar primero los momentos destacados. El PBP identifica <b>cuándo</b> cambió el partido; el vídeo debe explicar <b>por qué</b>.</div></section>'+
-        '</div>';
-      var s=document.getElementById("pgsTeam");
-      if(s)s.addEventListener("change",render);
-    }catch(err){
-      box.innerHTML='<section class="pgs-panel"><h3>⚠️ Error al generar el scouting</h3><p class="pgs-footer">'+esc(err&&err.message?err.message:err)+'</p></section>';
-      console.error("POST-GAME-SCOUT",err);
-    }
-  }
-  window.abrirAnalisisPBP=function(){
-    var m=document.getElementById("modalPBPAnalisis");
-    if(m)m.classList.add("abierto");
-    render();
-  };
-  window.cerrarAnalisisPBP=function(){
-    var m=document.getElementById("modalPBPAnalisis");
-    if(m)m.classList.remove("abierto");
-  };
-  window.pbpRender=render;
+"use strict";
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function sec(c){var p=String(c||"0:00").split(":");return (Number(p[0])||0)*60+(Number(p[1])||0);}
+function short(t){var m={"CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS":"Piélagos","BALONCESTO LA FLECHA":"La Flecha","MEGACALZADO ARDOI":"Ardoi","ULACIA ZKE":"Ulacia ZKE","TABIRAKO BAQUE":"Tabirako","IRUKI TAKE":"Iruki Take","RESTAURANTE LOS ARCOS CB SOLARES":"Solares","SAN PRUDENCIO":"San Prudencio","TEKNEI BIZKAIA ZORNOTZA":"Zornotza","ELABORADOS NATURALES VALLE DE EGÜÉS":"Egüés","UNIVERSIDAD DEUSTO LOIOLA INDAUTXU":"Deusto Loyola","LIS DATA SOLUTIONS BEZANA":"Bezana","DE MORRO FINO CANTBASKET04":"Cantbasket04","HOTEL 4POSTES - ÁVILA AUTÉNTICA - EL BULEVAR":"Ávila Auténtica"};return m[t]||t||"Equipo";}
+function pts(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0;}
+function originalSummary(p){
+var ev=(p.actions||[]).map(function(x){var z=pts(x.action);return z?[Number(x.q),sec(x.clock),x.team,z,x.action]:null;}).filter(Boolean);
+var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:[[0,0],[0,0],[0,0],[0,0]],stats:[{three:0,turn:0,miss:0},{three:0,turn:0,miss:0}],runs:[],droughts:[]};
+(p.actions||[]).forEach(function(x){var side=x.team===p.home?0:1,a=String(x.action||"");if(/TIRO DE 3 ANOTADO/.test(a))g.stats[side].three++;if(/PÉRDIDA/.test(a))g.stats[side].turn++;if(/TIRO DE [123] FALLADO/.test(a))g.stats[side].miss++;});
+ev.forEach(function(x){g.quarters[x[0]-1][x[3]&&x[2]===p.away?1:0]+=x[3];});
+[1,2,3,4].forEach(function(q){var arr=ev.filter(function(x){return x[0]===q;}).sort(function(a,b){return b[1]-a[1];});[p.home,p.away].forEach(function(team,side){var own=arr.filter(function(x){return x[2]===team;});var total=0,start=null,last=null;own.forEach(function(x){if(!start)start=x;total+=x[3];last=x;});if(total>=6)g.runs.push([total,q,side,start?start[1]:0,last?last[1]:0]);var times=own.map(function(x){return x[1];}).sort(function(a,b){return b-a;}),gaps=[];if(times.length){gaps.push([600-times[0],times[0],600]);for(var i=1;i<times.length;i++)gaps.push([times[i-1]-times[i],times[i-1],times[i]]);gaps.push([times[times.length-1],times[times.length-1],0]);}else gaps=[[600,600,0]];gaps.sort(function(a,b){return b[0]-a[0];});g.droughts.push([gaps[0][0],q,side,gaps[0][1],gaps[0][2]]);});});
+return g;
+}
+var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="undefined"?PBP_ADV_EXTRA:[]);
+function populate(){
+var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");if(!j||!p||!pr)return;
+var oldJ=j.value||"1",oldP=p.value,oldPr=pr.value,by={};
+scoutGames.forEach(function(g){var m=String(g.label||"").match(/Jornada\s+(\d+)/i),n=m?m[1]:"1";(by[n]||(by[n]=[])).push(g);});
+j.innerHTML=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);}).map(function(n){return '<option value="'+n+'">Jornada '+n+'</option>';}).join("");
+j.value=by[oldJ]?oldJ:Object.keys(by)[0];var gs=by[j.value]||[];
+p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\s+\d+\s*·\s*/i,""))+'</option>';}).join("");
+p.value=gs.some(function(g){return String(g.id)===String(oldP);})?oldP:(gs[0]?gs[0].id:"");
+var g=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];if(!g)return;
+pr.innerHTML=[g.home,g.away].map(function(t){return '<option value="'+esc(t)+'">'+esc(short(t))+'</option>';}).join("");
+pr.value=(oldPr===g.home||oldPr===g.away)?oldPr:g.home;
+}
+function render(){
+var box=document.getElementById("pbpDynamic");if(!box)return;populate();
+var ps=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma"),g=scoutGames.find(function(x){return String(x.id)===String(ps&&ps.value);})||scoutGames[0],team=pr&&pr.value?pr.value:g.home;
+if(team!==g.home&&team!==g.away)team=g.home;var ti=team===g.home?0:1,oi=1-ti,opp=ti?g.home:g.away,tf=g.final[ti],of=g.final[oi],margin=tf-of;
+var runs=g.runs.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),oppRuns=g.runs.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];}),ds=g.droughts.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),ods=g.droughts.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];});
+var best=runs[0],worst=oppRuns[0],drought=ds[0],oppDrought=ods[0];
+var q=g.quarters.map(function(x,i){var d=x[ti]-x[oi];return '<div class="pgs-quarter"><div class="qhead"><strong>Q'+(i+1)+'</strong><span class="margin '+(d>0?"pos":d<0?"neg":"neu")+'">'+(d>0?"+":"")+d+'</span></div><div class="qscore">'+x[ti]+' - '+x[oi]+'</div><div class="qdetails"><span>'+esc(short(team))+': <b>'+x[ti]+'</b></span><span>'+esc(short(opp))+': <b>'+x[oi]+'</b></span></div></div>';}).join("");
+var moments=[best?'<div class="pgs-event"><div class="time">Q'+best[1]+'</div><div><strong>Parcial '+best[0]+'-0 de '+esc(short(team))+'</strong><p>Tramo favorable.</p></div><span class="pgs-badge good">A FAVOR</span></div>':"",worst?'<div class="pgs-event"><div class="time">Q'+worst[1]+'</div><div><strong>Parcial '+worst[0]+'-0 de '+esc(short(opp))+'</strong><p>Momento negativo.</p></div><span class="pgs-badge bad">EN CONTRA</span></div>':""].join("");
+box.innerHTML='<div class="pgs-wrap"><div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>🧠 '+esc(short(team))+'</h3><p>'+esc(g.label)+' · '+(margin>0?"Victoria por "+margin+" puntos.":"Derrota por "+Math.abs(margin)+" puntos.")+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div></div><div class="pgs-grid"><div class="pgs-stat"><small>Mejor parcial</small><strong>'+(best?best[0]+"-0":"—")+'</strong><span>'+(best?"Q"+best[1]:"—")+'</span></div><div class="pgs-stat"><small>Peor parcial recibido</small><strong>'+(worst?worst[0]+"-0":"—")+'</strong><span>'+(worst?"Q"+worst[1]:"—")+'</span></div><div class="pgs-stat"><small>Sequía máxima</small><strong>'+(drought?Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0"):"—")+'</strong><span>'+(drought?"Q"+drought[1]:"—")+'</span></div><div class="pgs-stat"><small>Triples</small><strong>'+((g.stats[ti]&&g.stats[ti].three)||0)+'</strong><span>detectados</span></div></div><section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue "+best[0]+"-0 en Q"+best[1]+".":"Sin parcial propio destacado.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El rival logró "+worst[0]+"-0 en Q"+worst[1]+".":"Sin parcial rival destacado.")+(drought?" Sequía propia máxima: "+Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0")+".":"")+'</p></div></div></section><section class="pgs-panel"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+q+'</div></section><section class="pgs-panel"><h3>🚨 Momentos clave</h3><div class="pgs-events">'+moments+'</div></section><section class="pgs-panel"><h3>🎯 Lectura para el entrenador</h3><div class="pgs-footer"><b>Prisma seleccionado:</b> '+esc(short(team))+'. El mismo partido se interpreta desde este equipo.</div></section></div>';
+}
+document.addEventListener("change",function(e){if(e.target&&["pgsJornada","pgsPartido","pgsPrisma"].indexOf(e.target.id)>=0)render();});
+window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");render();};
+window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto");};
+window.pbpRender=render;
 })();
 </script>
 <!-- POST-GAME-SCOUT-V1 -->
