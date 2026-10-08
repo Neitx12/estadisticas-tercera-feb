@@ -220,12 +220,7 @@ html.auth-loading body> *:not(#authGate){visibility:hidden!important}
 .auth-error{min-height:18px;margin-top:12px;color:#c62828;font-size:12px;font-weight:700}
 .auth-logout{position:fixed;right:18px;top:18px;z-index:15;border:0;border-radius:9px;padding:8px 12px;background:rgba(255,255,255,.92);color:#12343b;font-weight:800;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.08);display:none}
 body.authenticated .auth-logout{display:block}
-</style><style id="estadisticas-modulos-style">
-.estadistica-modulo-btn{border:1px solid #cdd6e2;border-radius:10px;padding:11px 16px;background:#fff;color:#12343b;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.estadistica-modulo-btn:hover{border-color:#00a6a6;transform:translateY(-1px)}
-.estadistica-modulo-btn.activo{background:#00a6a6;color:#fff;border-color:#12343b}
-.tabs .estadistica-modulo-btn{margin:0}
-</style></head>  <body class="auth-locked"><div id="authGate"><div class="auth-card"><div class="auth-logo">🏀</div><h2>Acceso restringido</h2><p>Introduce tus credenciales para acceder a Estadísticas Tercera FEB.</p><form id="authForm"><div class="auth-field"><label for="authUsername">Usuario</label><input id="authUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><div class="auth-field"><label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" required></div><button class="auth-btn" id="authSubmit" type="submit">ENTRAR</button><div class="auth-error" id="authError"></div></form></div></div><button class="auth-logout" id="authLogout" type="button">Cerrar sesión</button> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="tabs">              <button id="scdbStaticLaunch" class="scdb-launch" type="button" onclick="window.abrirScoutingSeguro();return false;">🧠 Scouting</button>     </div>   </section>
+</style></head>  <body class="auth-locked"><div id="authGate"><div class="auth-card"><div class="auth-logo">🏀</div><h2>Acceso restringido</h2><p>Introduce tus credenciales para acceder a Estadísticas Tercera FEB.</p><form id="authForm"><div class="auth-field"><label for="authUsername">Usuario</label><input id="authUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><div class="auth-field"><label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" required></div><button class="auth-btn" id="authSubmit" type="submit">ENTRAR</button><div class="auth-error" id="authError"></div></form></div></div><button class="auth-logout" id="authLogout" type="button">Cerrar sesión</button> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="tabs">              <button class="tab-button" data-tab="base">Equipos · Estadística base</button>       <button class="tab-button" data-tab="avanzada">Equipos · Estadística avanzada</button>       <button class="tab-button" data-tab="jugadoresBase">Jugadores · Estadística base</button>       <button class="tab-button" data-tab="jugadoresAvanzada">Jugadores · Estadística avanzada</button> <button id="scdbStaticLaunch" class="scdb-launch" type="button" onclick="window.abrirScoutingSeguro();return false;">🧠 Scouting</button>     </div>   </section>
 
 
 
@@ -342,17 +337,10 @@ body.authenticated .auth-logout{display:block}
 </section>
 </div>
 <section id="completos" class="contenido-tab oculto">     <div id="tablaCompletosWrap" class="tabla-wrap"></div>   </section>
-<section class="modulos-analisis estadisticas-modulos">
-  <button type="button" class="modulo-btn" data-modulo="base">🏀 Equipos · Estadística base</button>
-  <button type="button" class="modulo-btn" data-modulo="avanzada">📈 Equipos · Estadística avanzada</button>
-  <button type="button" class="modulo-btn" data-modulo="jugadoresBase">👤 Jugadores · Estadística base</button>
-  <button type="button" class="modulo-btn" data-modulo="jugadoresAvanzada">📊 Jugadores · Estadística avanzada</button>
-</section>
-<section id="base" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>🏀 Equipos · Estadística base</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoBase">Periodo</label><select id="periodoBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div><div id="tablaBaseWrap" class="tabla-wrap"></div></section>
-<section id="avanzada" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>📈 Equipos · Estadística avanzada</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoAvanzada">Periodo</label><select id="periodoAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</select></div><div id="tablaAvanzadaWrap" class="tabla-wrap"></div></section>
-<section id="jugadoresBase" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>👤 Jugadores · Estadística base</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoJugadoresBase">Periodo</label><select id="periodoJugadoresBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</select></div><div id="tablaJugadoresBaseWrap" class="tabla-wrap"></div></section>
-<section id="jugadoresAvanzada" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>📊 Jugadores · Estadística avanzada</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoJugadoresAvanzada">Periodo</label><select id="periodoJugadoresAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</select></div><div id="tablaJugadoresAvanzadaWrap" class="tabla-wrap"></div></section>
-</main>  
+<section id="base" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoBase">Periodo</label><select id="periodoBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaBaseWrap" class="tabla-wrap"></div>   </section>
+<section id="avanzada" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoAvanzada">Periodo</label><select id="periodoAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaAvanzadaWrap" class="tabla-wrap"></div>   </section>
+<section id="jugadoresBase" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoJugadoresBase">Periodo</label><select id="periodoJugadoresBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaJugadoresBaseWrap" class="tabla-wrap"></div>   </section>
+<section id="jugadoresAvanzada" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoJugadoresAvanzada">Periodo</label><select id="periodoJugadoresAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaJugadoresAvanzadaWrap" class="tabla-wrap"></div>   </section> </main>  
 <div id="modalJugador" class="modal">
   <div class="modal-jugador-card">
     <div class="perfil-jugador-head">
@@ -1412,10 +1400,6 @@ document.getElementById("modalJugador")?.addEventListener("click",e=>{
 function activarModulosAnalisis(){
   var botones=document.querySelectorAll(".modulo-btn");
   var modulos={
-    base:document.getElementById("base"),
-    avanzada:document.getElementById("avanzada"),
-    jugadoresBase:document.getElementById("jugadoresBase"),
-    jugadoresAvanzada:document.getElementById("jugadoresAvanzada"),
     jugadores:document.getElementById("moduloJugadores"),
     hot:document.getElementById("moduloHotStreaks"),
     comparador:document.getElementById("moduloComparador"),
@@ -1526,7 +1510,8 @@ function activarControlesTablaModal(destino,origenId){
     });
   });
 }
-
+document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));
   b.classList.add("activo");
   actualizarTextoPeriodo();
   abrirModalEstadisticas(b.dataset.tab);
