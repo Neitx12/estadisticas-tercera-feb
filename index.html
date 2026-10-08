@@ -1412,14 +1412,21 @@ const combinacionesPBPData={"1":{"2":[["L. GOMEZ FERNANDEZ + M. SOLORZANO COLSA"
 function poblarEquiposCombinacionesPBP(){
   var sel=document.getElementById("combinacionesEquipo");
   if(!sel)return;
-  var fuente=(typeof equiposDB!=="undefined"&&equiposDB.length)?equiposDB:equiposFallback;
+  var nombresPorId={
+    1:"Piélagos",2:"La Flecha",3:"Ardoi",4:"Ulacia ZKE",5:"Tabirako",6:"Iruki Take",
+    7:"Solares",8:"San Prudencio",9:"Zornotza",10:"Egüés",11:"Deusto Loyola Indautxu",
+    12:"Bezana",13:"Cantbasket04",14:"Ávila Auténtica"
+  };
+  var fuente=(typeof equiposDB!=="undefined"&&Array.isArray(equiposDB)&&equiposDB.length)?equiposDB:[];
+  var porId={};
+  fuente.forEach(function(e){porId[num(e.id)]=e.nombre;});
   var actual=sel.value;
-  sel.innerHTML='<option value="">Selecciona equipo</option>'+fuente.slice().sort(function(a,b){
-    return String(a.nombre||"").localeCompare(String(b.nombre||""),"es");
-  }).map(function(e){
-    return '<option value="'+num(e.id)+'">'+compEsc(e.nombre||"Equipo")+'</option>';
+  var ids=Object.keys(combinacionesPBPData||{}).map(Number).sort(function(a,b){return a-b;});
+  sel.innerHTML='<option value="">Selecciona equipo</option>'+ids.map(function(id){
+    var nombre=porId[id]||nombresPorId[id]||("Equipo "+id);
+    return '<option value="'+id+'">'+compEsc(nombre)+'</option>';
   }).join("");
-  if(actual&&fuente.some(function(e){return num(e.id)===num(actual)}))sel.value=actual;
+  if(actual&&ids.indexOf(num(actual))>=0)sel.value=actual;
 }
 function seleccionarCombinacion(tipo){document.querySelectorAll(".combinacion-tab").forEach(function(b){b.classList.toggle("activo",num(b.dataset.combinacionTipo)===num(tipo))});renderCombinacionesPBP();}
 function renderCombinacionesPBP(){var eq=document.getElementById("combinacionesEquipo"),tipo=document.querySelector(".combinacion-tab.activo"),box=document.getElementById("combinacionesTabla"),res=document.getElementById("combinacionesResumen"),periodo=document.getElementById("combinacionesPeriodo"),jornada=document.getElementById("combinacionesJornada");if(!eq||!tipo||!box||!res)return;var rows=(combinacionesPBPData[num(eq.value)]||{})[num(tipo?tipo.dataset.combinacionTipo:2)]||[];var modo=periodo?periodo.value:"season";var jSel=jornada?num(jornada.value):1;var etiqueta=modo==="season"?"Toda la liga":modo==="1"?"Última jornada":modo==="5"?"Últimas 5 jornadas":modo==="10"?"Últimas 10 jornadas":modo==="15"?"Últimas 15 jornadas":"Jornada "+jSel;var nombres={2:"Parejas",3:"Tríos",5:"Quintetos"};if(!rows.length){res.innerHTML="";box.innerHTML='<div class="mensaje">No hay datos PBP para esta combinación.</div>';return}var best=rows[0],equipo=eq.options[eq.selectedIndex].text;res.innerHTML='<div class="combinaciones-resumen"><div class="combinaciones-kpi"><small>Periodo</small><strong>'+etiqueta+'</strong></div><div class="combinaciones-kpi"><small>Mejor combinación</small><strong>'+compEsc(best[0])+'</strong></div><div class="combinaciones-kpi"><small>Tiempo juntos</small><strong>'+best[1]+'</strong></div><div class="combinaciones-kpi"><small>+/- juntos</small><strong>+'+best[4]+'</strong></div></div>';box.innerHTML='<table><thead><tr><th>#</th><th>Jugadores</th><th>Tiempo juntos</th><th>PTS</th><th>PTS recibidos</th><th>+/-</th></tr></thead><tbody>'+rows.map(function(r,i){return '<tr class="'+(i===0?'mejor':'')+'"><td>'+(i+1)+'</td><td style="text-align:left;white-space:normal">'+compEsc(r[0])+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td class="'+(r[4]>=0?'positivo':'negativo')+'">'+(r[4]>0?'+':'')+r[4]+'</td></tr>'}).join('')+'</tbody></table>';}
@@ -1638,7 +1645,15 @@ for(var t=0;t<2;t++){var own=all.filter(function(e){return e[2]===t;}).map(funct
 base.runs.sort(function(a,b){return b[0]-a[0];});base.droughts.sort(function(a,b){return b[0]-a[0];});return base;
 }
 var games=[summaryFromOriginal(PBP_ADV_DATA)].concat(PBP_ADV_EXTRA);
-var teams=[];games.forEach(function(g){[g.home,g.away].forEach(function(t){if(teams.indexOf(t)<0)teams.push(t);});});teams.sort(function(a,b){return short(a).localeCompare(short(b),"es");});
+var equiposPBP14=[
+  "CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS","BALONCESTO LA FLECHA","MEGACALZADO ARDOI","ULACIA ZKE",
+  "TABIRAKO BAQUE","IRUKI TAKE","RESTAURANTE LOS ARCOS CB SOLARES","SAN PRUDENCIO",
+  "TEKNEI BIZKAIA ZORNOTZA","ELABORADOS NATURALES VALLE DE EGÜÉS","UNIVERSIDAD DEUSTO LOIOLA INDAUTXU",
+  "LIS DATA SOLUTIONS BEZANA","DE MORRO FINO CANTBASKET04","HOTEL 4POSTES - ÁVILA AUTÉNTICA - EL BULEVAR"
+];
+var teams=[];games.forEach(function(g){[g.home,g.away].forEach(function(t){if(teams.indexOf(t)<0)teams.push(t);});});
+equiposPBP14.forEach(function(t){if(teams.indexOf(t)<0)teams.push(t);});
+teams.sort(function(a,b){return short(a).localeCompare(short(b),"es");});
 function render(){
 var box=document.getElementById("pbpDynamic");if(!box)return;
 var select=document.getElementById("pgsTeam"),team=select&&select.value?select.value:teams[0],g=games.find(function(x){return x.home===team||x.away===team;})||games[0];team=(g.home===team||g.away===team)?team:g.home;var ti=team===g.home?0:1,opp=ti?g.home:g.away,oi=1-ti,tf=g.final[ti],of=g.final[oi],margin=tf-of;
