@@ -220,13 +220,10 @@ html.auth-loading body> *:not(#authGate){visibility:hidden!important}
 .auth-error{min-height:18px;margin-top:12px;color:#c62828;font-size:12px;font-weight:700}
 .auth-logout{position:fixed;right:18px;top:18px;z-index:15;border:0;border-radius:9px;padding:8px 12px;background:rgba(255,255,255,.92);color:#12343b;font-weight:800;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.08);display:none}
 body.authenticated .auth-logout{display:block}
-</style><style id="avanzada-equipo-css">
-#ae{}
-#avanzadaEquipoWrap{display:grid;gap:18px}.ae-card{background:#fff;border:1px solid #d9e4e8;border-radius:18px;padding:18px;box-shadow:0 10px 28px rgba(18,52,59,.08)}.ae-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}.ae-head img{width:42px;height:42px;object-fit:contain}.ae-head h3{margin:0;font-size:18px}.ae-head span{font-size:12px;opacity:.7}.ae-columns,.ae-row{display:grid;grid-template-columns:minmax(150px,1.4fr) repeat(3,minmax(90px,1fr));gap:8px;align-items:center}.ae-columns{background:linear-gradient(135deg,#00a6a6 0%,#f0007f 100%);color:#fff;padding:10px 12px;border-radius:10px 10px 0 0;text-align:center;font-size:10px}.ae-row{padding:8px 12px;border-bottom:1px solid #edf1f3;font-size:12px}.ae-row span{font-weight:800}.ae-row b{text-align:center}.ae-group{border:1px solid #e5ecef;border-radius:12px;overflow:hidden;margin-top:14px}.ae-group h4,.ae-pace h4{margin:0;padding:9px 12px;background:#f4f8f9;color:#12343b;font-size:11px;letter-spacing:.5px}.ae-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.ae-pace{margin-top:14px;border:1px solid #e5ecef;border-radius:12px;overflow:hidden}.ae-pace>div{padding:18px;text-align:center}.ae-pace small{display:block;font-weight:800;font-size:11px}.ae-pace strong{display:block;font-size:30px;margin:5px 0}.ae-pace span{font-size:11px;opacity:.7}@media(max-width:800px){.ae-grid2{grid-template-columns:1fr}.ae-columns,.ae-row{grid-template-columns:minmax(120px,1.3fr) repeat(3,minmax(70px,1fr));font-size:10px}}
 </style></head>  <body class="auth-locked"><div id="authGate"><div class="auth-card"><div class="auth-logo">🏀</div><h2>Acceso restringido</h2><p>Introduce tus credenciales para acceder a Estadísticas Tercera FEB.</p><form id="authForm"><div class="auth-field"><label for="authUsername">Usuario</label><input id="authUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><div class="auth-field"><label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" required></div><button class="auth-btn" id="authSubmit" type="submit">ENTRAR</button><div class="auth-error" id="authError"></div></form></div></div><button class="auth-logout" id="authLogout" type="button">Cerrar sesión</button> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">
   <div class="modulos-analisis" id="modulosEstadisticas">
     <button type="button" class="modulo-btn" data-estadistica-modulo="base">Equipos · Estadística base</button>
-    <button type="button" class="modulo-btn" data-estadistica-modulo="avanzada">Equipos · Estadística avanzada</button><button type="button" class="modulo-btn" data-estadistica-modulo="avanzadaEquipo">Avanzada equipo</button>
+    <button type="button" class="modulo-btn" data-estadistica-modulo="avanzada">Equipos · Estadística avanzada</button>
     <button type="button" class="modulo-btn" data-estadistica-modulo="jugadoresBase">Jugadores · Estadística base</button>
     <button type="button" class="modulo-btn" data-estadistica-modulo="jugadoresAvanzada">Jugadores · Estadística avanzada</button>
     <button id="scdbStaticLaunch" class="scdb-launch" type="button" onclick="window.abrirScoutingSeguro();return false;">🧠 Scouting</button>
@@ -350,7 +347,6 @@ body.authenticated .auth-logout{display:block}
 <section id="completos" class="contenido-tab oculto">     <div id="tablaCompletosWrap" class="tabla-wrap"></div>   </section>
 <section id="base" class="contenido-tab modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>Equipos · Estadística base</strong><button type="button" class="volver-modulos" data-volver-estadisticas>← Volver a opciones</button></div> <div class="estadistica-periodo"><label for="periodoBase">Periodo</label><select id="periodoBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaBaseWrap" class="tabla-wrap"></div>   </section>
 <section id="avanzada" class="contenido-tab modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>Equipos · Estadística avanzada</strong><button type="button" class="volver-modulos" data-volver-estadisticas>← Volver a opciones</button></div> <div class="estadistica-periodo"><label for="periodoAvanzada">Periodo</label><select id="periodoAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaAvanzadaWrap" class="tabla-wrap"></div>   </section>
-<section id="avanzadaEquipo" class="contenido-tab modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>Avanzada equipo</strong><button type="button" class="volver-modulos" data-volver-estadisticas>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoAvanzadaEquipo">Periodo</label><select id="periodoAvanzadaEquipo" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div><div id="avanzadaEquipoWrap"></div></section>
 <section id="jugadoresBase" class="contenido-tab modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>Jugadores · Estadística base</strong><button type="button" class="volver-modulos" data-volver-estadisticas>← Volver a opciones</button></div> <div class="estadistica-periodo"><label for="periodoJugadoresBase">Periodo</label><select id="periodoJugadoresBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaJugadoresBaseWrap" class="tabla-wrap"></div>   </section>
 <section id="jugadoresAvanzada" class="contenido-tab modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>Jugadores · Estadística avanzada</strong><button type="button" class="volver-modulos" data-volver-estadisticas>← Volver a opciones</button></div> <div class="estadistica-periodo"><label for="periodoJugadoresAvanzada">Periodo</label><select id="periodoJugadoresAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaJugadoresAvanzadaWrap" class="tabla-wrap"></div>   </section> </main>  
 <div id="modalJugador" class="modal">
@@ -772,50 +768,6 @@ function construirTablaJugadores(rows,columnas,targetId){
   pintar();
 }
 
-function datosAvanzadaEquipo(equipoId,ps){
-  const filas=ps.filter(p=>num(p.equipo_local_id)===num(equipoId)||num(p.equipo_visitante_id)===num(equipoId));
-  const z={g:0,pts:0,ptsR:0,d2m:0,d2a:0,t3m:0,t3a:0,ftm:0,fta:0,orb:0,drb:0,trb:0,ast:0,stl:0,blk:0,to:0,pf:0,orbR:0,drbR:0,trbR:0,toR:0,d2aR:0,t3aR:0,ftAR:0};
-  filas.forEach(p=>{
-    const local=num(p.equipo_local_id)===num(equipoId), rivalId=local?num(p.equipo_visitante_id):num(p.equipo_local_id);
-    const s=estadisticasDB.find(x=>num(x.partido_id)===num(p.id)&&num(x.equipo_id)===num(equipoId));
-    const r=estadisticasDB.find(x=>num(x.partido_id)===num(p.id)&&num(x.equipo_id)===rivalId);
-    if(!s)return;
-    z.g++;z.pts+=local?num(p.puntos_local):num(p.puntos_visitante);z.ptsR+=local?num(p.puntos_visitante):num(p.puntos_local);
-    z.d2m+=num(s.dosp_anotados);z.d2a+=num(s.dosp_intentos);z.t3m+=num(s.tresp_anotados);z.t3a+=num(s.tresp_intentos);z.ftm+=num(s.tl_anotados);z.fta+=num(s.tl_intentos);
-    z.orb+=num(s.reb_ofensivos);z.drb+=num(s.reb_defensivos);z.trb+=num(s.reb_totales);z.ast+=num(s.asistencias);z.stl+=num(s.recuperaciones);z.blk+=num(s.tapones);z.to+=num(s.perdidas);z.pf+=num(s.faltas_cometidas);
-    if(r){z.orbR+=num(r.reb_ofensivos);z.drbR+=num(r.reb_defensivos);z.trbR+=num(r.reb_totales);z.toR+=num(r.perdidas);z.d2aR+=num(r.dosp_intentos);z.t3aR+=num(r.tresp_intentos);z.ftAR+=num(r.tl_intentos);}
-  });
-  const fga=z.d2a+z.t3a,poss=fga+.44*z.fta-z.orb+z.to,fgaR=z.d2aR+z.t3aR,possR=fgaR+.44*z.ftAR-z.orbR+z.toR;
-  return {g:z.g,efg:fga?(z.d2m+z.t3m+.5*z.t3m)/fga:0,orbPct:(z.orb+z.drbR)?100*z.orb/(z.orb+z.drbR):0,tovPct:poss?100*z.to/poss:0,ftr:fga?100*z.fta/fga:0,pace:z.g?poss/z.g:0,astPct:fga?100*z.ast/fga:0,stlPct:poss?100*z.stl/poss:0,blkPct:fgaR?100*z.blk/fgaR:0,ts:(2*(fga+.44*z.fta))?100*z.pts/(2*(fga+.44*z.fta)):0,threePar:fga?100*z.t3a/fga:0,ppt:poss?100*z.pts/poss:0,ppft:z.fta?z.ftm/z.fta:0,pp2:z.d2a?2*z.d2m/z.d2a:0,pp3:z.t3a?3*z.t3m/z.t3a:0,oer:poss?100*z.pts/poss:0,der:possR?100*z.ptsR/possR:0,net:(poss?100*z.pts/poss:0)-(possR?100*z.ptsR/possR:0),drbPct:(z.drb+z.orbR)?100*z.drb/(z.drb+z.orbR):0,trbPct:(z.trb+z.trbR)?100*z.trb/(z.trb+z.trbR):0};
-}
-function periodoPartidosAvanzada(v){
-  const maxJ=Math.max(0,...partidosDB.map(p=>num(p.jornada))),minJ=v==="season"?1:Math.max(1,maxJ-num(v)+1);
-  return partidosDB.filter(p=>num(p.jornada)>=minJ);
-}
-function filaAvanzadaEquipo(e,ps,modo){
-  let subset=ps;
-  if(modo==="victoria"||modo==="derrota") subset=ps.filter(p=>{const local=num(p.equipo_local_id)===num(e.id),pf=local?num(p.puntos_local):num(p.puntos_visitante),pc=local?num(p.puntos_visitante):num(p.puntos_local);return modo==="victoria"?pf>pc:pf<pc});
-  return datosAvanzadaEquipo(e.id,subset);
-}
-function renderAvanzadaEquipo(periodo){
-  const wrap=document.getElementById("avanzadaEquipoWrap");if(!wrap)return;
-  const ps=periodoPartidosAvanzada(periodo),equipos=equiposDB.length?equiposDB:equiposFallback;
-  const cards=equipos.map(e=>{
-    const a=filaAvanzadaEquipo(e,ps,"season"),w=filaAvanzadaEquipo(e,ps,"victoria"),l=filaAvanzadaEquipo(e,ps,"derrota");
-    const esc=escudos[e.nombre]||"";
-    const logo=esc?'<img src="'+esc+'" alt="">':"";
-    const cell=v=>Number.isFinite(Number(v))?Number(v).toFixed(1):"—";
-    const pct=v=>cell(v);
-    const row=(n,k,suf="")=>'<div class="ae-row"><span>'+n+'</span><b>'+pct(a[k])+'</b><b>'+pct(w[k])+'</b><b>'+pct(l[k])+'</b></div>';
-    return '<section class="ae-card"><div class="ae-head">'+logo+'<div><h3>'+compEsc(e.nombre)+'</h3><span>'+a.g+' partidos · '+w.g+'V · '+l.g+'D</span></div></div>'+
-      '<div class="ae-columns"><span></span><strong>TEMPORADA</strong><strong>VICTORIA</strong><strong>DERROTA</strong></div>'+
-      '<div class="ae-group"><h4>CUATRO FACTORES</h4>'+row("eFG%","efg")+row("ORB%","orbPct")+row("TOV%","tovPct")+row("FTr","ftr")+'</div>'+
-      '<div class="ae-grid2"><div class="ae-group"><h4>MANEJO DE BALÓN</h4>'+row("AST%","astPct")+row("STL%","stlPct")+row("BLK%","blkPct")+row("TOV%","tovPct")+'</div><div class="ae-group"><h4>LANZAMIENTO</h4>'+row("TS%","ts")+row("eFG%","efg")+row("3PAr","threePar")+row("PPT","ppt")+'</div></div>'+
-      '<div class="ae-grid2"><div class="ae-group"><h4>PUNTOS</h4>'+row("PPFT","ppft")+row("PP2PS","pp2")+row("PP3PS","pp3")+'</div><div class="ae-pace"><h4>RITMO DE JUEGO</h4><div><small>Nº posesiones (40')</small><strong>'+cell(a.pace)+'</strong><span>Temporada · '+cell(w.pace)+' victoria · '+cell(l.pace)+' derrota</span></div></div></div>'+
-      '<div class="ae-grid2"><div class="ae-group"><h4>RATINGS</h4>'+row("Net Rating","net")+row("OER","oer")+row("DER","der")+'</div><div class="ae-group"><h4>REBOTES</h4>'+row("ORB%","orbPct")+row("DRB%","drbPct")+row("TRB","trbPct")+'</div></div></section>';
-  }).join("");
-  wrap.innerHTML=cards||'<div class="mensaje">No hay datos disponibles.</div>';
-}
 function render(){renderClasificacionLiga();renderCalendarioCompeticion();
   var pBase=periodosEstadisticas.base||"season";
   var pAvanzada=periodosEstadisticas.avanzada||"season";
@@ -828,7 +780,6 @@ function render(){renderClasificacionLiga();renderCalendarioCompeticion();
   construirTabla(calcularEquipos(periodoSeleccionado),seasonRows,columnasCompletas,"tablaCompletosWrap");
   construirTabla(rowsBase,seasonRows,columnasBase,"tablaBaseWrap");
   construirTabla(rowsAvanzada,seasonRows,columnasAvanzadas,"tablaAvanzadaWrap");
-  renderAvanzadaEquipo(pAvanzadaEquipo);
   construirTablaJugadores(calcularJugadoresTabla(pJugBase),columnasBaseJugadores,"tablaJugadoresBaseWrap");
   construirTablaJugadores(calcularJugadoresTabla(pJugAv),columnasAvanzadasJugadores,"tablaJugadoresAvanzadaWrap");
 }
@@ -1511,7 +1462,6 @@ activarModulosAnalisis();
   var modulos={
     base:document.getElementById("base"),
     avanzada:document.getElementById("avanzada"),
-    avanzadaEquipo:document.getElementById("avanzadaEquipo"),
     jugadoresBase:document.getElementById("jugadoresBase"),
     jugadoresAvanzada:document.getElementById("jugadoresAvanzada")
   };
@@ -1536,7 +1486,7 @@ activarModulosAnalisis();
   });
 })();
 
-var periodosEstadisticas={base:"season",avanzada:"season",avanzadaEquipo:"season",jugadoresBase:"season",jugadoresAvanzada:"season"};
+var periodosEstadisticas={base:"season",avanzada:"season",jugadoresBase:"season",jugadoresAvanzada:"season"};
 function periodoValor(v){return v==="season"?"season":Number(v)}
 function periodoNombre(v){return ({1:"Última jornada",5:"Últimas 5 jornadas",10:"Últimas 10 jornadas",15:"Últimas 15 jornadas",season:"Toda la temporada"})[v]||"Toda la temporada"}
 function periodoActivoPestana(){
@@ -1551,7 +1501,7 @@ function actualizarTextoPeriodo(){
 }
 document.querySelectorAll(".periodo-select").forEach(function(sel){
   sel.addEventListener("change",function(){
-    var tipo=sel.id==="periodoBase"?"base":sel.id==="periodoAvanzada"?"avanzada":sel.id==="periodoAvanzadaEquipo"?"avanzadaEquipo":sel.id==="periodoJugadoresBase"?"jugadoresBase":"jugadoresAvanzada";
+    var tipo=sel.id==="periodoBase"?"base":sel.id==="periodoAvanzada"?"avanzada":sel.id==="periodoJugadoresBase"?"jugadoresBase":"jugadoresAvanzada";
     periodosEstadisticas[tipo]=periodoValor(sel.value);
     if(tipo==="base"||tipo==="avanzada")periodoSeleccionado=periodosEstadisticas[tipo];
     actualizarTextoPeriodo();
@@ -1564,7 +1514,6 @@ function abrirModalEstadisticas(tipo){
   var mapa={
     base:["Equipos · Estadística base","Estadísticas base de todos los equipos","tablaBaseWrap"],
     avanzada:["Equipos · Estadística avanzada","Estadísticas avanzadas de todos los equipos","tablaAvanzadaWrap"],
-    avanzadaEquipo:["Avanzada equipo","Análisis avanzado del equipo · temporada, victorias y derrotas","avanzadaEquipoWrap"],
     jugadoresBase:["Jugadores · Estadística base","Estadísticas base de todos los jugadores","tablaJugadoresBaseWrap"],
     jugadoresAvanzada:["Jugadores · Estadística avanzada","Estadísticas avanzadas de todos los jugadores","tablaJugadoresAvanzadaWrap"]
   };
