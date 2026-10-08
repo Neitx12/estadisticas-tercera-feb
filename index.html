@@ -861,6 +861,7 @@ function renderPlantillaEquipoModal(equipoId,rivalId,modo){
   if(!g)return '<div class="mensaje">No hay partidos disponibles para este filtro.</div>';
   const mapa=new Map();
   d.filas.forEach(s=>{
+    if(parseMinutosPerfil(s.minutos)<=0)return;
     const j=jugadoresDB.find(x=>num(x.id)===num(s.jugador_id));if(!j)return;
     const k=num(j.id);
     if(!mapa.has(k))mapa.set(k,{jugadorId:num(j.id),equipoId:num(j.equipo_id),nombre:j.nombre,g:0,min:0,pts:0,d2m:0,d2a:0,t3m:0,t3a:0,ftm:0,fta:0,drb:0,orb:0,reb:0,ast:0,to:0,val:0});
