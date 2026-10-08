@@ -1695,7 +1695,7 @@ function hotStats(filas){
 function hotFilasJugador(j){
   var eq=num(j.equipo_id),ps=partidosDB.filter(function(p){return num(p.equipo_local_id)===eq||num(p.equipo_visitante_id)===eq}).sort(function(a,b){return num(a.jornada)-num(b.jornada)});
   var mapa=new Map(ps.map(function(p){return [num(p.id),p]}));
-  return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(j.id)&&mapa.has(num(s.partido_id)&&parseMinutosPerfil(s.minutos)>0)}).map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}}).sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
+  return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(j.id)&&mapa.has(num(s.partido_id))&&parseMinutosPerfil(s.minutos)>0}).map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}}).sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
 }
 function hotRanking(){
   var periodoValor=document.getElementById("hotPeriodo").value,periodo=periodoValor==="season"?"season":Number(periodoValor),cat=document.getElementById("hotCategoria").value,minG=Number(document.getElementById("hotMinPartidos").value);
