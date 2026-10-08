@@ -418,7 +418,7 @@ body.authenticated .auth-logout{display:block}
       <div id="equipoAnalisisContenido"></div>
     </div>
     <div id="equipoVistaPlantilla" class="equipo-vista oculta">
-      <div class="equipo-filtros"><label>Rival<select id="equipoPlantillaRival"></select></label></div>
+      <div class="equipo-filtros"><label>Rival<select id="equipoPlantillaRival"></select></label><button type="button" id="btnPlantillaAvanzada" class="equipo-accion">📊 ESTADÍSTICA AVANZADA</button></div>
       <div class="plantilla-tabs"><button type="button" class="plantilla-tab activo" data-plantilla-tab="totales">Totales</button><button type="button" class="plantilla-tab" data-plantilla-tab="medias">Medias</button></div>
       <div id="equipoPlantillaContenido"></div>
     </div>
@@ -874,6 +874,21 @@ function renderPlantillaEquipoModal(equipoId,rivalId,modo){
     x.ast+=num(s.asistencias);x.to+=num(s.perdidas);x.val+=num(s.valoracion);
   });
   const arr=[...mapa.values()].sort((a,b)=>b.pts-a.pts);
+  if(modo==="avanzada"){
+    const teamMin=arr.reduce((s,x)=>s+x.min,0),teamFga=arr.reduce((s,x)=>s+x.d2a+x.t3a,0),teamFta=arr.reduce((s,x)=>s+x.fta,0),teamTo=arr.reduce((s,x)=>s+x.to,0);
+    const denTeam=teamFga+.44*teamFta+teamTo;
+    const advRows=arr.map(x=>{
+      const fga=x.d2a+x.t3a,fgm=x.d2m+x.t3m,denTS=2*(fga+.44*x.fta);
+      return {x:x,pts40:x.min?x.pts*2400/x.min:null,reb40:x.min?x.reb*2400/x.min:null,ast40:x.min?x.ast*2400/x.min:null,val40:x.min?x.val*2400/x.min:null,
+        ts:denTS?x.pts/denTS:null,efg:fga?(fgm+.5*x.t3m)/fga:null,tov:(fga+.44*x.fta+x.to)>0?x.to/(fga+.44*x.fta+x.to):null,
+        astto:x.to?x.ast/x.to:null,usg:denTeam&&x.min?((fga+.44*x.fta+x.to)*(teamMin/5))/(x.min*denTeam):null,
+        ftr:fga?x.fta/fga:null,p3tc:fga?x.t3a/fga:null};
+    });
+    const pctA=v=>v===null||v===undefined||!Number.isFinite(Number(v))?"—":(Number(v)*100).toFixed(1)+"%";
+    const valA=v=>v===null||v===undefined||!Number.isFinite(Number(v))?"—":Number(v).toFixed(1);
+    const rowsA=advRows.map(a=>"<tr><td>"+linkJugadorNombre(a.x.jugadorId,a.x.nombre,a.x.equipoId)+"</td><td>"+a.x.g+"</td><td>"+valA(a.pts40)+"</td><td>"+valA(a.reb40)+"</td><td>"+valA(a.ast40)+"</td><td>"+valA(a.val40)+"</td><td>"+pctA(a.ts)+"</td><td>"+pctA(a.efg)+"</td><td>"+pctA(a.tov)+"</td><td>"+valA(a.astto)+"</td><td>"+pctA(a.usg)+"</td><td>"+pctA(a.ftr)+"</td><td>"+pctA(a.p3tc)+"</td></tr>").join("");
+    return "<p class=\"equipo-nota\">Estadística avanzada de los jugadores del equipo en el filtro seleccionado.</p><div class=\"equipo-tabla-wrap\"><table class=\"equipo-tabla\"><thead><tr><th>Jugador</th><th>Part.</th><th>PTS x40</th><th>REB x40</th><th>AST x40</th><th>VAL x40</th><th>TS%</th><th>eFG%</th><th>TOV%</th><th>AST/PÉRD</th><th>USG%</th><th>FTr</th><th>%3P/TC</th></tr></thead><tbody>"+rowsA+"</tbody></table></div>";
+  }
   const avg=(v,g)=>mediaEquipoModal(v,g);
   const pct=(m,a)=>pctEquipoModal(m,a);
   const isAvg=modo==="medias";
@@ -894,7 +909,7 @@ function actualizarVistaEquipoModal(tipo){
   const id=window.equipoModalId;if(!id)return;
   const rival=(document.getElementById(tipo==="analisis"?"equipoAnalisisRival":"equipoPlantillaRival")||{}).value||"";
   if(tipo==="analisis")document.getElementById("equipoAnalisisContenido").innerHTML=renderTablaEquipoModal(datosEquipoModal(id,rival));
-  if(tipo==="plantilla")document.getElementById("equipoPlantillaContenido").innerHTML=renderPlantillaEquipoModal(id,rival,window.plantillaModo||"totales");
+  if(tipo==="plantilla")document.getElementById("equipoPlantillaContenido").innerHTML=renderPlantillaEquipoModal(id,rival,window.plantillaAvanzada?"avanzada":(window.plantillaModo||"totales"));
   if(tipo==="jugador"){
     const sel=document.getElementById("equipoJugadorSeleccion"),btn=document.getElementById("btnAnalizarJugadorEquipo");
     if(sel){
@@ -910,6 +925,7 @@ document.querySelectorAll("[data-plantilla-tab]").forEach(b=>b.addEventListener(
   actualizarVistaEquipoModal("plantilla");
 }));
 window.plantillaModo="totales";
+window.plantillaAvanzada=false;
 function activarVistasEquipoModal(){
   document.querySelectorAll("[data-equipo-vista]").forEach(b=>b.addEventListener("click",function(){
     document.querySelectorAll("[data-equipo-vista]").forEach(x=>x.classList.toggle("activo",x===b));
@@ -920,6 +936,12 @@ function activarVistasEquipoModal(){
   }));
   document.getElementById("equipoAnalisisRival")?.addEventListener("change",()=>actualizarVistaEquipoModal("analisis"));
   document.getElementById("equipoPlantillaRival")?.addEventListener("change",()=>actualizarVistaEquipoModal("plantilla"));
+document.getElementById("btnPlantillaAvanzada")?.addEventListener("click",function(){
+  window.plantillaAvanzada=!window.plantillaAvanzada;
+  this.textContent=window.plantillaAvanzada?"📊 ESTADÍSTICA BASE":"📊 ESTADÍSTICA AVANZADA";
+  document.querySelectorAll("[data-plantilla-tab]").forEach(x=>x.classList.toggle("oculta",window.plantillaAvanzada));
+  actualizarVistaEquipoModal("plantilla");
+});
   document.getElementById("btnAnalizarJugadorEquipo")?.addEventListener("click",()=>{
     const sel=document.getElementById("equipoJugadorSeleccion");
     const id=sel&&sel.value?num(sel.value):null;
