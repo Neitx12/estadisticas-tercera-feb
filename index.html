@@ -445,7 +445,7 @@ body.authenticated .auth-logout{display:block}
     errorBox.textContent="";
     submit.disabled=true; submit.textContent="ENTRANDO…";
     try{
-      var username=document.getElementById("authUsername").value.trim().toLowerCase();\n      var r=await supabaseClient.auth.signInWithPassword({email:username+"@tercerafeb.local",password:document.getElementById("authPassword").value});
+      var username=document.getElementById("authUsername").value.trim().toUpperCase();\n      var authEmail=username==="ULACIA26/27"?"natxogmonleon@gmail.com":username.toLowerCase()+"@tercerafeb.local";\n      var r=await supabaseClient.auth.signInWithPassword({email:authEmail,password:document.getElementById("authPassword").value});
       if(r.error) throw r.error;
       showApp();
     }catch(e){
