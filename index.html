@@ -1068,7 +1068,8 @@ function estadisticasJugadorPeriodo(jugadorId,periodo){
   const idsPartidos=new Set(partidosPeriodo.map(p=>num(p.id)));
 
   const filas=estadisticasJugadoresDB.filter(s=>
-    num(s.jugador_id)===num(jugadorId) && idsPartidos.has(num(s.partido_id))
+    num(s.jugador_id)===num(jugadorId) && idsPartidos.has(num(s.partido_id)) &&
+    parseMinutosPerfil(s.minutos)>0
   );
 
   const acumulado={
@@ -1582,7 +1583,7 @@ function perfilComparador(id,periodo){
  var juegos=partidosDB.filter(function(p){return num(p.equipo_local_id)===eq||num(p.equipo_visitante_id)===eq});
  var maxJ=Math.max.apply(null,juegos.map(function(p){return num(p.jornada)}).concat([0])),minJ=periodo==="season"?0:Math.max(0,maxJ-Number(periodo)+1);
  var ids=new Set(juegos.filter(function(p){return num(p.jornada)>=minJ&&num(p.jornada)<=maxJ}).map(function(p){return num(p.id)}));
- var fs=estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(id)&&ids.has(num(s.partido_id))});if(!fs.length)return null;
+ var fs=estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(id)&&ids.has(num(s.partido_id))&&parseMinutosPerfil(s.minutos)>0});if(!fs.length)return null;
  var t={g:fs.length,min:0,pts:0,reb:0,ast:0,stl:0,blk:0,val:0,perd:0,d2m:0,d2a:0,d3m:0,d3a:0,ftm:0,fta:0};
  fs.forEach(function(s){t.min+=parseMinutosPerfil(s.minutos);t.pts+=num(s.puntos);t.reb+=num(s.reb_totales);t.ast+=num(s.asistencias);t.stl+=num(s.recuperaciones);t.blk+=num(s.tapones);t.val+=num(s.valoracion);t.perd+=num(s.perdidas);t.d2m+=num(s.dosp_anotados);t.d2a+=num(s.dosp_intentos);t.d3m+=num(s.tresp_anotados);t.d3a+=num(s.tresp_intentos);t.ftm+=num(s.tl_anotados);t.fta+=num(s.tl_intentos)});
  var fga=t.d2a+t.d3a,fgm=t.d2m+t.d3m,den=2*(fga+.44*t.fta),k=t.min?2400/t.min:null;
@@ -1694,7 +1695,7 @@ function hotStats(filas){
 function hotFilasJugador(j){
   var eq=num(j.equipo_id),ps=partidosDB.filter(function(p){return num(p.equipo_local_id)===eq||num(p.equipo_visitante_id)===eq}).sort(function(a,b){return num(a.jornada)-num(b.jornada)});
   var mapa=new Map(ps.map(function(p){return [num(p.id),p]}));
-  return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(j.id)&&mapa.has(num(s.partido_id))}).map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}}).sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
+  return estadisticasJugadoresDB.filter(function(s){return num(s.jugador_id)===num(j.id)&&mapa.has(num(s.partido_id)&&parseMinutosPerfil(s.minutos)>0)}).map(function(s){return {s:s,p:mapa.get(num(s.partido_id))}}).sort(function(a,b){return num(a.p.jornada)-num(b.p.jornada)});
 }
 function hotRanking(){
   var periodoValor=document.getElementById("hotPeriodo").value,periodo=periodoValor==="season"?"season":Number(periodoValor),cat=document.getElementById("hotCategoria").value,minG=Number(document.getElementById("hotMinPartidos").value);
