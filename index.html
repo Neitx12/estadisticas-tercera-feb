@@ -699,7 +699,7 @@ function calcularJugadoresTabla(periodo){
         pts40:a.min?a.pts*2400/a.min:null,reb40:a.min?a.trb*2400/a.min:null,ast40:a.min?a.ast*2400/a.min:null,val40:a.min?a.val*2400/a.min:null,
         /* USG%: 100 * (FGA + 0,44*FTA + TO) * (Team MP/5)
            / (Player MP * (Team FGA + 0,44*Team FTA + Team TO)). */
-        usg:usgDen>0&&a.min>0?(100*(fga+.44*a.fta+a.to)*(teamMin/5)/(a.min*usgDen)):null
+        usg:usgDen>0&&a.min>0?((fga+.44*a.fta+a.to)*(teamMin/5)/(a.min*usgDen)):null
       };
       resultado.push(r);
     });
