@@ -1515,8 +1515,8 @@ function activarControlesTablaModal(destino,origenId){
     });
   });
 }
-document.querySelectorAll(".tab-button").forEach(b=>b.addEventListener("click",()=>{
-  document.querySelectorAll(".tab-button").forEach(x=>x.classList.remove("activo"));
+document.querySelectorAll(".tab-button,.estadistica-modulo-btn").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tab-button,.estadistica-modulo-btn").forEach(x=>x.classList.remove("activo"));
   b.classList.add("activo");
   actualizarTextoPeriodo();
   abrirModalEstadisticas(b.dataset.tab);
