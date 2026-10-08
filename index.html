@@ -1035,7 +1035,7 @@ function jugadoresDisponiblesDeEquipo(equipoId){
   );
   const idsJugadores=new Set(
     estadisticasJugadoresDB
-      .filter(s=>idsPartidos.has(num(s.partido_id)))
+      .filter(s=>idsPartidos.has(num(s.partido_id)) && parseMinutosPerfil(s.minutos)>0)
       .map(s=>num(s.jugador_id))
   );
   return roster
