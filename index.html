@@ -342,10 +342,17 @@ body.authenticated .auth-logout{display:block}
 </section>
 </div>
 <section id="completos" class="contenido-tab oculto">     <div id="tablaCompletosWrap" class="tabla-wrap"></div>   </section>
-<section id="base" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoBase">Periodo</label><select id="periodoBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaBaseWrap" class="tabla-wrap"></div>   </section>
-<section id="avanzada" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoAvanzada">Periodo</label><select id="periodoAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaAvanzadaWrap" class="tabla-wrap"></div>   </section>
-<section id="jugadoresBase" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoJugadoresBase">Periodo</label><select id="periodoJugadoresBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaJugadoresBaseWrap" class="tabla-wrap"></div>   </section>
-<section id="jugadoresAvanzada" class="contenido-tab oculto"> <div class="estadistica-periodo"><label for="periodoJugadoresAvanzada">Periodo</label><select id="periodoJugadoresAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div>     <div id="tablaJugadoresAvanzadaWrap" class="tabla-wrap"></div>   </section> </main>  
+<section class="modulos-analisis estadisticas-modulos">
+  <button type="button" class="modulo-btn" data-modulo="base">🏀 Equipos · Estadística base</button>
+  <button type="button" class="modulo-btn" data-modulo="avanzada">📈 Equipos · Estadística avanzada</button>
+  <button type="button" class="modulo-btn" data-modulo="jugadoresBase">👤 Jugadores · Estadística base</button>
+  <button type="button" class="modulo-btn" data-modulo="jugadoresAvanzada">📊 Jugadores · Estadística avanzada</button>
+</section>
+<section id="base" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>🏀 Equipos · Estadística base</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoBase">Periodo</label><select id="periodoBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option></select></div><div id="tablaBaseWrap" class="tabla-wrap"></div></section>
+<section id="avanzada" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>📈 Equipos · Estadística avanzada</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoAvanzada">Periodo</label><select id="periodoAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</select></div><div id="tablaAvanzadaWrap" class="tabla-wrap"></div></section>
+<section id="jugadoresBase" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>👤 Jugadores · Estadística base</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoJugadoresBase">Periodo</label><select id="periodoJugadoresBase" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</select></div><div id="tablaJugadoresBaseWrap" class="tabla-wrap"></div></section>
+<section id="jugadoresAvanzada" class="modulo-analisis oculto-modulo"><div class="modulo-cabecera"><strong>📊 Jugadores · Estadística avanzada</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><div class="estadistica-periodo"><label for="periodoJugadoresAvanzada">Periodo</label><select id="periodoJugadoresAvanzada" class="periodo-select"><option value="season">Toda la temporada</option><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</select></div><div id="tablaJugadoresAvanzadaWrap" class="tabla-wrap"></div></section>
+</main>  
 <div id="modalJugador" class="modal">
   <div class="modal-jugador-card">
     <div class="perfil-jugador-head">
@@ -1405,6 +1412,10 @@ document.getElementById("modalJugador")?.addEventListener("click",e=>{
 function activarModulosAnalisis(){
   var botones=document.querySelectorAll(".modulo-btn");
   var modulos={
+    base:document.getElementById("base"),
+    avanzada:document.getElementById("avanzada"),
+    jugadoresBase:document.getElementById("jugadoresBase"),
+    jugadoresAvanzada:document.getElementById("jugadoresAvanzada"),
     jugadores:document.getElementById("moduloJugadores"),
     hot:document.getElementById("moduloHotStreaks"),
     comparador:document.getElementById("moduloComparador"),
@@ -1515,8 +1526,7 @@ function activarControlesTablaModal(destino,origenId){
     });
   });
 }
-document.querySelectorAll(".tab-button,.estadistica-modulo-btn").forEach(b=>b.addEventListener("click",()=>{
-  document.querySelectorAll(".tab-button,.estadistica-modulo-btn").forEach(x=>x.classList.remove("activo"));
+
   b.classList.add("activo");
   actualizarTextoPeriodo();
   abrirModalEstadisticas(b.dataset.tab);
