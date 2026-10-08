@@ -1139,6 +1139,9 @@ function filasPerfilJugador(jugadorId,periodo){
   }).map(function(p){return [num(p.id),p]}));
   var filas=estadisticasJugadoresDB.filter(function(st){
     return num(st.jugador_id)===num(jugadorId) && (!mapa.size || mapa.has(num(st.partido_id)));
+  }).filter(function(st){
+    /* Los registros 00:00 representan DNP y no son un partido jugado. */
+    return parseMinutosPerfil(st.minutos)>0;
   }).map(function(st){
     return {s:st,p:mapa.get(num(st.partido_id))||{id:st.partido_id,jornada:0}};
   });
