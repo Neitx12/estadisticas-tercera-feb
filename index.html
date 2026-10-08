@@ -633,6 +633,10 @@ function calcularJugadoresTabla(periodo){
     });
     var porJugador={};
     stats.forEach(function(s){
+      var minutosJugador=parseMinutosPerfil(s.minutos);
+      /* Un registro 00:00 con todas las estadísticas a cero es DNP:
+         no debe contar como PJ ni entrar en los promedios del jugador. */
+      if(minutosJugador<=0)return;
       var id=num(s.jugador_id);
       if(!porJugador[id])porJugador[id]={
         jugadorId:id,equipoId:equipoId,nombre:(jugadorPorId(id)||{}).nombre||"Jugador",
@@ -641,7 +645,7 @@ function calcularJugadoresTabla(periodo){
       };
       var a=porJugador[id],p=partidosDB.find(function(x){return num(x.id)===num(s.partido_id);});
       a.pj++;
-      a.min+=parseMinutosPerfil(s.minutos);
+      a.min+=minutosJugador;
       a.pts+=num(s.puntos);a.d2m+=num(s.dosp_anotados);a.d2a+=num(s.dosp_intentos);
       a.d3m+=num(s.tresp_anotados);a.d3a+=num(s.tresp_intentos);a.ftm+=num(s.tl_anotados);a.fta+=num(s.tl_intentos);
       a.orb+=num(s.reb_ofensivos);a.drb+=num(s.reb_defensivos);a.trb+=num(s.reb_totales);
@@ -687,7 +691,9 @@ function calcularJugadoresTabla(periodo){
         astto:a.to?a.ast/a.to:null,tov:((a.d2a+a.d3a)+.44*a.fta+a.to)>0?a.to/((a.d2a+a.d3a)+.44*a.fta+a.to):null,
         ftr:fga?a.fta/fga:null,p3tc:fga?a.d3a/fga:null,
         pts40:a.min?a.pts*2400/a.min:null,reb40:a.min?a.trb*2400/a.min:null,ast40:a.min?a.ast*2400/a.min:null,val40:a.min?a.val*2400/a.min:null,
-        usg:usgDen>0?(100*(fga+.44*a.fta+a.to)*(teamMin/a.pj/5)/usgDen):null
+        /* USG%: 100 * (FGA + 0,44*FTA + TO) * (Team MP/5)
+           / (Player MP * (Team FGA + 0,44*Team FTA + Team TO)). */
+        usg:usgDen>0&&a.min>0?(100*(fga+.44*a.fta+a.to)*(teamMin/5)/(a.min*usgDen)):null
       };
       resultado.push(r);
     });
