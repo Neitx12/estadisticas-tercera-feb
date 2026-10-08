@@ -220,7 +220,20 @@ html.auth-loading body> *:not(#authGate){visibility:hidden!important}
 .auth-error{min-height:18px;margin-top:12px;color:#c62828;font-size:12px;font-weight:700}
 .auth-logout{position:fixed;right:18px;top:18px;z-index:15;border:0;border-radius:9px;padding:8px 12px;background:rgba(255,255,255,.92);color:#12343b;font-weight:800;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.08);display:none}
 body.authenticated .auth-logout{display:block}
-</style></head>  <body class="auth-locked">\n<div id="authGate"><div class="auth-card"><div class="auth-logo">🏀</div><h2>Acceso restringido</h2><p>Introduce tus credenciales para acceder a Estadísticas Tercera FEB.</p><form id="authForm"><div class="auth-field"><label for="authUsername">Usuario</label><input id="authUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><div class="auth-field"><label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" required></div><button class="auth-btn" id="authSubmit" type="submit">ENTRAR</button><div class="auth-error" id="authError"></div></form></div></div><button class="auth-logout" id="authLogout" type="button">Cerrar sesión</button>    <div id="jornadaResultados" class="jornada-resultados"></div>
+</style></head>  <body class="auth-locked">\n<div id="authGate"><div class="auth-card"><div class="auth-logo">🏀</div><h2>Acceso restringido</h2><p>Introduce tus credenciales para acceder a Estadísticas Tercera FEB.</p><form id="authForm"><div class="auth-field"><label for="authUsername">Usuario</label><input id="authUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><div class="auth-field"><label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" required></div><button class="auth-btn" id="authSubmit" type="submit">ENTRAR</button><div class="auth-error" id="authError"></div></form></div></div><button class="auth-logout" id="authLogout" type="button">Cerrar sesión</button> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">     <div class="toolbar-row">       <button class="periodo activo" data-periodo="season">Toda la temporada</button>       <button class="periodo" data-periodo="1">Última jornada</button>       <button class="periodo" data-periodo="5">Últimas 5 jornadas</button>       <button class="periodo" data-periodo="10">Últimas 10 jornadas</button>       <button class="periodo" data-periodo="15">Últimas 15 jornadas</button>     </div>      <div class="tabs">              <button class="tab-button" data-tab="base">Equipos · Estadística base</button>       <button class="tab-button" data-tab="avanzada">Equipos · Estadística avanzada</button>       <button class="tab-button" data-tab="jugadoresBase">Jugadores · Estadística base</button>       <button class="tab-button" data-tab="jugadoresAvanzada">Jugadores · Estadística avanzada</button> <button id="scdbStaticLaunch" class="scdb-launch" type="button" onclick="window.abrirScoutingSeguro();return false;">🧠 Scouting</button>     </div>   </section>
+
+
+
+    <section class="resumen">     <div class="tarjeta"><small>Periodo</small><strong id="periodoTexto">Toda la temporada</strong></div>     <div class="tarjeta"><small>Equipos</small><strong id="totalEquipos">14</strong></div>     <div class="tarjeta"><small>Jornada más reciente</small><strong id="ultimaJornada">1</strong></div>   </section>    
+
+<div id="modalPBPAnalisis" class="pbp-analisis-modal"><div class="modal-card">
+<div class="modal-head"><div class="modal-title"><div><h2 style="margin:0 0 4px">📈 Análisis PBP avanzado</h2><div class="subtitulo">Análisis automático del Play by Play: parciales, sequías, triples, pérdidas, remontadas y momentos decisivos.</div></div></div><button class="cerrar" type="button" onclick="cerrarAnalisisPBP()">Cerrar</button></div>
+<div class="pgs-global-select pgs-scout-selectors"><label>Jornada</label><select id="pgsJornada"></select><label>Partido</label><select id="pgsPartido"></select><label>Prisma de scouting</label><select id="pgsPrisma"></select><div class="pgs-select-help">Selecciona jornada, partido y después el equipo desde cuyo prisma quieres analizar el encuentro.</div></div><div id="pbpDynamic"></div>
+</div></div><div id="moduloCombinaciones" class="modal-combinaciones"><div class="modal-card"><div class="modal-head"><div class="modal-title"><div><h2 style="margin:0 0 4px">🧩 Combinaciones PBP</h2><div class="subtitulo">Parejas, tríos y quintetos reconstruidos desde el Play by Play.</div></div></div><button class="cerrar" type="button" onclick="cerrarCombinacionesPBP()">Cerrar</button></div><div class="modulo-cabecera"><strong>🧩 Combinaciones PBP</strong><button type="button" class="volver-modulos" data-volver-modulos>← Volver a opciones</button></div><section class="combinaciones-section"><div class="comparador-head"><div><h2>🧩 Parejas, tríos y quintetos</h2><p>Combinaciones reconstruidas a partir del Play by Play del partido.</p></div></div><div class="combinaciones-controls"><label>Equipo<select id="combinacionesEquipo" onchange="renderCombinacionesPBP()"><option value="">Selecciona equipo</option><option value="1">Piélagos</option><option value="2">La Flecha</option><option value="3">Ardoi</option><option value="4">Ulacia ZKE</option><option value="5">Tabirako</option><option value="6">Iruki Take</option><option value="7">Solares</option><option value="8">San Prudencio</option><option value="9">Zornotza</option><option value="10">Egüés</option><option value="11">Deusto Loyola Indautxu</option><option value="12">Bezana</option><option value="13">Cantbasket04</option><option value="14">Ávila Auténtica</option></select></label><label>Periodo<select id="combinacionesPeriodo" onchange="renderCombinacionesPBP()"><option value="1">Última jornada</option><option value="5">Últimas 5 jornadas</option><option value="10">Últimas 10 jornadas</option><option value="15">Últimas 15 jornadas</option><option value="season">Toda la liga</option></select></label><label>Jornada<select id="combinacionesJornada" onchange="renderCombinacionesPBP()"><option value="1">Jornada 1</option></select></label><div class="combinaciones-tipos"><button type="button" class="combinacion-tab activo" data-combinacion-tipo="2" onclick="seleccionarCombinacion(2)">👥 Parejas</button><button type="button" class="combinacion-tab" data-combinacion-tipo="3" onclick="seleccionarCombinacion(3)">👥👥 Tríos</button><button type="button" class="combinacion-tab" data-combinacion-tipo="5" onclick="seleccionarCombinacion(5)">🖐️ Quintetos</button></div></div><div id="combinacionesResumen"></div><div id="combinacionesTabla" class="combinaciones-tabla"></div><div class="combinaciones-nota">Nota: los minutos se reconstruyen siguiendo las sustituciones registradas en el PBP. Los cambios que aparecen con la misma marca temporal se ordenan según la secuencia publicada por FEB.</div></section> </div></div><div id="moduloJornada" class="modulo-analisis oculto-modulo">
+  <div class="modulo-cabecera"><strong>📅 Jornada</strong><button type="button" class="volver-modulos" data-volver-modulos-jornada>← Volver</button></div>
+  <section class="jornada-modulo">
+    <div class="jornada-head"><div><h2 id="jornadaTitulo">Jornada</h2><p id="jornadaSubtitulo">Todos los resultados de la jornada.</p></div></div>
+    <div id="jornadaResultados" class="jornada-resultados"></div>
   </section>
 </div>
 
@@ -410,7 +423,8 @@ body.authenticated .auth-logout{display:block}
   </div>
 </div>  <script> const SUPABASE_URL = "https://pivtvarfnidrxeljqzbx.supabase.co"; const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_RXfNNLFEf4zlXaAZg4mUAw_fXVcVeDN"; const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 (function(){
-  var gate=document.getElementById("authGate"),form=document.getElementById("authForm"),errorBox=document.getElementById("authError"),submit=document.getElementById("authSubmit"),logout=document.getElementById("authLogout");  function showApp(session){
+  var gate=document.getElementById("authGate"),form=document.getElementById("authForm"),errorBox=document.getElementById("authError"),submit=document.getElementById("authSubmit"),logout=document.getElementById("authLogout");
+  function showApp(){
     gate&&gate.classList.add("oculto");
     document.documentElement.classList.remove("auth-loading");
     document.body.classList.add("authenticated");
@@ -423,7 +437,7 @@ body.authenticated .auth-logout{display:block}
   async function checkSession(){
     try{
       var res=await supabaseClient.auth.getSession();
-      if(res.data&&res.data.session) showApp(res.data.session); else showGate();
+      if(res.data&&res.data.session) showApp(); else showGate();
     }catch(e){showGate();}
   }
   form&&form.addEventListener("submit",async function(e){
@@ -435,7 +449,7 @@ body.authenticated .auth-logout{display:block}
       var authEmail=username==="ULACIA26/27"?"partidosngm@gmail.com":username.toLowerCase()+"@tercerafeb.local";
       var r=await supabaseClient.auth.signInWithPassword({email:authEmail,password:document.getElementById("authPassword").value});
       if(r.error) throw r.error;
-      showApp(r.data&&r.data.session?r.data.session:null);
+      showApp();
     }catch(e){
       errorBox.textContent="Usuario o contraseña incorrectos.";
     }finally{submit.disabled=false;submit.textContent="ENTRAR";}
@@ -445,7 +459,7 @@ body.authenticated .auth-logout{display:block}
     showGate();
     if(form)form.reset();
   });
-  supabaseClient.auth.onAuthStateChange(function(event,session){if(session)showApp(session);else showGate();});
+  supabaseClient.auth.onAuthStateChange(function(event,session){if(session)showApp();else showGate();});
   checkSession();
 })();
   const equiposFallback = [    {     nombre: "Piélagos",     pts: 91,     dosPM: 30, dosPA: 38,     tresPM: 6, tresPA: 35,     tlM: 13, tlA: 18,     orb: 11, drb: 33, trb: 44,     ast: 22, stl: 19, to: 17, blk: 3,     pf: 23, pfr: 20, val: 117, masmenos: 31,     rival: "La Flecha",     ptsR: 60,     dosPMR: 19, dosPAR: 45,     tresPMR: 3, tresPAR: 21,     tlMR: 13, tlAR: 22,     orbR: 13, drbR: 27, trbR: 40,     astR: 6, stlR: 10, toR: 28, blkR: 2,     pfR: 20, pfrR: 23, valR: 40   },    {     nombre: "La Flecha",     pts: 60,     dosPM: 19, dosPA: 45,     tresPM: 3, tresPA: 21,     tlM: 13, tlA: 22,     orb: 13, drb: 27, trb: 40,     ast: 6, stl: 10, to: 28, blk: 2,     pf: 20, pfr: 23, val: 40, masmenos: -31,     rival: "Piélagos",     ptsR: 91,     dosPMR: 30, dosPAR: 38,     tresPMR: 6, tresPAR: 35,     tlMR: 13, tlAR: 18,     orbR: 11, drbR: 33, trbR: 44,     astR: 22, stlR: 19, toR: 17, blkR: 3,     pfR: 23, pfrR: 20, valR: 117   },    {     nombre: "Ardoi",     pts: 65,     dosPM: 18, dosPA: 41,     tresPM: 6, tresPA: 25,     tlM: 11, tlA: 20,     orb: 9, drb: 21, trb: 30,     ast: 16, stl: 21, to: 19, blk: 0,     pf: 24, pfr: 20, val: 58, masmenos: -20,     rival: "Ulacia ZKE",     ptsR: 85,     dosPMR: 24, dosPAR: 39,     tresPMR: 8, tresPAR: 27,     tlMR: 13, tlAR: 21,     orbR: 16, drbR: 34, trbR: 50,     astR: 19, stlR: 11, toR: 28, blkR: 2,     pfR: 20, pfrR: 23, valR: 100   },    {     nombre: "Ulacia ZKE",     pts: 85,     dosPM: 24, dosPA: 39,     tresPM: 8, tresPA: 27,     tlM: 13, tlA: 21,     orb: 16, drb: 34, trb: 50,     ast: 19, stl: 11, to: 28, blk: 2,     pf: 20, pfr: 23, val: 100, masmenos: 20,     rival: "Ardoi",     ptsR: 65,     dosPMR: 18, dosPAR: 41,     tresPMR: 6, tresPAR: 25,     tlMR: 11, tlAR: 20,     orbR: 9, drbR: 21, trbR: 30,     astR: 16, stlR: 21, toR: 19, blkR: 0,     pfR: 24, pfrR: 20, valR: 58   },    {     nombre: "Tabirako",     pts: 70,     dosPM: 16, dosPA: 36,     tresPM: 7, tresPA: 27,     tlM: 17, tlA: 25,     orb: 9, drb: 31, trb: 40,     ast: 8, stl: 6, to: 13, blk: 3,     pf: 24, pfr: 21, val: 63, masmenos: -5,     rival: "Iruki Take",     ptsR: 75,     dosPMR: 14, dosPAR: 32,     tresPMR: 8, tresPAR: 30,     tlMR: 23, tlAR: 31,     orbR: 13, drbR: 34, trbR: 47,     astR: 11, stlR: 5, toR: 12, blkR: 3,     pfR: 22, pfrR: 21, valR: 80   },    {     nombre: "Iruki Take",     pts: 75,     dosPM: 14, dosPA: 32,     tresPM: 8, tresPA: 30,     tlM: 23, tlA: 31,     orb: 13, drb: 34, trb: 47,     ast: 11, stl: 5, to: 12, blk: 3,     pf: 22, pfr: 21, val: 80, masmenos: 5,     rival: "Tabirako",     ptsR: 70,     dosPMR: 16, dosPAR: 36,     tresPMR: 7, tresPAR: 27,     tlMR: 17, tlAR: 25,     orbR: 9, drbR: 31, trbR: 40,     astR: 8, stlR: 6, toR: 13, blkR: 3,     pfR: 24, pfrR: 21, valR: 63   },    {     nombre: "Solares",     pts: 70,     dosPM: 15, dosPA: 37,     tresPM: 9, tresPA: 38,     tlM: 13, tlA: 27,     orb: 23, drb: 29, trb: 52,     ast: 14, stl: 5, to: 11, blk: 4,     pf: 21, pfr: 24, val: 72, masmenos: 4,     rival: "San Prudencio",     ptsR: 66,     dosPMR: 18, dosPAR: 39,     tresPMR: 8, tresPAR: 35,     tlMR: 6, tlAR: 22,     orbR: 23, drbR: 36, trbR: 59,     astR: 11, stlR: 6, toR: 16, blkR: 5,     pfR: 25, pfrR: 21, valR: 63   },    {     nombre: "San Prudencio",     pts: 66,     dosPM: 18, dosPA: 39,     tresPM: 8, tresPA: 35,     tlM: 6, tlA: 22,     orb: 23, drb: 36, trb: 59,     ast: 11, stl: 6, to: 16, blk: 5,     pf: 25, pfr: 21, val: 63, masmenos: -4,     rival: "Solares",     ptsR: 70,     dosPMR: 15, dosPAR: 37,     tresPMR: 9, tresPAR: 38,     tlMR: 13, tlAR: 27,     orbR: 23, drbR: 29, trbR: 52,     astR: 14, stlR: 5, toR: 11, blkR: 4,     pfR: 21, pfrR: 24, valR: 72   },    {     nombre: "Zornotza",     pts: 92,     dosPM: 17, dosPA: 39,     tresPM: 14, tresPA: 36,     tlM: 16, tlA: 20,     orb: 15, drb: 30, trb: 45,     ast: 25, stl: 8, to: 9, blk: 2,     pf: 21, pfr: 21, val: 115, masmenos: 15,     rival: "Egüés",     ptsR: 77,     dosPMR: 17, dosPAR: 43,     tresPMR: 10, tresPAR: 27,     tlMR: 13, tlAR: 18,     orbR: 16, drbR: 31, trbR: 47,     astR: 18, stlR: 6, toR: 16, blkR: 3,     pfR: 23, pfrR: 20, valR: 84   },    {     nombre: "Egüés",     pts: 77,     dosPM: 17, dosPA: 43,     tresPM: 10, tresPA: 27,     tlM: 13, tlA: 18,     orb: 16, drb: 31, trb: 47,     ast: 18, stl: 6, to: 16, blk: 3,     pf: 23, pfr: 20, val: 84, masmenos: -15,     rival: "Zornotza",     ptsR: 92,     dosPMR: 17, dosPAR: 39,     tresPMR: 14, tresPAR: 36,     tlMR: 16, tlAR: 20,     orbR: 15, drbR: 30, trbR: 45,     astR: 25, stlR: 8, toR: 9, blkR: 2,     pfR: 21, pfrR: 21, valR: 115   },    {     nombre: "Deusto Loyola Indautxu",     pts: 90,     dosPM: 27, dosPA: 47,     tresPM: 5, tresPA: 21,     tlM: 21, tlA: 32,     orb: 16, drb: 22, trb: 38,     ast: 16, stl: 16, to: 16, blk: 4,     pf: 15, pfr: 30, val: 116, masmenos: 5,     rival: "Bezana",     ptsR: 85,     dosPMR: 16, dosPAR: 36,     tresPMR: 15, tresPAR: 36,     tlMR: 8, tlAR: 10,     orbR: 20, drbR: 24, trbR: 44,     astR: 17, stlR: 8, toR: 24, blkR: 2,     pfR: 31, pfrR: 15, valR: 73   },    {     nombre: "Bezana",     pts: 85,     dosPM: 16, dosPA: 36,     tresPM: 15, tresPA: 36,     tlM: 8, tlA: 10,     orb: 20, drb: 24, trb: 44,     ast: 17, stl: 8, to: 24, blk: 2,     pf: 31, pfr: 15, val: 73, masmenos: -5,     rival: "Deusto Loyola Indautxu",     ptsR: 90,     dosPMR: 27, dosPAR: 47,     tresPMR: 5, tresPAR: 21,     tlMR: 21, tlAR: 32,     orbR: 16, drbR: 22, trbR: 38,     astR: 16, stlR: 16, toR: 16, blkR: 4,     pfR: 15, pfrR: 30, valR: 116   },    {     nombre: "Cantbasket04",     pts: 96,     dosPM: 20, dosPA: 46,     tresPM: 15, tresPA: 39,     tlM: 11, tlA: 21,     orb: 23, drb: 24, trb: 47,     ast: 23, stl: 15, to: 17, blk: 2,     pf: 20, pfr: 19, val: 105, masmenos: 18,     rival: "Ávila Auténtica",     ptsR: 78,     dosPMR: 21, dosPAR: 42,     tresPMR: 7, tresPAR: 34,     tlMR: 15, tlAR: 22,     orbR: 24, drbR: 31, trbR: 55,     astR: 19, stlR: 6, toR: 22, blkR: 2,     pfR: 20, pfrR: 20, valR: 83   },    {     nombre: "Ávila Auténtica",     pts: 78,     dosPM: 21, dosPA: 42,     tresPM: 7, tresPA: 34,     tlM: 15, tlA: 22,     orb: 24, drb: 31, trb: 55,     ast: 19, stl: 6, to: 22, blk: 2,     pf: 20, pfr: 20, val: 83, masmenos: -18,     rival: "Cantbasket04",     ptsR: 96,     dosPMR: 20, dosPAR: 46,     tresPMR: 15, tresPAR: 39,     tlMR: 11, tlAR: 21,     orbR: 23, drbR: 24, trbR: 47,     astR: 23, stlR: 15, toR: 17, blkR: 2,     pfR: 20, pfrR: 19, valR: 105   }  ];  const rankingsStaticos = { 1:{puntos:[["ARTEM YAILO",13],["MARIO SOLORZANO COLSA",12],["BAPTISTE CHAZELAS-",11]],reb:[["BAPTISTE CHAZELAS-",12],["DIEGO IBARLUCEA LAVIN",6],["BELTRAN DE LA LLAMA RUIZ",4]],val:[["BAPTISTE CHAZELAS-",23],["DIEGO IBARLUCEA LAVIN",17],["ARTEM YAILO",15]]}, 2:{puntos:[["ENRIQUE GUTIERREZ O",12],["JUAN GARCIA-MONGE DEL",11],["GONZALO GUTIERREZ O",10]],reb:[["JUAN GARCIA-MONGE DEL",8],["GONZALO GUTIERREZ O",8],["ENRIQUE GUTIERREZ O",6]],val:[["JUAN GARCIA-MONGE DEL",15],["ENRIQUE GUTIERREZ O",13],["GONZALO GUTIERREZ O",11]]}, 3:{puntos:[["ANDER ARBIZU MAIZA",18],["PABLO FERNANDEZ",13],["ANTON SAVITSKI SAVITSKAIA",9]],reb:[["IGNACIO VICUÑA ROYO",11],["LUCAS URREA GARCIA",3],["ANDER ARBIZU MAIZA",3]],val:[["ANDER ARBIZU MAIZA",13],["PABLO FERNANDEZ",11],["JON MENDIVIL ODERIZ",9]]}, 4:{puntos:[["IÑAKI ERAUNCETAMURGIL",22],["MIKEL ZUBIZARRETA ALBIZU",16],["IMANOL ARTECHE URRUZOLA",15]],reb:[["IÑAKI ERAUNCETAMURGIL",12],["IMANOL ARTECHE URRUZOLA",9],["MARTIN DORRONSORO",8]],val:[["IÑAKI ERAUNCETAMURGIL",34],["IMANOL ARTECHE URRUZOLA",21],["MARTIN DORRONSORO",17]]}, 5:{puntos:[["JON ALDECOA-OTALORA",22],["XABIER ARROITAJAUREGUI",20],["MARKEL ARANZABAL",13]],reb:[["MARKEL ARANZABAL",10],["XABIER ARROITAJAUREGUI",6],["LANDER BARRUETABEÑA",5]],val:[["XABIER ARROITAJAUREGUI",22],["JON ALDECOA-OTALORA",21],["MARKEL ARANZABAL",15]]}, 6:{puntos:[["PEDRO LUCAS SOUZA",20],["BEÑAT ETXEBERRIA",13],["ANDER GORDILLO BELTRAN",10]],reb:[["EUKEN HUIZI ZUBELDIA",9],["BEÑAT ETXEBERRIA",8],["PEDRO LUCAS SOUZA",6]],val:[["PEDRO LUCAS SOUZA",20],["BEÑAT ETXEBERRIA",15],["EUKEN HUIZI ZUBELDIA",11]]}, 7:{puntos:[["OLUWASANMI ROBERTO",16],["DANIEL GIOVANNY",12],["JORGE JAVIER GOMEZ",11]],reb:[["OLUWASANMI ROBERTO",12],["JORGE JAVIER GOMEZ",10],["ESTEBAN GANDARILLAS",7]],val:[["JORGE JAVIER GOMEZ",18],["OLUWASANMI ROBERTO",15],["ESTEBAN GANDARILLAS",10]]}, 8:{puntos:[["ASIER PEREZ PEREZ",17],["JAVIER LOPEZ MONTAÑA",16],["ALVARO ARAICO QUINTANA",12]],reb:[["ALVARO ARAICO QUINTANA",11],["MIKEL DE LA HOZ LASTRA",8],["AITOR LUZURIAGA ZORRILLA",7]],val:[["JAVIER LOPEZ MONTAÑA",16],["ASIER PEREZ PEREZ",13],["ALVARO ARAICO QUINTANA",14]]}, 9:{puntos:[["BORJA MENDIA SANGRONIZ",26],["ENAITZ ERRASTI DIEZ",18],["IKER SALAZAR ORTEGA",9]],reb:[["IKER SALAZAR ORTEGA",19],["IKER CHACON RODRIGUEZ",5],["MIKEL SAINZ DE LA MAZA",5]],val:[["IKER SALAZAR ORTEGA",33],["BORJA MENDIA SANGRONIZ",28],["ENAITZ ERRASTI DIEZ",19]]}, 10:{puntos:[["LUIS FILIPE FAIAL",22],["JAVIER LACUNZA ABECIA",18],["PABLO YARNOZ LUMBRERAS",12]],reb:[["JAVIER LACUNZA ABECIA",7],["KISINGO NARMAN DOMINGOS",7],["HECTOR ARANAZ ALVAREZ",6]],val:[["JAVIER LACUNZA ABECIA",24],["LUIS FILIPE FAIAL",22],["HECTOR ARANAZ ALVAREZ",16]]}, 11:{puntos:[["GONZALO HUESO GUTIERREZ",22],["GALDER MARTINEZ DE OSABA",14],["ARITZ GUTIEZ SALGADO",13]],reb:[["IKER MOJA GOICURIA",7],["ALEJANDRO KARATZAS",6],["ARITZ GUTIEZ SALGADO",4]],val:[["GONZALO HUESO GUTIERREZ",29],["IKER MOJA GOICURIA",22],["ARITZ GUTIEZ SALGADO",14]]}, 12:{puntos:[["NAHUEL DEL VAL GARCIA",18],["JERÓNIMO VILLEGAS HOYOS",17],["HUGO MAURY",9]],reb:[["JERÓNIMO VILLEGAS HOYOS",8],["NICOLAS DIAZ GARCIA",6],["ALVARO REYES ABAD",5]],val:[["JERÓNIMO VILLEGAS HOYOS",22],["NAHUEL DEL VAL GARCIA",17],["DIEGO FERNANDEZ MARTINEZ",12]]}, 13:{puntos:[["ADRIANO GASE SECO",26],["ALFONSO GARCIA NAVALON",15],["CLAYTON RIGGS LADINE",11]],reb:[["ADRIANO GASE SECO",9],["EL HADJI NGOM",9],["CARLOS ARANDA SUAREZ",6]],val:[["ADRIANO GASE SECO",30],["ALFONSO GARCIA NAVALON",20],["CLAYTON RIGGS LADINE",16]]}, 14:{puntos:[["ADRIAN VASQUEZ BAUTISTA",19],["DANIEL CARRETERO GARCIA",16],["ANXO IGLESIAS CAMINO",11]],reb:[["ALBERTO MARTÍN",12],["ADRIAN VASQUEZ BAUTISTA",10],["THIJS HEUKER",8]],val:[["ADRIAN VASQUEZ BAUTISTA",25],["ALBERTO MARTÍN",17],["DANIEL CARRETERO GARCIA",12]]} };  const escudos = {
@@ -748,75 +762,7 @@ function render(){renderClasificacionLiga();renderCalendarioCompeticion();
   construirTablaJugadores(jugadoresTabla,columnasAvanzadasJugadores,"tablaJugadoresAvanzadaWrap");
 }
 
-async function cargarDatos(){
-  var equiposRes=null,partidosRes=null,statsRes=null,jugadoresRes=null,statsJugadoresRes=null;
-
-  try{
-    equiposRes=await supabaseClient.from("equipos").select("*").order("nombre");
-    if(equiposRes.error)throw equiposRes.error;
-    equiposDB=equiposRes.data||[];
-  }catch(err){
-    console.error("Error cargando equipos:",err);
-    equiposDB=[];
-  }
-
-  try{
-    partidosRes=await supabaseClient.from("partidos").select("*").order("jornada");
-    if(partidosRes.error)throw partidosRes.error;
-    partidosDB=partidosRes.data||[];
-  }catch(err){
-    console.error("Error cargando partidos:",err);
-    partidosDB=[];
-  }
-
-  try{
-    statsRes=await supabaseClient.from("estadisticas_partido").select("*");
-    if(statsRes.error)throw statsRes.error;
-    estadisticasDB=statsRes.data||[];
-  }catch(err){
-    console.error("Error cargando estadísticas de partido:",err);
-    estadisticasDB=[];
-  }
-
-  try{
-    jugadoresRes=await supabaseClient.from("jugadores").select("*").order("id");
-    if(jugadoresRes.error)throw jugadoresRes.error;
-    jugadoresDB=(jugadoresRes.data&&jugadoresRes.data.length)?jugadoresRes.data:jugadoresFallbackDB.slice();
-  }catch(err){
-    console.error("Error cargando jugadores:",err);
-    jugadoresDB=jugadoresFallbackDB.slice();
-  }
-
-  try{
-    statsJugadoresRes=await supabaseClient.from("estadisticas_jugador").select("*").order("id");
-    if(statsJugadoresRes.error)throw statsJugadoresRes.error;
-    estadisticasJugadoresDB=(statsJugadoresRes.data&&statsJugadoresRes.data.length)?statsJugadoresRes.data:estadisticasJugadoresFallbackDB.slice();
-  }catch(err){
-    console.error("Error cargando estadísticas de jugadores:",err);
-    estadisticasJugadoresDB=estadisticasJugadoresFallbackDB.slice();
-  }
-
-  window.equiposDB=equiposDB;
-  window.partidosDB=partidosDB;
-  window.estadisticasDB=estadisticasDB;
-  window.jugadoresDB=jugadoresDB;
-  window.estadisticasJugadoresDB=estadisticasJugadoresDB;
-  poblarEquiposCombinacionesPBP();
-
-  if(window.syncScouting){
-    try{
-      window.syncScouting();
-      if(window.renderScouting&&document.getElementById("scdbModal")?.classList.contains("abierto"))window.renderScouting();
-    }catch(err){console.error("Scouting:",err)}
-  }
-
-  renderSelectorJugadores();
-  poblarComparadores();
-  renderComparador();
-  renderPercentiles();
-  renderCombinacionesPBP();
-  render();
-}  function renderRanking(items,key,decimales=1){
+async function cargarDatos(){   const [e,p,s]=await Promise.all([     supabaseClient.from("equipos").select("*").order("nombre"),     supabaseClient.from("partidos").select("*").order("jornada"),     supabaseClient.from("estadisticas_partido").select("*")   ]);   if(e.error||p.error||s.error) throw(e.error||p.error||s.error);   equiposDB=e.data||[]; partidosDB=p.data||[]; estadisticasDB=s.data||[];   const [j,sj]=await Promise.all([     supabaseClient.from("jugadores").select("*").order("id"),     supabaseClient.from("estadisticas_jugador").select("*").order("id")   ]);   if(j.error) console.error("Error cargando jugadores:",j.error);   if(sj.error) console.error("Error cargando estadísticas de jugadores:",sj.error);   jugadoresDB=(j.data&&j.data.length)?j.data:jugadoresFallbackDB.slice();   estadisticasJugadoresDB=(sj.data&&sj.data.length)?sj.data:estadisticasJugadoresFallbackDB.slice();   window.equiposDB=equiposDB; window.partidosDB=partidosDB; poblarEquiposCombinacionesPBP(); window.estadisticasDB=estadisticasDB; window.jugadoresDB=jugadoresDB; window.estadisticasJugadoresDB=estadisticasJugadoresDB;   if(window.syncScouting){try{window.syncScouting();if(window.renderScouting&&document.getElementById("scdbModal")?.classList.contains("abierto"))window.renderScouting();}catch(err){console.error("Scouting:",err)}}   renderSelectorJugadores();   poblarComparadores();   renderComparador();   renderPercentiles();   renderCombinacionesPBP();   render(); }  function renderRanking(items,key,decimales=1){
   if(!items.length) return '<div class="mensaje">Todavía no hay datos de jugadores disponibles.</div>';
   return items.map((x,i)=>{
     const boton=x.jugadorId?'<button type="button" class="jugador-destacado" onclick="abrirPerfilDesdeDestacado('+num(x.jugadorId)+','+num(x.equipoId)+')"><span>'+ (i+1)+'. '+compEsc(x.nombre)+'</span><strong>'+num(x.valor).toFixed(decimales)+'</strong></button>':'<div class="fila"><span>'+ (i+1)+'. '+compEsc(x.nombre)+'</span><strong>'+num(x.valor).toFixed(decimales)+'</strong></div>';
