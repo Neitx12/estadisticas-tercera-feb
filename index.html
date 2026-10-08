@@ -418,7 +418,7 @@ body.authenticated .auth-logout{display:block}
       <div id="equipoAnalisisContenido"></div>
     </div>
     <div id="equipoVistaPlantilla" class="equipo-vista oculta">
-      <div class="equipo-filtros"><label>Rival<select id="equipoPlantillaRival"></select></label><button type="button" id="btnPlantillaAvanzada" class="equipo-accion">📊 ESTADÍSTICA AVANZADA</button></div>
+      <div class="equipo-filtros"><label>Rival<select id="equipoPlantillaRival"></select></label><button type="button" id="btnPlantillaAvanzada" class="equipo-accion">📊 ESTADÍSTICA AVANZADA</button><button type="button" id="btnPlantillaAvanzadaEquipo" class="equipo-accion">📈 ESTADÍSTICA AVANZADA EQUIPO</button></div>
       <div class="plantilla-tabs"><button type="button" class="plantilla-tab activo" data-plantilla-tab="totales">Totales</button><button type="button" class="plantilla-tab" data-plantilla-tab="medias">Medias</button></div>
       <div id="equipoPlantillaContenido"></div>
     </div>
@@ -907,11 +907,20 @@ function poblarRivalesEquipoModal(equipoId){
   const ids=[...new Set(rivales)];
   return '<option value="">Todos los rivales</option>'+ids.map(id=>{const e=equiposDB.find(x=>num(x.id)===id)||equiposFallback.find(x=>num(x.id)===id);return e?'<option value="'+id+'">'+e.nombre+'</option>':''}).join('');
 }
+function renderPlantillaAvanzadaEquipo(equipoId,rivalId){
+  const partidos=partidosDB.filter(p=>(num(p.equipo_local_id)===num(equipoId)||num(p.equipo_visitante_id)===num(equipoId))&&(!rivalId||num(p.equipo_local_id)===num(rivalId)||num(p.equipo_visitante_id)===num(rivalId)));
+  const z={pts:0,ptsR:0,d2m:0,d2a:0,t3m:0,t3a:0,ftm:0,fta:0,orb:0,drb:0,trb:0,ast:0,stl:0,blk:0,to:0,orbR:0,drbR:0,trbR:0,toR:0,d2aR:0,t3aR:0,ftaR:0,g:0};
+  partidos.forEach(p=>{const local=num(p.equipo_local_id)===num(equipoId),rid=local?num(p.equipo_visitante_id):num(p.equipo_local_id),s=estadisticasDB.find(x=>num(x.partido_id)===num(p.id)&&num(x.equipo_id)===num(equipoId)),r=estadisticasDB.find(x=>num(x.partido_id)===num(p.id)&&num(x.equipo_id)===rid);if(!s)return;z.g++;z.pts+=local?num(p.puntos_local):num(p.puntos_visitante);z.ptsR+=local?num(p.puntos_visitante):num(p.puntos_local);z.d2m+=num(s.dosp_anotados);z.d2a+=num(s.dosp_intentos);z.t3m+=num(s.tresp_anotados);z.t3a+=num(s.tresp_intentos);z.ftm+=num(s.tl_anotados);z.fta+=num(s.tl_intentos);z.orb+=num(s.reb_ofensivos);z.drb+=num(s.reb_defensivos);z.trb+=num(s.reb_totales);z.ast+=num(s.asistencias);z.stl+=num(s.recuperaciones);z.blk+=num(s.tapones);z.to+=num(s.perdidas);if(r){z.orbR+=num(r.reb_ofensivos);z.drbR+=num(r.reb_defensivos);z.trbR+=num(r.reb_totales);z.toR+=num(r.perdidas);z.d2aR+=num(r.dosp_intentos);z.t3aR+=num(r.tresp_intentos);z.ftaR+=num(r.tl_intentos);}});
+  const fga=z.d2a+z.t3a,poss=fga+.44*z.fta-z.orb+z.to,fgaR=z.d2aR+z.t3aR,possR=fgaR+.44*z.ftaR-z.orbR+z.toR,pct=(v)=>Number.isFinite(v)?v.toFixed(1):"—";
+  const m={eFG:fga?100*(z.d2m+.5*z.t3m)/fga:0,ORB:(z.orb+z.drbR)?100*z.orb/(z.orb+z.drbR):0,TOV:poss?100*z.to/poss:0,FTr:fga?100*z.fta/fga:0,TS:(fga+.44*z.fta)?100*z.pts/(2*(fga+.44*z.fta)):0,PACE:z.g?poss/z.g:0,OER:poss?100*z.pts/poss:0,DER:possR?100*z.ptsR/possR:0,NET:(poss?100*z.pts/poss:0)-(possR?100*z.ptsR/possR:0),AST:fga?100*z.ast/fga:0,DRB:(z.drb+z.orbR)?100*z.drb/(z.drb+z.orbR):0,TRB:(z.trb+z.trbR)?100*z.trb/(z.trb+z.trbR):0};
+  const e=equiposDB.find(x=>num(x.id)===num(equipoId))||equiposFallback.find(x=>num(x.id)===num(equipoId));
+  return "<div class=\"ae-card\" style=\"margin-top:10px\"><div class=\"ae-head\"><img src=\""+(escudos[e?.nombre]||"")+"\"><div><h3>📈 Estadística avanzada equipo</h3><span>"+(e?.nombre||"Equipo")+" · "+z.g+" partidos"+(rivalId?" · rival seleccionado":"")+"</span></div></div><div class=\"ae-grid2\"><div class=\"ae-group\"><h4>CUATRO FACTORES</h4><div class=\"ae-row\"><span>eFG%</span><b>"+pct(m.eFG)+"</b></div><div class=\"ae-row\"><span>ORB%</span><b>"+pct(m.ORB)+"</b></div><div class=\"ae-row\"><span>TOV%</span><b>"+pct(m.TOV)+"</b></div><div class=\"ae-row\"><span>FTr</span><b>"+pct(m.FTr)+"</b></div></div><div class=\"ae-group\"><h4>RATINGS</h4><div class=\"ae-row\"><span>OER</span><b>"+pct(m.OER)+"</b></div><div class=\"ae-row\"><span>DER</span><b>"+pct(m.DER)+"</b></div><div class=\"ae-row\"><span>NET RATING</span><b>"+pct(m.NET)+"</b></div><div class=\"ae-row\"><span>RITMO</span><b>"+pct(m.PACE)+"</b></div></div></div><div class=\"ae-grid2\"><div class=\"ae-group\"><h4>LANZAMIENTO</h4><div class=\"ae-row\"><span>TS%</span><b>"+pct(m.TS)+"</b></div><div class=\"ae-row\"><span>eFG%</span><b>"+pct(m.eFG)+"</b></div></div><div class=\"ae-group\"><h4>MANEJO Y REBOTE</h4><div class=\"ae-row\"><span>AST%</span><b>"+pct(m.AST)+"</b></div><div class=\"ae-row\"><span>DRB%</span><b>"+pct(m.DRB)+"</b></div><div class=\"ae-row\"><span>TRB%</span><b>"+pct(m.TRB)+"</b></div></div></div></div>";
+}
 function actualizarVistaEquipoModal(tipo){
   const id=window.equipoModalId;if(!id)return;
   const rival=(document.getElementById(tipo==="analisis"?"equipoAnalisisRival":"equipoPlantillaRival")||{}).value||"";
   if(tipo==="analisis")document.getElementById("equipoAnalisisContenido").innerHTML=renderTablaEquipoModal(datosEquipoModal(id,rival));
-  if(tipo==="plantilla")document.getElementById("equipoPlantillaContenido").innerHTML=renderPlantillaEquipoModal(id,rival,window.plantillaAvanzada?"avanzada":(window.plantillaModo||"totales"));
+  if(tipo==="plantilla"){document.getElementById("equipoPlantillaContenido").innerHTML=window.plantillaAvanzadaEquipo?renderPlantillaAvanzadaEquipo(id,rival):renderPlantillaEquipoModal(id,rival,window.plantillaAvanzada?"avanzada":(window.plantillaModo||"totales"));}
   if(tipo==="jugador"){
     const sel=document.getElementById("equipoJugadorSeleccion"),btn=document.getElementById("btnAnalizarJugadorEquipo");
     if(sel){
@@ -928,6 +937,7 @@ document.querySelectorAll("[data-plantilla-tab]").forEach(b=>b.addEventListener(
 }));
 window.plantillaModo="totales";
 window.plantillaAvanzada=false;
+window.plantillaAvanzadaEquipo=false;
 function activarVistasEquipoModal(){
   document.querySelectorAll("[data-equipo-vista]").forEach(b=>b.addEventListener("click",function(){
     document.querySelectorAll("[data-equipo-vista]").forEach(x=>x.classList.toggle("activo",x===b));
@@ -942,6 +952,12 @@ document.getElementById("btnPlantillaAvanzada")?.addEventListener("click",functi
   window.plantillaAvanzada=!window.plantillaAvanzada;
   this.textContent=window.plantillaAvanzada?"📊 ESTADÍSTICA BASE":"📊 ESTADÍSTICA AVANZADA";
   document.querySelectorAll("[data-plantilla-tab]").forEach(x=>x.classList.toggle("oculta",window.plantillaAvanzada));
+  actualizarVistaEquipoModal("plantilla");
+});
+document.getElementById("btnPlantillaAvanzadaEquipo")?.addEventListener("click",function(){
+  window.plantillaAvanzadaEquipo=!window.plantillaAvanzadaEquipo;
+  this.classList.toggle("activo",window.plantillaAvanzadaEquipo);
+  if(window.plantillaAvanzadaEquipo){window.plantillaAvanzada=false;document.getElementById("btnPlantillaAvanzada").classList.remove("activo");document.getElementById("btnPlantillaAvanzada").textContent="📊 ESTADÍSTICA AVANZADA";document.querySelectorAll("[data-plantilla-tab]").forEach(x=>x.classList.remove("oculta"));}
   actualizarVistaEquipoModal("plantilla");
 });
   document.getElementById("btnAnalizarJugadorEquipo")?.addEventListener("click",()=>{
