@@ -2080,7 +2080,24 @@ function detalleQuintetoEvento(g,event,team){
   if(!event)return "";
   if(g.id!=="j1-ardoi-ulacia")return '<small class="pgs-event-lineup">Quinteto no disponible: falta el detalle completo de sustituciones.</small>';
   var names=quintetoEnMomento(g,event[1],(Number(event[3])+Number(event[4]))/2,team);
-  return '<small class="pgs-event-lineup">Quinteto en pista: '+esc(names||"No reconstruible")+'</small>';
+  var lo=Math.min(Number(event[3]),Number(event[4])),hi=Math.max(Number(event[3]),Number(event[4]));
+  var changes=(PBP_ADV_DATA.actions||[]).filter(function(a){
+    var t=sec(a.clock);
+    return a.team===team&&Number(a.q)===Number(event[1])&&t>=lo&&t<=hi&&/Sustitución \\((Entra a pista|Sale de pista)\\)/i.test(String(a.action||""));
+  }).sort(function(a,b){return sec(b.clock)-sec(a.clock);});
+  var changeHtml="";
+  if(changes.length){
+    var grouped={};
+    changes.forEach(function(a){var t=sec(a.clock);(grouped[t]||(grouped[t]=[])).push(a);});
+    changeHtml='<span class="pgs-event-changes" style="display:block;margin-top:5px"><b>Cambios durante el tramo:</b> '+Object.keys(grouped).sort(function(a,b){return Number(b)-Number(a);}).map(function(t){
+      var ins=[],outs=[];
+      grouped[t].forEach(function(a){var n=String(a.action||"").split(": Sustitución")[0].trim();if(/Entra a pista/i.test(a.action))ins.push(n);else outs.push(n);});
+      return '<span style="display:block;margin-top:3px">'+pbpClock(600-Number(t))+' · '+(ins.length?'<b style="color:#16a34a">Entra: '+ins.map(esc).join(", ")+'</b>':"")+(ins.length&&outs.length?' · ':'')+(outs.length?'<b style="color:#d93025">Sale: '+outs.map(esc).join(", ")+'</b>':"")+'</span>';
+    }).join("")+'</span>';
+  }else{
+    changeHtml='<span class="pgs-event-changes" style="display:block;margin-top:5px">Sin cambios de quinteto registrados durante este tramo.</span>';
+  }
+  return '<small class="pgs-event-lineup" style="display:block">Quinteto en pista: '+esc(names||"No reconstruible")+'</small>'+changeHtml;
 }
 
 function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");}
