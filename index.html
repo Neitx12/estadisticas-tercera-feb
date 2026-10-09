@@ -1940,6 +1940,12 @@ function sec(c){var p=String(c||"0:00").split(":");return (Number(p[0])||0)*60+(
 function fmtClock(s){s=Math.max(0,Math.min(600,Number(s)||0));var left=600-s;return Math.floor(left/60)+":"+String(Math.round(left%60)).padStart(2,"0");}
 window.fmtClock=fmtClock; // Disponible también para funciones auxiliares de otros ámbitos.
 function short(t){var m={"CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS":"Piélagos","BALONCESTO LA FLECHA":"La Flecha","MEGACALZADO ARDOI":"Ardoi","ULACIA ZKE":"Ulacia ZKE","TABIRAKO BAQUE":"Tabirako","IRUKI TAKE":"Iruki Take","RESTAURANTE LOS ARCOS CB SOLARES":"Solares","SAN PRUDENCIO":"San Prudencio","TEKNEI BIZKAIA ZORNOTZA":"Zornotza","ELABORADOS NATURALES VALLE DE EGÜÉS":"Egüés","UNIVERSIDAD DEUSTO LOIOLA INDAUTXU":"Deusto Loyola","LIS DATA SOLUTIONS BEZANA":"Bezana","DE MORRO FINO CANTBASKET04":"Cantbasket04","HOTEL 4POSTES - ÁVILA AUTÉNTICA - EL BULEVAR":"Ávila Auténtica"};return m[t]||t||"Equipo";}
+function metricRangeLabel(r){
+  if(!r)return "";
+  var sq=Number(r[5]||r[1]),eq=Number(r[6]||r[1]);
+  if(sq===eq)return "Q"+sq+" · "+fmtClock(r[3])+"–"+fmtClock(r[4]);
+  return "Q"+sq+" "+fmtClock(r[3])+" → Q"+eq+" "+fmtClock(r[4]);
+}
 function actionType(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return"S3";if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return"S2";if(/TIRO DE 1 ANOTADO/.test(a))return"S1";if(/TIRO DE 3 FALLADO/.test(a))return"F3";if(/TIRO DE 2 FALLADO/.test(a))return"F2";if(/TIRO DE 1 FALLADO/.test(a))return"F1";if(/PÉRDIDA/.test(a))return"T";if(/ROBO/.test(a))return"R";if(/FALTA/.test(a))return"PF";return null;}
 function summaryFromOriginal(p){
 var ev=(p.actions||[]).map(function(x,i){
@@ -1955,38 +1961,33 @@ ev.forEach(function(e){
   if(e.type==="T")base.stats[e.side].turn++;
   if(e.type.charAt(0)==="F")base.stats[e.side].miss++;
 });
-for(var q=1;q<=4;q++){
-  // El PBP se presenta de abajo hacia arriba: el reloj restante debe ir de 10:00 a 0:00.
-  var scoring=ev.filter(function(e){return e.q===q&&e.type.charAt(0)==="S";})
-    .sort(function(a,b){return b.remaining-a.remaining||b.index-a.index;});
-  if(scoring.length){
-    var currentSide=scoring[0].side,total=0,startElapsed=600-scoring[0].remaining,endElapsed=startElapsed;
-    scoring.forEach(function(e){
-      var points=Number(e.type.charAt(1)),elapsed=600-e.remaining;
-      if(e.side===currentSide){total+=points;endElapsed=elapsed;}
-      else{
-        base.runs.push([total,q,currentSide,startElapsed,endElapsed]);
-        currentSide=e.side;total=points;startElapsed=elapsed;endElapsed=elapsed;
-      }
-    });
-    base.runs.push([total,q,currentSide,startElapsed,endElapsed]);
+var scoringEvents=ev.filter(function(e){return e.type.charAt(0)==="S";})
+  .sort(function(a,b){return a.q-b.q||b.remaining-a.remaining||b.index-a.index;});
+var currentSide=null,total=0,startQ=1,startElapsed=0,endQ=1,endElapsed=0;
+scoringEvents.forEach(function(e){
+  var elapsed=600-e.remaining,points=Number(e.type.charAt(1));
+  if(currentSide===null){currentSide=e.side;total=points;startQ=e.q;startElapsed=elapsed;endQ=e.q;endElapsed=elapsed;return;}
+  if(e.side===currentSide){total+=points;endQ=e.q;endElapsed=elapsed;}
+  else{
+    base.runs.push([total,startQ,currentSide,startElapsed,endElapsed,startQ,endQ]);
+    currentSide=e.side;total=points;startQ=e.q;startElapsed=elapsed;endQ=e.q;endElapsed=elapsed;
   }
-  for(var side=0;side<2;side++){
-    var own=scoring.filter(function(e){return e.side===side;}).map(function(e){return e.remaining;}).sort(function(a,b){return b-a;});
-    var gaps=[];
-    if(own.length){
-      gaps.push([600-own[0],0,600-own[0]]);
-      for(var j=1;j<own.length;j++)gaps.push([own[j-1]-own[j],600-own[j-1],600-own[j]]);
-      gaps.push([own[own.length-1],600-own[own.length-1],600]);
-    }else gaps.push([600,0,600]);
-    var longest=gaps.reduce(function(best,current){return current[0]>best[0]?current:best;},gaps[0]);
-    base.droughts.push([longest[0],q,side,longest[1],longest[2]]);
-  }
+});
+if(currentSide!==null)base.runs.push([total,startQ,currentSide,startElapsed,endElapsed,startQ,endQ]);
+for(var side=0;side<2;side++){
+  var own=scoringEvents.filter(function(e){return e.side===side;}).map(function(e){var elapsed=600-e.remaining;return {q:e.q,elapsed:elapsed,t:(e.q-1)*600+elapsed};}).sort(function(a,b){return a.t-b.t;});
+  var gaps=[];
+  if(own.length){
+    gaps.push({duration:own[0].t,startQ:1,startElapsed:0,endQ:own[0].q,endElapsed:own[0].elapsed});
+    for(var k=1;k<own.length;k++)gaps.push({duration:own[k].t-own[k-1].t,startQ:own[k-1].q,startElapsed:own[k-1].elapsed,endQ:own[k].q,endElapsed:own[k].elapsed});
+    gaps.push({duration:2400-own[own.length-1].t,startQ:own[own.length-1].q,startElapsed:own[own.length-1].elapsed,endQ:4,endElapsed:600});
+  }else gaps.push({duration:2400,startQ:1,startElapsed:0,endQ:4,endElapsed:600});
+  var bestGap=gaps.reduce(function(best,current){return current.duration>best.duration?current:best;},gaps[0]);
+  base.droughts.push([bestGap.duration,bestGap.startQ,side,bestGap.startElapsed,bestGap.endElapsed,bestGap.startQ,bestGap.endQ]);
 }
-base.threes.forEach(function(list){list.sort(function(a,b){return a.q-b.q||sec(b.clock)-sec(a.clock);});});
 base.runs=base.runs.filter(function(run){return run[0]>=6;})
   .sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
-base.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
+base.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});});
 return base;
 }
 
@@ -2010,7 +2011,7 @@ var moments=[];if(best)moments.push({r:best,own:true,text:"Parcial de "+best[0]+
 var momentHtml=moments.map(function(m){return '<div class="pgs-event"><div class="time">Q'+m.r[1]+' · '+fmtClock(m.r[3])+'</div><div><strong>'+esc(m.text)+'</strong><p>'+(m.own?"Tramo favorable al equipo analizado.":"Momento que perjudicó al equipo analizado.")+'</p></div><span class="pgs-badge '+(m.own?"good":"bad")+'">'+(m.own?"A FAVOR":"EN CONTRA")+'</span></div>';}).join("");
 var narrative=margin>0?"Victoria por "+margin+" puntos. El último cuarto fue clave para consolidar el resultado.":margin<0?"Derrota por "+Math.abs(margin)+" puntos. La prioridad es cortar las rachas rivales y las sequías propias.":"Partido equilibrado: las pequeñas rachas marcaron la diferencia.";
 var pgsCrest=escudos[short(team)]||escudos[team]||"";box.innerHTML='<div class="pgs-wrap"><div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>🧠 '+esc(short(team))+'</h3><p>'+esc(g.label)+' · '+narrative+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div><div class="pgs-crest-box">'+(pgsCrest?'<img class="pgs-crest" src="'+pgsCrest+'" alt="Escudo de '+esc(short(team))+'" onerror="this.style.display=\'none\'">':'<span class="pgs-crest-fallback">🏀</span>')+'</div></div>'+
-'<div class="pgs-grid"><div class="pgs-stat"><small>Mejor parcial</small><strong>'+(best?best[0]+"-0":"—")+'</strong><span>'+(best?"Q"+best[1]+" · MINUTOS "+fmtClock(best[3])+"–"+fmtClock(best[4]):"Sin racha ≥6")+'</span></div><div class="pgs-stat"><small>Peor parcial recibido</small><strong>'+(worst?worst[0]+"-0":"—")+'</strong><span>'+(worst?"Q"+worst[1]+" · MINUTOS "+fmtClock(worst[3])+"–"+fmtClock(worst[4]):"Sin racha ≥6")+'</span></div><div class="pgs-stat"><small>Sequía máxima</small><strong>'+(drought?Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0"):"—")+'</strong><span>'+(drought?"Q"+drought[1]+" · MINUTOS "+fmtClock(drought[3])+"–"+fmtClock(drought[4]):"Sin dato")+'</span></div><div class="pgs-stat"><small>Triples</small><strong>'+g.stats[ti].three+'</strong><span>anotados detectados</span></div></div>'+
+'<div class="pgs-grid"><div class="pgs-stat"><small>Mejor parcial</small><strong>'+(best?best[0]+"-0":"—")+'</strong><span>'+(best?metricRangeLabel(best):"Sin racha ≥6")+'</span></div><div class="pgs-stat"><small>Peor parcial recibido</small><strong>'+(worst?worst[0]+"-0":"—")+'</strong><span>'+(worst?metricRangeLabel(worst):"Sin racha ≥6")+'</span></div><div class="pgs-stat"><small>Sequía máxima</small><strong>'+(drought?Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0"):"—")+'</strong><span>'+(drought?metricRangeLabel(drought):"Sin dato")+'</span></div><div class="pgs-stat"><small>Triples</small><strong>'+g.stats[ti].three+'</strong><span>anotados detectados</span></div></div>'+
 '<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue "+best[0]+"-0 en Q"+best[1]+".":"No hubo un parcial propio de 6+ puntos.")+' '+(oppDrought?"El rival sufrió "+Math.floor(oppDrought[0]/60)+":"+String(oppDrought[0]%60).padStart(2,"0")+" sin anotar.":"No aparece una sequía rival especialmente larga.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El mayor golpe fue un "+worst[0]+"-0 rival en Q"+worst[1]+".":"No hubo un parcial rival de 6+ puntos.")+' '+(drought?"La mayor sequía propia fue de "+Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0")+".":"No aparece una sequía propia destacable.")+'</p></div></div></section>'+
 
 '<section class="pgs-panel"><h3>🚨 Momentos que cambiaron el partido</h3><div class="pgs-events">'+(momentHtml||'<div class="pgs-footer">No se ha identificado un momento dominante.</div>')+'</div></section>'+
@@ -2045,30 +2046,31 @@ var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:
 /* Mantener las métricas propias de este módulo; ordenar las acciones desde 10:00 hasta 0:00. */
 g.threes.forEach(function(list){list.sort(function(a,b){return a.q-b.q||sec(b.clock)-sec(a.clock);});});
 ev.forEach(function(x){var side=x.team===p.home?0:1;g.quarters[x.q-1][side]+=x.points;});
-[1,2,3,4].forEach(function(q){
-  var arr=ev.filter(function(x){return x.q===q;}).sort(function(a,b){return b.remaining-a.remaining||b.index-a.index;});
-  if(arr.length){
-    var currentTeam=arr[0].team,total=0,start=600-arr[0].remaining,last=start;
-    arr.forEach(function(x){
-      var elapsed=600-x.remaining;
-      if(x.team===currentTeam){total+=x.points;last=elapsed;}
-      else{g.runs.push([total,q,currentTeam===p.home?0:1,start,last]);currentTeam=x.team;total=x.points;start=elapsed;last=elapsed;}
-    });
-    g.runs.push([total,q,currentTeam===p.home?0:1,start,last]);
+var scoringEvents=ev.slice().sort(function(a,b){return a.q-b.q||b.remaining-a.remaining||b.index-a.index;});
+var currentTeam=null,total=0,startQ=1,startElapsed=0,endQ=1,endElapsed=0;
+scoringEvents.forEach(function(x){
+  var elapsed=600-x.remaining;
+  if(currentTeam===null){currentTeam=x.team;total=x.points;startQ=x.q;startElapsed=elapsed;endQ=x.q;endElapsed=elapsed;return;}
+  if(x.team===currentTeam){total+=x.points;endQ=x.q;endElapsed=elapsed;}
+  else{
+    g.runs.push([total,startQ,currentTeam===p.home?0:1,startElapsed,endElapsed,startQ,endQ]);
+    currentTeam=x.team;total=x.points;startQ=x.q;startElapsed=elapsed;endQ=x.q;endElapsed=elapsed;
   }
-  [p.home,p.away].forEach(function(team,side){
-    var times=arr.filter(function(x){return x.team===team;}).map(function(x){return x.remaining;}).sort(function(a,b){return b-a;}),gaps=[];
-    if(times.length){
-      gaps.push([600-times[0],0,600-times[0]]);
-      for(var i=1;i<times.length;i++)gaps.push([times[i-1]-times[i],600-times[i-1],600-times[i]]);
-      gaps.push([times[times.length-1],600-times[times.length-1],600]);
-    }else gaps=[[600,0,600]];
-    var bestGap=gaps.reduce(function(best,current){return current[0]>best[0]?current:best;},gaps[0]);
-    g.droughts.push([bestGap[0],q,side,bestGap[1],bestGap[2]]);
-  });
+});
+if(currentTeam!==null)g.runs.push([total,startQ,currentTeam===p.home?0:1,startElapsed,endElapsed,startQ,endQ]);
+[p.home,p.away].forEach(function(team,side){
+  var own=scoringEvents.filter(function(x){return x.team===team;}).map(function(x){var elapsed=600-x.remaining;return {q:x.q,elapsed:elapsed,t:(x.q-1)*600+elapsed};}).sort(function(a,b){return a.t-b.t;});
+  var gaps=[];
+  if(own.length){
+    gaps.push({duration:own[0].t,startQ:1,startElapsed:0,endQ:own[0].q,endElapsed:own[0].elapsed});
+    for(var k=1;k<own.length;k++)gaps.push({duration:own[k].t-own[k-1].t,startQ:own[k-1].q,startElapsed:own[k-1].elapsed,endQ:own[k].q,endElapsed:own[k].elapsed});
+    gaps.push({duration:2400-own[own.length-1].t,startQ:own[own.length-1].q,startElapsed:own[own.length-1].elapsed,endQ:4,endElapsed:600});
+  }else gaps.push({duration:2400,startQ:1,startElapsed:0,endQ:4,endElapsed:600});
+  var bestGap=gaps.reduce(function(best,current){return current.duration>best.duration?current:best;},gaps[0]);
+  g.droughts.push([bestGap.duration,bestGap.startQ,side,bestGap.startElapsed,bestGap.endElapsed,bestGap.startQ,bestGap.endQ]);
 });
 g.runs=g.runs.filter(function(r){return r[0]>=6;}).sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
-g.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
+g.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});});
 return g;
 }
 
