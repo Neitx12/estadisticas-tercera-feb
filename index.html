@@ -811,7 +811,7 @@ function calcularJugadoresTabla(periodo){
         ast:a.ast/a.pj,stl:a.stl/a.pj,to:a.to/a.pj,blk:a.blk/a.pj,pf:a.pf/a.pj,pfr:a.pfr/a.pj,
         val:a.val/a.pj,masmenos:a.masmenos/a.pj,
         d2pct:a.d2a?a.d2m/a.d2a:null,d3pct:a.d3a?a.d3m/a.d3a:null,ftpct:a.fta?a.ftm/a.fta:null,
-        efg:fga?(fgm+.5*a.d3m)/fga:null,ts:denTS?a.pts/denTS:null,
+        efg:fga?(a.d2m+1.5*a.d3m)/fga:null,ts:denTS?a.pts/denTS:null,
         astto:a.to?a.ast/a.to:null,tov:((a.d2a+a.d3a)+.44*a.fta+a.to)>0?a.to/((a.d2a+a.d3a)+.44*a.fta+a.to):null,
         ftr:fga?a.fta/fga:null,p3tc:fga?a.d3a/fga:null,
         pts40:a.min?a.pts*2400/a.min:null,reb40:a.min?a.trb*2400/a.min:null,ast40:a.min?a.ast*2400/a.min:null,val40:a.min?a.val*2400/a.min:null,
@@ -992,7 +992,7 @@ function renderPlantillaEquipoModal(equipoId,rivalId,modo){
     const advRows=arr.map(x=>{
       const fga=x.d2a+x.t3a,fgm=x.d2m+x.t3m,denTS=2*(fga+.44*x.fta);
       return {x:x,pts40:x.min?x.pts*2400/x.min:null,reb40:x.min?x.reb*2400/x.min:null,ast40:x.min?x.ast*2400/x.min:null,val40:x.min?x.val*2400/x.min:null,
-        ts:denTS?x.pts/denTS:null,efg:fga?(fgm+.5*x.t3m)/fga:null,tov:(fga+.44*x.fta+x.to)>0?x.to/(fga+.44*x.fta+x.to):null,
+        ts:denTS?x.pts/denTS:null,efg:fga?(x.d2m+1.5*x.t3m)/fga:null,tov:(fga+.44*x.fta+x.to)>0?x.to/(fga+.44*x.fta+x.to):null,
         astto:x.to?x.ast/x.to:null,usg:denTeam&&x.min?((fga+.44*x.fta+x.to)*(teamMin/5))/(x.min*denTeam):null,
         ftr:fga?x.fta/fga:null,p3tc:fga?x.t3a/fga:null};
     });
@@ -1335,7 +1335,7 @@ function calcularPerfilJugadorNuevo(jugadorId,periodo){
   t.mpg=t.min/t.partidos;t.ptsA=t.pts/t.partidos;t.rebA=t.reb/t.partidos;t.astA=t.ast/t.partidos;t.recA=t.rec/t.partidos;t.tapA=t.tap/t.partidos;t.perdA=t.perd/t.partidos;t.valA=t.val/t.partidos;
   t.p2=t.d2a?t.d2m/t.d2a*100:null;t.p3=t.d3a?t.d3m/t.d3a*100:null;t.ft=t.fta?t.ftm/t.fta*100:null;
   t.p3tc=fga?t.d3a/fga*100:null;
-  t.efg=fga?(fgm+0.5*t.d3m)/fga*100:null;t.ts=denTS?t.pts/denTS*100:null;t.astto=t.perd?t.ast/t.perd:null;
+  t.efg=fga?(t.d2m+1.5*t.d3m)/fga*100:null;t.ts=denTS?t.pts/denTS*100:null;t.astto=t.perd?t.ast/t.perd:null;
 
   // USG% Basketball Reference: se calcula con los totales de toda la muestra,
   // nunca promediando los USG% de los partidos individuales.
@@ -1802,7 +1802,7 @@ function perfilComparador(id,periodo){
  var usg=denomUSG>0?100*(fga+0.44*t.fta+t.perd)*(equipo.min/5)/denomUSG:null;
  return{
    g:t.g,min:t.min/t.g,pts:t.pts/t.g,reb:t.reb/t.g,ast:t.ast/t.g,stl:t.stl/t.g,blk:t.blk/t.g,val:t.val/t.g,
-   ts:den?t.pts/den*100:null,efg:fga?(fgm+.5*t.d3m)/fga*100:null,p2:t.d2a?t.d2m/t.d2a*100:null,
+   ts:den?t.pts/den*100:null,efg:fga?(t.d2m+1.5*t.d3m)/fga*100:null,p2:t.d2a?t.d2m/t.d2a*100:null,
    p3:t.d3a?t.d3m/t.d3a*100:null,ft:t.fta?t.ftm/t.fta*100:null,astto:t.perd?t.ast/t.perd:null,
    usg:usg,pts40:k?t.pts*k:null,val40:k?t.val*k:null,reb40:k?t.reb*k:null,ast40:k?t.ast*k:null,
    p3tc:fga?t.d3a/fga*100:null
