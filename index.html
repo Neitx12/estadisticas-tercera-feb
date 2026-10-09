@@ -2132,8 +2132,8 @@ function renderQuintetoTimelineUnsafe(g,team){
   function scoreLabel(score){return (team===g.home?score[0]:score[1])+"-"+(team===g.home?score[1]:score[0]);}
   function line(q,start,end,change){
     var ns=names(),valid=ns.length===5;
-    var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
-    var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
+    var lineup=valid?ns.map(function(n){return change&&lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
+    var exits=change&&lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
     var accumulated=scoreThrough(q,end),partial=segmentPoints(q,start,end);
     var partialDiff=team===g.home?partial[0]-partial[1]:partial[1]-partial[0];
     var arrow=partialDiff>0?'<span style="color:#16a34a;font-weight:900;font-size:17px;display:inline-block;margin-left:3px">⬆</span>':partialDiff<0?'<span style="color:#dc2626;font-weight:900;font-size:17px;display:inline-block;margin-left:3px">⬇</span>':"";
