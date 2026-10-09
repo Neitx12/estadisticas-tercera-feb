@@ -2237,15 +2237,32 @@ function renderQuintetoTimelineUnsafe(g,team){
 function renderQuintetoTimeline(g,team){try{return renderQuintetoTimelineUnsafe(g,team);}catch(err){return '<p class="pgs-footer">No se ha podido reconstruir la línea temporal de sustituciones de este equipo.</p>';}}
 
 function populate(){
-var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");if(!j||!p||!pr)return;
-var oldJ=j.value||"1",oldP=p.value,oldPr=pr.value,by={};
-scoutGames.forEach(function(g){var m=String(g.label||"").match(/Jornada\s+(\d+)/i),n=m?m[1]:"1";(by[n]||(by[n]=[])).push(g);});
-j.innerHTML=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);}).map(function(n){return '<option value="'+n+'">Jornada '+n+'</option>';}).join("");
-j.value=by[oldJ]?oldJ:Object.keys(by)[0];var gs=by[j.value]||[];
-p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\s+\d+\s*·\s*/i,""))+'</option>';}).join("");
-p.value=gs.some(function(g){return String(g.id)===String(oldP);})?oldP:(gs[0]?gs[0].id:"");
-var g=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];if(!g)return;
-pr.innerHTML=[g.home,g.away].map(function(t){return '<option value="'+esc(t)+'">'+esc(short(t))+'</option>';}).join("");
+var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");
+if(!j||!p||!pr)return;
+var games=Array.isArray(scoutGames)?scoutGames.filter(function(g){return g&&g.id&&g.label&&g.home&&g.away;}):[];
+if(!games.length){
+j.innerHTML='<option value="">Sin jornadas disponibles</option>';
+p.innerHTML='<option value="">Sin partidos disponibles</option>';
+pr.innerHTML='<option value="">Sin equipos disponibles</option>';
+return;
+}
+var oldJ=j.value,oldP=p.value,oldPr=pr.value,by={};
+games.forEach(function(g){
+var m=String(g.label||"").match(/Jornada\\s+(\\d+)/i),n=m?m[1]:"1";
+(by[n]||(by[n]=[])).push(g);
+});
+var jornadas=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);});
+j.innerHTML=jornadas.map(function(n){return '<option value="'+esc(n)+'">Jornada '+esc(n)+'</option>';}).join("");
+j.value=by[oldJ]?oldJ:(jornadas[0]||"");
+var gs=by[j.value]||[];
+p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\\s+\\d+\\s*·\\s*/i,""))+'</option>';}).join("");
+p.value=gs.some(function(g){return String(g.id)===String(oldP);})?oldP:(gs[0]?String(gs[0].id):"");
+var g=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];
+if(!g){
+pr.innerHTML='<option value="">Sin equipos disponibles</option>';
+return;
+}
+pr.innerHTML=[g.home,g.away].filter(Boolean).map(function(t){return '<option value="'+esc(t)+'">'+esc(short(t))+'</option>';}).join("");
 pr.value=(oldPr===g.home||oldPr===g.away)?oldPr:g.home;
 }
 function render(){
