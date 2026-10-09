@@ -2117,8 +2117,7 @@ function renderQuintetoTimelineUnsafe(g,team){
     return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
-    if(q===1){active={};applyAt(q,600);}
-    else {applyAt(q,600);}
+    applyAt(q,600);
     var current=600, segmentStart=600, quarterHtml="";
     var times=Array.from(new Set(actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)<600&&sec(a.clock)>0;}).map(function(a){return sec(a.clock);})).values()).sort(function(a,b){return b-a;});
     times.forEach(function(t){
