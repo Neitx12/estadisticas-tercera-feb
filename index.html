@@ -2278,7 +2278,7 @@ box.innerHTML='<div class="pgs-wrap"><div class="pgs-top"><div class="pgs-hero">
 }
 function renderSeguro(){try{render();}catch(err){console.error("Error en Análisis PBP avanzado:",err);var box=document.getElementById("pbpDynamic");if(box)box.innerHTML='<div class="pgs-panel" role="alert"><h3>No se ha podido cargar el análisis</h3><p>'+esc(err&&err.message?err.message:String(err))+'</p><button type="button" class="cerrar" onclick="window.pbpRenderSeguro&&window.pbpRenderSeguro()">Reintentar análisis</button></div>';}}
 document.addEventListener("change",function(e){if(e.target&&["pgsJornada","pgsPartido","pgsPrisma"].indexOf(e.target.id)>=0)renderSeguro();});
-window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");renderSeguro();};
+window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");try{populate();}catch(e){console.error("Error al cargar selectores PBP:",e);}renderSeguro();};
 window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto");};
 window.pbpRender=render;
 })();
