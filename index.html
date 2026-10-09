@@ -2095,7 +2095,7 @@ function detalleQuintetoEvento(g,event,team){
       return '<span style="display:block;margin-top:3px">'+pbpClock(Number(t))+' · '+(ins.length?'<b style="color:#16a34a">Entra: '+ins.map(esc).join(", ")+'</b>':"")+(ins.length&&outs.length?' · ':'')+(outs.length?'<b style="color:#d93025">Sale: '+outs.map(esc).join(", ")+'</b>':"")+'</span>';
     }).join("")+'</span>';
   }else{
-    changeHtml='<span class="pgs-event-changes" style="display:block;margin-top:5px">NO HUBO CAMBIOS EN EL PERIODO.</span>';
+    changeHtml="";
   }
   return '<small class="pgs-event-lineup" style="display:block">'+esc(names||"No reconstruible")+'</small>'+changeHtml;
 }
