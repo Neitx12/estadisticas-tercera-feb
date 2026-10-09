@@ -2145,7 +2145,7 @@ function renderQuintetoTimelineUnsafe(g,team){
     var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
     var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
     var accumulated=scoreThrough(q,end),partial=segmentPoints(q,start,end);
-    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+' <span style="font-weight:800;color:#e5e7eb">'+scoreLabel(accumulated)+'</span> <span style="font-weight:600;color:#9ca3af">('+scoreLabel(partial)+')</span></h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
+    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+' <span style="font-weight:400;color:inherit;margin-left:10px">'+scoreLabel(accumulated)+' -- ('+scoreLabel(partial)+')</span></h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
     applyAt(q,600);
