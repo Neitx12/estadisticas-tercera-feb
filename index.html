@@ -2090,7 +2090,7 @@ function renderQuintetoTimelineUnsafe(g,team){
   function names(){return Object.keys(active).sort();}
   function line(q,start,end,change){
     var ns=names(),valid=ns.length===5;
-    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+esc(valid?ns.join(" · "):"Quinteto incompleto: "+ns.length+" jugadores identificados")+'</p>'+(change?'<small>Quinteto tras los cambios de '+fmtClock(start)+'.</small>':"")+'</div>';
+    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+esc(valid?ns.join(" · "):"Quinteto incompleto: "+ns.length+" jugadores identificados")+'</p>'+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
     if(q===1){active={};applyAt(q,600);}
