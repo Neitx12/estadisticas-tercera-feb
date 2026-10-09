@@ -2080,17 +2080,20 @@ function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+Stri
 function renderQuintetoTimelineUnsafe(g,team){
   if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
   var actions=PBP_ADV_DATA.actions.filter(function(a){return a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));});
-  var active={},out="";
+  var active={},out="",lastIn=[],lastOut=[];
   function applyAt(q,t){
+    lastIn=[];lastOut=[];
     actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;}).forEach(function(a){
       var name=String(a.action||"").split(": Sustitución")[0].trim();
-      if(/Entra a pista/i.test(a.action))active[name]=true;else delete active[name];
+      if(/Entra a pista/i.test(a.action)){active[name]=true;lastIn.push(name);}else{delete active[name];lastOut.push(name);}
     });
   }
   function names(){return Object.keys(active).sort();}
   function line(q,start,end,change){
     var ns=names(),valid=ns.length===5;
-    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+esc(valid?ns.join(" · "):"Quinteto incompleto: "+ns.length+" jugadores identificados")+'</p>'+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
+    var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong>'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
+    var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
+    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
     if(q===1){active={};applyAt(q,600);}
