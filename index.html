@@ -2019,7 +2019,7 @@ var pgsCrest=escudos[short(team)]||escudos[team]||"";box.innerHTML='<div class="
 '<section class="pgs-panel"><h3>🎯 Lectura para el entrenador</h3><div class="pgs-footer"><b>Clave:</b> '+(margin>0?"mantener los tramos de anotación que generaron ventaja y evitar relajaciones tras las remontadas rivales.":margin<0?"cortar antes las rachas rivales y encontrar una respuesta ofensiva antes de que la sequía amplíe la diferencia.":"ganar las pequeñas batallas de cada cuarto y evitar que una racha cambie el control del partido.")+'</div></section></div>';
 var s=document.getElementById("pgsTeam");if(s){s.value=team;s.onchange=render;}
 }
-window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");render();};
+window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");try{populate();}catch(e){console.error("Error al cargar selectores PBP:",e);}renderSeguro();};
 window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto");};
 window.pbpRender=render;window.pbpRenderSeguro=renderSeguro;
 })();
