@@ -2087,21 +2087,10 @@ function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+Stri
 function renderQuintetoTimelineUnsafe(g,team){
   if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
   var actions=PBP_ADV_DATA.actions.filter(function(a){return a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));});
-  // Reconstruir el quinteto inicial: el primer evento de cada jugador
-  // que sea una salida de pista indica que estaba en cancha al comenzar.
-  var orderedActions=actions.slice().sort(function(a,b){
-    return Number(a.q)-Number(b.q)||sec(b.clock)-sec(a.clock);
-  });
-  var firstEventByPlayer={};
-  orderedActions.forEach(function(a){
-    var name=String(a.action||"").split(": Sustitución")[0].trim();
-    if(name&&!firstEventByPlayer[name])firstEventByPlayer[name]=a;
-  });
-  var starters=Object.keys(firstEventByPlayer).filter(function(name){
-    return /Sale de pista/i.test(firstEventByPlayer[name].action||"");
-  });
+  // El PBP ya registra los cinco titulares como "Entra a pista" en 10:00
+  // del primer cuarto. No inferir titulares a partir de salidas posteriores:
+  // eso añadía suplentes al quinteto y ocultaba todos los cambios.
   var active={},out="",lastIn=[],lastOut=[];
-  starters.forEach(function(name){active[name]=true;});
   function applyAt(q,t){
     lastIn=[];lastOut=[];
     actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;}).forEach(function(a){
