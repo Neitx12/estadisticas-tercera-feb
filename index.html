@@ -2070,24 +2070,53 @@ loadPbpDetails();
 function quintetoEnMomento(g,quarter,clockSec,team){
   if(!g||!Array.isArray(g.actions))return "";
   var actions=g.actions,active={};
-  actions.forEach(function(a){
-    if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \(Entra a pista\)/i.test(String(a.action||""))){
-      var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
+  function playerName(a){return String(a.action||"").split(": Sustitución")[0].trim();}
+  function isEntry(a){return /Sustitución \(Entra a pista\)/i.test(String(a.action||""));}
+  function isExit(a){return /Sustitución \(Sale de pista\)/i.test(String(a.action||""));}
+  // El PBP se normaliza a tiempo transcurrido: Q1 10:00 = 0 y Q1 0:00 = 600.
+  // Se ordena por cuarto, segundo transcurrido y orden original para empates.
+  var ordered=actions.map(function(a,i){
+    return {a:a,i:i,q:Number(a.q),remaining:sec(a.clock),t:600-sec(a.clock)};
+  }).filter(function(x){return x.a.team===team&&(isEntry(x.a)||isExit(x.a));})
+    .sort(function(x,y){return x.q-y.q||x.t-y.t||x.i-y.i;});
+  // La alineación inicial procede de las entradas registradas a 10:00 del Q1.
+  ordered.forEach(function(x){
+    if(x.q===1&&x.t===0&&isEntry(x.a)){
+      var n=playerName(x.a);if(n)active[n]=true;
     }
   });
-  var ordered=actions.map(function(a,i){return {a:a,i:i,t:sec(a.clock)};}).sort(function(x,y){return Number(x.a.q)-Number(y.a.q)||y.t-x.t||x.i-y.i;});
+  var targetQ=Number(quarter),targetT=Number(clockSec);
+  // Procesar eventos por lotes de mismo cuarto y mismo instante, nunca en orden inverso.
+  var batches={};
   ordered.forEach(function(x){
-    var a=x.a;if(a.team!==team||!/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||"")))return;
-    // x.t es el reloj restante del cuarto; clockSec es tiempo transcurrido.
-    // Convertir ambos a la misma escala antes de decidir si aplicar el cambio.
-    var q=Number(a.q),t=600-x.t;
-    if(q>Number(quarter)||(q===Number(quarter)&&t>Number(clockSec)))return;
-    if(q===1&&t===0)return;
-    var name=String(a.action||"").split(": Sustitución")[0].trim();if(!name)return;
-    if(/Entra a pista/i.test(a.action))active[name]=true;else delete active[name];
+    if(x.q===1&&x.t===0)return; // titulares ya inicializados arriba
+    var key=x.q+":"+x.t;
+    (batches[key]||(batches[key]=[])).push(x);
   });
-  var names=Object.keys(active);
-  return names.length===5?names.sort().join(" · "):"Quinteto no reconstruible con certeza ("+names.length+" jugadores identificados)";
+  var batchList=Object.keys(batches).map(function(key){
+    var p=key.split(":");return {q:Number(p[0]),t:Number(p[1]),items:batches[key]};
+  }).sort(function(a,b){return a.q-b.q||a.t-b.t;});
+  for(var bi=0;bi<batchList.length;bi++){
+    var batch=batchList[bi];
+    if(batch.q>targetQ||(batch.q===targetQ&&batch.t>targetT))break;
+    var exits=batch.items.filter(function(x){return isExit(x.a);});
+    var entries=batch.items.filter(function(x){return isEntry(x.a);});
+    // Algunos PBP omiten un titular: si en Q1 sale alguien aún no registrado,
+    // inferimos que estaba en pista y lo retiramos en este mismo instante.
+    exits.forEach(function(x){
+      var n=playerName(x.a);if(!n)return;
+      if(!active[n]&&batch.q===1&&Object.keys(active).length<5)active[n]=true;
+      // Una salida solo se aplica si el jugador estaba en pista.
+      if(active[n])delete active[n];
+    });
+    // Una entrada de alguien que ya está en pista no duplica el quinteto.
+    entries.forEach(function(x){
+      var n=playerName(x.a);if(!n||active[n])return;
+      active[n]=true;
+    });
+  }
+  var names=Object.keys(active).sort();
+  return names.length===5?names.join(" · "):"Quinteto no reconstruible con certeza ("+names.length+" jugadores identificados)";
 }
 function quintetoDeRacha(g,run,team){
   if(!run)return "";
