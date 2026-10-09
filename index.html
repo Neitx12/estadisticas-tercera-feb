@@ -2052,9 +2052,24 @@ g.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
 return g;
 }
 var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="undefined"?PBP_ADV_EXTRA:[]);
+var originalPbpGame=scoutGames[0];originalPbpGame.actions=PBP_ADV_DATA.actions;originalPbpGame.startScores=PBP_ADV_DATA.startScores;
+function loadPbpDetails(){
+fetch("./pbp-details.json?version=1").then(function(r){if(!r.ok)throw new Error("No se pudo cargar pbp-details.json");return r.json();}).then(function(rows){
+rows.forEach(function(item){
+var g=scoutGames.find(function(x){return x.id===item[0];});if(!g)return;
+var actions=item[5].map(function(a){return {q:Number(a[0]),clock:a[1],team:Number(a[2])===0?item[1]:Number(a[2])===1?item[2]:"",action:String(a[3]||"")};});
+var source={gameId:item[0],label:item[3],home:item[1],away:item[2],final:item[4],actions:actions};
+var computed=summaryFromOriginal(source);Object.assign(g,computed);g.id=item[0];g.label=item[3];g.home=item[1];g.away=item[2];g.final=item[4];g.actions=actions;
+g.startScores={};var score=[0,0];for(var q=1;q<=4;q++){g.startScores[String(q)]=score.slice();var quarter=g.quarters[q-1]||[0,0];score[0]+=Number(quarter[0])||0;score[1]+=Number(quarter[1])||0;}
+g.threes=[[],[]];actions.forEach(function(a){if(/TIRO DE 3 ANOTADO/i.test(a.action)){var side=a.team===g.home?0:a.team===g.away?1:-1;if(side>=0)g.threes[side].push({q:a.q,clock:a.clock,player:String(a.action).split(":")[0].trim()});}});
+});
+window.__pbpDetailsLoaded=true;renderSeguro();
+}).catch(function(err){console.error("No se pudieron cargar los PBP completos:",err);});
+}
+loadPbpDetails();
 function quintetoEnMomento(g,quarter,clockSec,team){
-  if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
-  var actions=PBP_ADV_DATA.actions,active={};
+  if(!g||!Array.isArray(g.actions))return "";
+  var actions=g.actions,active={};
   actions.forEach(function(a){
     if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \(Entra a pista\)/i.test(String(a.action||""))){
       var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
@@ -2078,10 +2093,10 @@ function quintetoDeRacha(g,run,team){
 }
 function detalleQuintetoEvento(g,event,team){
   if(!event)return "";
-  if(g.id!=="j1-ardoi-ulacia")return '<small class="pgs-event-lineup">Quinteto no disponible: falta el detalle completo de sustituciones.</small>';
+  if(!Array.isArray(g.actions))return '<small class="pgs-event-lineup">Quinteto no disponible: falta el detalle completo de sustituciones.</small>';
   var names=quintetoEnMomento(g,event[1],(Number(event[3])+Number(event[4]))/2,team);
   var lo=Math.min(Number(event[3]),Number(event[4])),hi=Math.max(Number(event[3]),Number(event[4]));
-  var changes=(PBP_ADV_DATA.actions||[]).filter(function(a){
+  var changes=(g.actions||[]).filter(function(a){
     var t=600-sec(a.clock);
     return a.team===team&&Number(a.q)===Number(event[1])&&t>=lo&&t<=hi&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));
   }).sort(function(a,b){return sec(b.clock)-sec(a.clock);});
@@ -2102,8 +2117,8 @@ function detalleQuintetoEvento(g,event,team){
 
 function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");}
 function renderQuintetoTimelineUnsafe(g,team){
-  if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
-  var actions=PBP_ADV_DATA.actions.filter(function(a){return a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));});
+  if(!g||!Array.isArray(g.actions))return "";
+  var actions=g.actions.filter(function(a){return a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));});
   // El PBP ya registra los cinco titulares como "Entra a pista" en 10:00
   // del primer cuarto. No inferir titulares a partir de salidas posteriores:
   // eso añadía suplentes al quinteto y ocultaba todos los cambios.
@@ -2121,8 +2136,8 @@ function renderQuintetoTimelineUnsafe(g,team){
     return m?Number(m[1]):0;
   }
   function scoreThrough(q,endClock){
-    var base=(PBP_ADV_DATA.startScores&&PBP_ADV_DATA.startScores[String(q)])||[0,0],score=[Number(base[0])||0,Number(base[1])||0];
-    PBP_ADV_DATA.actions.forEach(function(a){
+    var base=(g.startScores&&g.startScores[String(q)])||[0,0],score=[Number(base[0])||0,Number(base[1])||0];
+    (g.actions||[]).forEach(function(a){
       if(Number(a.q)!==q||sec(a.clock)<endClock)return;
       var pts=pointsAt(a);if(!pts)return;
       if(a.team===g.home)score[0]+=pts;else if(a.team===g.away)score[1]+=pts;
@@ -2131,7 +2146,7 @@ function renderQuintetoTimelineUnsafe(g,team){
   }
   function segmentPoints(q,start,end){
     var score=[0,0];
-    PBP_ADV_DATA.actions.forEach(function(a){
+    (g.actions||[]).forEach(function(a){
       if(Number(a.q)!==q)return;
       var t=sec(a.clock);if(t>=start||t<end)return;
       var pts=pointsAt(a);if(!pts)return;
@@ -2198,7 +2213,7 @@ var ps=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPris
 if(team!==g.home&&team!==g.away){team=g.home;if(pr)pr.value=team;}var ti=team===g.home?0:1,oi=1-ti,opp=ti?g.home:g.away,tf=g.final[ti],of=g.final[oi],margin=tf-of;
 var runs=g.runs.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),oppRuns=g.runs.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];}),ds=g.droughts.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),ods=g.droughts.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];});
 var best=runs[0],worst=oppRuns[0],drought=ds[0],oppDrought=ods[0];
-var quintetosHtml=g.id==="j1-ardoi-ulacia"?'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Cada tramo indica el quinteto en pista desde el minuto inicial hasta el siguiente cambio. Los cambios simultáneos se agrupan en el mismo instante.</p><h4>'+esc(short(team))+'</h4>'+renderQuintetoTimeline(g,team)+'</section>':'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Este partido aún no dispone del detalle completo de sustituciones del PBP para mostrar los quintetos por intervalos.</p></section>';
+var quintetosHtml=(Array.isArray(g.actions)&&g.actions.length)?'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Cada tramo indica el quinteto en pista desde el minuto inicial hasta el siguiente cambio. Los cambios simultáneos se agrupan en el mismo instante.</p><h4>'+esc(short(team))+'</h4>'+renderQuintetoTimeline(g,team)+'</section>':'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Los datos detallados del PBP todavía no están disponibles para este partido.</p></section>';
 var q=g.quarters.map(function(x,i){var d=x[ti]-x[oi];return '<div class="pgs-quarter"><div class="qhead"><strong>Q'+(i+1)+'</strong><span class="margin '+(d>0?"pos":d<0?"neg":"neu")+'">'+(d>0?"+":"")+d+'</span></div><div class="qscore">'+x[ti]+' - '+x[oi]+'</div><div class="qdetails"><span>'+esc(short(team))+': <b>'+x[ti]+'</b></span><span>'+esc(short(opp))+': <b>'+x[oi]+'</b></span></div></div>';}).join("");
 var moments=[best?'<div class="pgs-event"><div class="time">Q'+best[1]+'</div><div><strong>Parcial '+best[0]+'-0 de '+esc(short(team))+'</strong><p>Tramo favorable.</p></div><span class="pgs-badge good">A FAVOR</span></div>':"",worst?'<div class="pgs-event"><div class="time">Q'+worst[1]+'</div><div><strong>Parcial '+worst[0]+'-0 de '+esc(short(opp))+'</strong><p>Momento negativo.</p></div><span class="pgs-badge bad">EN CONTRA</span></div>':""].join("");
 box.innerHTML='<div class="pgs-wrap"><div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>🧠 '+esc(short(team))+'</h3><p>'+esc(g.label)+' · '+(margin>0?"Victoria por "+margin+" puntos.":"Derrota por "+Math.abs(margin)+" puntos.")+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div></div><div class="pgs-grid"><div class="pgs-stat"><small>'+(best?"Mejor parcial - Q"+best[1]+" ("+fmtClock(best[3])+"-"+fmtClock(best[4])+")":"Mejor parcial")+'</small><strong>'+(best?best[0]+"-0":"—")+'</strong>'+(best?detalleQuintetoEvento(g,best,team):"") +'</div><div class="pgs-stat"><small>'+(worst?"Peor parcial recibido - Q"+worst[1]+" ("+fmtClock(worst[3])+"-"+fmtClock(worst[4])+")":"Peor parcial recibido")+'</small><strong>'+(worst?worst[0]+"-0":"—")+'</strong>'+(worst?detalleQuintetoEvento(g,worst,team):"") +'</div><div class="pgs-stat"><small>'+(drought?"Sequía máxima - Q"+drought[1]+" ("+fmtClock(drought[3])+"-"+fmtClock(drought[4])+")":"Sequía máxima")+'</small><strong>'+(drought?Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0"):"—")+'</strong>'+(drought?detalleQuintetoEvento(g,drought,team):"") +'</div><div class="pgs-stat"><small>Triples anotados</small><strong>'+((g.stats[ti]&&g.stats[ti].three)||0)+'</strong><span>'+esc(short(team))+'</span><div class="pgs-triples">'+((g.threes&&g.threes[ti]&&g.threes[ti].length)?g.threes[ti].map(function(t){return "<span>Q"+t.q+" · "+esc(t.clock)+" · "+esc(t.player)+"</span>";}).join(""):"—")+'</div></div><div class="pgs-stat"><small>Triples recibidos</small><strong>'+((g.stats[oi]&&g.stats[oi].three)||0)+'</strong><span>'+esc(short(opp))+'</span><div class="pgs-triples">'+((g.threes&&g.threes[oi]&&g.threes[oi].length)?g.threes[oi].map(function(t){return "<span>Q"+t.q+" · "+esc(t.clock)+" · "+esc(t.player)+"</span>";}).join(""):"—")+'</div></div><section class="pgs-panel pgs-quarter-inline"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+q+'</div></section></div>'+quintetosHtml+'<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue "+best[0]+"-0 en Q"+best[1]+".":"Sin parcial propio destacado.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El rival logró "+worst[0]+"-0 en Q"+worst[1]+".":"Sin parcial rival destacado.")+(drought?" Sequía propia máxima: "+Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0")+".":"")+'</p></div></div></section><section class="pgs-panel"><h3>🚨 Momentos clave</h3><div class="pgs-events">'+moments+'</div></section><section class="pgs-panel"><h3>🎯 Lectura para el entrenador</h3><div class="pgs-footer"><b>Prisma seleccionado:</b> '+esc(short(team))+'. El mismo partido se interpreta desde este equipo.</div></section></div>';
