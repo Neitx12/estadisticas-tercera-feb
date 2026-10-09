@@ -2024,6 +2024,263 @@ window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnali
 window.pbpRender=render;window.pbpRenderSeguro=renderSeguro;
 })();
 </script>
+<script id="post-game-scout-js">
+(function(){
+"use strict";
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function sec(c){var p=String(c||"0:00").split(":");return (Number(p[0])||0)*60+(Number(p[1])||0);}
+function short(t){var m={"CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS":"Piélagos","BALONCESTO LA FLECHA":"La Flecha","MEGACALZADO ARDOI":"Ardoi","ULACIA ZKE":"Ulacia ZKE","TABIRAKO BAQUE":"Tabirako","IRUKI TAKE":"Iruki Take","RESTAURANTE LOS ARCOS CB SOLARES":"Solares","SAN PRUDENCIO":"San Prudencio","TEKNEI BIZKAIA ZORNOTZA":"Zornotza","ELABORADOS NATURALES VALLE DE EGÜÉS":"Egüés","UNIVERSIDAD DEUSTO LOIOLA INDAUTXU":"Deusto Loyola","LIS DATA SOLUTIONS BEZANA":"Bezana","DE MORRO FINO CANTBASKET04":"Cantbasket04","HOTEL 4POSTES - ÁVILA AUTÉNTICA - EL BULEVAR":"Ávila Auténtica"};return m[t]||t||"Equipo";}
+function pts(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0;}
+function originalSummary(p){
+var ev=(p.actions||[]).map(function(x,i){var z=pts(x.action);return z?{q:Number(x.q),remaining:sec(x.clock),team:x.team,points:z,action:String(x.action||""),index:i}:null;}).filter(Boolean);
+var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:[[0,0],[0,0],[0,0],[0,0]],stats:[{three:0,turn:0,miss:0},{three:0,turn:0,miss:0}],threes:[[],[]],runs:[],droughts:[]};
+(p.actions||[]).forEach(function(x){
+  var side=x.team===p.home?0:1,a=String(x.action||"");
+  if(/TIRO DE 3 ANOTADO/.test(a)){g.stats[side].three++;g.threes[side].push({q:Number(x.q),clock:String(x.clock||""),player:a.split(": TIRO DE 3 ANOTADO")[0].trim()});}
+  if(/PÉRDIDA/.test(a))g.stats[side].turn++;
+  if(/TIRO DE [123] FALLADO/.test(a))g.stats[side].miss++;
+});
+/* Mantener las métricas propias de este módulo; ordenar las acciones desde 10:00 hasta 0:00. */
+g.threes.forEach(function(list){list.sort(function(a,b){return a.q-b.q||sec(b.clock)-sec(a.clock);});});
+ev.forEach(function(x){var side=x.team===p.home?0:1;g.quarters[x.q-1][side]+=x.points;});
+var scoringEvents=ev.slice().sort(function(a,b){return a.q-b.q||b.remaining-a.remaining||b.index-a.index;});
+var currentTeam=null,total=0,startQ=1,startElapsed=0,endQ=1,endElapsed=0;
+scoringEvents.forEach(function(x){
+  var elapsed=600-x.remaining;
+  if(currentTeam===null){currentTeam=x.team;total=x.points;startQ=x.q;startElapsed=elapsed;endQ=x.q;endElapsed=elapsed;return;}
+  if(x.team===currentTeam){total+=x.points;endQ=x.q;endElapsed=elapsed;}
+  else{
+    g.runs.push([total,startQ,currentTeam===p.home?0:1,startElapsed,endElapsed,startQ,endQ]);
+    currentTeam=x.team;total=x.points;startQ=x.q;startElapsed=elapsed;endQ=x.q;endElapsed=elapsed;
+  }
+});
+if(currentTeam!==null)g.runs.push([total,startQ,currentTeam===p.home?0:1,startElapsed,endElapsed,startQ,endQ]);
+[p.home,p.away].forEach(function(team,side){
+  var own=scoringEvents.filter(function(x){return x.team===team;}).map(function(x){var elapsed=600-x.remaining;return {q:x.q,elapsed:elapsed,t:(x.q-1)*600+elapsed};}).sort(function(a,b){return a.t-b.t;});
+  var gaps=[];
+  if(own.length){
+    gaps.push({duration:own[0].t,startQ:1,startElapsed:0,endQ:own[0].q,endElapsed:own[0].elapsed});
+    for(var k=1;k<own.length;k++)gaps.push({duration:own[k].t-own[k-1].t,startQ:own[k-1].q,startElapsed:own[k-1].elapsed,endQ:own[k].q,endElapsed:own[k].elapsed});
+    gaps.push({duration:2400-own[own.length-1].t,startQ:own[own.length-1].q,startElapsed:own[own.length-1].elapsed,endQ:4,endElapsed:600});
+  }else gaps.push({duration:2400,startQ:1,startElapsed:0,endQ:4,endElapsed:600});
+  var bestGap=gaps.reduce(function(best,current){return current.duration>best.duration?current:best;},gaps[0]);
+  g.droughts.push([bestGap.duration,bestGap.startQ,side,bestGap.startElapsed,bestGap.endElapsed,bestGap.startQ,bestGap.endQ]);
+});
+g.runs=g.runs.filter(function(r){return r[0]>=6;}).sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
+g.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});});
+return g;
+}
+
+var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="undefined"?PBP_ADV_EXTRA:[]);
+function quintetoEnMomento(g,quarter,clockSec,team){
+  if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
+  var actions=PBP_ADV_DATA.actions,active={};
+  // Los titulares son las cinco entradas registradas a 10:00 del primer cuarto.
+  actions.forEach(function(a){
+    if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \(Entra a pista\)/i.test(String(a.action||""))){
+      var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
+    }
+  });
+  // Agrupar las sustituciones con el mismo reloj; primero salen y después entran.
+  var groups={};
+  actions.forEach(function(a){
+    if(a.team!==team||!/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||"")))return;
+    var q=Number(a.q),elapsed=600-sec(a.clock);
+    if(q>Number(quarter)||(q===Number(quarter)&&elapsed>Number(clockSec)))return;
+    if(q===1&&elapsed===0)return;
+    var key=q+"|"+elapsed;
+    (groups[key]||(groups[key]=[])).push(a);
+  });
+  Object.keys(groups).sort(function(a,b){
+    var x=a.split("|").map(Number),y=b.split("|").map(Number);
+    return x[0]-y[0]||x[1]-y[1];
+  }).forEach(function(key){
+    var changes=groups[key];
+    changes.forEach(function(a){
+      if(/Sale de pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();delete active[name];
+      }
+    });
+    changes.forEach(function(a){
+      if(/Entra a pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
+      }
+    });
+  });
+  var names=Object.keys(active);
+  return names.length===5?names.sort().join(" · "):"Quinteto no reconstruible con certeza ("+names.length+" jugadores identificados)";
+}
+function quintetoDeRacha(g,run,team){
+  if(!run)return "";
+  return quintetoEnMomento(g,run[1],(Number(run[3])+Number(run[4]))/2,team);
+}
+function detalleQuintetoEvento(g,event,team){
+  if(!event)return "";
+  if(g.id!=="j1-ardoi-ulacia")return '<small class="pgs-event-lineup">Quinteto no disponible: falta el detalle completo de sustituciones.</small>';
+  var startQ=Number(event[5]||event[1]),endQ=Number(event[6]||event[1]);
+  var parts=[];
+  for(var q=startQ;q<=endQ;q++){
+    var lo=q===startQ?Number(event[3]):0;
+    var hi=q===endQ?Number(event[4]):600;
+    if(hi<lo){var swap=lo;lo=hi;hi=swap;}
+    var substitutions=(PBP_ADV_DATA.actions||[]).map(function(a,i){return {a:a,i:i,elapsed:600-sec(a.clock)};})
+      .filter(function(x){return x.a.team===team&&Number(x.a.q)===q&&x.elapsed>=lo&&x.elapsed<=hi&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(x.a.action||""));})
+      .sort(function(x,y){return x.elapsed-y.elapsed||y.i-x.i;});
+    var bounds=[lo];
+    substitutions.forEach(function(x){if(x.elapsed>lo&&x.elapsed<hi&&bounds.indexOf(x.elapsed)<0)bounds.push(x.elapsed);});
+    if(hi>lo)bounds.push(hi);
+    bounds.sort(function(x,y){return x-y;});
+    var segments=[];
+    if(hi===lo)segments.push({start:lo,end:hi});
+    else for(var j=0;j<bounds.length-1;j++)if(bounds[j+1]>bounds[j])segments.push({start:bounds[j],end:bounds[j+1]});
+    var lineupHtml=segments.map(function(seg){
+      var names=quintetoEnMomento(g,q,(seg.start+seg.end)/2,team);
+      return '<span style="display:block;margin-top:4px"><b>Q'+q+' · '+fmtClock(seg.start)+'–'+fmtClock(seg.end)+'</b> · '+esc(names||"Quinteto no reconstruible")+'</span>';
+    }).join("");
+    parts.push(lineupHtml);
+  }
+  var changeRows=[];
+  for(var cq=startQ;cq<=endQ;cq++){
+    var clo=cq===startQ?Number(event[3]):0,chi=cq===endQ?Number(event[4]):600,grouped={};
+    (PBP_ADV_DATA.actions||[]).forEach(function(a,i){
+      if(a.team!==team||Number(a.q)!==cq||!/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||"")))return;
+      var elapsed=600-sec(a.clock);if(elapsed<clo||elapsed>chi)return;
+      (grouped[elapsed]||(grouped[elapsed]=[])).push({a:a,i:i});
+    });
+    Object.keys(grouped).sort(function(x,y){return Number(x)-Number(y);}).forEach(function(t){
+      var ins=[],outs=[];
+      grouped[t].forEach(function(x){var n=String(x.a.action||"").split(": Sustitución")[0].trim();if(/Entra a pista/i.test(x.a.action))ins.push(n);else outs.push(n);});
+      changeRows.push('<span style="display:block;margin-top:3px">Q'+cq+' · '+fmtClock(Number(t))+' · '+(ins.length?'<b style="color:#16a34a">Entra: '+ins.map(esc).join(", ")+'</b>':"")+(ins.length&&outs.length?' · ':'')+(outs.length?'<b style="color:#d93025">Sale: '+outs.map(esc).join(", ")+'</b>':"")+'</span>');
+    });
+  }
+  return '<small class="pgs-event-lineup" style="display:block">'+parts.join("")+'</small>'+(changeRows.length?'<span class="pgs-event-changes" style="display:block;margin-top:5px">'+changeRows.join("")+'</span>':"");
+}
+function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");}
+function renderQuintetoTimelineUnsafe(g,team){
+  if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
+  var actions=PBP_ADV_DATA.actions.map(function(a,i){return {a:a,i:i};}).filter(function(x){return x.a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(x.a.action||""));}).sort(function(x,y){return Number(x.a.q)-Number(y.a.q)||sec(y.a.clock)-sec(x.a.clock)||y.i-x.i;}).map(function(x){return x.a;});
+  // El PBP ya registra los cinco titulares como "Entra a pista" en 10:00
+  // del primer cuarto. No inferir titulares a partir de salidas posteriores:
+  // eso añadía suplentes al quinteto y ocultaba todos los cambios.
+  var active={},out="",lastIn=[],lastOut=[];
+  function applyAt(q,t){
+    lastIn=[];lastOut=[];
+    var changes=actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;});
+    // En un mismo reloj, procesar las salidas antes de las entradas.
+    changes.forEach(function(a){
+      if(/Sale de pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();
+        delete active[name];lastOut.push(name);
+      }
+    });
+    changes.forEach(function(a){
+      if(/Entra a pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();
+        if(name)active[name]=true;
+        lastIn.push(name);
+      }
+    });
+  }
+  function names(){return Object.keys(active).sort();}
+  function pointsAt(a){
+    var action=String(a.action||"");
+    if(/MATE ANOTADO/i.test(action))return 2;
+    var m=action.match(/TIRO DE ([123]) ANOTADO/i);
+    return m?Number(m[1]):0;
+  }
+  function scoreThrough(q,endClock){
+    var base=(PBP_ADV_DATA.startScores&&PBP_ADV_DATA.startScores[String(q)])||[0,0],score=[Number(base[0])||0,Number(base[1])||0];
+    PBP_ADV_DATA.actions.forEach(function(a){
+      if(Number(a.q)!==q||sec(a.clock)<endClock)return;
+      var pts=pointsAt(a);if(!pts)return;
+      if(a.team===g.home)score[0]+=pts;else if(a.team===g.away)score[1]+=pts;
+    });
+    return score;
+  }
+  function segmentPoints(q,start,end){
+    var score=[0,0];
+    PBP_ADV_DATA.actions.forEach(function(a){
+      if(Number(a.q)!==q)return;
+      var t=sec(a.clock);if(t>start||t<=end)return;
+      var pts=pointsAt(a);if(!pts)return;
+      if(a.team===g.home)score[0]+=pts;else if(a.team===g.away)score[1]+=pts;
+    });
+    return score;
+  }
+  function scoreLabel(score){return (team===g.home?score[0]:score[1])+"-"+(team===g.home?score[1]:score[0]);}
+  function line(q,start,end,change){
+    var ns=names(),valid=ns.length===5;
+    var lineup=valid?ns.map(function(n){return change&&lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
+    var exits=change&&lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
+    var accumulated=scoreThrough(q,end),partial=segmentPoints(q,start,end);
+    var partialDiff=team===g.home?partial[0]-partial[1]:partial[1]-partial[0];
+    var arrow=partialDiff>0?'<span style="color:#16a34a;font-weight:900;font-size:17px;display:inline-block;margin-left:3px">⬆</span>':partialDiff<0?'<span style="color:#dc2626;font-weight:900;font-size:17px;display:inline-block;margin-left:3px">⬇</span>':"";
+    return '<div class="pgs-insight"><h4 style="display:flex;align-items:center;gap:10px;justify-content:space-between"><span style="font-size:12px;font-weight:700">Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</span><span style="font-size:12px;font-weight:700;color:inherit;white-space:nowrap">'+scoreLabel(accumulated)+' <span style="font-weight:400">--</span> ('+scoreLabel(partial)+') '+arrow+'</span></h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
+  }
+  for(var q=1;q<=4;q++){
+    applyAt(q,600);
+    var current=600, segmentStart=600, quarterHtml="";
+    var times=Array.from(new Set(actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)<600&&sec(a.clock)>0;}).map(function(a){return sec(a.clock);})).values()).sort(function(a,b){return b-a;});
+    times.forEach(function(t){
+      quarterHtml+=line(q,segmentStart,t,segmentStart!==600);
+      applyAt(q,t);segmentStart=t;
+    });
+    quarterHtml+=line(q,segmentStart,0,segmentStart!==600);
+    out+='<div class="pgs-quarter-timeline"><h4>Cuarto '+q+'</h4><div class="pgs-insights">'+quarterHtml+'</div></div>';
+  }
+  return out;
+}
+
+function renderQuintetoTimeline(g,team){try{return renderQuintetoTimelineUnsafe(g,team);}catch(err){return '<p class="pgs-footer">No se ha podido reconstruir la línea temporal de sustituciones de este equipo.</p>';}}
+
+function populate(){
+var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");
+if(!j||!p||!pr)return;
+var games=Array.isArray(scoutGames)?scoutGames.filter(function(g){return g&&g.id&&g.label&&g.home&&g.away;}):[];
+if(!games.length){
+j.innerHTML='<option value="">Sin jornadas disponibles</option>';
+p.innerHTML='<option value="">Sin partidos disponibles</option>';
+pr.innerHTML='<option value="">Sin equipos disponibles</option>';
+return;
+}
+var oldJ=j.value,oldP=p.value,oldPr=pr.value,by={};
+games.forEach(function(g){
+var m=String(g.label||"").match(/Jornada\s+(\d+)/i),n=m?m[1]:"1";
+(by[n]||(by[n]=[])).push(g);
+});
+var jornadas=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);});
+j.innerHTML=jornadas.map(function(n){return '<option value="'+esc(n)+'">Jornada '+esc(n)+'</option>';}).join("");
+j.value=by[oldJ]?oldJ:(jornadas[0]||"");
+var gs=by[j.value]||[];
+p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\s+\d+\s*·\s*/i,""))+'</option>';}).join("");
+p.value=gs.some(function(g){return String(g.id)===String(oldP);})?oldP:(gs[0]?String(gs[0].id):"");
+var g=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];
+if(!g){
+pr.innerHTML='<option value="">Sin equipos disponibles</option>';
+return;
+}
+pr.innerHTML=[g.home,g.away].filter(Boolean).map(function(t){return '<option value="'+esc(t)+'">'+esc(short(t))+'</option>';}).join("");
+pr.value=(oldPr===g.home||oldPr===g.away)?oldPr:g.home;
+}
+function render(){
+var box=document.getElementById("pbpDynamic");if(!box)return;populate();
+var ps=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma"),g=scoutGames.find(function(x){return String(x.id)===String(ps&&ps.value);})||scoutGames[0],team=pr&&pr.value?pr.value:g.home;
+if(team!==g.home&&team!==g.away)team=g.home;var ti=team===g.home?0:1,oi=1-ti,opp=ti?g.home:g.away,tf=g.final[ti],of=g.final[oi],margin=tf-of;
+var runs=g.runs.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),oppRuns=g.runs.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];}),ds=g.droughts.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),ods=g.droughts.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];});
+var best=runs[0],worst=oppRuns[0],drought=ds[0],oppDrought=ods[0];
+var quintetosHtml=g.id==="j1-ardoi-ulacia"?'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Cada tramo indica el quinteto en pista desde el minuto inicial hasta el siguiente cambio. Los cambios simultáneos se agrupan en el mismo instante.</p><h4>'+esc(short(team))+'</h4>'+renderQuintetoTimeline(g,team)+'</section>':'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Este partido aún no dispone del detalle completo de sustituciones del PBP para mostrar los quintetos por intervalos.</p></section>';
+var q=g.quarters.map(function(x,i){var d=x[ti]-x[oi];return '<div class="pgs-quarter"><div class="qhead"><strong>Q'+(i+1)+'</strong><span class="margin '+(d>0?"pos":d<0?"neg":"neu")+'">'+(d>0?"+":"")+d+'</span></div><div class="qscore">'+x[ti]+' - '+x[oi]+'</div><div class="qdetails"><span>'+esc(short(team))+': <b>'+x[ti]+'</b></span><span>'+esc(short(opp))+': <b>'+x[oi]+'</b></span></div></div>';}).join("");
+var moments=[best?'<div class="pgs-event"><div class="time">Q'+best[1]+'</div><div><strong>Parcial '+best[0]+'-0 de '+esc(short(team))+'</strong><p>Tramo favorable.</p></div><span class="pgs-badge good">A FAVOR</span></div>':"",worst?'<div class="pgs-event"><div class="time">Q'+worst[1]+'</div><div><strong>Parcial '+worst[0]+'-0 de '+esc(short(opp))+'</strong><p>Momento negativo.</p></div><span class="pgs-badge bad">EN CONTRA</span></div>':""].join("");
+box.innerHTML='<div class="pgs-wrap"><div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>🧠 '+esc(short(team))+'</h3><p>'+esc(g.label)+' · '+(margin>0?"Victoria por "+margin+" puntos.":"Derrota por "+Math.abs(margin)+" puntos.")+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div></div><div class="pgs-grid"><div class="pgs-stat"><small>'+(best?"Mejor parcial - Q"+best[1]+" ("+fmtClock(best[3])+"-"+fmtClock(best[4])+")":"Mejor parcial")+'</small><strong>'+(best?best[0]+"-0":"—")+'</strong>'+(best?detalleQuintetoEvento(g,best,team):"") +'</div><div class="pgs-stat"><small>'+(worst?"Peor parcial recibido - Q"+worst[1]+" ("+fmtClock(worst[3])+"-"+fmtClock(worst[4])+")":"Peor parcial recibido")+'</small><strong>'+(worst?worst[0]+"-0":"—")+'</strong>'+(worst?detalleQuintetoEvento(g,worst,team):"") +'</div><div class="pgs-stat"><small>'+(drought?"Sequía máxima - Q"+drought[1]+" ("+fmtClock(drought[3])+"-"+fmtClock(drought[4])+")":"Sequía máxima")+'</small><strong>'+(drought?Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0"):"—")+'</strong>'+(drought?detalleQuintetoEvento(g,drought,team):"") +'</div><div class="pgs-stat"><small>Triples anotados</small><strong>'+((g.stats[ti]&&g.stats[ti].three)||0)+'</strong><span>'+esc(short(team))+'</span><div class="pgs-triples">'+((g.threes&&g.threes[ti]&&g.threes[ti].length)?g.threes[ti].map(function(t){return "<span>Q"+t.q+" · "+esc(t.clock)+" · "+esc(t.player)+"</span>";}).join(""):"—")+'</div></div><div class="pgs-stat"><small>Triples recibidos</small><strong>'+((g.stats[oi]&&g.stats[oi].three)||0)+'</strong><span>'+esc(short(opp))+'</span><div class="pgs-triples">'+((g.threes&&g.threes[oi]&&g.threes[oi].length)?g.threes[oi].map(function(t){return "<span>Q"+t.q+" · "+esc(t.clock)+" · "+esc(t.player)+"</span>";}).join(""):"—")+'</div></div><section class="pgs-panel pgs-quarter-inline"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+q+'</div></section></div>'+quintetosHtml+'<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue "+best[0]+"-0 en Q"+best[1]+".":"Sin parcial propio destacado.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El rival logró "+worst[0]+"-0 en Q"+worst[1]+".":"Sin parcial rival destacado.")+(drought?" Sequía propia máxima: "+Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0")+".":"")+'</p></div></div></section><section class="pgs-panel"><h3>🚨 Momentos clave</h3><div class="pgs-events">'+moments+'</div></section><section class="pgs-panel"><h3>🎯 Lectura para el entrenador</h3><div class="pgs-footer"><b>Prisma seleccionado:</b> '+esc(short(team))+'. El mismo partido se interpreta desde este equipo.</div></section></div>';
+}
+function renderSeguro(){try{render();}catch(err){console.error("Error en Análisis PBP avanzado:",err);var box=document.getElementById("pbpDynamic");if(box)box.innerHTML='<div class="pgs-panel" role="alert"><h3>No se ha podido cargar el análisis</h3><p>'+esc(err&&err.message?err.message:String(err))+'</p><button type="button" class="cerrar" onclick="window.pbpRenderSeguro&&window.pbpRenderSeguro()">Reintentar análisis</button></div>';}}
+document.addEventListener("change",function(e){if(e.target&&["pgsJornada","pgsPartido","pgsPrisma"].indexOf(e.target.id)>=0)renderSeguro();});
+window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");try{populate();}catch(e){console.error("Error al cargar selectores PBP:",e);}renderSeguro();};
+window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto");};
+window.pbpRender=render;
+try{populate();}catch(e){console.error("Error al inicializar selectores PBP:",e);}
+})();
+</script>
 <style id="post-game-scout-global-select">.pgs-global-select{display:grid;grid-template-columns:90px 1fr 90px 1.5fr 150px 1fr;gap:8px 10px;align-items:center;margin:0 0 14px;padding:13px 15px;border:1px solid #e4e9ee;border-radius:14px;background:#fff}.pgs-global-select label{font-size:10px;text-transform:uppercase;font-weight:900;color:#12343b}.pgs-global-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pgs-select-help{grid-column:1/-1;color:#6b7280;font-size:11px}@media(max-width:900px){.pgs-global-select{grid-template-columns:1fr 1fr}.pgs-select-help{grid-column:1/-1}}@media(max-width:600px){.pgs-global-select{grid-template-columns:1fr}.pgs-select-help{grid-column:auto}}</style><style id="post-game-scout-css">
 .pgs-wrap{display:grid;gap:14px}.pgs-top{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(220px,.65fr);gap:12px}.pgs-crest-box{border:1px solid #e4e9ee;border-radius:14px;padding:16px;background:linear-gradient(135deg,#f7fbfb,#fff);display:flex;align-items:center;justify-content:center;min-height:150px;overflow:hidden}.pgs-crest{display:block;width:min(100%,190px);height:145px;object-fit:contain;filter:drop-shadow(0 5px 8px rgba(15,23,42,.10))}.pgs-crest-fallback{font-size:54px}.pgs-hero{border:1px solid #e4e9ee;border-radius:14px;padding:16px;background:linear-gradient(135deg,#f7fbfb,#fff)}.pgs-kicker{display:inline-flex;padding:5px 8px;border-radius:999px;background:#e7f7f6;color:#007f7f;font-size:10px;font-weight:900;letter-spacing:.08em}.pgs-hero h3{margin:8px 0 5px;color:#12343b;font-size:21px}.pgs-hero p{margin:0;color:#5f6874;font-size:13px;line-height:1.5}.pgs-select{border:1px solid #e4e9ee;border-radius:14px;padding:14px;background:#fff}.pgs-select label{display:block;font-size:10px;text-transform:uppercase;font-weight:900;color:#6b7280;margin-bottom:6px}.pgs-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pgs-score{display:flex;align-items:center;gap:14px;margin-top:14px}.pgs-score strong{font-size:32px;color:#12343b}.pgs-score span{font-size:12px;color:#6b7280}.pgs-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.pgs-triples{margin-top:7px;display:flex;flex-direction:column;gap:3px;font-size:10px;line-height:1.25;text-align:left}.pgs-triples span{display:block;white-space:normal}.pgs-stat{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fff}.pgs-stat small{display:block;color:#6b7280;font-size:10px;font-weight:800;text-transform:uppercase}.pgs-stat strong{display:block;font-size:21px;color:#12343b;margin-top:4px}.pgs-stat span{display:block;color:#6b7280;font-size:11px;margin-top:3px}.pgs-panel{border:1px solid #e5e7eb;border-radius:14px;background:#fff;padding:15px}.pgs-panel>h3{margin:0 0 11px;color:#12343b;font-size:15px}.pgs-exec{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pgs-exec>div{padding:13px;border-radius:11px;background:#f7fafc}.pgs-exec strong{display:block;color:#12343b;font-size:12px}.pgs-exec p{margin:6px 0 0;color:#5f6874;font-size:12px;line-height:1.5}.pgs-positive{border-left:4px solid #2e8b57!important}.pgs-negative{border-left:4px solid #d94a4a!important}.pgs-quarter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.pgs-quarter-inline{grid-column:span 3;min-width:0}.pgs-quarter-inline .pgs-quarter{padding:10px}.pgs-quarter-inline .pgs-quarter .qscore{font-size:19px}.pgs-quarter-inline .pgs-quarter .qdetails{gap:4px}.pgs-quarter{border:1px solid #e5e7eb;border-radius:11px;padding:12px;background:#fafcfd}.pgs-quarter .qhead{display:flex;justify-content:space-between;gap:8px;align-items:center}.pgs-quarter .qhead strong{color:#12343b}.pgs-quarter .margin{font-weight:900}.pgs-quarter .margin.pos{color:#16803a}.pgs-quarter .margin.neg{color:#b42318}.pgs-quarter .margin.neu{color:#6b7280}.pgs-quarter .qscore{font-size:20px;font-weight:900;margin:8px 0;color:#12343b}.pgs-quarter .qdetails{display:grid;gap:5px;color:#5f6874;font-size:11px}.pgs-quarter .qdetails b{color:#12343b}.pgs-bars{display:grid;gap:8px}.pgs-bar-row{display:grid;grid-template-columns:38px 1fr 55px;gap:8px;align-items:center;font-size:11px}.pgs-bar-track{height:10px;border-radius:99px;background:#edf1f4;overflow:hidden}.pgs-bar-fill{height:100%;border-radius:99px;background:#00a6a6}.pgs-bar-fill.neg{background:#d94a4a}.pgs-events{display:grid;gap:8px}.pgs-event{display:grid;grid-template-columns:54px 1fr auto;gap:10px;align-items:center;border:1px solid #edf0f3;border-radius:10px;padding:10px;background:#fbfcfd}.pgs-event .time{font-size:12px;font-weight:900;color:#007f7f}.pgs-event strong{font-size:12px;color:#12343b}.pgs-event p{margin:3px 0 0;color:#68717c;font-size:11px;line-height:1.4}.pgs-badge{font-size:10px;font-weight:900;padding:4px 7px;border-radius:999px;background:#f1f5f9;color:#475569;white-space:nowrap}.pgs-badge.bad{background:#fdecec;color:#a33a32}.pgs-badge.good{background:#e9f7ee;color:#26743d}.pgs-insights{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pgs-insight{border:1px solid #e5e7eb;border-radius:11px;padding:12px}.pgs-insight h4{margin:0 0 7px;font-size:12px;color:#12343b}.pgs-insight p{margin:0;color:#5f6874;font-size:11px;line-height:1.5}.pgs-footer{padding:10px 12px;border-radius:10px;background:#f7fafc;color:#6b7280;font-size:10px;line-height:1.45}.pgs-footer b{color:#475569}@media(max-width:900px){.pgs-top,.pgs-exec,.pgs-insights{grid-template-columns:1fr}.pgs-grid,.pgs-quarter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pgs-quarter-inline{grid-column:span 2}}@media(max-width:600px){.pgs-grid,.pgs-quarter-grid{grid-template-columns:1fr}.pgs-quarter-inline{grid-column:span 1}.pgs-event{grid-template-columns:48px 1fr}.pgs-event .pgs-badge{grid-column:2;justify-self:start}}
 </style>
