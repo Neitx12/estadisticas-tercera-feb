@@ -1943,8 +1943,8 @@ function short(t){var m={"CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS":"Piélago
 function metricRangeLabel(r){
   if(!r)return "";
   var sq=Number(r[5]||r[1]),eq=Number(r[6]||r[1]);
-  if(sq===eq)return "Q"+sq+" · "+fmtClock(r[3])+"–"+fmtClock(r[4]);
-  return "Q"+sq+" "+fmtClock(r[3])+" → Q"+eq+" "+fmtClock(r[4]);
+  if(sq===eq)return "MINUTOS "+fmtClock(r[3])+"–"+fmtClock(r[4])+" · Q"+sq;
+  return "MINUTOS "+fmtClock(r[3])+" (Q"+sq+") → "+fmtClock(r[4])+" (Q"+eq+")";
 }
 function actionType(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return"S3";if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return"S2";if(/TIRO DE 1 ANOTADO/.test(a))return"S1";if(/TIRO DE 3 FALLADO/.test(a))return"F3";if(/TIRO DE 2 FALLADO/.test(a))return"F2";if(/TIRO DE 1 FALLADO/.test(a))return"F1";if(/PÉRDIDA/.test(a))return"T";if(/ROBO/.test(a))return"R";if(/FALTA/.test(a))return"PF";return null;}
 function summaryFromOriginal(p){
