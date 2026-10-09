@@ -2078,9 +2078,11 @@ function quintetoEnMomento(g,quarter,clockSec,team){
   var ordered=actions.map(function(a,i){return {a:a,i:i,t:sec(a.clock)};}).sort(function(x,y){return Number(x.a.q)-Number(y.a.q)||y.t-x.t||x.i-y.i;});
   ordered.forEach(function(x){
     var a=x.a;if(a.team!==team||!/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||"")))return;
-    var q=Number(a.q),t=x.t;
-    if(q>Number(quarter)||(q===Number(quarter)&&t<Number(clockSec)))return;
-    if(q===1&&t===600)return;
+    // x.t es el reloj restante del cuarto; clockSec es tiempo transcurrido.
+    // Convertir ambos a la misma escala antes de decidir si aplicar el cambio.
+    var q=Number(a.q),t=600-x.t;
+    if(q>Number(quarter)||(q===Number(quarter)&&t>Number(clockSec)))return;
+    if(q===1&&t===0)return;
     var name=String(a.action||"").split(": Sustitución")[0].trim();if(!name)return;
     if(/Entra a pista/i.test(a.action))active[name]=true;else delete active[name];
   });
