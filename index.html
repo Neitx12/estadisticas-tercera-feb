@@ -2157,9 +2157,20 @@ function renderQuintetoTimelineUnsafe(g,team){
   var active={},out="",lastIn=[],lastOut=[];
   function applyAt(q,t){
     lastIn=[];lastOut=[];
-    actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;}).forEach(function(a){
-      var name=String(a.action||"").split(": Sustitución")[0].trim();
-      if(/Entra a pista/i.test(a.action)){active[name]=true;lastIn.push(name);}else{delete active[name];lastOut.push(name);}
+    var changes=actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;});
+    // En un mismo reloj, procesar las salidas antes de las entradas.
+    changes.forEach(function(a){
+      if(/Sale de pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();
+        delete active[name];lastOut.push(name);
+      }
+    });
+    changes.forEach(function(a){
+      if(/Entra a pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();
+        if(name)active[name]=true;
+        lastIn.push(name);
+      }
     });
   }
   function names(){return Object.keys(active).sort();}
