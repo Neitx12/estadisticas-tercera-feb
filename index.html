@@ -2077,7 +2077,7 @@ function quintetoDeRacha(g,run,team){
 }
 
 function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");}
-function renderQuintetoTimeline(g,team){
+function renderQuintetoTimelineUnsafe(g,team){
   if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
   var actions=PBP_ADV_DATA.actions.filter(function(a){return a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));});
   var active={},out="";
@@ -2106,6 +2106,8 @@ function renderQuintetoTimeline(g,team){
   }
   return out;
 }
+
+function renderQuintetoTimeline(g,team){try{return renderQuintetoTimelineUnsafe(g,team);}catch(err){return '<p class="pgs-footer">No se ha podido reconstruir la línea temporal de sustituciones de este equipo.</p>';}}
 
 function populate(){
 var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");if(!j||!p||!pr)return;
