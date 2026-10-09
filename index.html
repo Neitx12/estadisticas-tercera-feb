@@ -2083,7 +2083,7 @@ function detalleQuintetoEvento(g,event,team){
   var lo=Math.min(Number(event[3]),Number(event[4])),hi=Math.max(Number(event[3]),Number(event[4]));
   var changes=(PBP_ADV_DATA.actions||[]).filter(function(a){
     var t=600-sec(a.clock);
-    return a.team===team&&Number(a.q)===Number(event[1])&&t>=lo&&t<=hi&&/Sustitución \\((Entra a pista|Sale de pista)\\)/i.test(String(a.action||""));
+    return a.team===team&&Number(a.q)===Number(event[1])&&t>=lo&&t<=hi&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));
   }).sort(function(a,b){return sec(b.clock)-sec(a.clock);});
   var changeHtml="";
   if(changes.length){
