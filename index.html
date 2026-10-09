@@ -2033,7 +2033,44 @@ function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){retur
 function sec(c){var p=String(c||"0:00").split(":");return (Number(p[0])||0)*60+(Number(p[1])||0);}
 function short(t){var m={"CONSTRUCCIONES GONZALO CRESPO PAS PIÉLAGOS":"Piélagos","BALONCESTO LA FLECHA":"La Flecha","MEGACALZADO ARDOI":"Ardoi","ULACIA ZKE":"Ulacia ZKE","TABIRAKO BAQUE":"Tabirako","IRUKI TAKE":"Iruki Take","RESTAURANTE LOS ARCOS CB SOLARES":"Solares","SAN PRUDENCIO":"San Prudencio","TEKNEI BIZKAIA ZORNOTZA":"Zornotza","ELABORADOS NATURALES VALLE DE EGÜÉS":"Egüés","UNIVERSIDAD DEUSTO LOIOLA INDAUTXU":"Deusto Loyola","LIS DATA SOLUTIONS BEZANA":"Bezana","DE MORRO FINO CANTBASKET04":"Cantbasket04","HOTEL 4POSTES - ÁVILA AUTÉNTICA - EL BULEVAR":"Ávila Auténtica"};return m[t]||t||"Equipo";}
 function pts(a){a=String(a||"");if(/TIRO DE 3 ANOTADO/.test(a))return 3;if(/TIRO DE 2 ANOTADO|MATE ANOTADO/.test(a))return 2;if(/TIRO DE 1 ANOTADO/.test(a))return 1;return 0;}
-function originalSummary(p){return summaryFromOriginal(p);}
+function originalSummary(p){
+var ev=(p.actions||[]).map(function(x,i){var z=pts(x.action);return z?{q:Number(x.q),remaining:sec(x.clock),team:x.team,points:z,action:String(x.action||""),index:i}:null;}).filter(Boolean);
+var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:[[0,0],[0,0],[0,0],[0,0]],stats:[{three:0,turn:0,miss:0},{three:0,turn:0,miss:0}],threes:[[],[]],runs:[],droughts:[]};
+(p.actions||[]).forEach(function(x){
+  var side=x.team===p.home?0:1,a=String(x.action||"");
+  if(/TIRO DE 3 ANOTADO/.test(a)){g.stats[side].three++;g.threes[side].push({q:Number(x.q),clock:String(x.clock||""),player:a.split(": TIRO DE 3 ANOTADO")[0].trim()});}
+  if(/PÉRDIDA/.test(a))g.stats[side].turn++;
+  if(/TIRO DE [123] FALLADO/.test(a))g.stats[side].miss++;
+});
+/* Mantener las métricas propias de este módulo; ordenar las acciones desde 10:00 hasta 0:00. */
+g.threes.forEach(function(list){list.sort(function(a,b){return a.q-b.q||sec(b.clock)-sec(a.clock);});});
+ev.forEach(function(x){var side=x.team===p.home?0:1;g.quarters[x.q-1][side]+=x.points;});
+[1,2,3,4].forEach(function(q){
+  var arr=ev.filter(function(x){return x.q===q;}).sort(function(a,b){return b.remaining-a.remaining||b.index-a.index;});
+  if(arr.length){
+    var currentTeam=arr[0].team,total=0,start=600-arr[0].remaining,last=start;
+    arr.forEach(function(x){
+      var elapsed=600-x.remaining;
+      if(x.team===currentTeam){total+=x.points;last=elapsed;}
+      else{g.runs.push([total,q,currentTeam===p.home?0:1,start,last]);currentTeam=x.team;total=x.points;start=elapsed;last=elapsed;}
+    });
+    g.runs.push([total,q,currentTeam===p.home?0:1,start,last]);
+  }
+  [p.home,p.away].forEach(function(team,side){
+    var times=arr.filter(function(x){return x.team===team;}).map(function(x){return x.remaining;}).sort(function(a,b){return b-a;}),gaps=[];
+    if(times.length){
+      gaps.push([600-times[0],0,600-times[0]]);
+      for(var i=1;i<times.length;i++)gaps.push([times[i-1]-times[i],600-times[i-1],600-times[i]]);
+      gaps.push([times[times.length-1],600-times[times.length-1],600]);
+    }else gaps=[[600,0,600]];
+    var bestGap=gaps.reduce(function(best,current){return current[0]>best[0]?current:best;},gaps[0]);
+    g.droughts.push([bestGap[0],q,side,bestGap[1],bestGap[2]]);
+  });
+});
+g.runs=g.runs.filter(function(r){return r[0]>=6;}).sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
+g.droughts.sort(function(a,b){return b[0]-a[0]||a[1]-b[1]||a[3]-b[3];});
+return g;
+}
 
 var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="undefined"?PBP_ADV_EXTRA:[]);
 function quintetoEnMomento(g,quarter,clockSec,team){
