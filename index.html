@@ -2091,7 +2091,7 @@ function renderQuintetoTimelineUnsafe(g,team){
   function names(){return Object.keys(active).sort();}
   function line(q,start,end,change){
     var ns=names(),valid=ns.length===5;
-    var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong>'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
+    var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
     var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
     return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
