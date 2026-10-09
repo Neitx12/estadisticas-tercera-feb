@@ -1947,7 +1947,7 @@ var base={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarte
 for(var q=1;q<=4;q++)base.quarters.push([0,0]);
 ev.forEach(function(e){if(e[3].charAt(0)==="S")base.quarters[e[0]-1][e[2]]+=Number(e[3].charAt(1));if(e[3]==="S3")base.stats[e[2]].three++;if(e[3]==="T")base.stats[e[2]].turn++;if(e[3].charAt(0)==="F")base.stats[e[2]].miss++;});
 for(var q=1;q<=4;q++){
-var all=ev.filter(function(e){return e[0]===q;}).sort(function(a,b){return a[1]-b[1]||b[4]-a[4];});
+var all=ev.filter(function(e){return e[0]===q;}).sort(function(a,b){return a[1]-b[1]||a[4]-b[4];});
 var scoring=all.filter(function(e){return e[3].charAt(0)==="S";});
 if(scoring.length){
   var ct=scoring[0][2],total=Number(scoring[0][3].charAt(1)),st=scoring[0][1],en=st;
@@ -2025,7 +2025,7 @@ var g={id:p.gameId,label:p.label,home:p.home,away:p.away,final:p.final,quarters:
 g.threes.forEach(function(list){list.sort(function(a,b){return a.q-b.q||sec(b.clock)-sec(a.clock);});});
 ev.forEach(function(x){var side=x[2]===p.home?0:1;g.quarters[x[0]-1][side]+=x[3];});
 [1,2,3,4].forEach(function(q){
-var arr=ev.filter(function(x){return x[0]===q;}).sort(function(a,b){return a[1]-b[1]||b[5]-a[5];});
+var arr=ev.filter(function(x){return x[0]===q;}).sort(function(a,b){return a[1]-b[1]||a[5]-b[5];});
 if(arr.length){
   var currentTeam=null,total=0,start=0,last=0;
   arr.forEach(function(x){
@@ -2122,10 +2122,16 @@ function renderQuintetoTimelineUnsafe(g,team){
   // El PBP ya registra los cinco titulares como "Entra a pista" en 10:00
   // del primer cuarto. No inferir titulares a partir de salidas posteriores:
   // eso añadía suplentes al quinteto y ocultaba todos los cambios.
-  var active={},out="",lastIn=[],lastOut=[];
+  var active={},out="",lastIn=[],lastOut=[],inferredStarter=false;
   function applyAt(q,t){
     lastIn=[];lastOut=[];
-    actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;}).forEach(function(a){
+    var batch=actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;});
+    /* En algunos PBP FEB falta el registro de entrada de uno de los cinco titulares. Inferirlo del primer jugador que sale y que aún no figure en pista. */
+    if(q===1&&t<600&&!inferredStarter&&Object.keys(active).length<5){
+      var missing=batch.find(function(a){return /Sale de pista/i.test(a.action)&&!active[String(a.action||"").split(": Sustitución")[0].trim()];});
+      if(missing){active[String(missing.action||"").split(": Sustitución")[0].trim()]=true;inferredStarter=true;}
+    }
+    batch.forEach(function(a){
       var name=String(a.action||"").split(": Sustitución")[0].trim();
       if(/Entra a pista/i.test(a.action)){active[name]=true;lastIn.push(name);}else{delete active[name];lastOut.push(name);}
     });
