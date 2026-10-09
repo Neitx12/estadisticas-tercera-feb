@@ -2116,11 +2116,36 @@ function renderQuintetoTimelineUnsafe(g,team){
     });
   }
   function names(){return Object.keys(active).sort();}
+  function pointsAt(a){
+    var m=String(a.action||"").match(/TIRO DE ([123]) ANOTADO/i);
+    return m?Number(m[1]):0;
+  }
+  function scoreThrough(q,endClock){
+    var base=(PBP_ADV_DATA.startScores&&PBP_ADV_DATA.startScores[String(q)])||[0,0],score=[Number(base[0])||0,Number(base[1])||0];
+    PBP_ADV_DATA.actions.forEach(function(a){
+      if(Number(a.q)!==q||sec(a.clock)<endClock)return;
+      var pts=pointsAt(a);if(!pts)return;
+      if(a.team===g.home)score[0]+=pts;else if(a.team===g.away)score[1]+=pts;
+    });
+    return score;
+  }
+  function segmentPoints(q,start,end){
+    var score=[0,0];
+    PBP_ADV_DATA.actions.forEach(function(a){
+      if(Number(a.q)!==q)return;
+      var t=sec(a.clock);if(t>=start||t<end)return;
+      var pts=pointsAt(a);if(!pts)return;
+      if(a.team===g.home)score[0]+=pts;else if(a.team===g.away)score[1]+=pts;
+    });
+    return score;
+  }
+  function scoreLabel(score){return (team===g.home?score[0]:score[1])+"-"+(team===g.home?score[1]:score[0]);}
   function line(q,start,end,change){
     var ns=names(),valid=ns.length===5;
     var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
     var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
-    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
+    var accumulated=scoreThrough(q,end),partial=segmentPoints(q,start,end);
+    return '<div class="pgs-insight"><h4>Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+' <span style="font-weight:800;color:#e5e7eb">'+scoreLabel(accumulated)+'</span> <span style="font-weight:600;color:#9ca3af">('+scoreLabel(partial)+')</span></h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
     applyAt(q,600);
