@@ -2105,7 +2105,9 @@ function renderQuintetoTimelineUnsafe(g,team){
   }
   function names(){return Object.keys(active).sort();}
   function pointsAt(a){
-    var m=String(a.action||"").match(/TIRO DE ([123]) ANOTADO/i);
+    var action=String(a.action||"");
+    if(/MATE ANOTADO/i.test(action))return 2;
+    var m=action.match(/TIRO DE ([123]) ANOTADO/i);
     return m?Number(m[1]):0;
   }
   function scoreThrough(q,endClock){
