@@ -2055,17 +2055,21 @@ var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="un
 function quintetoEnMomento(g,quarter,clockSec,team){
   if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
   var actions=PBP_ADV_DATA.actions,active={};
+  // Los cinco titulares aparecen como "Entra a pista" al inicio (10:00).
   actions.forEach(function(a){
-    if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \(Entra a pista\)/i.test(String(a.action||""))){
+    if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \\(Entra a pista\\)/i.test(String(a.action||""))){
       var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
     }
   });
-  var ordered=actions.map(function(a,i){return {a:a,i:i,t:sec(a.clock)};}).sort(function(x,y){return Number(x.a.q)-Number(y.a.q)||y.t-x.t||x.i-y.i;});
+  // clockSec se expresa como tiempo transcurrido desde el inicio del cuarto.
+  // Convertimos también cada acción del PBP a tiempo transcurrido antes de compararla.
+  var ordered=actions.map(function(a,i){return {a:a,i:i,remaining:sec(a.clock)};})
+    .sort(function(x,y){return Number(x.a.q)-Number(y.a.q)||y.remaining-x.remaining||x.i-y.i;});
   ordered.forEach(function(x){
-    var a=x.a;if(a.team!==team||!/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||"")))return;
-    var q=Number(a.q),t=x.t;
-    if(q>Number(quarter)||(q===Number(quarter)&&t<Number(clockSec)))return;
-    if(q===1&&t===600)return;
+    var a=x.a;if(a.team!==team||!/Sustitución \\((Entra a pista|Sale de pista)\\)/i.test(String(a.action||"")))return;
+    var q=Number(a.q),elapsed=600-x.remaining;
+    if(q>Number(quarter)||(q===Number(quarter)&&elapsed>Number(clockSec)))return;
+    if(q===1&&elapsed===0)return;
     var name=String(a.action||"").split(": Sustitución")[0].trim();if(!name)return;
     if(/Entra a pista/i.test(a.action))active[name]=true;else delete active[name];
   });
