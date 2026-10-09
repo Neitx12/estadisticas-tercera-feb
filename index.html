@@ -2146,7 +2146,7 @@ function renderQuintetoTimelineUnsafe(g,team){
     var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
     var accumulated=scoreThrough(q,end),partial=segmentPoints(q,start,end);
     var partialDiff=team===g.home?partial[0]-partial[1]:partial[1]-partial[0];
-    var arrow=partialDiff>0?'<span style="color:#16a34a;font-weight:900;font-size:15px">↑</span>':partialDiff<0?'<span style="color:#dc2626;font-weight:900;font-size:15px">↓</span>':"";
+    var arrow=partialDiff>0?'<span style="color:#16a34a;font-weight:900;font-size:17px;display:inline-block;margin-left:3px">⬆</span>':partialDiff<0?'<span style="color:#dc2626;font-weight:900;font-size:17px;display:inline-block;margin-left:3px">⬇</span>':"";
     return '<div class="pgs-insight"><h4 style="display:flex;align-items:center;gap:10px;justify-content:space-between"><span style="font-size:12px;font-weight:700">Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</span><span style="font-size:12px;font-weight:700;color:inherit;white-space:nowrap">'+scoreLabel(accumulated)+' <span style="font-weight:400">--</span> ('+scoreLabel(partial)+') '+arrow+'</span></h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
