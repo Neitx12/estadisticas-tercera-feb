@@ -2097,7 +2097,7 @@ function detalleQuintetoEvento(g,event,team){
   }else{
     changeHtml='<span class="pgs-event-changes" style="display:block;margin-top:5px">Sin cambios de quinteto registrados durante este tramo.</span>';
   }
-  return '<small class="pgs-event-lineup" style="display:block">Quinteto en pista: '+esc(names||"No reconstruible")+'</small>'+changeHtml;
+  return '<small class="pgs-event-lineup" style="display:block">'+esc(names||"No reconstruible")+'</small>'+changeHtml;
 }
 
 function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");}
