@@ -2248,14 +2248,14 @@ return;
 }
 var oldJ=j.value,oldP=p.value,oldPr=pr.value,by={};
 games.forEach(function(g){
-var m=String(g.label||"").match(/Jornada\\s+(\\d+)/i),n=m?m[1]:"1";
+var m=String(g.label||"").match(/Jornada\s+(\d+)/i),n=m?m[1]:"1";
 (by[n]||(by[n]=[])).push(g);
 });
 var jornadas=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);});
 j.innerHTML=jornadas.map(function(n){return '<option value="'+esc(n)+'">Jornada '+esc(n)+'</option>';}).join("");
 j.value=by[oldJ]?oldJ:(jornadas[0]||"");
 var gs=by[j.value]||[];
-p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\\s+\\d+\\s*·\\s*/i,""))+'</option>';}).join("");
+p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\s+\d+\s*·\s*/i,""))+'</option>';}).join("");
 p.value=gs.some(function(g){return String(g.id)===String(oldP);})?oldP:(gs[0]?String(gs[0].id):"");
 var g=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];
 if(!g){
