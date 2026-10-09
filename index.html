@@ -2076,23 +2076,37 @@ var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="un
 function quintetoEnMomento(g,quarter,clockSec,team){
   if(!g||g.id!=="j1-ardoi-ulacia"||typeof PBP_ADV_DATA==="undefined"||!Array.isArray(PBP_ADV_DATA.actions))return "";
   var actions=PBP_ADV_DATA.actions,active={};
-  // Los cinco titulares aparecen como "Entra a pista" al inicio (10:00).
+  // Los titulares son las cinco entradas registradas a 10:00 del primer cuarto.
   actions.forEach(function(a){
-    if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \\(Entra a pista\\)/i.test(String(a.action||""))){
+    if(Number(a.q)===1&&sec(a.clock)===600&&a.team===team&&/Sustitución \(Entra a pista\)/i.test(String(a.action||""))){
       var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
     }
   });
-  // clockSec se expresa como tiempo transcurrido desde el inicio del cuarto.
-  // Convertimos también cada acción del PBP a tiempo transcurrido antes de compararla.
-  var ordered=actions.map(function(a,i){return {a:a,i:i,remaining:sec(a.clock)};})
-    .sort(function(x,y){return Number(x.a.q)-Number(y.a.q)||y.remaining-x.remaining||y.i-x.i;});
-  ordered.forEach(function(x){
-    var a=x.a;if(a.team!==team||!/Sustitución \\((Entra a pista|Sale de pista)\\)/i.test(String(a.action||"")))return;
-    var q=Number(a.q),elapsed=600-x.remaining;
+  // Agrupar las sustituciones con el mismo reloj; primero salen y después entran.
+  var groups={};
+  actions.forEach(function(a){
+    if(a.team!==team||!/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||"")))return;
+    var q=Number(a.q),elapsed=600-sec(a.clock);
     if(q>Number(quarter)||(q===Number(quarter)&&elapsed>Number(clockSec)))return;
     if(q===1&&elapsed===0)return;
-    var name=String(a.action||"").split(": Sustitución")[0].trim();if(!name)return;
-    if(/Entra a pista/i.test(a.action))active[name]=true;else delete active[name];
+    var key=q+"|"+elapsed;
+    (groups[key]||(groups[key]=[])).push(a);
+  });
+  Object.keys(groups).sort(function(a,b){
+    var x=a.split("|").map(Number),y=b.split("|").map(Number);
+    return x[0]-y[0]||x[1]-y[1];
+  }).forEach(function(key){
+    var changes=groups[key];
+    changes.forEach(function(a){
+      if(/Sale de pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();delete active[name];
+      }
+    });
+    changes.forEach(function(a){
+      if(/Entra a pista/i.test(String(a.action||""))){
+        var name=String(a.action||"").split(": Sustitución")[0].trim();if(name)active[name]=true;
+      }
+    });
   });
   var names=Object.keys(active);
   return names.length===5?names.sort().join(" · "):"Quinteto no reconstruible con certeza ("+names.length+" jugadores identificados)";
