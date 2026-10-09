@@ -2167,20 +2167,35 @@ function renderQuintetoTimeline(g,team){try{return renderQuintetoTimelineUnsafe(
 
 function populate(){
 var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");if(!j||!p||!pr)return;
+var changed=window.__pbpSelectorChanged||"";window.__pbpSelectorChanged="";
 var oldJ=j.value||"1",oldP=p.value,oldPr=pr.value,by={};
-scoutGames.forEach(function(g){var m=String(g.label||"").match(/Jornada\s+(\d+)/i),n=m?m[1]:"1";(by[n]||(by[n]=[])).push(g);});
-j.innerHTML=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);}).map(function(n){return '<option value="'+n+'">Jornada '+n+'</option>';}).join("");
-j.value=by[oldJ]?oldJ:Object.keys(by)[0];var gs=by[j.value]||[];
-p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\s+\d+\s*·\s*/i,""))+'</option>';}).join("");
+scoutGames.forEach(function(g){var m=String(g.label||"").match(/Jornada\\s+(\\d+)/i),n=m?m[1]:"1";(by[n]||(by[n]=[])).push(g);});
+var jornadas=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);});
+j.innerHTML=jornadas.map(function(n){return '<option value="'+n+'">Jornada '+n+'</option>';}).join("");
+j.value=by[oldJ]?oldJ:(jornadas[0]||"1");var gs=by[j.value]||[];
+p.innerHTML=gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\\s+\\d+\\s*·\\s*/i,""))+'</option>';}).join("");
 p.value=gs.some(function(g){return String(g.id)===String(oldP);})?oldP:(gs[0]?gs[0].id:"");
-var g=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];if(!g)return;
-pr.innerHTML=[g.home,g.away].map(function(t){return '<option value="'+esc(t)+'">'+esc(short(t))+'</option>';}).join("");
-pr.value=(oldPr===g.home||oldPr===g.away)?oldPr:g.home;
+var allTeams=[];gs.forEach(function(g){[g.home,g.away].forEach(function(t){if(allTeams.indexOf(t)<0)allTeams.push(t);});});
+allTeams.sort(function(a,b){return short(a).localeCompare(short(b),"es");});
+pr.innerHTML=allTeams.map(function(t){return '<option value="'+esc(t)+'">'+esc(short(t))+'</option>';}).join("");
+var targetTeam=allTeams.indexOf(oldPr)>=0?oldPr:"";
+var selected=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];
+if(changed==="pgsPartido"){
+  targetTeam=selected?selected.home:"";
+}else if(targetTeam){
+  var teamGame=gs.find(function(x){return x.home===targetTeam||x.away===targetTeam;});
+  if(teamGame&&(changed==="pgsPrisma"||changed==="pgsJornada"||!selected||(selected.home!==targetTeam&&selected.away!==targetTeam)))p.value=teamGame.id;
+}else if(selected){
+  targetTeam=selected.home;
+}
+selected=gs.find(function(x){return String(x.id)===String(p.value);})||gs[0];
+if(selected&&targetTeam!==selected.home&&targetTeam!==selected.away)targetTeam=selected.home;
+if(targetTeam)pr.value=targetTeam;
 }
 function render(){
 var box=document.getElementById("pbpDynamic");if(!box)return;populate();
 var ps=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma"),g=scoutGames.find(function(x){return String(x.id)===String(ps&&ps.value);})||scoutGames[0],team=pr&&pr.value?pr.value:g.home;
-if(team!==g.home&&team!==g.away)team=g.home;var ti=team===g.home?0:1,oi=1-ti,opp=ti?g.home:g.away,tf=g.final[ti],of=g.final[oi],margin=tf-of;
+if(team!==g.home&&team!==g.away){team=g.home;if(pr)pr.value=team;}var ti=team===g.home?0:1,oi=1-ti,opp=ti?g.home:g.away,tf=g.final[ti],of=g.final[oi],margin=tf-of;
 var runs=g.runs.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),oppRuns=g.runs.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];}),ds=g.droughts.filter(function(x){return x[2]===ti;}).sort(function(a,b){return b[0]-a[0];}),ods=g.droughts.filter(function(x){return x[2]===oi;}).sort(function(a,b){return b[0]-a[0];});
 var best=runs[0],worst=oppRuns[0],drought=ds[0],oppDrought=ods[0];
 var quintetosHtml=g.id==="j1-ardoi-ulacia"?'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Cada tramo indica el quinteto en pista desde el minuto inicial hasta el siguiente cambio. Los cambios simultáneos se agrupan en el mismo instante.</p><h4>'+esc(short(team))+'</h4>'+renderQuintetoTimeline(g,team)+'</section>':'<section class="pgs-panel"><h3>🖐️ Quintetos y cambios por cuarto</h3><p class="pgs-footer">Este partido aún no dispone del detalle completo de sustituciones del PBP para mostrar los quintetos por intervalos.</p></section>';
@@ -2189,7 +2204,7 @@ var moments=[best?'<div class="pgs-event"><div class="time">Q'+best[1]+'</div><d
 box.innerHTML='<div class="pgs-wrap"><div class="pgs-top"><div class="pgs-hero"><span class="pgs-kicker">POST-GAME SCOUT · PBP</span><h3>🧠 '+esc(short(team))+'</h3><p>'+esc(g.label)+' · '+(margin>0?"Victoria por "+margin+" puntos.":"Derrota por "+Math.abs(margin)+" puntos.")+'</p><div class="pgs-score"><strong>'+tf+' - '+of+'</strong><span>'+esc(short(team))+' vs '+esc(short(opp))+'</span></div></div></div><div class="pgs-grid"><div class="pgs-stat"><small>'+(best?"Mejor parcial - Q"+best[1]+" ("+fmtClock(best[3])+"-"+fmtClock(best[4])+")":"Mejor parcial")+'</small><strong>'+(best?best[0]+"-0":"—")+'</strong>'+(best?detalleQuintetoEvento(g,best,team):"") +'</div><div class="pgs-stat"><small>'+(worst?"Peor parcial recibido - Q"+worst[1]+" ("+fmtClock(worst[3])+"-"+fmtClock(worst[4])+")":"Peor parcial recibido")+'</small><strong>'+(worst?worst[0]+"-0":"—")+'</strong>'+(worst?detalleQuintetoEvento(g,worst,team):"") +'</div><div class="pgs-stat"><small>'+(drought?"Sequía máxima - Q"+drought[1]+" ("+fmtClock(drought[3])+"-"+fmtClock(drought[4])+")":"Sequía máxima")+'</small><strong>'+(drought?Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0"):"—")+'</strong>'+(drought?detalleQuintetoEvento(g,drought,team):"") +'</div><div class="pgs-stat"><small>Triples anotados</small><strong>'+((g.stats[ti]&&g.stats[ti].three)||0)+'</strong><span>'+esc(short(team))+'</span><div class="pgs-triples">'+((g.threes&&g.threes[ti]&&g.threes[ti].length)?g.threes[ti].map(function(t){return "<span>Q"+t.q+" · "+esc(t.clock)+" · "+esc(t.player)+"</span>";}).join(""):"—")+'</div></div><div class="pgs-stat"><small>Triples recibidos</small><strong>'+((g.stats[oi]&&g.stats[oi].three)||0)+'</strong><span>'+esc(short(opp))+'</span><div class="pgs-triples">'+((g.threes&&g.threes[oi]&&g.threes[oi].length)?g.threes[oi].map(function(t){return "<span>Q"+t.q+" · "+esc(t.clock)+" · "+esc(t.player)+"</span>";}).join(""):"—")+'</div></div><section class="pgs-panel pgs-quarter-inline"><h3>⏱️ Dinámica por cuartos</h3><div class="pgs-quarter-grid">'+q+'</div></section></div>'+quintetosHtml+'<section class="pgs-panel"><h3>🧭 Diagnóstico ejecutivo</h3><div class="pgs-exec"><div class="pgs-positive"><strong>FORTALEZA</strong><p>'+(best?"El mejor tramo fue "+best[0]+"-0 en Q"+best[1]+".":"Sin parcial propio destacado.")+'</p></div><div class="pgs-negative"><strong>ÁREA DE ATENCIÓN</strong><p>'+(worst?"El rival logró "+worst[0]+"-0 en Q"+worst[1]+".":"Sin parcial rival destacado.")+(drought?" Sequía propia máxima: "+Math.floor(drought[0]/60)+":"+String(drought[0]%60).padStart(2,"0")+".":"")+'</p></div></div></section><section class="pgs-panel"><h3>🚨 Momentos clave</h3><div class="pgs-events">'+moments+'</div></section><section class="pgs-panel"><h3>🎯 Lectura para el entrenador</h3><div class="pgs-footer"><b>Prisma seleccionado:</b> '+esc(short(team))+'. El mismo partido se interpreta desde este equipo.</div></section></div>';
 }
 function renderSeguro(){try{render();}catch(err){console.error("Error en Análisis PBP avanzado:",err);var box=document.getElementById("pbpDynamic");if(box)box.innerHTML='<div class="pgs-panel" role="alert"><h3>No se ha podido cargar el análisis</h3><p>'+esc(err&&err.message?err.message:String(err))+'</p><button type="button" class="cerrar" onclick="window.pbpRenderSeguro&&window.pbpRenderSeguro()">Reintentar análisis</button></div>';}}
-document.addEventListener("change",function(e){if(e.target&&["pgsJornada","pgsPartido","pgsPrisma"].indexOf(e.target.id)>=0)renderSeguro();});
+document.addEventListener("change",function(e){if(e.target&&["pgsJornada","pgsPartido","pgsPrisma"].indexOf(e.target.id)>=0){window.__pbpSelectorChanged=e.target.id;renderSeguro();}});
 window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");renderSeguro();};
 window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto");};
 window.pbpRender=render;
