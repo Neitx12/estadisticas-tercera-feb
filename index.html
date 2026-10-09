@@ -313,6 +313,23 @@ body.authenticated .auth-logout{display:block}
 #modalJugador::-webkit-scrollbar,.modal::-webkit-scrollbar,.modal-jugador-card::-webkit-scrollbar,#equipoVistaPlantilla::-webkit-scrollbar,#equipoPlantillaContenido::-webkit-scrollbar{
  display:none!important;width:0!important;height:0!important;background:transparent!important;
 }
+</style><style id="ocultar-scrollbar-modal-definitivo">
+/* La barra visible está en el modal blanco que contiene toda la plantilla */
+#modalJugador .modal-jugador-card,
+#modalJugador.modal,
+#modalJugador {
+  scrollbar-width:none!important;
+  -ms-overflow-style:none!important;
+}
+#modalJugador .modal-jugador-card::-webkit-scrollbar,
+#modalJugador::-webkit-scrollbar,
+#modalJugador.modal::-webkit-scrollbar,
+#modalJugador *::-webkit-scrollbar {
+  width:0!important;
+  height:0!important;
+  display:none!important;
+  background:transparent!important;
+}
 </style></head>  <body class="auth-locked"><div id="authGate"><div class="auth-card"><div class="auth-logo">🏀</div><h2>Acceso restringido</h2><p>Introduce tus credenciales para acceder a Estadísticas Tercera FEB.</p><form id="authForm"><div class="auth-field"><label for="authUsername">Usuario</label><input id="authUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><div class="auth-field"><label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" required></div><button class="auth-btn" id="authSubmit" type="submit">ENTRAR</button><div class="auth-error" id="authError"></div></form></div></div><button class="auth-logout" id="authLogout" type="button">Cerrar sesión</button> <header>   <div class="container">     <h1>Estadísticas Tercera FEB</h1>     <p>Temporada 2026/27 · estadísticas base, avanzadas y seguimiento de jugadores</p>   </div> </header>  <main class="container">   <section class="toolbar">
   <div class="modulos-analisis" id="modulosEstadisticas">
     <button type="button" class="modulo-btn" data-estadistica-modulo="base">Equipos · Estadística base</button>
