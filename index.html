@@ -2092,7 +2092,7 @@ function detalleQuintetoEvento(g,event,team){
     changeHtml='<span class="pgs-event-changes" style="display:block;margin-top:5px"><b>Cambios durante el tramo:</b> '+Object.keys(grouped).sort(function(a,b){return Number(b)-Number(a);}).map(function(t){
       var ins=[],outs=[];
       grouped[t].forEach(function(a){var n=String(a.action||"").split(": Sustitución")[0].trim();if(/Entra a pista/i.test(a.action))ins.push(n);else outs.push(n);});
-      return '<span style="display:block;margin-top:3px">'+fmtClock(600-Number(t))+' · '+(ins.length?'<b style="color:#16a34a">Entra: '+ins.map(esc).join(", ")+'</b>':"")+(ins.length&&outs.length?' · ':'')+(outs.length?'<b style="color:#d93025">Sale: '+outs.map(esc).join(", ")+'</b>':"")+'</span>';
+      return '<span style="display:block;margin-top:3px">'+pbpClock(Number(t))+' · '+(ins.length?'<b style="color:#16a34a">Entra: '+ins.map(esc).join(", ")+'</b>':"")+(ins.length&&outs.length?' · ':'')+(outs.length?'<b style="color:#d93025">Sale: '+outs.map(esc).join(", ")+'</b>':"")+'</span>';
     }).join("")+'</span>';
   }else{
     changeHtml='<span class="pgs-event-changes" style="display:block;margin-top:5px">Sin cambios de quinteto registrados durante este tramo.</span>';
