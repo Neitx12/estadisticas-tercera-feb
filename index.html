@@ -2368,7 +2368,7 @@ window.compartirAnalisisPBPWhatsApp=async function(){
     descargarBlobPBP(report.blob,report.filename);
     var url="https://wa.me/?text="+encodeURIComponent(message+"\n\nEl PDF se ha descargado en tu dispositivo. Adjunta el archivo descargado a este mensaje antes de enviarlo.");
     var opened=window.open(url,"_blank","noopener,noreferrer");
-    if(!opened)alert("El informe PDF se ha descargado. Abre WhatsApp y adjunta el archivo "+report.filename+" al mensaje.");
+    if(!opened){alert("El informe PDF se ha descargado. Se abrirá WhatsApp; adjunta el archivo descargado antes de enviar el mensaje.");window.location.href=url;}
   }catch(err){
     console.error("Error al compartir informe PBP:",err);
     alert("No se ha podido preparar el informe. "+(err&&err.message?err.message:"Inténtalo de nuevo."));
