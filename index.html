@@ -2054,7 +2054,7 @@ return g;
 var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="undefined"?PBP_ADV_EXTRA:[]);
 var originalPbpGame=scoutGames[0];originalPbpGame.actions=PBP_ADV_DATA.actions;originalPbpGame.startScores=PBP_ADV_DATA.startScores;
 function loadPbpDetails(){
-fetch("./pbp-details.json?version=1").then(function(r){if(!r.ok)throw new Error("No se pudo cargar pbp-details.json");return r.json();}).then(function(rows){
+fetch("./pbp-details.json?version=2").then(function(r){if(!r.ok)throw new Error("No se pudo cargar pbp-details.json");return r.json();}).then(function(rows){
 rows.forEach(function(item){
 var g=scoutGames.find(function(x){return x.id===item[0];});if(!g)return;
 var actions=item[5].map(function(a){return {q:Number(a[0]),clock:a[1],team:Number(a[2])===0?item[1]:Number(a[2])===1?item[2]:"",action:String(a[3]||"")};});
@@ -2150,9 +2150,8 @@ function pbpClock(t){t=Math.max(0,Number(t)||0);return Math.floor(t/60)+":"+Stri
 function renderQuintetoTimelineUnsafe(g,team){
   if(!g||!Array.isArray(g.actions))return "";
   var actions=g.actions.filter(function(a){return a.team===team&&/Sustitución \((Entra a pista|Sale de pista)\)/i.test(String(a.action||""));});
-  // El PBP ya registra los cinco titulares como "Entra a pista" en 10:00
-  // del primer cuarto. No inferir titulares a partir de salidas posteriores:
-  // eso añadía suplentes al quinteto y ocultaba todos los cambios.
+  // Algunos PBP FEB omiten una entrada de titular a 10:00.
+  // La función recupera ese titular desde su primera salida del cuarto.
   var active={},out="",lastIn=[],lastOut=[],inferredStarter=false;
   function applyAt(q,t){
     lastIn=[];lastOut=[];
