@@ -2054,7 +2054,7 @@ return g;
 var scoutGames=[originalSummary(PBP_ADV_DATA)].concat(typeof PBP_ADV_EXTRA!=="undefined"?PBP_ADV_EXTRA:[]);
 var originalPbpGame=scoutGames[0];originalPbpGame.actions=PBP_ADV_DATA.actions;originalPbpGame.startScores=PBP_ADV_DATA.startScores;
 function loadPbpDetails(){
-fetch("./pbp-details.json?version=2").then(function(r){if(!r.ok)throw new Error("No se pudo cargar pbp-details.json");return r.json();}).then(function(rows){
+fetch("https://raw.githubusercontent.com/Neitx12/estadisticas-tercera-feb/main/pbp-details.json?version=3").then(function(r){if(!r.ok)throw new Error("No se pudo cargar pbp-details.json");return r.json();}).then(function(rows){
 rows.forEach(function(item){
 var g=scoutGames.find(function(x){return x.id===item[0];});if(!g)return;
 var actions=item[5].map(function(a){return {q:Number(a[0]),clock:a[1],team:Number(a[2])===0?item[1]:Number(a[2])===1?item[2]:"",action:String(a[3]||"")};});
@@ -2064,7 +2064,7 @@ g.startScores={};var score=[0,0];for(var q=1;q<=4;q++){g.startScores[String(q)]=
 g.threes=[[],[]];actions.forEach(function(a){if(/TIRO DE 3 ANOTADO/i.test(a.action)){var side=a.team===g.home?0:a.team===g.away?1:-1;if(side>=0)g.threes[side].push({q:a.q,clock:a.clock,player:String(a.action).split(":")[0].trim()});}});
 });
 window.__pbpDetailsLoaded=true;renderSeguro();
-}).catch(function(err){console.error("No se pudieron cargar los PBP completos:",err);});
+}).catch(function(err){console.error("No se pudieron cargar los PBP completos:",err);var box=document.getElementById("pbpDynamic");if(box&&box.innerHTML.indexOf("Los datos detallados del PBP todavía no están disponibles")>=0){box.insertAdjacentHTML("beforeend",'<p class="pgs-footer" style="color:#b91c1c">Error al cargar el archivo de datos PBP. Recarga la página y vuelve a intentarlo.</p>');}});
 }
 loadPbpDetails();
 function quintetoEnMomento(g,quarter,clockSec,team){
