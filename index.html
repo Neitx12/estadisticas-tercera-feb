@@ -2157,11 +2157,6 @@ function renderQuintetoTimelineUnsafe(g,team){
   function applyAt(q,t){
     lastIn=[];lastOut=[];
     var batch=actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)===t;});
-    /* En algunos PBP FEB falta el registro de entrada de uno de los cinco titulares. Inferirlo del primer jugador que sale y que aún no figure en pista. */
-    if(q===1&&t<600&&!inferredStarter&&Object.keys(active).length<5){
-      var missing=batch.find(function(a){return /Sale de pista/i.test(a.action)&&!active[String(a.action||"").split(": Sustitución")[0].trim()];});
-      if(missing){active[String(missing.action||"").split(": Sustitución")[0].trim()]=true;inferredStarter=true;}
-    }
     batch.forEach(function(a){
       var name=String(a.action||"").split(": Sustitución")[0].trim();
       if(/Entra a pista/i.test(a.action)){active[name]=true;lastIn.push(name);}else{delete active[name];lastOut.push(name);}
@@ -2205,6 +2200,28 @@ function renderQuintetoTimelineUnsafe(g,team){
     applyAt(q,600);
     var current=600, segmentStart=600, quarterHtml="";
     var times=Array.from(new Set(actions.filter(function(a){return Number(a.q)===q&&sec(a.clock)<600&&sec(a.clock)>0;}).map(function(a){return sec(a.clock);})).values()).sort(function(a,b){return b-a;});
+    // En algunos PBP FEB falta el registro de entrada de un titular a 10:00.
+    // Reconstruirlo ANTES de pintar el primer tramo, usando su primera salida
+    // y descartando jugadores que ya habían entrado previamente en ese cuarto.
+    if(q===1&&Object.keys(active).length<5){
+      for(var ti=0;ti<times.length&&!inferredStarter;ti++){
+        var t0=times[ti];
+        var missing=actions.find(function(a){
+          if(Number(a.q)!==1||sec(a.clock)!==t0||!/Sale de pista/i.test(a.action))return false;
+          var name=String(a.action||"").split(": Sustitución")[0].trim();
+          if(active[name])return false;
+          var enteredEarlier=actions.some(function(x){
+            return Number(x.q)===1&&sec(x.clock)>t0&&sec(x.clock)<=600&&
+              String(x.action||"").split(": Sustitución")[0].trim()===name&&/Entra a pista/i.test(x.action);
+          });
+          return !enteredEarlier;
+        });
+        if(missing){
+          active[String(missing.action||"").split(": Sustitución")[0].trim()]=true;
+          inferredStarter=true;
+        }
+      }
+    }
     times.forEach(function(t){
       quarterHtml+=line(q,segmentStart,t,segmentStart!==600);
       applyAt(q,t);segmentStart=t;
