@@ -2004,7 +2004,7 @@ var s=document.getElementById("pgsTeam");if(s){s.value=team;s.onchange=render;}
 }
 window.abrirAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.add("abierto");render();};
 window.cerrarAnalisisPBP=function(){var m=document.getElementById("modalPBPAnalisis");if(m)m.classList.remove("abierto");};
-window.pbpRender=render;window.pbpRenderSeguro=renderSeguro;
+window.pbpRender=render;window.pbpRenderSeguro=function(){try{render();}catch(err){console.error("Error en Análisis PBP avanzado:",err);}};
 })();
 </script>
 <style id="post-game-scout-global-select">.pgs-global-select{display:grid;grid-template-columns:90px 1fr 90px 1.5fr 150px 1fr;gap:8px 10px;align-items:center;margin:0 0 14px;padding:13px 15px;border:1px solid #e4e9ee;border-radius:14px;background:#fff}.pgs-global-select label{font-size:10px;text-transform:uppercase;font-weight:900;color:#12343b}.pgs-global-select select{width:100%;border:1px solid #cdd6e2;border-radius:9px;padding:10px;background:#fff;color:#12343b;font-weight:800}.pgs-select-help{grid-column:1/-1;color:#6b7280;font-size:11px}@media(max-width:900px){.pgs-global-select{grid-template-columns:1fr 1fr}.pgs-select-help{grid-column:1/-1}}@media(max-width:600px){.pgs-global-select{grid-template-columns:1fr}.pgs-select-help{grid-column:auto}}</style><style id="post-game-scout-css">
@@ -2060,11 +2060,11 @@ rows.forEach(function(item){
 var g=scoutGames.find(function(x){return x.id===item[0];});if(!g)return;
 var actions=item[5].map(function(a){return {q:Number(a[0]),clock:a[1],team:Number(a[2])===0?item[1]:Number(a[2])===1?item[2]:"",action:String(a[3]||"")};});
 var source={gameId:item[0],label:item[3],home:item[1],away:item[2],final:item[4],actions:actions};
-var computed=summaryFromOriginal(source);Object.assign(g,computed);g.id=item[0];g.label=item[3];g.home=item[1];g.away=item[2];g.final=item[4];g.actions=actions;
+g.id=item[0];g.label=item[3];g.home=item[1];g.away=item[2];g.final=item[4];g.actions=actions;
 g.startScores={};var score=[0,0];for(var q=1;q<=4;q++){g.startScores[String(q)]=score.slice();var quarter=g.quarters[q-1]||[0,0];score[0]+=Number(quarter[0])||0;score[1]+=Number(quarter[1])||0;}
 g.threes=[[],[]];actions.forEach(function(a){if(/TIRO DE 3 ANOTADO/i.test(a.action)){var side=a.team===g.home?0:a.team===g.away?1:-1;if(side>=0)g.threes[side].push({q:a.q,clock:a.clock,player:String(a.action).split(":")[0].trim()});}});
 });
-window.__pbpDetailsLoaded=true;renderSeguro();
+window.__pbpDetailsLoaded=true;if(window.pbpRenderSeguro)window.pbpRenderSeguro();
 }).catch(function(err){console.error("No se pudieron cargar los PBP completos:",err);var box=document.getElementById("pbpDynamic");if(box&&box.innerHTML.indexOf("Los datos detallados del PBP todavía no están disponibles")>=0){box.insertAdjacentHTML("beforeend",'<p class="pgs-footer" style="color:#b91c1c">Error al cargar el archivo de datos PBP. Recarga la página y vuelve a intentarlo.</p>');}});
 }
 loadPbpDetails();
