@@ -2574,38 +2574,59 @@ function renderScoutingUI(){
  var lastGames=function(name){var t=DB.teams[name],gs=(t?t.games:[]).slice().sort(function(x,y){return n(y.jornada)-n(x.jornada)}).slice(0,5);if(!gs.length)return "<div class='scdb-empty'>No hay partidos registrados.</div>";return "<div class='scdb-games'>"+gs.map(function(g){var home=g.home===name,ownPts=n(g.final[home?0:1]),oppPts=n(g.final[home?1:0]),other=home?g.away:g.home;return "<div class='scdb-game'><strong>"+esc(name)+" "+ownPts+" — "+oppPts+" "+esc(other)+"</strong><span>Jornada "+esc(g.jornada)+(ownPts>oppPts?" · Victoria":ownPts<oppPts?" · Derrota":" · Empate")+"</span></div>";}).join("")+"</div>";}; 
  var matchupAdvancedTable=function(which){
    var teamNames=Object.keys(DB.teams||{}),ownName="Ulacia ZKE",opponentName=opp;
-   var totals=function(name){var t=DB.teams[name],o=t?t.totals||{}:{},g=t&&t.games?t.games.length:0;return {games:g,pts:n(o.pts),t2m:n(o.t2m),t2a:n(o.t2a),t3m:n(o.t3m),t3a:n(o.t3a),fta:n(o.fta),to:n(o.to),reb:n(o.reb),fga:n(o.t2a)+n(o.t3a)};};
-   var efg=function(o){return o.fga?100*(o.t2m+o.t3m+0.5*o.t3m)/o.fga:null;};
-   var ftr=function(o){return o.fga?o.fta/o.fga:null;};
-   var tov=function(o){var poss=o.fga+0.44*o.fta+o.to;return poss?100*o.to/poss:null;};
    var fmtVal=function(v,digits){return v==null||!isFinite(v)?"—":v.toLocaleString("es-ES",{minimumFractionDigits:digits,maximumFractionDigits:digits});};
-   var avg=function(arr,fn){var vals=arr.map(fn).filter(function(v){return v!=null&&isFinite(v)});return vals.length?vals.reduce(function(a,b){return a+b},0)/vals.length:null;};
-   var conceded=function(name,metric){
-     var t=DB.teams[name],gs=t?t.games:[],values=[];
-     gs.forEach(function(g){var other=g.home===name?g.away:g.home,ot=totals(other);if(metric==="pts"){var home=g.home===name;values.push(n(g.final[home?1:0]));}
-       else if(metric==="efg"||metric==="tov"||metric==="ftr"){if(metric==="efg")values.push(efg(ot));else if(metric==="tov")values.push(tov(ot));else values.push(ftr(ot));}
-     });return avg(values,function(v){return v});
+   var teamStat=function(g,name){
+     var team=DB.teams[name];
+     if(!team||typeof estadisticasDB==="undefined"||!Array.isArray(estadisticasDB))return null;
+     return estadisticasDB.find(function(s){return n(s.partido_id)===n(g.id)&&n(s.equipo_id)===n(team.id);})||null;
    };
-   var leagueNames=teamNames.filter(function(name){return DB.teams[name]&&DB.teams[name].games&&DB.teams[name].games.length;});
-   var leaguePace=avg(leagueNames,function(name){return conceded(name,"pts")});
-   var leagueEfg=avg(leagueNames,function(name){return conceded(name,"efg")});
-   var leagueTov=avg(leagueNames,function(name){return conceded(name,"tov")});
-   var leagueFtr=avg(leagueNames,function(name){return conceded(name,"ftr")});
-   var own=totals(ownName),rivalOff=totals(opponentName);
+   var opponent=function(g,name){return g.home===name?g.away:g.home;};
+   var pointsFor=function(g,name){return g.home===name?n(g.final[0]):n(g.final[1]);};
+   /* Calcula cada indicador agregando las estadísticas de los partidos seleccionados.
+      mode=own: ataque del equipo; mode=opponents: ataque de quienes jugaron contra él;
+      mode=league: todos los ataques registrados en la liga. */
+   var metricValue=function(name,mode,metric){
+     var games=DB.games||[],tot={pts:0,fga:0,t2m:0,t3m:0,fta:0,orb:0,to:0,oppDrb:0,poss:0},count=0;
+     games.forEach(function(g){
+       var sides=[];
+       if(mode==="league")sides=[g.home,g.away];
+       else if(mode==="own"&& (g.home===name||g.away===name))sides=[name];
+       else if(mode==="opponents"&& (g.home===name||g.away===name))sides=[opponent(g,name)];
+       sides.forEach(function(attacker){
+         if(!attacker||!DB.teams[attacker])return;
+         var a=teamStat(g,attacker),defName=opponent(g,attacker),d=teamStat(g,defName);
+         if(!a||!d)return;
+         var t2a=n(a.dosp_intentos),t3a=n(a.tresp_intentos),fta=n(a.tl_intentos),orb=n(a.reb_ofensivos),to=n(a.perdidas);
+         var fga=t2a+t3a,poss=fga+0.44*fta-orb+to;
+         tot.pts+=pointsFor(g,attacker);tot.fga+=fga;tot.t2m+=n(a.dosp_anotados);tot.t3m+=n(a.tresp_anotados);
+         tot.fta+=fta;tot.orb+=orb;tot.to+=to;tot.oppDrb+=n(d.reb_defensivos);tot.poss+=poss;count++;
+       });
+     });
+     if(!count)return null;
+     if(metric==="pts")return tot.poss?100*tot.pts/tot.poss:null;
+     if(metric==="efg")return tot.fga?100*(tot.t2m+tot.t3m+0.5*tot.t3m)/tot.fga:null;
+     if(metric==="orb")return (tot.orb+tot.oppDrb)?100*tot.orb/(tot.orb+tot.oppDrb):null;
+     if(metric==="tov")return tot.poss?100*tot.to/tot.poss:null;
+     if(metric==="ftr")return tot.fga?tot.fta/tot.fga:null;
+     return null;
+   };
    var rows=[
-     {label:"Puntos / 100 posesiones",attack:null,concede:null,league:null,note:"No calculable con rigor: falta el rebote ofensivo para estimar posesiones."},
-     {label:"eFG %",attack:efg(own),concede:conceded(opponentName,"efg"),league:leagueEfg,percent:true},
-     {label:"Rebote ofensivo %",attack:null,concede:null,league:null,note:"No disponible en los boxscores cargados."},
-     {label:"Pérdidas %",attack:tov(own),concede:conceded(opponentName,"tov"),league:leagueTov,percent:true},
-     {label:"TL intentados / TC",attack:ftr(own),concede:conceded(opponentName,"ftr"),league:leagueFtr,ratio:true}
+     {label:"Puntos / 100 posesiones",metric:"pts",digits:1},
+     {label:"eFG %",metric:"efg",percent:true,digits:1},
+     {label:"Rebote ofensivo %",metric:"orb",percent:true,digits:1},
+     {label:"Pérdidas % (TOV%)",metric:"tov",percent:true,digits:1},
+     {label:"TL intentados / TC",metric:"ftr",ratio:true,digits:2}
    ];
    var headers=which==="ataque"?["Indicador ↕","Ulacia ataque ↕","Rival concede ↕","Liga concede ↕"]:["Indicador ↕","Ulacia concede ↕","Rival ataque ↕","Liga concede ↕"];
    var table="<div class='scdb-table-wrap'><table class='scdb-table scdb-four-factors'><thead><tr>"+headers.map(function(h){return "<th>"+h+"</th>"}).join("")+"</tr></thead><tbody>";
-   rows.forEach(function(r){var values=which==="ataque"?[r.attack,r.concede,r.league]:[conceded(ownName,r.label==="eFG %"?"efg":r.label==="Pérdidas %"?"tov":r.label==="TL intentados / TC"?"ftr":"pts"),r.label==="eFG %"?efg(rivalOff):r.label==="Pérdidas %"?tov(rivalOff):r.label==="TL intentados / TC"?ftr(rivalOff):null,r.league];
-     var cells=values.map(function(v){return "<td>"+(v==null?"—":r.percent?fmtVal(v,1):r.ratio?fmtVal(v,2):fmtVal(v,1))+"</td>"}).join("");
+   rows.forEach(function(r){
+     var values=which==="ataque"
+       ?[metricValue(ownName,"own",r.metric),metricValue(opponentName,"opponents",r.metric),metricValue(null,"league",r.metric)]
+       :[metricValue(ownName,"opponents",r.metric),metricValue(opponentName,"own",r.metric),metricValue(null,"league",r.metric)];
+     var cells=values.map(function(v){return "<td>"+fmtVal(v,r.digits)+(v!=null&&r.percent?"%":"")+"</td>"}).join("");
      table+="<tr><td class='scdb-player'>"+r.label+"</td>"+cells+"</tr>";
    });
-   table+="</tbody></table></div><p class='scdb-note'>Los valores se calculan con los boxscores disponibles. «—» indica que falta un dato fiable; no se estiman posesiones ni rebotes ofensivos sin el dato necesario. La media de liga se calcula con los equipos y partidos registrados en la base actual.</p>";
+   table+="</tbody></table></div><p class='scdb-note'>Indicadores calculados con los boxscores por equipo y partido disponibles. Puntos/100 posesiones y TOV% usan posesiones estimadas: tiros de campo intentados + 0,44 × tiros libres intentados − rebotes ofensivos + pérdidas. «Rival concede» refleja el ataque de los equipos que se enfrentaron a ese rival; «Liga concede» es la media agregada de los ataques registrados en la competición. «—» indica que no hay datos suficientes.</p>";
    return table;
  };
  var planHtml=function(which){
