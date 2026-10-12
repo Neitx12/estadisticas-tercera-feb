@@ -2615,7 +2615,7 @@ function renderScoutingUI(){
      if(metric==="pts")return tot.poss?100*tot.pts/tot.poss:null;
      if(metric==="efg")return tot.fga?100*(tot.t2m+tot.t3m+0.5*tot.t3m)/tot.fga:null;
      if(metric==="orb")return (tot.orb+tot.oppDrb)?100*tot.orb/(tot.orb+tot.oppDrb):null;
-     if(metric==="tov")return tot.poss?100*tot.to/tot.poss:null;
+     if(metric==="tov"){var tovPoss=tot.fga+0.44*tot.fta+tot.to;return tovPoss?100*tot.to/tovPoss:null;}
      if(metric==="ftr")return tot.fga?tot.fta/tot.fga:null;
      return null;
    };
@@ -2635,7 +2635,7 @@ function renderScoutingUI(){
      var cells=values.map(function(v){return "<td>"+fmtVal(v,r.digits)+(v!=null&&r.percent?"%":"")+"</td>"}).join("");
      table+="<tr><td class='scdb-player'>"+r.label+"</td>"+cells+"</tr>";
    });
-   table+="</tbody></table></div><p class='scdb-note'>Indicadores calculados con los boxscores por equipo y partido disponibles. Puntos/100 posesiones y TOV% usan posesiones estimadas: tiros de campo intentados + 0,44 × tiros libres intentados − rebotes ofensivos + pérdidas. «Rival concede» refleja el ataque de los equipos que se enfrentaron a ese rival; «Liga concede» es la media agregada de los ataques registrados en la competición. «—» indica que no hay datos suficientes.</p>";
+   table+="</tbody></table></div><p class='scdb-note'>Indicadores calculados agregando los boxscores por equipo y partido disponibles. Puntos/100 posesiones usa una estimación de posesiones: tiros de campo intentados + 0,44 × tiros libres intentados − rebotes ofensivos + pérdidas. TOV% se calcula como pérdidas / (tiros de campo intentados + 0,44 × tiros libres intentados + pérdidas). «Rival concede» refleja el ataque de los equipos que se enfrentaron a ese rival; «Liga concede» es la media agregada de los ataques registrados en la competición. «—» indica que no hay datos suficientes.</p>";
    return table;
  };
  var planHtml=function(which){
