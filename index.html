@@ -2559,7 +2559,7 @@ function renderScoutingUI(){
     {label:"Diferencial",value:(pf-pa)/gp,fmt:function(x){return (x>0?"+":"")+f(x)},better:"high"},
     {label:"Rebotes",value:tt.reb,fmt:function(x){return f(x)},better:"high"},
     {label:"Asistencias",value:tt.ast,fmt:function(x){return f(x)},better:"high"},
-    {label:"Pérdidas",value:tt.to,fmt:function(x){return f(x)},better:"low"},
+    {label:"Pérdidas/PJ",value:tt.to,fmt:function(x){return f(x)},better:"low"},
     {label:"Tiros de 2",value:tt.t2,fmt:function(x){return pct(x)},better:"high"},
     {label:"Triples",value:tt.t3,fmt:function(x){return pct(x)},better:"high"},
     {label:"Tiros libres",value:tt.fta?100*tt.ftaMade/tt.fta:0,fmt:function(x){return pct(x)},better:"high"},
@@ -2690,8 +2690,12 @@ function renderScoutingUI(){
      addFocus("proteger","Media","Reducir las ventajas creadas por el pase rival","Rival: "+f(mb[4].value)+" asistencias/PJ · Ulacia: "+f(ma[4].value)+" asistencias/PJ","¿Qué acción provoca sus asistencias: bloqueo, corte, penetración o inversión? ¿Qué ayuda defensiva abre el pase final?","Ajustar las ayudas y la recuperación según el origen real de las asistencias, no solo por el promedio.");
    if(mb[5].value+1<ma[5].value)
      addFocus("proteger","Media","El rival cuida el balón","Rival: "+f(mb[5].value)+" pérdidas/PJ · Ulacia: "+f(ma[5].value)+" pérdidas/PJ","¿El rival supera con facilidad la presión? Buscar si hay momentos concretos en los que el primer pase o la salida de balón se atascan.","No aumentar el riesgo de presión sin una señal de vídeo clara; escoger momentos y zonas donde pueda haber vulnerabilidad.");
-   if(ma[5].value>mb[5].value+1)
-     addFocus("castigar","Media","Aprovechar posibles errores en la salida rival","Ulacia pierde "+f(ma[5].value)+" balones/PJ y el rival "+f(mb[5].value)+"","¿El rival también ofrece pérdidas atacables bajo presión? Etiquetar errores de recepción, bote y pase, sin confundir las pérdidas propias de Ulacia con las del contrario.","Si se detectan patrones repetidos, presionar de forma selectiva y orientar el balón hacia esas zonas.");
+   if(ma[5].value>mb[5].value+0.1)
+     addFocus("castigar","Media","Reducir las pérdidas de Ulacia","Ulacia: "+f(ma[5].value)+" pérdidas por partido · rival: "+f(mb[5].value)+" pérdidas por partido","¿Cuántas pérdidas de Ulacia llegan por presión rival, pases arriesgados, errores de bote o pérdidas no forzadas? Registrar también si terminan en puntos de contraataque.","Proteger el balón y ajustar las decisiones que se repitan en vídeo; no atribuir al rival una debilidad solo porque Ulacia pierda más.");
+   else if(ma[5].value+0.1<mb[5].value)
+     addFocus("explotar","Media","Ulacia cuida mejor el balón","Ulacia: "+f(ma[5].value)+" pérdidas por partido · rival: "+f(mb[5].value)+" pérdidas por partido","Comprobar si Ulacia mantiene esa ventaja ante presión y qué decisiones ayudan a conservar la posesión. Revisar además si el rival pierde balones en situaciones similares.","Mantener las decisiones seguras de Ulacia y estudiar si las pérdidas rivales permiten presionar de forma selectiva.");
+   else
+     addFocus("explotar","Media","Control del balón: pérdidas por partido","Ulacia: "+f(ma[5].value)+" pérdidas por partido · rival: "+f(mb[5].value)+" pérdidas por partido","Comparar el tipo de pérdidas de ambos equipos: presión, bote, pase, recepción o errores no forzados; la media no explica por sí sola su causa.","Conservar las posesiones propias y atacar solo los errores rivales que se confirmen repetidamente en vídeo.");
    if(!videoFocus.explotar.length)
      addFocus("explotar","Media","Encontrar la ventaja ofensiva propia","Los promedios disponibles no activan una fortaleza concluyente","Etiquetar tiros de dos, triples, transiciones, rebotes ofensivos y pérdidas de Ulacia; anotar origen, calidad y resultado.","Identificar qué acciones generan tiros de calidad y preparar para el partido las ventajas que el vídeo confirme.");
    if(!videoFocus.castigar.length)
