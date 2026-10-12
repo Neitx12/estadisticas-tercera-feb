@@ -625,11 +625,22 @@ body.authenticated .auth-logout{display:block}
   var all=[];
   for(var i=0;i<13;i++) all.push(rounds[i]);
   for(var j=0;j<13;j++) all.push(rounds[j].map(function(x){return {h:x.v,v:x.h};}));
+  /* Jornada 2 contrastada con los siete boxscores oficiales del 10 y 11 de octubre de 2026. */
+  all[1]=[
+    {h:8,v:5},  /* San Prudencio - Tabirako Baqué */
+    {h:6,v:3},  /* Iruki TAKE - Megacalzado Ardoi */
+    {h:10,v:7}, /* Egüés - Solares */
+    {h:12,v:9}, /* Bezana - Zornotza */
+    {h:14,v:11},/* Ávila - Deusto Loyola Indautxu */
+    {h:4,v:1},  /* Ulacia ZKE - Piélagos */
+    {h:2,v:13}  /* La Flecha - Cantbasket04 */
+  ];
   var dates=["04/10/2026","11/10/2026","18/10/2026","25/10/2026","01/11/2026","08/11/2026","15/11/2026","22/11/2026","29/11/2026","06/12/2026","13/12/2026","20/12/2026","10/01/2027","17/01/2027","24/01/2027","31/01/2027","07/02/2027","14/02/2027","21/02/2027","28/02/2027","07/03/2027","14/03/2027","21/03/2027","28/03/2027","11/04/2027","17/04/2027"];
+  dates[1]="10–11/10/2026";
   var byId={};equipos.forEach(function(e){byId[e.id]=e;});
   return all.map(function(ps,i){return {j:i+1,f:dates[i],p:ps.map(function(x){return [byId[x.h].n,byId[x.v].n];})};});
 })();
-var jornadaCalendarioActual=1;
+var jornadaCalendarioActual=2;
 
 /* BoxScore de cada partido registrado en la primera tanda de partidos. */
 const BOXSCORES_PARTIDOS={
