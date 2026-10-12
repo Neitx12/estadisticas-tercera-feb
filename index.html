@@ -2626,7 +2626,7 @@ function renderScoutingUI(){
      {label:"Pérdidas % (TOV%)",metric:"tov",percent:true,digits:1},
      {label:"TL intentados / TC",metric:"ftr",ratio:true,digits:2}
    ];
-   var headers=which==="ataque"?["Indicador ↕","Ulacia ataque ↕","Rival concede ↕","Liga concede ↕"]:["Indicador ↕","Ulacia concede ↕","Rival ataque ↕","Liga concede ↕"];
+   var headers=which==="ataque"?["Indicador ↕","Ulacia ataque ↕","Rival concede ↕","Liga concede ↕"]:["Indicador ↕","Ulacia concede ↕","Rival ataque ↕","Liga ataque ↕"];
    var table="<div class='scdb-table-wrap'><table class='scdb-table scdb-four-factors'><thead><tr>"+headers.map(function(h){return "<th>"+h+"</th>"}).join("")+"</tr></thead><tbody>";
    rows.forEach(function(r){
      var values=which==="ataque"
@@ -2635,7 +2635,7 @@ function renderScoutingUI(){
      var cells=values.map(function(v){return "<td>"+fmtVal(v,r.digits)+(v!=null&&r.percent?"%":"")+"</td>"}).join("");
      table+="<tr><td class='scdb-player'>"+r.label+"</td>"+cells+"</tr>";
    });
-   table+="</tbody></table></div><p class='scdb-note'>Indicadores calculados agregando los boxscores por equipo y partido disponibles. Puntos/100 posesiones usa una estimación de posesiones: tiros de campo intentados + 0,44 × tiros libres intentados − rebotes ofensivos + pérdidas. TOV% se calcula como pérdidas / (tiros de campo intentados + 0,44 × tiros libres intentados + pérdidas). «Rival concede» refleja el ataque de los equipos que se enfrentaron a ese rival; «Liga concede» es la media agregada de los ataques registrados en la competición. «—» indica que no hay datos suficientes.</p>";
+   table+="</tbody></table></div><p class='scdb-note'>Indicadores calculados agregando los boxscores por equipo y partido disponibles. Puntos/100 posesiones usa una estimación de posesiones: tiros de campo intentados + 0,44 × tiros libres intentados − rebotes ofensivos + pérdidas. TOV% se calcula como pérdidas / (tiros de campo intentados + 0,44 × tiros libres intentados + pérdidas). "+(which==="ataque"?"«Rival concede» refleja el ataque de los equipos que se enfrentaron a ese rival; «Liga concede» es la media agregada de los ataques registrados en la competición.":"«Ulacia concede» refleja el ataque de los equipos que se enfrentaron a Ulacia; «Rival ataque» refleja la producción ofensiva del rival seleccionado; «Liga ataque» es la media agregada de los ataques registrados en la competición.")+" «—» indica que no hay datos suficientes.</p>";
    return table;
  };
  var planHtml=function(which){
