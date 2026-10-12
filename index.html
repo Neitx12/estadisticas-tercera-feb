@@ -2576,9 +2576,18 @@ function renderScoutingUI(){
    var teamNames=Object.keys(DB.teams||{}),ownName="Ulacia ZKE",opponentName=opp;
    var fmtVal=function(v,digits){return v==null||!isFinite(v)?"—":v.toLocaleString("es-ES",{minimumFractionDigits:digits,maximumFractionDigits:digits});};
    var teamStat=function(g,name){
-     var team=DB.teams[name];
-     if(!team||typeof estadisticasDB==="undefined"||!Array.isArray(estadisticasDB))return null;
-     return estadisticasDB.find(function(s){return n(s.partido_id)===n(g.id)&&n(s.equipo_id)===n(team.id);})||null;
+     var team=DB.teams[name],stats=DB.boxscores||[];
+     if(!team||!team.roster||!stats.length)return null;
+     var ids={};team.roster.forEach(function(p){ids[n(p.jugadorId)]=true;});
+     var matching=stats.filter(function(s){return n(s.partido_id)===n(g.id)&&ids[n(s.jugador_id)];});
+     if(!matching.length)return null;
+     var out={dosp_intentos:0,tresp_intentos:0,tl_intentos:0,reb_ofensivos:0,perdidas:0,dosp_anotados:0,tresp_anotados:0,reb_defensivos:0};
+     matching.forEach(function(s){
+       out.dosp_intentos+=n(s.dosp_intentos);out.tresp_intentos+=n(s.tresp_intentos);out.tl_intentos+=n(s.tl_intentos);
+       out.reb_ofensivos+=n(s.reb_ofensivos);out.perdidas+=n(s.perdidas);out.dosp_anotados+=n(s.dosp_anotados);
+       out.tresp_anotados+=n(s.tresp_anotados);out.reb_defensivos+=n(s.reb_defensivos);
+     });
+     return out;
    };
    var opponent=function(g,name){return g.home===name?g.away:g.home;};
    var pointsFor=function(g,name){return g.home===name?n(g.final[0]):n(g.final[1]);};
