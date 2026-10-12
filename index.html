@@ -2268,13 +2268,13 @@ var pgsChosenJornada="",pgsChosenPartido="",pgsChosenPrisma="";
 function populate(){
 var j=document.getElementById("pgsJornada"),p=document.getElementById("pgsPartido"),pr=document.getElementById("pgsPrisma");if(!j||!p||!pr)return;
 var by={};
-scoutGames.forEach(function(g){var m=String(g.label||"").match(/Jornada\\s+(\\d+)/i),n=m?m[1]:"1";(by[n]||(by[n]=[])).push(g);});
+scoutGames.forEach(function(g){var m=String(g.label||"").match(/Jornada\s+(\d+)/i),n=m?m[1]:"1";(by[n]||(by[n]=[])).push(g);});
 var jornadas=Object.keys(by).sort(function(a,b){return Number(a)-Number(b);});
 j.innerHTML='<option value="">Selecciona jornada</option>'+jornadas.map(function(n){return '<option value="'+n+'">Jornada '+n+'</option>';}).join("");
 j.value=pgsChosenJornada&&by[pgsChosenJornada]?pgsChosenJornada:"";
 var gs=pgsChosenJornada?(by[pgsChosenJornada]||[]):[];
 p.disabled=!pgsChosenJornada;
-p.innerHTML='<option value="">Selecciona partido</option>'+gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\\s+\\d+\\s*·\\s*/i,""))+'</option>';}).join("");
+p.innerHTML='<option value="">Selecciona partido</option>'+gs.map(function(g){return '<option value="'+esc(g.id)+'">'+esc(String(g.label).replace(/^Jornada\s+\d+\s*·\s*/i,""))+'</option>';}).join("");
 p.value=gs.some(function(g){return String(g.id)===String(pgsChosenPartido);})?pgsChosenPartido:"";
 var selected=gs.find(function(g){return String(g.id)===String(p.value);});
 pr.disabled=!selected;
