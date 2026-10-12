@@ -1742,7 +1742,7 @@ function poblarEquiposCombinacionesPBP(){
   var porId={};
   fuente.forEach(function(e){porId[num(e.id)]=e.nombre;});
   var actual=sel.value;
-  var ids=Object.keys(combinacionesPBPData||{}).map(Number).sort(function(a,b){return a-b;});
+  var ids=Object.keys((combinacionesPBPData&&combinacionesPBPData.teams)||{}).map(Number).filter(function(id){return Number.isFinite(id);}).sort(function(a,b){return a-b;});
   sel.innerHTML='<option value="">Selecciona equipo</option>'+ids.map(function(id){
     var nombre=porId[id]||nombresPorId[id]||("Equipo "+id);
     return '<option value="'+id+'">'+compEsc(nombre)+'</option>';
