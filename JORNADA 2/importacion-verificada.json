@@ -1,0 +1,98 @@
+{
+  "temporada": "2026-27",
+  "competicion": "Tercera FEB",
+  "jornada": 2,
+  "fechas": [
+    "2026-10-10",
+    "2026-10-11"
+  ],
+  "fuente": "7 PDFs oficiales de boxscore aportados en la conversación",
+  "estado": "verificado_e_importado_en_supabase",
+  "resumen": {
+    "partidos": 7,
+    "filas_estadistica_equipo": 14,
+    "filas_estadistica_jugador": 157,
+    "equipos_con_estadisticas": 14,
+    "jugadores_nuevos_creados": 10
+  },
+  "partidos": [
+    {
+      "id_feb": 2536669,
+      "fecha": "2026-10-10",
+      "local": "Elaborados Naturales Valle de Egüés",
+      "puntos_local": 61,
+      "visitante": "Restaurante Los Arcos CB Solares",
+      "puntos_visitante": 72,
+      "pdf": "2536669-BoxScore(1).pdf"
+    },
+    {
+      "id_feb": 2536670,
+      "fecha": "2026-10-10",
+      "local": "LIS Data Solutions Bezana",
+      "puntos_local": 68,
+      "visitante": "Teknei Bizkaia Zornotza",
+      "puntos_visitante": 99,
+      "pdf": "2536670-BoxScore(1).pdf"
+    },
+    {
+      "id_feb": 2536671,
+      "fecha": "2026-10-10",
+      "local": "Hotel 4Postes - Ávila Auténtica - El Bulevar",
+      "puntos_local": 98,
+      "visitante": "Universidad Deusto Loiola Indautxu",
+      "puntos_visitante": 87,
+      "pdf": "2536671-BoxScore(1).pdf"
+    },
+    {
+      "id_feb": 2536672,
+      "fecha": "2026-10-11",
+      "local": "Baloncesto La Flecha",
+      "puntos_local": 95,
+      "visitante": "De Morro Fino Cantbasket04",
+      "puntos_visitante": 99,
+      "pdf": "2536672-BoxScore(1).pdf"
+    },
+    {
+      "id_feb": 2536673,
+      "fecha": "2026-10-11",
+      "local": "Ulacia ZKE",
+      "puntos_local": 83,
+      "visitante": "Construcciones Gonzalo Crespo Pas Piélagos",
+      "puntos_visitante": 82,
+      "pdf": "2536673-BoxScore(1).pdf"
+    },
+    {
+      "id_feb": 2536674,
+      "fecha": "2026-10-10",
+      "local": "Iruki TAKE",
+      "puntos_local": 78,
+      "visitante": "Megacalzado Ardoi",
+      "puntos_visitante": 60,
+      "pdf": "TAKE-ARDOI(1).pdf"
+    },
+    {
+      "id_feb": 2536668,
+      "fecha": "2026-10-10",
+      "local": "San Prudencio",
+      "puntos_local": 76,
+      "visitante": "Tabirako Baqué",
+      "puntos_visitante": 65,
+      "pdf": "2536668-BoxScore(1).pdf"
+    }
+  ],
+  "validaciones": [
+    "Los marcadores se contrastaron con los encabezados de los 7 PDF.",
+    "Para los 14 equipos, los puntos y las anotaciones/intentos de 2P, 3P y TL coinciden con los totales oficiales.",
+    "Para los 14 equipos, asistencias, recuperaciones y tapones coinciden con los totales oficiales.",
+    "Las estadísticas individuales se importaron desde las filas de cada jugador; no se ajustaron artificialmente para igualar rebotes, faltas o pérdidas agregadas cuando el acta presenta diferencias entre suma individual y total de equipo.",
+    "Se verificó en Supabase que los 7 partidos de Jornada 2 tienen 2 filas de estadísticas de equipo cada uno y un total de 157 filas de estadísticas de jugador.",
+    "El jugador de Ulacia ZKE Ibon Goenaga Armendariz aparece con dorsal NULL en la tabla de jugadores porque el dorsal 6 ya estaba asignado históricamente a otro jugador; no se sobrescribió esa ficha."
+  ],
+  "tablas_actualizadas": [
+    "partidos",
+    "jugadores",
+    "estadisticas_partido",
+    "estadisticas_jugador"
+  ],
+  "nota_calculo": "La web carga partidos y estadísticas directamente desde Supabase. Las estadísticas avanzadas y medias de temporada se recalculan en la interfaz a partir de los registros de las jornadas disponibles."
+}
