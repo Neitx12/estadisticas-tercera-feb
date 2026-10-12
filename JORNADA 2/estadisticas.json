@@ -1,0 +1,5728 @@
+{
+  "competition": "Tercera FEB",
+  "season": "2026-27",
+  "round": 2,
+  "source": "PDF oficiales de boxscore aportados por el usuario",
+  "games": [
+    {
+      "febId": 2536669,
+      "date": "2026-10-10",
+      "home": {
+        "teamId": 10,
+        "name": "Elaborados Naturales Valle de Egüés",
+        "score": 61,
+        "teamStats": {
+          "puntos": 61,
+          "dosPuntos": {
+            "anotados": 16,
+            "intentos": 36
+          },
+          "triples": {
+            "anotados": 4,
+            "intentos": 30
+          },
+          "tirosLibres": {
+            "anotados": 17,
+            "intentos": 27
+          },
+          "rebotes": {
+            "ofensivos": 21,
+            "defensivos": 29,
+            "totales": 50
+          },
+          "asistencias": 10,
+          "recuperaciones": 11,
+          "perdidas": 25,
+          "taponesCometidos": 5,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 20,
+          "faltasRecibidas": 25,
+          "valoracion": 61,
+          "masMenos": -11
+        },
+        "players": [
+          {
+            "dorsal": 5,
+            "titular": false,
+            "nombre": "MIGUEL ARIZTIMUÑO",
+            "minutos": "19:54",
+            "puntos": 12,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 2,
+            "valoracion": 5,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "JAVIER LACUNZA ABECIA",
+            "minutos": "23:58",
+            "puntos": 5,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 3,
+              "totales": 6
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": 6,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 12,
+            "titular": true,
+            "nombre": "PABLO YARNOZ LUMBRERAS",
+            "minutos": "34:41",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 7
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 6,
+              "intentos": 8
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 6,
+              "totales": 8
+            },
+            "asistencias": 3,
+            "recuperaciones": 2,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 6,
+            "valoracion": 11,
+            "masMenos": -6
+          },
+          {
+            "dorsal": 14,
+            "titular": true,
+            "nombre": "UNAI TERRADILLOS MEZQUITA",
+            "minutos": "18:32",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 2,
+            "valoracion": 0,
+            "masMenos": -17
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "JABARI AKIL WILLIAMS",
+            "minutos": "14:25",
+            "puntos": 5,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 3,
+              "totales": 5
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": 8,
+            "masMenos": -5
+          },
+          {
+            "dorsal": 20,
+            "titular": false,
+            "nombre": "TELMO PARRA MENDIVIL",
+            "minutos": "11:56",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 0,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 6,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": -11,
+            "masMenos": -8
+          },
+          {
+            "dorsal": 24,
+            "titular": true,
+            "nombre": "LUIS MANUEL CERVANTES",
+            "minutos": "23:02",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 2,
+              "totales": 3
+            },
+            "asistencias": 1,
+            "recuperaciones": 2,
+            "perdidas": 3,
+            "taponesCometidos": 2,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 1,
+            "valoracion": 0,
+            "masMenos": -4
+          },
+          {
+            "dorsal": 30,
+            "titular": true,
+            "nombre": "HECTOR ARANAZ ALVAREZ",
+            "minutos": "28:12",
+            "puntos": 14,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 9
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 2,
+            "recuperaciones": 4,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 4,
+            "valoracion": 16,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 38,
+            "titular": true,
+            "nombre": "KISINGO NARMAN DOMINGOS",
+            "minutos": "25:20",
+            "puntos": 12,
+            "dosPuntos": {
+              "anotados": 5,
+              "intentos": 8
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 5,
+              "defensivos": 4,
+              "totales": 9
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 2,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 6,
+            "valoracion": 20,
+            "masMenos": -8
+          },
+          {
+            "dorsal": 39,
+            "titular": false,
+            "nombre": "RAMON SERNA ESPARZA",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          }
+        ]
+      },
+      "away": {
+        "teamId": 7,
+        "name": "Restaurante Los Arcos CB Solares",
+        "score": 72,
+        "teamStats": {
+          "puntos": 72,
+          "dosPuntos": {
+            "anotados": 18,
+            "intentos": 40
+          },
+          "triples": {
+            "anotados": 10,
+            "intentos": 30
+          },
+          "tirosLibres": {
+            "anotados": 6,
+            "intentos": 11
+          },
+          "rebotes": {
+            "ofensivos": 12,
+            "defensivos": 24,
+            "totales": 36
+          },
+          "asistencias": 14,
+          "recuperaciones": 16,
+          "perdidas": 22,
+          "taponesCometidos": 3,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 25,
+          "faltasRecibidas": 20,
+          "valoracion": 67,
+          "masMenos": 11
+        },
+        "players": [
+          {
+            "dorsal": 0,
+            "titular": true,
+            "nombre": "DANIEL GIOVANNY",
+            "minutos": "31:15",
+            "puntos": 15,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 8
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 4,
+            "recuperaciones": 5,
+            "perdidas": 5,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 6,
+            "valoracion": 16,
+            "masMenos": 9
+          },
+          {
+            "dorsal": 2,
+            "titular": true,
+            "nombre": "ESTEBAN GANDARILLAS",
+            "minutos": "21:13",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 3,
+            "recuperaciones": 2,
+            "perdidas": 6,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 1,
+            "valoracion": -7,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 5,
+            "titular": false,
+            "nombre": "JAIME SANCHEZ MARROYO",
+            "minutos": "18:47",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 4,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 4,
+            "valoracion": 4,
+            "masMenos": 11
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "JORGE JAVIER GOMEZ",
+            "minutos": "14:03",
+            "puntos": 5,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 5,
+              "totales": 5
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": 8,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 10,
+            "titular": true,
+            "nombre": "LIAM MAESTRO STEELE",
+            "minutos": "25:04",
+            "puntos": 14,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 4,
+              "intentos": 8
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 4,
+              "totales": 5
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 0,
+            "valoracion": 11,
+            "masMenos": 10
+          },
+          {
+            "dorsal": 11,
+            "titular": false,
+            "nombre": "DIEGO GARCIA CARRERA",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 13,
+            "titular": false,
+            "nombre": "DAVID TRUEBA TAMAYO",
+            "minutos": "14:55",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 0,
+              "totales": 2
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 1,
+            "valoracion": 6,
+            "masMenos": 5
+          },
+          {
+            "dorsal": 18,
+            "titular": true,
+            "nombre": "OLUWASANMI ROBERTO",
+            "minutos": "30:02",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 2,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 6,
+            "valoracion": 18,
+            "masMenos": 14
+          },
+          {
+            "dorsal": 21,
+            "titular": false,
+            "nombre": "MIGUEL HUIDOBRO DIEGO",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 26,
+            "titular": true,
+            "nombre": "ALEXY-TYRONE QUINCY-",
+            "minutos": "35:55",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 5,
+              "intentos": 11
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 6,
+              "defensivos": 5,
+              "totales": 11
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": 15,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 32,
+            "titular": false,
+            "nombre": "ANGEL ALVAREZ MORENO",
+            "minutos": "08:46",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 0,
+            "valoracion": -5,
+            "masMenos": -2
+          }
+        ]
+      },
+      "pdfSource": "2536669-BoxScore(1).pdf"
+    },
+    {
+      "febId": 2536670,
+      "date": "2026-10-10",
+      "home": {
+        "teamId": 12,
+        "name": "LIS Data Solutions Bezana",
+        "score": 68,
+        "teamStats": {
+          "puntos": 68,
+          "dosPuntos": {
+            "anotados": 22,
+            "intentos": 42
+          },
+          "triples": {
+            "anotados": 4,
+            "intentos": 32
+          },
+          "tirosLibres": {
+            "anotados": 12,
+            "intentos": 24
+          },
+          "rebotes": {
+            "ofensivos": 14,
+            "defensivos": 22,
+            "totales": 36
+          },
+          "asistencias": 11,
+          "recuperaciones": 10,
+          "perdidas": 11,
+          "taponesCometidos": 0,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 24,
+          "faltasRecibidas": 23,
+          "valoracion": 53,
+          "masMenos": -31
+        },
+        "players": [
+          {
+            "dorsal": 0,
+            "titular": true,
+            "nombre": "NICOLAS DIAZ GARCIA",
+            "minutos": "27:32",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 4,
+            "recuperaciones": 2,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": 15,
+            "masMenos": -21
+          },
+          {
+            "dorsal": 1,
+            "titular": false,
+            "nombre": "NAHUEL DEL VAL GARCIA",
+            "minutos": "18:20",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 8
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 3,
+              "totales": 3
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 2,
+            "valoracion": 1,
+            "masMenos": -10
+          },
+          {
+            "dorsal": 3,
+            "titular": true,
+            "nombre": "DIEGO CASTILLO PEREDO",
+            "minutos": "12:09",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 5,
+            "valoracion": 0,
+            "masMenos": -15
+          },
+          {
+            "dorsal": 5,
+            "titular": false,
+            "nombre": "DIEGO FERNANDEZ MARTINEZ",
+            "minutos": "19:07",
+            "puntos": 10,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 8
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 5
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 1,
+              "totales": 3
+            },
+            "asistencias": 1,
+            "recuperaciones": 3,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 3,
+            "valoracion": 9,
+            "masMenos": -12
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "HUGO MAURY",
+            "minutos": "17:55",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 5,
+            "valoracion": 6,
+            "masMenos": -12
+          },
+          {
+            "dorsal": 9,
+            "titular": false,
+            "nombre": "GUILLERMO SARO RIVERO",
+            "minutos": "10:07",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 11,
+            "titular": true,
+            "nombre": "PEDRO DE HARO JIMENEZ",
+            "minutos": "17:52",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 7
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 0,
+            "valoracion": 1,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 13,
+            "titular": true,
+            "nombre": "ALVARO REYES ABAD",
+            "minutos": "26:08",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 6,
+              "totales": 7
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": 3,
+            "masMenos": -30
+          },
+          {
+            "dorsal": 18,
+            "titular": false,
+            "nombre": "ADRIAN MARTINEZ CASTRO",
+            "minutos": "04:09",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 1,
+            "valoracion": 2,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 22,
+            "titular": false,
+            "nombre": "PABLO OBREGON GUTIERREZ",
+            "minutos": "15:19",
+            "puntos": 1,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": -3,
+            "masMenos": -18
+          },
+          {
+            "dorsal": 24,
+            "titular": false,
+            "nombre": "JERÓNIMO VILLEGAS HOYOS",
+            "minutos": "20:31",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 7
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 2,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 2,
+            "valoracion": 4,
+            "masMenos": -15
+          },
+          {
+            "dorsal": 33,
+            "titular": true,
+            "nombre": "JOSE MARIA ROJO ROJO",
+            "minutos": "10:51",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 1,
+              "totales": 3
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": 9,
+            "masMenos": -10
+          }
+        ]
+      },
+      "away": {
+        "teamId": 9,
+        "name": "Teknei Bizkaia Zornotza",
+        "score": 99,
+        "teamStats": {
+          "puntos": 99,
+          "dosPuntos": {
+            "anotados": 26,
+            "intentos": 39
+          },
+          "triples": {
+            "anotados": 7,
+            "intentos": 27
+          },
+          "tirosLibres": {
+            "anotados": 26,
+            "intentos": 29
+          },
+          "rebotes": {
+            "ofensivos": 12,
+            "defensivos": 40,
+            "totales": 52
+          },
+          "asistencias": 15,
+          "recuperaciones": 5,
+          "perdidas": 19,
+          "taponesCometidos": 2,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 24,
+          "faltasRecibidas": 24,
+          "valoracion": 118,
+          "masMenos": 31
+        },
+        "players": [
+          {
+            "dorsal": 1,
+            "titular": true,
+            "nombre": "OIER ARDANZA BERNAOLA",
+            "minutos": "25:21",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 5,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 3,
+              "totales": 5
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 6,
+            "valoracion": 18,
+            "masMenos": 19
+          },
+          {
+            "dorsal": 2,
+            "titular": true,
+            "nombre": "EKAIN PUENTE MARTINEZ",
+            "minutos": "12:36",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 3,
+            "valoracion": -2,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 4,
+            "titular": false,
+            "nombre": "KEPA DE CASTRO HURTADO",
+            "minutos": "15:28",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 3,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": 2,
+            "masMenos": 14
+          },
+          {
+            "dorsal": 5,
+            "titular": false,
+            "nombre": "AIERT VELASCO BILBAO",
+            "minutos": "20:14",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 5,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 5,
+            "valoracion": 14,
+            "masMenos": 18
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "JUAN MANUEL CEBOLLA",
+            "minutos": "19:25",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 4,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 1,
+            "valoracion": 0,
+            "masMenos": 20
+          },
+          {
+            "dorsal": 10,
+            "titular": true,
+            "nombre": "IKER CHACON RODRIGUEZ",
+            "minutos": "19:41",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 7,
+            "masMenos": 15
+          },
+          {
+            "dorsal": 11,
+            "titular": true,
+            "nombre": "IKER SALAZAR ORTEGA",
+            "minutos": "17:38",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 11,
+              "totales": 11
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": 23,
+            "masMenos": 18
+          },
+          {
+            "dorsal": 13,
+            "titular": false,
+            "nombre": "BORJA MENDIA SANGRONIZ",
+            "minutos": "25:32",
+            "puntos": 28,
+            "dosPuntos": {
+              "anotados": 9,
+              "intentos": 11
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 7
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 3,
+              "totales": 6
+            },
+            "asistencias": 3,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 4,
+            "valoracion": 29,
+            "masMenos": 14
+          },
+          {
+            "dorsal": 14,
+            "titular": true,
+            "nombre": "ENEKO SALINERO GARCIA",
+            "minutos": "11:14",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 1,
+              "totales": 3
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 17,
+            "titular": false,
+            "nombre": "ENAITZ ERRASTI DIEZ",
+            "minutos": "15:39",
+            "puntos": 14,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 5,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 2,
+            "valoracion": 12,
+            "masMenos": 25
+          },
+          {
+            "dorsal": 31,
+            "titular": false,
+            "nombre": "MIKEL SAINZ DE LA MAZA",
+            "minutos": "17:12",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 7,
+              "totales": 8
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 1,
+            "valoracion": 11,
+            "masMenos": 13
+          }
+        ]
+      },
+      "pdfSource": "2536670-BoxScore(1).pdf"
+    },
+    {
+      "febId": 2536671,
+      "date": "2026-10-10",
+      "home": {
+        "teamId": 14,
+        "name": "Hotel 4Postes - Ávila Auténtica - El Bulevar",
+        "score": 98,
+        "teamStats": {
+          "puntos": 98,
+          "dosPuntos": {
+            "anotados": 18,
+            "intentos": 44
+          },
+          "triples": {
+            "anotados": 10,
+            "intentos": 31
+          },
+          "tirosLibres": {
+            "anotados": 32,
+            "intentos": 42
+          },
+          "rebotes": {
+            "ofensivos": 17,
+            "defensivos": 31,
+            "totales": 48
+          },
+          "asistencias": 11,
+          "recuperaciones": 9,
+          "perdidas": 13,
+          "taponesCometidos": 1,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 27,
+          "faltasRecibidas": 28,
+          "valoracion": 98,
+          "masMenos": 11
+        },
+        "players": [
+          {
+            "dorsal": 1,
+            "titular": false,
+            "nombre": "MAURO CARRETERO GARCÍA",
+            "minutos": "19:52",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": 5,
+            "masMenos": -15
+          },
+          {
+            "dorsal": 2,
+            "titular": true,
+            "nombre": "DANIEL CARRETERO GARCIA",
+            "minutos": "19:54",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 1,
+              "totales": 3
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 2,
+            "valoracion": 5,
+            "masMenos": 18
+          },
+          {
+            "dorsal": 3,
+            "titular": true,
+            "nombre": "ALBERTO MARTÍN",
+            "minutos": "30:26",
+            "puntos": 17,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 5,
+              "intentos": 5
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 4,
+            "valoracion": 22,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 4,
+            "titular": true,
+            "nombre": "ANXO IGLESIAS CAMINO",
+            "minutos": "34:07",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 9
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 8,
+              "totales": 9
+            },
+            "asistencias": 3,
+            "recuperaciones": 2,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 1,
+            "valoracion": 9,
+            "masMenos": 27
+          },
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "THIJS HEUKER",
+            "minutos": "22:46",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 8
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 4,
+              "defensivos": 5,
+              "totales": 9
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 4,
+            "valoracion": 8,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "CARLOS HERNÁNDEZ MARTÍN",
+            "minutos": "12:25",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": -3,
+            "masMenos": -6
+          },
+          {
+            "dorsal": 10,
+            "titular": false,
+            "nombre": "ALONSO RAMOS MARTIN",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 11,
+            "titular": false,
+            "nombre": "JOSE LUIS HORCAJO GARCÍA",
+            "minutos": "09:17",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 0,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 2,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 2,
+            "valoracion": 10,
+            "masMenos": -5
+          },
+          {
+            "dorsal": 20,
+            "titular": true,
+            "nombre": "ADRIAN VASQUEZ BAUTISTA",
+            "minutos": "21:20",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 5,
+              "intentos": 10
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 4,
+              "defensivos": 8,
+              "totales": 12
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 6,
+            "valoracion": 18,
+            "masMenos": 21
+          },
+          {
+            "dorsal": 23,
+            "titular": false,
+            "nombre": "AGUSTIN CESAR FERNANDEZ",
+            "minutos": "08:07",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 4,
+            "valoracion": 7,
+            "masMenos": -4
+          },
+          {
+            "dorsal": 33,
+            "titular": false,
+            "nombre": "ESDRAS SÁNCHEZ DE LA",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 57,
+            "titular": true,
+            "nombre": "FRANCISCO QUIROS",
+            "minutos": "21:46",
+            "puntos": 21,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 10,
+              "intentos": 11
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 4,
+            "valoracion": 16,
+            "masMenos": 17
+          }
+        ]
+      },
+      "away": {
+        "teamId": 11,
+        "name": "Universidad Deusto Loiola Indautxu",
+        "score": 87,
+        "teamStats": {
+          "puntos": 87,
+          "dosPuntos": {
+            "anotados": 26,
+            "intentos": 47
+          },
+          "triples": {
+            "anotados": 6,
+            "intentos": 20
+          },
+          "tirosLibres": {
+            "anotados": 17,
+            "intentos": 36
+          },
+          "rebotes": {
+            "ofensivos": 13,
+            "defensivos": 30,
+            "totales": 43
+          },
+          "asistencias": 14,
+          "recuperaciones": 7,
+          "perdidas": 14,
+          "taponesCometidos": 2,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 31,
+          "faltasRecibidas": 27,
+          "valoracion": 81,
+          "masMenos": -11
+        },
+        "players": [
+          {
+            "dorsal": 4,
+            "titular": false,
+            "nombre": "UNAX CALVO ARRUZA",
+            "minutos": "10:22",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 1,
+            "valoracion": 0,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 5,
+            "titular": true,
+            "nombre": "GONZALO HUESO GUTIERREZ",
+            "minutos": "31:44",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 9
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 0,
+              "totales": 2
+            },
+            "asistencias": 3,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 4,
+            "valoracion": 5,
+            "masMenos": -19
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "LEO DIEZ TIDALA",
+            "minutos": "23:06",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 4,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 1,
+            "valoracion": 8,
+            "masMenos": 12
+          },
+          {
+            "dorsal": 8,
+            "titular": true,
+            "nombre": "ASIER FERNANDEZ ORTEGA",
+            "minutos": "23:34",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 6,
+              "intentos": 12
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 2,
+            "valoracion": 3,
+            "masMenos": -13
+          },
+          {
+            "dorsal": 10,
+            "titular": false,
+            "nombre": "AITOR LOPEZ BRETON",
+            "minutos": "25:56",
+            "puntos": 16,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 8,
+              "intentos": 12
+            },
+            "rebotes": {
+              "ofensivos": 4,
+              "defensivos": 4,
+              "totales": 8
+            },
+            "asistencias": 4,
+            "recuperaciones": 2,
+            "perdidas": 6,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 10,
+            "valoracion": 24,
+            "masMenos": -4
+          },
+          {
+            "dorsal": 12,
+            "titular": true,
+            "nombre": "ALEJANDRO KARATZAS",
+            "minutos": "26:11",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 9,
+              "totales": 9
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 3,
+            "valoracion": 13,
+            "masMenos": -2
+          },
+          {
+            "dorsal": 14,
+            "titular": false,
+            "nombre": "KHADIM NIANG",
+            "minutos": "03:56",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": 4
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "ARITZ GUTIEZ SALGADO",
+            "minutos": "26:30",
+            "puntos": 5,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 1,
+            "recuperaciones": 2,
+            "perdidas": 2,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 2,
+            "valoracion": 9,
+            "masMenos": -11
+          },
+          {
+            "dorsal": 17,
+            "titular": true,
+            "nombre": "ALEX JUSTO ANTOLIN",
+            "minutos": "15:21",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 5,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 1,
+            "valoracion": 9,
+            "masMenos": -12
+          },
+          {
+            "dorsal": 18,
+            "titular": true,
+            "nombre": "GALDER MARTINEZ DE OSABA",
+            "minutos": "13:20",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 2,
+              "totales": 3
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 3,
+            "valoracion": 11,
+            "masMenos": -7
+          }
+        ]
+      },
+      "pdfSource": "2536671-BoxScore(1).pdf"
+    },
+    {
+      "febId": 2536672,
+      "date": "2026-10-11",
+      "home": {
+        "teamId": 2,
+        "name": "Baloncesto La Flecha",
+        "score": 95,
+        "teamStats": {
+          "puntos": 95,
+          "dosPuntos": {
+            "anotados": 33,
+            "intentos": 60
+          },
+          "triples": {
+            "anotados": 6,
+            "intentos": 26
+          },
+          "tirosLibres": {
+            "anotados": 11,
+            "intentos": 23
+          },
+          "rebotes": {
+            "ofensivos": 24,
+            "defensivos": 27,
+            "totales": 51
+          },
+          "asistencias": 18,
+          "recuperaciones": 8,
+          "perdidas": 16,
+          "taponesCometidos": 6,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 27,
+          "faltasRecibidas": 20,
+          "valoracion": 96,
+          "masMenos": -4
+        },
+        "players": [
+          {
+            "dorsal": 4,
+            "titular": true,
+            "nombre": "PABLO RODRIGUEZ MIGUEL",
+            "minutos": "27:16",
+            "puntos": 18,
+            "dosPuntos": {
+              "anotados": 6,
+              "intentos": 9
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 4,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 1,
+            "valoracion": 10,
+            "masMenos": 4
+          },
+          {
+            "dorsal": 5,
+            "titular": false,
+            "nombre": "RODRIGO SANCHEZ SANCHEZ",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "DANIEL LASTHA OSETSKYI",
+            "minutos": "25:40",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 6,
+              "totales": 9
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 7,
+            "valoracion": 17,
+            "masMenos": -5
+          },
+          {
+            "dorsal": 10,
+            "titular": false,
+            "nombre": "RODRIGO NUÑEZ HERRERO",
+            "minutos": "18:40",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 2,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": -5,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 11,
+            "titular": true,
+            "nombre": "ALBERTO GONZALEZ DEL AMO",
+            "minutos": "13:00",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 17,
+            "titular": true,
+            "nombre": "JUAN GARCIA-MONGE DEL",
+            "minutos": "18:01",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 0,
+            "valoracion": -2,
+            "masMenos": 11
+          },
+          {
+            "dorsal": 18,
+            "titular": false,
+            "nombre": "AURELIO GONZÁLEZ CASAS",
+            "minutos": "17:06",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 4,
+            "valoracion": 16,
+            "masMenos": -9
+          },
+          {
+            "dorsal": 30,
+            "titular": true,
+            "nombre": "PABLO RUBIO SANCHEZ",
+            "minutos": "25:59",
+            "puntos": 18,
+            "dosPuntos": {
+              "anotados": 6,
+              "intentos": 11
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 5,
+            "recuperaciones": 2,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 4,
+            "valoracion": 16,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 33,
+            "titular": false,
+            "nombre": "MARIO SAN MIGUEL ARCE",
+            "minutos": "11:12",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": -4,
+            "masMenos": -11
+          },
+          {
+            "dorsal": 34,
+            "titular": true,
+            "nombre": "GONZALO GUTIERREZ O",
+            "minutos": "24:05",
+            "puntos": 16,
+            "dosPuntos": {
+              "anotados": 8,
+              "intentos": 9
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 5,
+              "defensivos": 5,
+              "totales": 10
+            },
+            "asistencias": 0,
+            "recuperaciones": 2,
+            "perdidas": 1,
+            "taponesCometidos": 3,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 27,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 53,
+            "titular": false,
+            "nombre": "JORGE MELÓN MORAN",
+            "minutos": "04:24",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": -5
+          },
+          {
+            "dorsal": 59,
+            "titular": false,
+            "nombre": "ENRIQUE GUTIERREZ O",
+            "minutos": "14:37",
+            "puntos": 10,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 6,
+              "defensivos": 2,
+              "totales": 8
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": 16,
+            "masMenos": -1
+          }
+        ]
+      },
+      "away": {
+        "teamId": 13,
+        "name": "De Morro Fino Cantbasket04",
+        "score": 99,
+        "teamStats": {
+          "puntos": 99,
+          "dosPuntos": {
+            "anotados": 15,
+            "intentos": 30
+          },
+          "triples": {
+            "anotados": 15,
+            "intentos": 36
+          },
+          "tirosLibres": {
+            "anotados": 24,
+            "intentos": 37
+          },
+          "rebotes": {
+            "ofensivos": 14,
+            "defensivos": 26,
+            "totales": 40
+          },
+          "asistencias": 20,
+          "recuperaciones": 9,
+          "perdidas": 17,
+          "taponesCometidos": 1,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 20,
+          "faltasRecibidas": 27,
+          "valoracion": 110,
+          "masMenos": 4
+        },
+        "players": [
+          {
+            "dorsal": 1,
+            "titular": true,
+            "nombre": "EL HADJI NGOM",
+            "minutos": "23:07",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 3,
+            "valoracion": 11,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 7,
+            "titular": true,
+            "nombre": "JONATHAN JORGE",
+            "minutos": "28:24",
+            "puntos": 27,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 6,
+              "intentos": 12
+            },
+            "tirosLibres": {
+              "anotados": 7,
+              "intentos": 8
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 2,
+            "recuperaciones": 3,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 5,
+            "valoracion": 27,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 8,
+            "titular": false,
+            "nombre": "ALFONSO GARCIA NAVALON",
+            "minutos": "21:09",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 3,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 3,
+            "valoracion": 3,
+            "masMenos": 6
+          },
+          {
+            "dorsal": 13,
+            "titular": true,
+            "nombre": "ADRIANO GASE SECO",
+            "minutos": "34:43",
+            "puntos": 18,
+            "dosPuntos": {
+              "anotados": 7,
+              "intentos": 14
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 5,
+              "defensivos": 3,
+              "totales": 8
+            },
+            "asistencias": 3,
+            "recuperaciones": 1,
+            "perdidas": 7,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 7,
+            "valoracion": 17,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 25,
+            "titular": false,
+            "nombre": "CARLOS CAGIGAL DE LA",
+            "minutos": "07:35",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 1,
+            "valoracion": 0,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 26,
+            "titular": false,
+            "nombre": "ADRIAN LOPEZ FERNANDEZ",
+            "minutos": "04:24",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 1,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 29,
+            "titular": true,
+            "nombre": "CLAYTON RIGGS LADINE",
+            "minutos": "33:37",
+            "puntos": 17,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 4,
+              "intentos": 8
+            },
+            "tirosLibres": {
+              "anotados": 5,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 4,
+              "totales": 5
+            },
+            "asistencias": 9,
+            "recuperaciones": 2,
+            "perdidas": 4,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 3,
+            "valoracion": 23,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 32,
+            "titular": true,
+            "nombre": "CARLOS ARANDA SUAREZ",
+            "minutos": "21:55",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 8,
+              "totales": 9
+            },
+            "asistencias": 1,
+            "recuperaciones": 2,
+            "perdidas": 2,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 4,
+            "valoracion": 10,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 55,
+            "titular": false,
+            "nombre": "ANGEL REY GUTIERREZ",
+            "minutos": "14:51",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 8,
+            "masMenos": 13
+          },
+          {
+            "dorsal": 72,
+            "titular": false,
+            "nombre": "JULIAN DIEGO CASIN",
+            "minutos": "10:15",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 1,
+            "valoracion": 7,
+            "masMenos": 2
+          }
+        ]
+      },
+      "pdfSource": "2536672-BoxScore(1).pdf"
+    },
+    {
+      "febId": 2536673,
+      "date": "2026-10-11",
+      "home": {
+        "teamId": 4,
+        "name": "Ulacia ZKE",
+        "score": 83,
+        "teamStats": {
+          "puntos": 83,
+          "dosPuntos": {
+            "anotados": 23,
+            "intentos": 40
+          },
+          "triples": {
+            "anotados": 7,
+            "intentos": 26
+          },
+          "tirosLibres": {
+            "anotados": 16,
+            "intentos": 34
+          },
+          "rebotes": {
+            "ofensivos": 18,
+            "defensivos": 24,
+            "totales": 42
+          },
+          "asistencias": 20,
+          "recuperaciones": 7,
+          "perdidas": 15,
+          "taponesCometidos": 1,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 21,
+          "faltasRecibidas": 28,
+          "valoracion": 91,
+          "masMenos": 1
+        },
+        "players": [
+          {
+            "dorsal": 4,
+            "titular": false,
+            "nombre": "INAR SAGASTI ARGOTE",
+            "minutos": "08:44",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": 4,
+            "masMenos": 3
+          },
+          {
+            "dorsal": 5,
+            "titular": true,
+            "nombre": "IMANOL ARTECHE URRUZOLA",
+            "minutos": "23:54",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 5
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 6,
+              "totales": 9
+            },
+            "asistencias": 1,
+            "recuperaciones": 2,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 5,
+            "valoracion": 11,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "IBON GOENAGA ARMENDARIZ",
+            "minutos": "04:24",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": -2,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 7,
+            "titular": true,
+            "nombre": "ESTANISLAO ANDRES",
+            "minutos": "21:23",
+            "puntos": 1,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 3,
+            "recuperaciones": 0,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 3,
+            "valoracion": -4,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 10,
+            "titular": false,
+            "nombre": "ALVARO BOZAL GOMEZ",
+            "minutos": "25:59",
+            "puntos": 12,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 3,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 2,
+            "valoracion": 3,
+            "masMenos": 15
+          },
+          {
+            "dorsal": 11,
+            "titular": false,
+            "nombre": "ANDRES ZABALETA LASA",
+            "minutos": "16:15",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 4,
+              "totales": 5
+            },
+            "asistencias": 4,
+            "recuperaciones": 0,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": 10,
+            "masMenos": 12
+          },
+          {
+            "dorsal": 12,
+            "titular": false,
+            "nombre": "BRYAN AZKUE ESUMA",
+            "minutos": "04:58",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 4
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "MIKEL LARRAÑAGA",
+            "minutos": "11:32",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": -1,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 16,
+            "titular": true,
+            "nombre": "MIKEL ZUBIZARRETA ALBIZU",
+            "minutos": "28:48",
+            "puntos": 16,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 8
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 3,
+            "valoracion": 13,
+            "masMenos": -4
+          },
+          {
+            "dorsal": 19,
+            "titular": true,
+            "nombre": "XANTI OSTOLAZA OSTOLAZA",
+            "minutos": "18:47",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 3,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": 5,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 23,
+            "titular": true,
+            "nombre": "IÑAKI ERAUNCETAMURGIL",
+            "minutos": "17:25",
+            "puntos": 17,
+            "dosPuntos": {
+              "anotados": 6,
+              "intentos": 10
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 5,
+              "intentos": 12
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 6,
+            "valoracion": 12,
+            "masMenos": -21
+          },
+          {
+            "dorsal": 32,
+            "titular": false,
+            "nombre": "MARTIN DORRONSORO",
+            "minutos": "17:51",
+            "puntos": 17,
+            "dosPuntos": {
+              "anotados": 7,
+              "intentos": 9
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "rebotes": {
+              "ofensivos": 4,
+              "defensivos": 5,
+              "totales": 9
+            },
+            "asistencias": 3,
+            "recuperaciones": 2,
+            "perdidas": 0,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 4,
+            "valoracion": 32,
+            "masMenos": 6
+          }
+        ]
+      },
+      "away": {
+        "teamId": 1,
+        "name": "Construcciones Gonzalo Crespo Pas Piélagos",
+        "score": 82,
+        "teamStats": {
+          "puntos": 82,
+          "dosPuntos": {
+            "anotados": 23,
+            "intentos": 38
+          },
+          "triples": {
+            "anotados": 7,
+            "intentos": 23
+          },
+          "tirosLibres": {
+            "anotados": 15,
+            "intentos": 26
+          },
+          "rebotes": {
+            "ofensivos": 10,
+            "defensivos": 25,
+            "totales": 35
+          },
+          "asistencias": 20,
+          "recuperaciones": 10,
+          "perdidas": 16,
+          "taponesCometidos": 2,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 28,
+          "faltasRecibidas": 21,
+          "valoracion": 84,
+          "masMenos": -1
+        },
+        "players": [
+          {
+            "dorsal": 3,
+            "titular": true,
+            "nombre": "BELTRAN DE LA LLAMA RUIZ",
+            "minutos": "25:47",
+            "puntos": 21,
+            "dosPuntos": {
+              "anotados": 6,
+              "intentos": 7
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 4,
+              "totales": 5
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 5,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": 17,
+            "masMenos": 5
+          },
+          {
+            "dorsal": 6,
+            "titular": true,
+            "nombre": "MARIO SOLORZANO COLSA",
+            "minutos": "33:44",
+            "puntos": 13,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 7
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 6,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 6,
+            "recuperaciones": 5,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 5,
+            "valoracion": 17,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 8,
+            "titular": true,
+            "nombre": "LUIS GOMEZ FERNANDEZ",
+            "minutos": "31:43",
+            "puntos": 15,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 2,
+              "totales": 3
+            },
+            "asistencias": 6,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 5,
+            "valoracion": 15,
+            "masMenos": 3
+          },
+          {
+            "dorsal": 9,
+            "titular": false,
+            "nombre": "UNAI ROMAGUERA TENA",
+            "minutos": "06:16",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": -3,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 10,
+            "titular": false,
+            "nombre": "DANIEL ARRIBAS RODRIGUEZ",
+            "minutos": "11:08",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 0,
+            "valoracion": 4,
+            "masMenos": 9
+          },
+          {
+            "dorsal": 13,
+            "titular": true,
+            "nombre": "ARTEM YAILO",
+            "minutos": "27:20",
+            "puntos": 17,
+            "dosPuntos": {
+              "anotados": 7,
+              "intentos": 10
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 7,
+              "totales": 8
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 3,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 4,
+            "valoracion": 19,
+            "masMenos": 3
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "PABLO FERNANDEZ BLANCO",
+            "minutos": "20:10",
+            "puntos": 5,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 2,
+            "valoracion": 3,
+            "masMenos": -14
+          },
+          {
+            "dorsal": 21,
+            "titular": true,
+            "nombre": "DIEGO IBARLUCEA LAVIN",
+            "minutos": "12:35",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 31,
+            "titular": false,
+            "nombre": "DAVY ALEXANDRE ADJEI",
+            "minutos": "08:07",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 2,
+            "valoracion": 5,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 33,
+            "titular": false,
+            "nombre": "BAPTISTE CHAZELAS-",
+            "minutos": "23:10",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 2,
+              "totales": 3
+            },
+            "asistencias": 1,
+            "recuperaciones": 3,
+            "perdidas": 2,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 1,
+            "valoracion": 2,
+            "masMenos": -4
+          }
+        ]
+      },
+      "pdfSource": "2536673-BoxScore(1).pdf"
+    },
+    {
+      "febId": 2536674,
+      "date": "2026-10-10",
+      "home": {
+        "teamId": 6,
+        "name": "Iruki TAKE",
+        "score": 78,
+        "teamStats": {
+          "puntos": 78,
+          "dosPuntos": {
+            "anotados": 19,
+            "intentos": 42
+          },
+          "triples": {
+            "anotados": 8,
+            "intentos": 35
+          },
+          "tirosLibres": {
+            "anotados": 16,
+            "intentos": 21
+          },
+          "rebotes": {
+            "ofensivos": 24,
+            "defensivos": 38,
+            "totales": 62
+          },
+          "asistencias": 14,
+          "recuperaciones": 8,
+          "perdidas": 12,
+          "taponesCometidos": 1,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 18,
+          "faltasRecibidas": 20,
+          "valoracion": 98,
+          "masMenos": 18
+        },
+        "players": [
+          {
+            "dorsal": 1,
+            "titular": false,
+            "nombre": "JOANES ELOSEGUI OLANO",
+            "minutos": "03:44",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 2,
+            "titular": false,
+            "nombre": "ANDER GORDILLO BELTRAN",
+            "minutos": "19:52",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 2,
+              "totales": 5
+            },
+            "asistencias": 3,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 1,
+            "valoracion": 6,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 4,
+            "titular": true,
+            "nombre": "UNAI CONDE LAKUNTZA",
+            "minutos": "29:16",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 8
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 9
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 2,
+              "totales": 5
+            },
+            "asistencias": 4,
+            "recuperaciones": 2,
+            "perdidas": 4,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 4,
+            "valoracion": 1,
+            "masMenos": 16
+          },
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "OIHAN FERNANDEZ GOENAGA",
+            "minutos": "05:08",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 2,
+            "masMenos": 3
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "MANEX IZAGUIRRE ALUSTIZA",
+            "minutos": "03:19",
+            "puntos": 1,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 1,
+            "valoracion": 2,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 9,
+            "titular": false,
+            "nombre": "EUKEN HUIZI ZUBELDIA",
+            "minutos": "20:28",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 5,
+              "totales": 8
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 6,
+            "masMenos": 11
+          },
+          {
+            "dorsal": 10,
+            "titular": true,
+            "nombre": "BEÑAT ETXEBERRIA",
+            "minutos": "24:05",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 6,
+              "defensivos": 6,
+              "totales": 12
+            },
+            "asistencias": 1,
+            "recuperaciones": 3,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 4,
+            "valoracion": 23,
+            "masMenos": 14
+          },
+          {
+            "dorsal": 11,
+            "titular": true,
+            "nombre": "PEDRO LUCAS SOUZA",
+            "minutos": "31:51",
+            "puntos": 22,
+            "dosPuntos": {
+              "anotados": 5,
+              "intentos": 9
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 11
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 6,
+            "valoracion": 22,
+            "masMenos": 22
+          },
+          {
+            "dorsal": 13,
+            "titular": true,
+            "nombre": "AURITZ ARMENDARIZ LOPEZ",
+            "minutos": "27:26",
+            "puntos": 14,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 7
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 11,
+              "totales": 13
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 2,
+            "valoracion": 23,
+            "masMenos": 3
+          },
+          {
+            "dorsal": 14,
+            "titular": false,
+            "nombre": "AMETS LERSUNDI LABAKA",
+            "minutos": "04:58",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "AITOR ALDA IRAOLA",
+            "minutos": "23:02",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 4,
+              "totales": 6
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": 10,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 24,
+            "titular": true,
+            "nombre": "AMETS IRASTORZA EZKIAGA",
+            "minutos": "06:51",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 0,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": 3,
+            "masMenos": 6
+          }
+        ]
+      },
+      "away": {
+        "teamId": 3,
+        "name": "Megacalzado Ardoi",
+        "score": 60,
+        "teamStats": {
+          "puntos": 60,
+          "dosPuntos": {
+            "anotados": 14,
+            "intentos": 36
+          },
+          "triples": {
+            "anotados": 9,
+            "intentos": 24
+          },
+          "tirosLibres": {
+            "anotados": 5,
+            "intentos": 15
+          },
+          "rebotes": {
+            "ofensivos": 4,
+            "defensivos": 25,
+            "totales": 29
+          },
+          "asistencias": 12,
+          "recuperaciones": 6,
+          "perdidas": 12,
+          "taponesCometidos": 3,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 21,
+          "faltasRecibidas": 18,
+          "valoracion": 48,
+          "masMenos": -18
+        },
+        "players": [
+          {
+            "dorsal": 0,
+            "titular": true,
+            "nombre": "PAU ELSO GONZALEZ",
+            "minutos": "29:47",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 3,
+            "recuperaciones": 2,
+            "perdidas": 3,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 4,
+            "valoracion": -1,
+            "masMenos": -15
+          },
+          {
+            "dorsal": 2,
+            "titular": false,
+            "nombre": "LUCAS URREA GARCIA",
+            "minutos": "08:16",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 2,
+            "valoracion": 5,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 3,
+            "titular": false,
+            "nombre": "RAFAEL GARICANO ORONOZ",
+            "minutos": "18:36",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 4,
+              "totales": 4
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 1,
+            "valoracion": -1,
+            "masMenos": -6
+          },
+          {
+            "dorsal": 5,
+            "titular": false,
+            "nombre": "HODEI OREJA ELSO",
+            "minutos": "13:40",
+            "puntos": 8,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 2,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 3,
+            "valoracion": 11,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 6,
+            "titular": true,
+            "nombre": "ANDER ARBIZU MAIZA",
+            "minutos": "30:16",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 2,
+              "intentos": 7
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 6,
+              "totales": 7
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 2,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 4,
+            "masMenos": -12
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "MARCO PACÍFICO",
+            "minutos": "00:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": 0,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 8,
+            "titular": true,
+            "nombre": "JON MENDIVIL ODERIZ",
+            "minutos": "25:05",
+            "puntos": 18,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 3,
+            "valoracion": 16,
+            "masMenos": -16
+          },
+          {
+            "dorsal": 13,
+            "titular": true,
+            "nombre": "MARKEL BIDAURRE SOLA",
+            "minutos": "11:55",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": -8
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "UNAX IJURRA ARTIEDA",
+            "minutos": "15:19",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 2,
+            "valoracion": 2,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 20,
+            "titular": false,
+            "nombre": "KARIM ABU SHAMS SANCHEZ",
+            "minutos": "02:00",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 0,
+            "valoracion": -1,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 33,
+            "titular": true,
+            "nombre": "ANTON SAVITSKI SAVITSKAIA",
+            "minutos": "24:33",
+            "puntos": 12,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 11
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 1,
+              "totales": 3
+            },
+            "asistencias": 5,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": 8,
+            "masMenos": -20
+          },
+          {
+            "dorsal": 37,
+            "titular": false,
+            "nombre": "PABLO FERNANDEZ",
+            "minutos": "20:33",
+            "puntos": 6,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 3,
+              "totales": 3
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 1,
+            "valoracion": 4,
+            "masMenos": -11
+          }
+        ]
+      },
+      "pdfSource": "TAKE-ARDOI(1).pdf"
+    },
+    {
+      "febId": 2536668,
+      "date": "2026-10-10",
+      "home": {
+        "teamId": 8,
+        "name": "San Prudencio",
+        "score": 76,
+        "teamStats": {
+          "puntos": 76,
+          "dosPuntos": {
+            "anotados": 18,
+            "intentos": 42
+          },
+          "triples": {
+            "anotados": 8,
+            "intentos": 28
+          },
+          "tirosLibres": {
+            "anotados": 16,
+            "intentos": 32
+          },
+          "rebotes": {
+            "ofensivos": 27,
+            "defensivos": 28,
+            "totales": 55
+          },
+          "asistencias": 18,
+          "recuperaciones": 11,
+          "perdidas": 13,
+          "taponesCometidos": 5,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 26,
+          "faltasRecibidas": 24,
+          "valoracion": 90,
+          "masMenos": 11
+        },
+        "players": [
+          {
+            "dorsal": 0,
+            "titular": true,
+            "nombre": "ANDER CARNICERO",
+            "minutos": "13:38",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 2,
+              "totales": 2
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": -3,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 1,
+            "titular": false,
+            "nombre": "EDUARDO FERNANDEZ DE",
+            "minutos": "08:24",
+            "puntos": 5,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": 1,
+            "masMenos": 10
+          },
+          {
+            "dorsal": 3,
+            "titular": false,
+            "nombre": "UNAI SOTO FERNANDEZ",
+            "minutos": "10:45",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 1,
+            "valoracion": 5,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "JAVIER LOPEZ MONTAÑA",
+            "minutos": "18:09",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 6
+            },
+            "tirosLibres": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 6,
+              "totales": 7
+            },
+            "asistencias": 2,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 3,
+            "valoracion": 10,
+            "masMenos": -3
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "AITOR LUZURIAGA ZORRILLA",
+            "minutos": "14:40",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": 6,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 8,
+            "titular": false,
+            "nombre": "IÑIGO GARCIA MARTINEZ DE",
+            "minutos": "08:17",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 2,
+              "totales": 5
+            },
+            "asistencias": 1,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 2,
+            "valoracion": 5,
+            "masMenos": 2
+          },
+          {
+            "dorsal": 10,
+            "titular": true,
+            "nombre": "ASIER PEREZ PEREZ",
+            "minutos": "24:20",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 4,
+              "intentos": 12
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 8
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 2,
+              "totales": 3
+            },
+            "asistencias": 7,
+            "recuperaciones": 3,
+            "perdidas": 4,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 4,
+            "valoracion": 6,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 13,
+            "titular": false,
+            "nombre": "LANDER RODRIGUEZ",
+            "minutos": "21:15",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 0,
+              "totales": 3
+            },
+            "asistencias": 4,
+            "recuperaciones": 2,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 0,
+            "valoracion": 7,
+            "masMenos": 15
+          },
+          {
+            "dorsal": 15,
+            "titular": false,
+            "nombre": "MIKEL DE LA HOZ LASTRA",
+            "minutos": "10:24",
+            "puntos": 1,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 1,
+            "valoracion": 0,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 16,
+            "titular": true,
+            "nombre": "ALVARO ARAICO QUINTANA",
+            "minutos": "31:46",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 8,
+              "defensivos": 6,
+              "totales": 14
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 4,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 7,
+            "valoracion": 26,
+            "masMenos": 7
+          },
+          {
+            "dorsal": 19,
+            "titular": true,
+            "nombre": "IMANOL LASARTE GARCIA",
+            "minutos": "18:49",
+            "puntos": 3,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 4,
+              "defensivos": 2,
+              "totales": 6
+            },
+            "asistencias": 0,
+            "recuperaciones": 1,
+            "perdidas": 0,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 3,
+            "valoracion": 4,
+            "masMenos": 3
+          },
+          {
+            "dorsal": 99,
+            "titular": true,
+            "nombre": "DIEGO LOPEZ MONTAÑA",
+            "minutos": "19:33",
+            "puntos": 16,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 1,
+              "totales": 4
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 0,
+            "valoracion": 14,
+            "masMenos": 0
+          }
+        ]
+      },
+      "away": {
+        "teamId": 5,
+        "name": "Tabirako Baqué",
+        "score": 65,
+        "teamStats": {
+          "puntos": 65,
+          "dosPuntos": {
+            "anotados": 11,
+            "intentos": 30
+          },
+          "triples": {
+            "anotados": 8,
+            "intentos": 24
+          },
+          "tirosLibres": {
+            "anotados": 19,
+            "intentos": 29
+          },
+          "rebotes": {
+            "ofensivos": 12,
+            "defensivos": 20,
+            "totales": 32
+          },
+          "asistencias": 13,
+          "recuperaciones": 8,
+          "perdidas": 14,
+          "taponesCometidos": 5,
+          "taponesRecibidos": 0,
+          "faltasCometidas": 25,
+          "faltasRecibidas": 26,
+          "valoracion": 65,
+          "masMenos": -11
+        },
+        "players": [
+          {
+            "dorsal": 6,
+            "titular": false,
+            "nombre": "AIMAR AMESTI MAORTUA",
+            "minutos": "08:45",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 1,
+            "valoracion": -1,
+            "masMenos": -1
+          },
+          {
+            "dorsal": 7,
+            "titular": false,
+            "nombre": "PAUL MAGUNAZELAIA EGUEN",
+            "minutos": "11:54",
+            "puntos": 4,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 4
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 3,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 0,
+            "faltasRecibidas": 2,
+            "valoracion": 6,
+            "masMenos": -7
+          },
+          {
+            "dorsal": 9,
+            "titular": false,
+            "nombre": "MIKEL AMESTI MAORTUA",
+            "minutos": "14:43",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 6,
+            "masMenos": 0
+          },
+          {
+            "dorsal": 10,
+            "titular": true,
+            "nombre": "AITOR CALLE",
+            "minutos": "18:26",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 3,
+              "intentos": 4
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 0,
+              "totales": 0
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 6,
+            "masMenos": -4
+          },
+          {
+            "dorsal": 11,
+            "titular": false,
+            "nombre": "LANDER BARRUETABEÑA",
+            "minutos": "24:20",
+            "puntos": 10,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 3
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 6
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 3,
+              "totales": 4
+            },
+            "asistencias": 0,
+            "recuperaciones": 2,
+            "perdidas": 2,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 3,
+            "valoracion": 9,
+            "masMenos": -2
+          },
+          {
+            "dorsal": 12,
+            "titular": true,
+            "nombre": "JON ALDECOA-OTALORA",
+            "minutos": "28:06",
+            "puntos": 9,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 1,
+              "intentos": 5
+            },
+            "tirosLibres": {
+              "anotados": 4,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 7,
+            "recuperaciones": 1,
+            "perdidas": 3,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 3,
+            "faltasRecibidas": 9,
+            "valoracion": 13,
+            "masMenos": -4
+          },
+          {
+            "dorsal": 13,
+            "titular": true,
+            "nombre": "XABIER ARROITAJAUREGUI",
+            "minutos": "25:43",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 8
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 1,
+              "defensivos": 1,
+              "totales": 2
+            },
+            "asistencias": 1,
+            "recuperaciones": 1,
+            "perdidas": 2,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 1,
+            "faltasRecibidas": 1,
+            "valoracion": -5,
+            "masMenos": -6
+          },
+          {
+            "dorsal": 21,
+            "titular": true,
+            "nombre": "IKER ERRASTI JUNGUITU",
+            "minutos": "12:37",
+            "puntos": 7,
+            "dosPuntos": {
+              "anotados": 2,
+              "intentos": 4
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "tirosLibres": {
+              "anotados": 3,
+              "intentos": 3
+            },
+            "rebotes": {
+              "ofensivos": 3,
+              "defensivos": 2,
+              "totales": 5
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 0,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 4,
+            "faltasRecibidas": 4,
+            "valoracion": 10,
+            "masMenos": 1
+          },
+          {
+            "dorsal": 23,
+            "titular": false,
+            "nombre": "OSAROBO OSUNDE OKPERAN",
+            "minutos": "09:44",
+            "puntos": 2,
+            "dosPuntos": {
+              "anotados": 1,
+              "intentos": 2
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 1
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 3,
+              "totales": 3
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 1,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": 1,
+            "masMenos": -12
+          },
+          {
+            "dorsal": 27,
+            "titular": true,
+            "nombre": "MARKEL ARANZABAL",
+            "minutos": "33:14",
+            "puntos": 11,
+            "dosPuntos": {
+              "anotados": 3,
+              "intentos": 5
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 5,
+              "intentos": 7
+            },
+            "rebotes": {
+              "ofensivos": 2,
+              "defensivos": 5,
+              "totales": 7
+            },
+            "asistencias": 2,
+            "recuperaciones": 3,
+            "perdidas": 3,
+            "taponesCometidos": 2,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 5,
+            "faltasRecibidas": 6,
+            "valoracion": 17,
+            "masMenos": -9
+          },
+          {
+            "dorsal": 88,
+            "titular": false,
+            "nombre": "UNAX HORMAECHEA PEREZ",
+            "minutos": "12:28",
+            "puntos": 0,
+            "dosPuntos": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "triples": {
+              "anotados": 0,
+              "intentos": 2
+            },
+            "tirosLibres": {
+              "anotados": 0,
+              "intentos": 0
+            },
+            "rebotes": {
+              "ofensivos": 0,
+              "defensivos": 1,
+              "totales": 1
+            },
+            "asistencias": 0,
+            "recuperaciones": 0,
+            "perdidas": 1,
+            "taponesCometidos": 0,
+            "taponesRecibidos": 0,
+            "faltasCometidas": 2,
+            "faltasRecibidas": 0,
+            "valoracion": -4,
+            "masMenos": -11
+          }
+        ]
+      },
+      "pdfSource": "2536668-BoxScore(1).pdf"
+    }
+  ]
+}
