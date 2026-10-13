@@ -2268,7 +2268,12 @@ function renderQuintetoTimelineUnsafe(g,team){
     var ns=names(),valid=ns.length===5;
     var lineup=valid?ns.map(function(n){return lastIn.indexOf(n)>=0?'<strong style="color:#16a34a">'+esc(n)+'</strong>':esc(n);}).join(' · '):"Quinteto incompleto: "+ns.length+" jugadores identificados";
     var exits=lastOut.length?'<p class="pgs-sub-out" style="color:#d93025;margin-top:5px">('+lastOut.map(esc).join(" · ")+')</p>':"";
-    return '<div class="pgs-insight"><h4 style="display:flex;align-items:center;gap:10px;justify-content:space-between"><span style="font-size:12px;font-weight:700">Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</span></h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
+    var cumulative=scoreThrough(q,end),partial=segmentPoints(q,start,end);
+    var diff=partial[team===g.home?0:1]-partial[team===g.home?1:0];
+    var scoreColor=diff>0?'#16803a':diff<0?'#b91c1c':'#64748b';
+    var arrow=diff>0?'⬆':diff<0?'⬇':'';
+    var scoreHtml='<span style="font-size:13px;font-weight:900;text-align:right;white-space:nowrap;color:#1f2937">'+scoreLabel(cumulative)+' <span style="color:'+scoreColor+'">('+scoreLabel(partial)+')</span>'+(arrow?' <span style="color:'+scoreColor+'">'+arrow+'</span>':'')+'</span>';
+    return '<div class="pgs-insight"><h4 style="display:flex;align-items:center;gap:10px;justify-content:space-between"><span style="font-size:12px;font-weight:700">Q'+q+' · '+pbpClock(start)+' – '+pbpClock(end)+'</span>'+scoreHtml+'</h4><p>'+lineup+'</p>'+exits+(change?'<small>Quinteto tras los cambios de '+pbpClock(start)+'.</small>':"")+'</div>';
   }
   for(var q=1;q<=4;q++){
     applyAt(q,600);
