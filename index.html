@@ -2817,14 +2817,40 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
  <div class="pc-card">
   <div class="pc-head"><div><h2>Combinaciones PBP · Jornada 1</h2><div>Megacalzado Ardoi 65–85 Ulacia ZKE</div></div><button class="pc-close" id="pbpCombClose" type="button">Cerrar ✕</button></div>
   <p class="pc-note"><b>Criterio:</b> el +/- real ordena la clasificación. El +/- por 40 minutos se muestra como dato complementario. PF/PC = puntos a favor y en contra mientras la combinación estuvo en pista. El tiempo es la suma de sus tramos coincidentes. Muestra corta: interpretar con cautela.</p>
-  <div class="pc-filters"><label>Equipo <select id="pcTeam"><option>Ulacia</option><option>Ardoi</option></select></label><label>Combinación <select id="pcSize"><option value="5">Quintetos</option><option value="3">Tríos</option><option value="2">Parejas</option></select></label><label>Clasificación <select id="pcRank"><option>Mejores</option><option>Peores</option></select></label></div>
+  <div class="pc-filters"><label>Equipo <select id="pcTeam"><option value="Ulacia ZKE">Ulacia ZKE</option></select></label><label>Combinación <select id="pcSize"><option value="5">Quintetos</option><option value="3">Tríos</option><option value="2">Parejas</option></select></label><label>Clasificación <select id="pcRank"><option>Mejores</option><option>Peores</option></select></label></div>
   <div id="pcResults"></div>
   <p class="pc-note">Fuente: Excel de Play by Play de Ardoi–Ulacia. Verificación cruzada: minutos y +/- individual de los jugadores coinciden con el acta oficial; resultado final y parciales también coinciden. Solo incluye este partido.</p>
  </div>
 </div>
 <script>
 (function(){
-const pcData = [{"team":"Ardoi","n":5,"rank":"Mejores","rows":[["1:52","7","0","+7","+150,0","Savitski · Urrea · Bidaurre · Elso · Fernández"],["6:26","16","10","+6","+37,3","Arbizu · Oreja · Vicuña · Mendivil · Bidaurre"],["1:34","4","0","+4","+102,1","Arbizu · Oreja · Vicuña · Bidaurre · Garicano"]]},{"team":"Ardoi","n":5,"rank":"Peores","rows":[["3:32","2","13","−11","−124,5","Arbizu · Savitski · Mendivil · Elso · Fernández"],["2:16","2","9","−7","−123,5","Savitski · Abu Shams · Bidaurre · Elso · Ijurra"],["1:42","0","6","−6","−141,2","Oreja · Vicuña · Urrea · Bidaurre · Fernández"]]},{"team":"Ardoi","n":3,"rank":"Mejores","rows":[["12:30","26","13","+13","+41,6","Arbizu · Vicuña · Bidaurre"],["8:00","20","10","+10","+50,0","Arbizu · Oreja · Bidaurre"],["8:42","17","8","+9","+41,4","Bidaurre · Elso · Fernández"]]},{"team":"Ardoi","n":3,"rank":"Peores","rows":[["5:48","5","21","−16","−110,3","Arbizu · Mendivil · Elso"],["5:05","5","18","−13","−102,3","Mendivil · Elso · Fernández"],["6:31","6","18","−12","−73,7","Oreja · Vicuña · Fernández"]]},{"team":"Ardoi","n":2,"rank":"Mejores","rows":[["13:05","28","13","+15","+45,9","Arbizu · Bidaurre"],["2:55","7","2","+5","+68,6","Savitski · Urrea"],["6:56","17","13","+4","+23,1","Arbizu · Garicano"]]},{"team":"Ardoi","n":2,"rank":"Peores","rows":[["7:21","8","27","−19","−103,4","Mendivil · Elso"],["19:43","30","46","−16","−32,5","Arbizu · Elso"],["15:50","26","40","−14","−35,4","Savitski · Elso"]]},{"team":"Ulacia","n":5,"rank":"Mejores","rows":[["4:51","18","2","+16","+132,0","Andrés · Arteche · Erauncetamurgil · Zubizarreta · Ostolaza"],["6:07","14","6","+8","+52,3","Zabaleta · Andrés · Erauncetamurgil · Dorronsoro · Zubizarreta"],["3:44","13","7","+6","+64,3","Bozal · Andrés · Erauncetamurgil · Dorronsoro · Zubizarreta"]]},{"team":"Ulacia","n":5,"rank":"Peores","rows":[["8:38","11","23","−12","−55,6","Andrés · Erauncetamurgil · Dorronsoro · Zubizarreta · Ostolaza"],["1:57","2","4","−2","−41,0","Bozal · Zabaleta · Arteche · Zubizarreta · Ostolaza"],["0:35","0","2","−2","−137,1","Arteche · Erauncetamurgil · Larrañaga · Zubizarreta · Ostolaza"]]},{"team":"Ulacia","n":3,"rank":"Mejores","rows":[["23:58","60","38","+22","+36,7","Andrés · Erauncetamurgil · Zubizarreta"],["5:29","22","2","+20","+145,9","Andrés · Arteche · Erauncetamurgil"],["5:29","22","2","+20","+145,9","Andrés · Arteche · Zubizarreta"]]},{"team":"Ulacia","n":3,"rank":"Peores","rows":[["9:23","11","23","−12","−51,2","Dorronsoro · Zubizarreta · Ostolaza"],["8:44","11","23","−12","−55,0","Andrés · Dorronsoro · Ostolaza"],["8:44","11","23","−12","−55,0","Erauncetamurgil · Dorronsoro · Ostolaza"]]},{"team":"Ulacia","n":2,"rank":"Mejores","rows":[["24:04","60","38","+22","+36,6","Andrés · Erauncetamurgil"],["23:58","60","38","+22","+36,7","Andrés · Zubizarreta"],["6:27","24","3","+21","+130,2","Andrés · Arteche"]]},{"team":"Ulacia","n":2,"rank":"Peores","rows":[["9:29","11","23","−12","−50,6","Dorronsoro · Ostolaza"],["6:19","8","10","−2","−12,7","Zabaleta · Ostolaza"],["5:07","8","10","−2","−15,6","Bozal · Ostolaza"]]}];
+var pcData=[];
+const pcNames={1:"Piélagos",2:"La Flecha",3:"Ardoi",4:"Ulacia ZKE",5:"Tabirako",6:"Iruki Take",7:"Solares",8:"San Prudencio",11:"Deusto Loyola",12:"Bezana",13:"Cantbasket04",14:"Ávila Auténtica"};
+function pcBuildData(d){
+ pcData=[];
+ Object.keys(d.teams||{}).forEach(function(id){
+  var team=pcNames[Number(id)];if(!team)return;
+  [5,3,2].forEach(function(n){
+   ["best","worst"].forEach(function(key){
+    var rows=((d.teams[id]||{})[String(n)]||{})[key]||[];
+    pcData.push({team:team,n:n,rank:key==="best"?"Mejores":"Peores",rows:rows.map(function(x){
+     var pm=Number(x[4])||0,rate=Number(x[5])||0;
+     return [String(x[1]),String(x[2]),String(x[3]),(pm>0?"+":"")+pm,(rate>0?"+":"")+rate.toFixed(1).replace(".",","),x[0].map(function(i){return d.players[i]||("Jugador "+i);}).join(" · ")];
+    })});
+   });
+  });
+ });
+ var sel=document.getElementById("pcTeam"),current=sel.value;
+ sel.innerHTML=Object.keys(pcNames).filter(function(id){return d.teams[id];}).map(function(id){var name=pcNames[id];return '<option value="'+name+'">'+name+'</option>';}).join("");
+ if(current&&Array.from(sel.options).some(function(o){return o.value===current;}))sel.value=current;
+ else if(Array.from(sel.options).some(function(o){return o.value==="Ulacia ZKE";}))sel.value="Ulacia ZKE";
+}
+var pcLoaded=false,pcLoading=false;
+function loadPcData(){
+ if(pcLoaded||pcLoading)return;
+ pcLoading=true;
+ fetch("./combinaciones-pbp-jornada1.json").then(function(r){if(!r.ok)throw new Error("No se pudo cargar el Excel procesado");return r.json();}).then(function(d){pcBuildData(d);pcLoaded=true;pcLoading=false;render();}).catch(function(){pcLoading=false;document.getElementById("pcResults").textContent="No se pudieron cargar las combinaciones verificadas del Excel.";});
+}
 const modal=document.getElementById('pbpCombModal');
 const launch=document.getElementById('pbpCombLaunch');
 const close=document.getElementById('pbpCombClose');
@@ -2834,7 +2860,7 @@ function render(){
  const rows=group?group.rows:[];
  document.getElementById('pcResults').innerHTML='<section class="pc-section"><h3>'+rank+' '+({2:'parejas',3:'tríos',5:'quintetos'}[size])+' · '+team+'</h3><div class="pc-tablewrap"><table><thead><tr><th>Minutos</th><th>Puntos a favor</th><th>Puntos en contra</th><th>+/- real</th><th>+/- por 40 min</th><th>Jugadores</th></tr></thead><tbody>'+rows.map(r=>'<tr><td class="num">'+r[0]+'</td><td class="num">'+r[1]+'</td><td class="num">'+r[2]+'</td><td class="num '+(r[3].startsWith('+')?'plus':'minus')+'">'+r[3]+'</td><td class="num">'+r[4]+'</td><td>'+r[5]+'</td></tr>').join('')+'</tbody></table></div></section>';
 }
-launch.addEventListener('click',()=>{modal.classList.add('open');render()});
+launch.addEventListener('click',()=>{modal.classList.add('open');loadPcData();render()});
 close.addEventListener('click',()=>modal.classList.remove('open'));
 modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
 ['pcTeam','pcSize','pcRank'].forEach(id=>document.getElementById(id).addEventListener('change',render));
