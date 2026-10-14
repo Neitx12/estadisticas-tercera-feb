@@ -2819,7 +2819,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
   <p class="pc-note"><b>Criterio:</b> el +/- real ordena la clasificación. El +/- por 40 minutos se muestra como dato complementario. PF/PC = puntos a favor y en contra mientras la combinación estuvo en pista. El tiempo es la suma de sus tramos coincidentes. Muestra corta: interpretar con cautela.</p>
   <div class="pc-filters"><label>Equipo <select id="pcTeam"><option value="Ulacia ZKE">Ulacia ZKE</option></select></label><label>Combinación <select id="pcSize"><option value="5">Quintetos</option><option value="3">Tríos</option><option value="2">Parejas</option></select></label><label>Clasificación <select id="pcRank"><option>Mejores</option><option>Peores</option></select></label></div>
   <div id="pcResults"></div>
-  <p class="pc-note">Fuente: Excel de Play by Play de Ardoi–Ulacia. Verificación cruzada: minutos y +/- individual de los jugadores coinciden con el acta oficial; resultado final y parciales también coinciden. Solo incluye este partido.</p>
+  <p class="pc-note">Criterio de clasificación: +/- real acumulado (principal). +/- por 40 minutos es solo un dato complementario para contextualizar combinaciones con distinto tiempo en pista. Los resultados dependen de las combinaciones incluidas en los datos procesados.</p>
  </div>
 </div>
 <script>
@@ -2832,7 +2832,10 @@ function pcBuildData(d){
   var team=pcNames[Number(id)];if(!team)return;
   [5,3,2].forEach(function(n){
    ["best","worst"].forEach(function(key){
-    var rows=((d.teams[id]||{})[String(n)]||{})[key]||[];
+    var rows=(((d.teams[id]||{})[String(n)]||{})[key]||[]).slice().sort(function(a,b){
+     var difA=Number(a[4])||0,difB=Number(b[4])||0;
+     return key==="best"?(difB-difA): (difA-difB);
+    });
     pcData.push({team:team,n:n,rank:key==="best"?"Mejores":"Peores",rows:rows.map(function(x){
      var pm=Number(x[4])||0,rate=Number(x[5])||0;
      return [String(x[1]),String(x[2]),String(x[3]),(pm>0?"+":"")+pm,(rate>0?"+":"")+rate.toFixed(1).replace(".",","),x[0].map(function(i){return d.players[i]||("Jugador "+i);}).join(" · ")];
