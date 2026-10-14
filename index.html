@@ -2121,6 +2121,7 @@ if(Array.isArray(payload)){
 }
 return rows;
 }
+var PBP_TEAM_REBOUNDS_READY=fetch('./pbp-rebotes-equipo.json').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' al cargar rebotes de equipo');return r.json();}).catch(function(err){console.error('No se pudieron cargar rebotes de equipo:',err);return {};});
 var PBP_J2_READY=fetch('./pbp-jornada2.gzbase64.txt').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' al cargar sustituciones PBP de Jornada 2');return r.text();}).then(async function(b64){
 var bin=atob(b64.trim()),bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
 var stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
@@ -2130,8 +2131,10 @@ console.info('PBP Jornada 2: partidos con sustituciones cargados',rows.length);
 return rows;
 }).catch(function(err){console.error('No se pudieron cargar los detalles PBP de Jornada 2:',err);return [];});
 function loadPbpDetails(){
-Promise.all([Promise.resolve(PBP_DETAILS_INLINE),PBP_J2_READY]).then(function(parts){var rows=parts[0].concat(parts[1]);
+Promise.all([Promise.resolve(PBP_DETAILS_INLINE),PBP_J2_READY,PBP_TEAM_REBOUNDS_READY]).then(function(parts){var rows=parts[0].concat(parts[1]);var teamRebounds=parts[2]||{};
 rows.forEach(function(item){
+(teamRebounds[item[0]]||[]).forEach(function(e){item[5].push(e);});
+item[5].sort(function(a,b){var qa=Number(a[0])||0,qb=Number(b[0])||0;if(qa!==qb)return qb-qa;var ta=String(a[1]||'00:00').split(':').map(Number),tb=String(b[1]||'00:00').split(':').map(Number);var sa=(ta[0]||0)*60+(ta[1]||0),sb=(tb[0]||0)*60+(tb[1]||0);return sa-sb;});
 var g=scoutGames.find(function(x){return x.id===item[0];});if(!g)return;
 var actions=item[5].map(function(a){return {q:Number(a[0]),clock:a[1],team:Number(a[2])===0?item[1]:Number(a[2])===1?item[2]:"",action:String(a[3]||"")};});
 var source={gameId:item[0],label:item[3],home:item[1],away:item[2],final:item[4],actions:actions};
