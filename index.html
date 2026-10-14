@@ -2361,9 +2361,12 @@ function scoreAtTimeout(q,clock){
   return [h,a];
 }
 timeouts.forEach(function(x){
-  var later=timeouts.filter(function(y){return y.q===x.q&&sec(y.clock)<sec(x.clock);})
-    .sort(function(a,b){return sec(b.clock)-sec(a.clock);})[0];
-  var from=scoreAtTimeout(x.q,x.clock),to=scoreAtTimeout(x.q,later?later.clock:"00:00");
+  var q=Number(x.q),t=sec(x.clock),targetQ=q,targetClock=t-120;
+  if(targetClock<0){
+    if(q>=4)return;
+    targetQ=q+1;targetClock+=600;
+  }
+  var from=scoreAtTimeout(q,x.clock),to=scoreAtTimeout(targetQ,String(Math.floor(targetClock/60))+":"+String(targetClock%60).padStart(2,"0"));
   if(!from||!to)return;
   var swing=(to[0]-to[1])-(from[0]-from[1]),key="Q"+x.q+"|"+x.clock;
   timeoutScores[key]="("+from[0]+"-"+from[1]+") → ("+to[0]+"-"+to[1]+") "+(swing>0?"+":"")+swing;
