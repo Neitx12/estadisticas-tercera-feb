@@ -2826,6 +2826,40 @@ function renderScoutingUI(){
      if(!ranked.length)return "<section class='scdb-ft-shooters'><h2>🎯 Peores tiradores de TL · "+esc(opp)+"</h2><p>No hay suficientes datos de tiros libres del rival que cumplan el mínimo del 7% de su equipo.</p></section>";
      return "<section class='scdb-ft-shooters'><h2>🎯 Tres peores tiradores de TL · "+esc(opp)+"</h2><p class='scdb-note'>Solo jugadores del rival seleccionado que han lanzado al menos el 7% de los tiros libres de su equipo.</p><div class='scdb-table-wrap'><table class='scdb-table'><thead><tr><th>Jugador</th><th>TL</th><th>% TL</th><th>% de TL del equipo rival</th></tr></thead><tbody>"+ranked.map(function(x){return "<tr><td>"+esc(x.p.nombre)+"</td><td>"+x.ftm+"/"+x.fta+"</td><td>"+x.pct.toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})+"%</td><td>"+(100*x.share).toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})+"%</td></tr>";}).join("")+"</tbody></table></div></section>";
    };
+   var topTOVPlayers=function(){
+     var team=DB.teams&&DB.teams[opp],stats=DB.boxscores||[],directory=DB.playerDirectory||[],ranked=[];
+     var fmt=function(v){return v==null||!Number.isFinite(Number(v))?"—":Number(v).toLocaleString("es-ES",{maximumFractionDigits:1});};
+     var pct=function(v){return v==null||!Number.isFinite(Number(v))?"—":fmt(v)+"%";};
+     if(!team||!stats.length)return "<section class='scdb-tov-top'><h2>⚠️ Top 3 TOV% · "+esc(opp)+"</h2><p>No hay datos suficientes.</p></section>";
+     var ids={};
+     directory.filter(function(p){return n(p.equipo_id)===n(team.id);}).forEach(function(p){ids[n(p.id)]={id:n(p.id),name:p.nombre||p.name||"Jugador"};});
+     var totals={},teamMP=0,teamFGM=0,teamFGA=0,teamFTA=0,teamTO=0;
+     var seconds=function(v){if(typeof v==="number")return v;var s=String(v==null?"":v).trim();if(!s)return 0;if(/^\d+(\.\d+)?$/.test(s))return Number(s)*60;var m=s.match(/^(\d+):(\d{1,2})$/);return m?Number(m[1])*60+Number(m[2]):0;};
+     stats.forEach(function(row){
+       var id=n(row.jugador_id),player=ids[id];
+       if(!player)return;
+       if(row.equipo_id!=null&&n(row.equipo_id)!==n(team.id))return;
+       var mp=seconds(row.minutos),d2m=n(row.dosp_anotados),d2a=n(row.dosp_intentos),d3m=n(row.tresp_anotados),d3a=n(row.tresp_intentos),fta=n(row.tl_intentos),ast=n(row.asistencias),to=n(row.perdidas);
+       if(mp<=0)return;
+       if(!totals[id])totals[id]={player:player,pj:0,mp:0,fgm:0,fga:0,fta:0,ast:0,to:0};
+       var x=totals[id];x.pj++;x.mp+=mp;x.fgm+=d2m+d3m;x.fga+=d2a+d3a;x.fta+=fta;x.ast+=ast;x.to+=to;
+       teamMP+=mp;teamFGM+=d2m+d3m;teamFGA+=d2a+d3a;teamFTA+=fta;teamTO+=to;
+     });
+     var teamPoss=teamFGA+.44*teamFTA+teamTO;
+     Object.keys(totals).forEach(function(id){
+       var x=totals[id],playerPoss=x.fga+.44*x.fta+x.to;
+       var tov=playerPoss>0?100*x.to/playerPoss:null;
+       var astDen=teamMP>0?(x.mp/(teamMP/5))*teamFGM-x.fgm:0;
+       var astPct=astDen>0?100*x.ast/astDen:null;
+       var usg=teamPoss>0&&x.mp>0?100*playerPoss*(teamMP/5)/(x.mp*teamPoss):null;
+       var minPerGame=x.pj?x.mp/60/x.pj:0;
+       if(x.pj>0&&minPerGame>8&&tov!=null&&Number.isFinite(tov))ranked.push({name:x.player.name,pj:x.pj,min:minPerGame,tov:tov,astPct:astPct,usg:usg,to:x.to});
+     });
+     ranked.sort(function(a,b){return b.tov-a.tov;});ranked=ranked.slice(0,3);
+     if(!ranked.length)return "<section class='scdb-tov-top'><h2>⚠️ Top 3 TOV% · "+esc(opp)+"</h2><p>No hay jugadores con más de 8 minutos por partido y datos suficientes.</p></section>";
+     return "<section class='scdb-tov-top'><h2>⚠️ Tres jugadores con mayor TOV% · "+esc(opp)+"</h2><p class='scdb-note'>Solo jugadores del rival seleccionado, con más de 8 minutos por partido de media. AST% y USG% calculados sobre los boxscores disponibles.</p><div class='scdb-table-wrap'><table class='scdb-table'><thead><tr><th>Jugador</th><th>TOV%</th><th>AST%</th><th>USG%</th><th>Pérdidas</th><th>Min/PJ</th></tr></thead><tbody>"+ranked.map(function(p,i){return "<tr><td>"+(i+1)+". "+esc(p.name)+"</td><td><strong>"+pct(p.tov)+"</strong></td><td>"+pct(p.astPct)+"</td><td>"+pct(p.usg)+"</td><td>"+p.to+"</td><td>"+fmt(p.min)+"</td></tr>";}).join("")+"</tbody></table></div></section>";
+   };
+   printCss+=".scdb-tov-top{margin-top:10px;break-inside:avoid;page-break-inside:avoid}.scdb-tov-top h2{font-size:12px;margin:5px 0}.scdb-tov-top .scdb-table{font-size:8px}.scdb-tov-top .scdb-table th,.scdb-tov-top .scdb-table td{padding:3px;vertical-align:top;overflow-wrap:anywhere}";
    var topTSPlayers=function(){
      var team=DB.teams&&DB.teams[opp],ranked=[];
      var fmt=function(v){return n(v).toLocaleString("es-ES",{maximumFractionDigits:1});};
@@ -2842,7 +2876,7 @@ function renderScoutingUI(){
      return "<section class='scdb-ts-top'><h2>🏅 Tres mejores jugadores por TS% · "+esc(opp)+"</h2><p class='scdb-note'>Solo jugadores del rival seleccionado. Datos acumulados de los boxscores disponibles; mínimo más de 8 minutos de media por partido.</p><div class='scdb-table-wrap'><table class='scdb-table'><thead><tr><th>Jugador</th><th>TS%</th><th>Min/PJ</th><th>PTS/PJ</th><th>2P · aciertos y %</th><th>3P · aciertos y %</th><th>TL · aciertos y %</th></tr></thead><tbody>"+ranked.map(function(p,i){return "<tr><td>"+(i+1)+". "+esc(p.name)+"</td><td><strong>"+fmt(p.ts)+"%</strong></td><td>"+fmt(p.min)+"</td><td>"+fmt(p.pts/p.games)+"</td><td>"+shot(p.t2m,p.t2a)+"</td><td>"+shot(p.t3m,p.t3a)+"</td><td>"+shot(p.ftm,p.fta)+"</td></tr>";}).join("")+"</tbody></table></div></section>";
    };
    printCss+=".scdb-ts-top{margin-top:10px;break-inside:avoid;page-break-inside:avoid}.scdb-ts-top h2{font-size:12px;margin:5px 0}.scdb-ts-top .scdb-table{font-size:8px}.scdb-ts-top .scdb-table th,.scdb-ts-top .scdb-table td{padding:3px;vertical-align:top;overflow-wrap:anywhere}";
-   var doc="<html><head><title>Matchup · Ulacia ZKE vs "+esc(opp)+"</title><style>"+printCss+"</style></head><body><h1>SCOUTING · MATCHUP</h1><p><strong>Ulacia ZKE vs "+esc(opp)+"</strong> · Informe de preparación</p><h2>Comparativa de rendimiento</h2>"+comparison+"<h2>Estadística avanzada del rival · comparación con la media de liga</h2><p>Perfil estadístico del rival seleccionado antes de definir el plan de partido.</p>"+matchupAdvancedTable("rivalLiga")+"<div class='scdb-attack-defense'><section><h2>Nuestro ataque</h2>"+planHtml("ataque")+"</section><section><h2>Nuestra defensa</h2>"+planHtml("defensa")+"</section></div>"+worstFTShooters()+topTSPlayers()+"<p class='scdb-note'>Informe generado con los datos disponibles en la web. Los indicadores sin datos suficientes aparecen como «—».</p><script>window.onload=function(){window.focus();window.print();};<\/script></body></html>";
+   var doc="<html><head><title>Matchup · Ulacia ZKE vs "+esc(opp)+"</title><style>"+printCss+"</style></head><body><h1>SCOUTING · MATCHUP</h1><p><strong>Ulacia ZKE vs "+esc(opp)+"</strong> · Informe de preparación</p><h2>Comparativa de rendimiento</h2>"+comparison+"<h2>Estadística avanzada del rival · comparación con la media de liga</h2><p>Perfil estadístico del rival seleccionado antes de definir el plan de partido.</p>"+matchupAdvancedTable("rivalLiga")+"<div class='scdb-attack-defense'><section><h2>Nuestro ataque</h2>"+planHtml("ataque")+"</section><section><h2>Nuestra defensa</h2>"+planHtml("defensa")+"</section></div>"+worstFTShooters()+topTOVPlayers()+topTSPlayers()+"<p class='scdb-note'>Informe generado con los datos disponibles en la web. Los indicadores sin datos suficientes aparecen como «—».</p><script>window.onload=function(){window.focus();window.print();};<\/script></body></html>";
    win.document.open();win.document.write(doc);win.document.close();
  };
  var matchSel=document.getElementById("scdbMatchRival");if(matchSel)matchSel.onchange=function(){content.dataset.rival=this.value;renderScoutingUI();};
