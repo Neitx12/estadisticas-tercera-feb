@@ -815,7 +815,7 @@ function calcularJugadoresTabla(periodo){
         var usgDen=teamFga+.44*teamFta+teamTo;
       var r={
         jugadorId:a.jugadorId,equipoId:a.equipoId,nombre:a.nombre,equipo:eq.nombre,pj:a.pj,
-        min:a.min/a.pj,pts:a.pts/a.pj,d2m:a.d2m/a.pj,d2a:a.d2a/a.pj,d3m:a.d3m/a.pj,d3a:a.d3a/a.pj,
+        min:a.min/a.pj,ptsTotal:a.pts,pts:a.pts/a.pj,d2m:a.d2m/a.pj,d2a:a.d2a/a.pj,d3m:a.d3m/a.pj,d3a:a.d3a/a.pj,
         ftm:a.ftm/a.pj,fta:a.fta/a.pj,orb:a.orb/a.pj,drb:a.drb/a.pj,trb:a.trb/a.pj,
         ast:a.ast/a.pj,stl:a.stl/a.pj,to:a.to/a.pj,blk:a.blk/a.pj,pf:a.pf/a.pj,pfr:a.pfr/a.pj,
         val:a.val/a.pj,masmenos:a.masmenos/a.pj,
@@ -835,7 +835,7 @@ function calcularJugadoresTabla(periodo){
 }
 
 const columnasBaseJugadores=[
-  ["PJ","pj"],["MIN/PJ","min"],["PTS","pts"],["2P","d2m"],["2P%","d2pct"],["3P","d3m"],["3P%","d3pct"],
+  ["PJ","pj"],["MIN/PJ","min"],["PTS TOTAL","ptsTotal"],["PTS/PJ","pts"],["2P","d2m"],["2P%","d2pct"],["3P","d3m"],["3P%","d3pct"],
   ["TL","ftm"],["TL%","ftpct"],["REB","trb"],["AST","ast"],["REC","stl"],["PÉRD","to"],["TAP","blk"],
   ["FALTAS","pf"],["F REC","pfr"],["VAL","val"],["+/-","masmenos"]
 ];
