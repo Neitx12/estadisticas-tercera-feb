@@ -2829,19 +2829,19 @@ function renderScoutingUI(){
    var cantbasketRolesTable=function(){
      return "<section class='scdb-cantbasket-roles'><h2>🏀 Cantbasket04 · Roles de jugadores</h2><div class='scdb-table-wrap'><table class='scdb-table'><thead><tr><th>Dorsal</th><th>Jugador</th><th>Pos.</th><th>Roles</th></tr></thead><tbody>"+
        "<tr><td>1/25</td><td>E. NGOM</td><td>P</td><td>🗑</td></tr>"+
-       "<tr><td>7/11</td><td>J. JORGE RODRIGUEZ</td><td>E</td><td>🏹 🖐</td></tr>"+
-       "<tr><td>8</td><td>A. GARCIA NAVALÓN</td><td>B</td><td>🏹</td></tr>"+
+       "<tr class='scdb-role-key'><td><strong>7/11</strong></td><td><strong>J. JORGE RODRIGUEZ</strong></td><td><strong>E</strong></td><td>🏹 🖐</td></tr>"+
+       "<tr class='scdb-role-key'><td><strong>8</strong></td><td><strong>A. GARCIA NAVALÓN</strong></td><td><strong>B</strong></td><td>🏹</td></tr>"+
        "<tr><td>10/26</td><td>A. LOPEZ FERNANDEZ</td><td>E/A</td><td></td></tr>"+
-       "<tr><td>13</td><td>A. GASE SECO</td><td>E/A</td><td>🖐 🗑</td></tr>"+
+       "<tr class='scdb-role-key'><td><strong>13</strong></td><td><strong>A. GASE SECO</strong></td><td><strong>E/A</strong></td><td>🖐 🗑</td></tr>"+
        "<tr><td>15</td><td>A. RODRÍGUEZ MARTIN</td><td>-</td><td></td></tr>"+
        "<tr><td>25</td><td>A. CAGIGAL DE LA TORRE</td><td>A/AP</td><td></td></tr>"+
-       "<tr><td>2/29</td><td>C. LADINE</td><td>B</td><td>🏹 🔛</td></tr>"+
-       "<tr><td>32</td><td>C. ARANDA SUAREZ</td><td>AP/P</td><td>🗑</td></tr>"+
+       "<tr class='scdb-role-key'><td><strong>2/29</strong></td><td><strong>C. LADINE</strong></td><td><strong>B</strong></td><td>🏹 🔛</td></tr>"+
+       "<tr class='scdb-role-key'><td><strong>32</strong></td><td><strong>C. ARANDA SUAREZ</strong></td><td><strong>AP/P</strong></td><td>🗑</td></tr>"+
        "<tr><td>55</td><td>A. REY GUTIERREZ</td><td>E</td><td>🏹</td></tr>"+
        "<tr><td>72</td><td>J. CASÍN LORENTE</td><td>AP</td><td></td></tr>"+
        "</tbody></table></div><div class='scdb-note scdb-cantbasket-legend'><strong>Leyenda:</strong><br>🖐 Mayor USG% (uso de balón)<br>🏹 Tirador<br>🗑 Reboteador<br>🔛 Asistente</div></section>";
    };
-   printCss+=".scdb-cantbasket-roles{margin-top:12px;break-inside:avoid;page-break-inside:avoid}.scdb-cantbasket-roles h2{font-size:12px;margin:5px 0}.scdb-cantbasket-roles .scdb-table{font-size:8px}.scdb-cantbasket-roles .scdb-table th,.scdb-cantbasket-roles .scdb-table td{padding:3px 5px}.scdb-cantbasket-legend{margin-top:6px;line-height:1.55}";
+   printCss+=".scdb-cantbasket-roles{margin-top:8px;break-inside:avoid;page-break-inside:avoid}.scdb-cantbasket-roles h2{font-size:11px;margin:4px 0}.scdb-cantbasket-roles .scdb-table{font-size:7.5px;width:auto;max-width:100%;border-collapse:collapse}.scdb-cantbasket-roles .scdb-table th,.scdb-cantbasket-roles .scdb-table td{padding:1px 3px;line-height:1.15;white-space:nowrap}.scdb-cantbasket-roles .scdb-table th:nth-child(1),.scdb-cantbasket-roles .scdb-table td:nth-child(1){width:48px;text-align:center}.scdb-cantbasket-roles .scdb-table th:nth-child(2),.scdb-cantbasket-roles .scdb-table td:nth-child(2){padding-left:4px;padding-right:4px}.scdb-cantbasket-roles .scdb-table th:nth-child(3),.scdb-cantbasket-roles .scdb-table td:nth-child(3){width:38px;text-align:center}.scdb-cantbasket-roles .scdb-table th:nth-child(4),.scdb-cantbasket-roles .scdb-table td:nth-child(4){width:48px;text-align:center}.scdb-cantbasket-roles .scdb-role-key{font-weight:700}.scdb-cantbasket-legend{margin-top:4px;line-height:1.35;font-size:8px}";
    var topTOVPlayers=function(){
      var team=DB.teams&&DB.teams[opp],stats=DB.boxscores||[],directory=DB.playerDirectory||[],ranked=[];
      var fmt=function(v){return v==null||!Number.isFinite(Number(v))?"—":Number(v).toLocaleString("es-ES",{maximumFractionDigits:1});};
