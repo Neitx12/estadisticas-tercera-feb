@@ -2651,7 +2651,7 @@ function renderScoutingUI(){
       mode=own: ataque del equipo; mode=opponents: ataque de quienes jugaron contra él;
       mode=league: todos los ataques registrados en la liga. */
    var metricValue=function(name,mode,metric){
-     var games=DB.games||[],tot={pts:0,fga:0,t2m:0,t3m:0,fta:0,orb:0,to:0,oppDrb:0,poss:0},count=0;
+     var games=DB.games||[],tot={pts:0,oppPts:0,fga:0,t2m:0,t3m:0,t3a:0,fta:0,ftReceived:0,orb:0,to:0,oppDrb:0,poss:0,oppPoss:0},count=0;
      games.forEach(function(g){
        var sides=[];
        if(mode==="league")sides=[g.home,g.away];
@@ -2663,12 +2663,18 @@ function renderScoutingUI(){
          if(!a||!d)return;
          var t2a=n(a.dosp_intentos),t3a=n(a.tresp_intentos),fta=n(a.tl_intentos),orb=n(a.reb_ofensivos),to=n(a.perdidas);
          var fga=t2a+t3a,poss=fga+0.44*fta-orb+to;
-         tot.pts+=pointsFor(g,attacker);tot.fga+=fga;tot.t2m+=n(a.dosp_anotados);tot.t3m+=n(a.tresp_anotados);
-         tot.fta+=fta;tot.orb+=orb;tot.to+=to;tot.oppDrb+=n(d.reb_defensivos);tot.poss+=poss;count++;
+         var dFga=n(d.dosp_intentos)+n(d.tresp_intentos),dPoss=dFga+0.44*n(d.tl_intentos)-n(d.reb_ofensivos)+n(d.perdidas);
+         tot.pts+=pointsFor(g,attacker);tot.oppPts+=pointsFor(g,defName);tot.fga+=fga;tot.t2m+=n(a.dosp_anotados);tot.t3m+=n(a.tresp_anotados);tot.t3a+=t3a;
+         tot.fta+=fta;tot.ftReceived+=n(d.tl_intentos);tot.orb+=orb;tot.to+=to;tot.oppDrb+=n(d.reb_defensivos);tot.poss+=poss;tot.oppPoss+=dPoss;count++;
        });
      });
      if(!count)return null;
      if(metric==="pts")return tot.poss?100*tot.pts/tot.poss:null;
+     if(metric==="ptsAgainst")return mode==="own"?(tot.oppPoss?100*tot.oppPts/tot.oppPoss:null):(tot.poss?100*tot.pts/tot.poss:null);
+     if(metric==="pace")return count?tot.poss/count:null;
+     if(metric==="ftAtt")return count?tot.fta/count:null;
+     if(metric==="ftReceived")return count?tot.ftReceived/count:null;
+     if(metric==="threeShare")return tot.fga?100*tot.t3a/tot.fga:null;
      if(metric==="efg")return tot.fga?100*(tot.t2m+tot.t3m+0.5*tot.t3m)/tot.fga:null;
      if(metric==="orb")return (tot.orb+tot.oppDrb)?100*tot.orb/(tot.orb+tot.oppDrb):null;
      if(metric==="tov"){var tovPoss=tot.fga+0.44*tot.fta+tot.to;return tovPoss?100*tot.to/tovPoss:null;}
@@ -2676,7 +2682,12 @@ function renderScoutingUI(){
      return null;
    };
    var rows=[
-     {label:"Puntos / 100 posesiones",metric:"pts",digits:1},
+     {label:"Puntos anotados / 100 posesiones",metric:"pts",digits:1},
+     {label:"Puntos recibidos / 100 posesiones",metric:"ptsAgainst",digits:1},
+     {label:"Ritmo (posesiones por partido)",metric:"pace",digits:1},
+     {label:"TL tirados por partido",metric:"ftAtt",digits:1},
+     {label:"TL recibidos por partido",metric:"ftReceived",digits:1},
+     {label:"% triples / TC (volumen)",metric:"threeShare",percent:true,digits:1},
      {label:"eFG %",metric:"efg",percent:true,digits:1},
      {label:"Rebote ofensivo %",metric:"orb",percent:true,digits:1},
      {label:"Pérdidas % (TOV%)",metric:"tov",percent:true,digits:1},
