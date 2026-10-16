@@ -2652,7 +2652,7 @@ function renderScoutingUI(){
       mode=own: ataque del equipo; mode=opponents: ataque de quienes jugaron contra él;
       mode=league: todos los ataques registrados en la liga. */
    var metricValue=function(name,mode,metric){
-     var games=DB.games||[],tot={pts:0,oppPts:0,fga:0,t2m:0,t3m:0,t3a:0,fta:0,ftReceived:0,orb:0,to:0,oppDrb:0,poss:0,oppPoss:0},count=0;
+     var games=DB.games||[],tot={pts:0,oppPts:0,fga:0,t2m:0,t3m:0,t3a:0,fta:0,ftReceived:0,orb:0,to:0,oppDrb:0,drb:0,oppOrb:0,poss:0,oppPoss:0},count=0;
      games.forEach(function(g){
        var sides=[];
        if(mode==="league")sides=[g.home,g.away];
@@ -2666,12 +2666,14 @@ function renderScoutingUI(){
          var fga=t2a+t3a,poss=fga+0.44*fta-orb+to;
          var dFga=n(d.dosp_intentos)+n(d.tresp_intentos),dPoss=dFga+0.44*n(d.tl_intentos)-n(d.reb_ofensivos)+n(d.perdidas);
          tot.pts+=pointsFor(g,attacker);tot.oppPts+=pointsFor(g,defName);tot.fga+=fga;tot.t2m+=n(a.dosp_anotados);tot.t3m+=n(a.tresp_anotados);tot.t3a+=t3a;
-         tot.fta+=fta;tot.ftReceived+=n(d.tl_intentos);tot.orb+=orb;tot.to+=to;tot.oppDrb+=n(d.reb_defensivos);tot.poss+=poss;tot.oppPoss+=dPoss;count++;
+         tot.fta+=fta;tot.ftReceived+=n(d.tl_intentos);tot.orb+=orb;tot.to+=to;tot.oppDrb+=n(d.reb_defensivos);tot.drb+=n(a.reb_defensivos);tot.oppOrb+=n(d.reb_ofensivos);tot.poss+=poss;tot.oppPoss+=dPoss;count++;
        });
      });
      if(!count)return null;
      if(metric==="pts")return tot.poss?100*tot.pts/tot.poss:null;
      if(metric==="ptsAgainst")return mode==="own"?(tot.oppPoss?100*tot.oppPts/tot.oppPoss:null):(tot.poss?100*tot.pts/tot.poss:null);
+     if(metric==="net")return tot.poss&&tot.oppPoss?(100*tot.pts/tot.poss)-(100*tot.oppPts/tot.oppPoss):null;
+     if(metric==="drb")return (tot.drb+tot.oppOrb)?100*tot.drb/(tot.drb+tot.oppOrb):null;
      if(metric==="pace")return count?tot.poss/count:null;
      if(metric==="ftAtt")return count?tot.fta/count:null;
      if(metric==="ftReceived")return count?(mode==="own"?tot.ftReceived/count:(mode==="opponents"?tot.fta/count:tot.fta/count)):null;
@@ -2682,7 +2684,29 @@ function renderScoutingUI(){
      if(metric==="ftr")return tot.fga?tot.fta/tot.fga:null;
      return null;
    };
-   var rows=[
+   if(which==="rivalLiga"){
+   var advancedRows=[
+     {label:"Ritmo · posesiones por partido",metric:"pace",digits:1,kind:"pace"},
+     {label:"Eficiencia ofensiva · puntos/100 posesiones",metric:"pts",digits:1,kind:"high"},
+     {label:"Eficiencia defensiva · puntos recibidos/100 posesiones",metric:"ptsAgainst",digits:1,kind:"low"},
+     {label:"Eficiencia neta · puntos/100 posesiones",metric:"net",digits:1,kind:"net"},
+     {label:"Rebote defensivo %",metric:"drb",digits:1,kind:"high",percent:true},
+     {label:"Rebote ofensivo %",metric:"orb",digits:1,kind:"high",percent:true},
+     {label:"Triples intentados / tiros de campo intentados",metric:"threeShare",digits:1,kind:"high",percent:true}
+   ];
+   var advancedTable="<div class='scdb-table-wrap'><table class='scdb-table scdb-four-factors'><thead><tr><th>Indicador</th><th>"+esc(opponentName)+"</th><th>Media de liga</th><th>Diferencia</th></tr></thead><tbody>";
+   advancedRows.forEach(function(r){
+     var rv=metricValue(opponentName,"own",r.metric),lv=metricValue(null,"league",r.metric);
+     var diff=rv==null||lv==null?null:rv-lv;
+     var show=function(v){return v==null||!isFinite(v)?"—":v.toLocaleString("es-ES",{minimumFractionDigits:r.digits,maximumFractionDigits:r.digits})+(r.percent?"%":"");};
+     var diffText=diff==null?"—":(diff>0?"+":"")+show(diff);
+     var interpretation=r.kind==="pace"?"El ritmo se interpreta según el estilo de partido":r.kind==="net"?"Más alto es mejor":r.kind==="low"?"Más bajo es mejor":"Más alto suele ser mejor";
+     advancedTable+="<tr><td class='scdb-player'>"+r.label+"<br><small>"+interpretation+"</small></td><td><strong>"+show(rv)+"</strong></td><td>"+show(lv)+"</td><td>"+diffText+"</td></tr>";
+   });
+   advancedTable+="</tbody></table></div><p class='scdb-note'>Comparación calculada con los boxscores de los partidos disponibles. Las eficiencias usan posesiones estimadas: TC intentados + 0,44 × TL intentados − rebotes ofensivos + pérdidas. El ritmo es la media de posesiones estimadas por equipo y partido. «—» indica datos insuficientes.</p>";
+   return advancedTable;
+ }
+ var rows=[
      {label:"Puntos anotados / 100 posesiones",metric:"pts",digits:1},
      {label:"Puntos recibidos / 100 posesiones",metric:"ptsAgainst",digits:1},
      {label:"Ritmo (posesiones por partido)",metric:"pace",digits:1},
@@ -2785,7 +2809,7 @@ function renderScoutingUI(){
    };
    return "<div class='scdb-plan-grid'>"+edges.map(function(e){var winner=e.a===e.b?"Igualados":((e.a>e.b)===e.high?"Ulacia ZKE":opp);return "<div class='scdb-plan-metric'><small>"+e.label+"</small><strong>"+esc(winner)+"</strong><span>Ulacia "+f(e.a)+" · "+esc(opp)+" "+f(e.b)+"</span></div>";}).join("")+"</div><h4>Plan de scouting · perspectiva Ulacia ZKE</h4><p>La lectura se organiza en tres decisiones: explotar nuestras fortalezas, castigar las debilidades del rival y protegernos de sus fortalezas. Las estadísticas orientan la observación; el vídeo debe confirmar cada hipótesis.</p>"+focusSection("explotar","1. Qué hacemos bien y cómo hacer daño","Fortalezas de Ulacia que podemos convertir en ventajas contra este rival.")+focusSection("castigar","2. Qué hace mal el rival y cómo castigarlo","Debilidades defensivas que debemos confirmar y atacar.")+focusSection("proteger","3. Qué hace bien el rival y cómo protegernos","Amenazas ofensivas rivales y aspectos que Ulacia debe neutralizar.")+"<p class='scdb-note'>Los porcentajes se calculan con los boxscores registrados. Cuando el dato no identifica la causa táctica, se indica como hipótesis a comprobar en vídeo.</p>";
  };
- content.innerHTML="<section class='scdb-panel'><div class='scdb-matchup-title'><div><h3>⚔️ Scouting Match Up</h3><p class='scdb-note'>Ulacia ZKE frente al próximo rival · comparativa basada en los partidos registrados.</p></div><div class='scdb-field'><label for='scdbMatchRival'>Rival a analizar</label><select id='scdbMatchRival'>"+rivalOptions+"</select></div><button type='button' id='scdbPrintMatchup' style='display:inline-flex!important;align-items:center;gap:6px;padding:10px 14px;background:#17365d;color:#fff;border:0;border-radius:8px;font-weight:700;cursor:pointer'>🖨️ Imprimir / Guardar PDF</button></div><div class='scdb-matchup scdb-matchup-hero'><div><strong>ULACIA ZKE</strong><p>"+a.pj+" partidos registrados</p><div class='scdb-matchup-score'>"+f(ma[0].value)+" <small>PTS/PJ</small></div></div><div class='scdb-vs'>VS</div><div><strong>"+esc(opp).toUpperCase()+"</strong><p>"+b.pj+" partidos registrados</p><div class='scdb-matchup-score'>"+f(mb[0].value)+" <small>PTS/PJ</small></div></div></div></section><section class='scdb-panel'><h3>📊 Comparativa de rendimiento</h3><p class='scdb-note'>Promedios por partido y porcentajes calculados a partir de las estadísticas disponibles. La ventaja indica solo qué equipo presenta el valor más favorable en cada indicador.</p>"+comparison+"</section><section class='scdb-panel scdb-gameplan'><h3>🧭 Plan de partido</h3><div class='scdb-plan-tabs' id='scdbPlanTabs'><button class='activo' data-plan='claves'>Claves</button><button data-plan='ataque'>Nuestro ataque</button><button data-plan='defensa'>Nuestra defensa</button><button data-plan='jugadores'>Jugadores rivales</button></div><div id='scdbPlanContent'>"+planHtml("claves")+"</div></section><div class='scdb-grid3'><section class='scdb-panel'><h3>🟢 Jugadores destacados · Ulacia</h3>"+topPlayers("Ulacia ZKE")+"</section><section class='scdb-panel'><h3>🔴 Jugadores destacados · "+esc(opp)+"</h3>"+topPlayers(opp)+"</section><section class='scdb-panel'><h3>🎯 Lectura rápida de los datos</h3><div class='scdb-rank'><span>Mayor anotación por partido</span><b>"+esc(ma[0].value===mb[0].value?"Igualados":ma[0].value>mb[0].value?"Ulacia ZKE":opp)+"</b></div><div class='scdb-rank'><span>Menos puntos recibidos</span><b>"+esc(ma[1].value===mb[1].value?"Igualados":ma[1].value<mb[1].value?"Ulacia ZKE":opp)+"</b></div><div class='scdb-rank'><span>Mejor diferencial</span><b>"+esc(ma[2].value===mb[2].value?"Igualados":ma[2].value>mb[2].value?"Ulacia ZKE":opp)+"</b></div><div class='scdb-note'>Estas comparaciones son descriptivas; no sustituyen la revisión del vídeo ni permiten afirmar por sí solas una conclusión táctica.</div></section></div><div class='scdb-grid3'><section class='scdb-panel'><h3>📅 Últimos partidos · Ulacia</h3>"+lastGames("Ulacia ZKE")+"</section><section class='scdb-panel'><h3>📅 Últimos partidos · "+esc(opp)+"</h3>"+lastGames(opp)+"</section><section class='scdb-panel'><h3>👥 Plantilla y producción · "+esc(opp)+"</h3>"+roster(opp)+"</section></div>";
+ content.innerHTML="<section class='scdb-panel'><div class='scdb-matchup-title'><div><h3>⚔️ Scouting Match Up</h3><p class='scdb-note'>Ulacia ZKE frente al próximo rival · comparativa basada en los partidos registrados.</p></div><div class='scdb-field'><label for='scdbMatchRival'>Rival a analizar</label><select id='scdbMatchRival'>"+rivalOptions+"</select></div><button type='button' id='scdbPrintMatchup' style='display:inline-flex!important;align-items:center;gap:6px;padding:10px 14px;background:#17365d;color:#fff;border:0;border-radius:8px;font-weight:700;cursor:pointer'>🖨️ Imprimir / Guardar PDF</button></div><div class='scdb-matchup scdb-matchup-hero'><div><strong>ULACIA ZKE</strong><p>"+a.pj+" partidos registrados</p><div class='scdb-matchup-score'>"+f(ma[0].value)+" <small>PTS/PJ</small></div></div><div class='scdb-vs'>VS</div><div><strong>"+esc(opp).toUpperCase()+"</strong><p>"+b.pj+" partidos registrados</p><div class='scdb-matchup-score'>"+f(mb[0].value)+" <small>PTS/PJ</small></div></div></div></section><section class='scdb-panel'><h3>📊 Comparativa de rendimiento</h3><p class='scdb-note'>Promedios por partido y porcentajes calculados a partir de las estadísticas disponibles. La ventaja indica solo qué equipo presenta el valor más favorable en cada indicador.</p>"+comparison+"</section><section class='scdb-panel scdb-rival-advanced'><h3>📈 Estadística avanzada del rival · comparación con la media de liga</h3><p class='scdb-note'>Perfil estadístico del rival seleccionado antes de definir el plan de partido.</p>"+matchupAdvancedTable("rivalLiga")+"</section><section class='scdb-panel scdb-gameplan'><h3>🧭 Plan de partido</h3><div class='scdb-plan-tabs' id='scdbPlanTabs'><button class='activo' data-plan='claves'>Claves</button><button data-plan='ataque'>Nuestro ataque</button><button data-plan='defensa'>Nuestra defensa</button><button data-plan='jugadores'>Jugadores rivales</button></div><div id='scdbPlanContent'>"+planHtml("claves")+"</div></section><div class='scdb-grid3'><section class='scdb-panel'><h3>🟢 Jugadores destacados · Ulacia</h3>"+topPlayers("Ulacia ZKE")+"</section><section class='scdb-panel'><h3>🔴 Jugadores destacados · "+esc(opp)+"</h3>"+topPlayers(opp)+"</section><section class='scdb-panel'><h3>🎯 Lectura rápida de los datos</h3><div class='scdb-rank'><span>Mayor anotación por partido</span><b>"+esc(ma[0].value===mb[0].value?"Igualados":ma[0].value>mb[0].value?"Ulacia ZKE":opp)+"</b></div><div class='scdb-rank'><span>Menos puntos recibidos</span><b>"+esc(ma[1].value===mb[1].value?"Igualados":ma[1].value<mb[1].value?"Ulacia ZKE":opp)+"</b></div><div class='scdb-rank'><span>Mejor diferencial</span><b>"+esc(ma[2].value===mb[2].value?"Igualados":ma[2].value>mb[2].value?"Ulacia ZKE":opp)+"</b></div><div class='scdb-note'>Estas comparaciones son descriptivas; no sustituyen la revisión del vídeo ni permiten afirmar por sí solas una conclusión táctica.</div></section></div><div class='scdb-grid3'><section class='scdb-panel'><h3>📅 Últimos partidos · Ulacia</h3>"+lastGames("Ulacia ZKE")+"</section><section class='scdb-panel'><h3>📅 Últimos partidos · "+esc(opp)+"</h3>"+lastGames(opp)+"</section><section class='scdb-panel'><h3>👥 Plantilla y producción · "+esc(opp)+"</h3>"+roster(opp)+"</section></div>";
  var planTabs=document.getElementById("scdbPlanTabs"),planContent=document.getElementById("scdbPlanContent");if(planTabs&&planContent){planTabs.querySelectorAll("button").forEach(function(btn){btn.onclick=function(){planTabs.querySelectorAll("button").forEach(function(x){x.classList.toggle("activo",x===btn)});planContent.innerHTML=planHtml(btn.getAttribute("data-plan"));};});}
  var printMatchup=document.getElementById("scdbPrintMatchup");
  if(printMatchup)printMatchup.onclick=function(){
