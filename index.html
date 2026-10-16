@@ -2570,11 +2570,12 @@ function renderScoutingUI(){
  if(!content)return;
  var names=Object.keys(DB.teams||{}), own=DB.teams["Ulacia ZKE"], rivals=names.filter(function(x){return x!=="Ulacia ZKE";});
  var tab=(nav&&nav.getAttribute("data-active"))||"own";
- if(!["own","rival","matchup"].includes(tab))tab="own";
+ if(!["own","rival","matchup","informe"].includes(tab))tab="own";
  if(nav){
    nav.querySelectorAll("button").forEach(function(b){b.classList.toggle("activo",b.getAttribute("data-tab")===tab);});
    nav.querySelectorAll("button").forEach(function(b){b.onclick=function(){nav.setAttribute("data-active",b.getAttribute("data-tab"));renderScoutingUI();};});
  }
+ if(tab==="informe"){content.innerHTML="<section class='scdb-panel'><h3>📋 Informe partido</h3><p class='scdb-note'>Apartado creado. El contenido del informe partido se añadirá en el siguiente paso.</p></section>";return;}
  var summary=function(team){
    var s=teamSummary(team),t=DB.teams[team],tt=s.team||teamTotals(team);
    return "<div class='scdb-summary'>"+
@@ -2781,7 +2782,7 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 })();
 </script>
 <!-- SCOUTING-DATABASE-V1 -->
-<div id="scdbModal" class="scdb-modal" aria-hidden="true"><div class="scdb-card"><div class="scdb-head"><div><h2>Centro de Scouting · V2</h2><p>Datos cuantitativos de Supabase · conclusiones tácticas solo con evidencia</p></div><button class="scdb-close" type="button" onclick="document.getElementById('scdbModal').classList.remove('abierto')">Cerrar</button></div><div class="scdb-nav" id="scdbNav"><button data-tab="own">🟢 Ulacia · propio</button><button data-tab="rival">🔴 Rival · para Ulacia</button><button data-tab="matchup">⚔️ Matchup</button></div><div id="scdbContent"><div style="padding:18px"><h3>Scouting</h3><p>Inicializando análisis…</p></div></div></div></div>
+<div id="scdbModal" class="scdb-modal" aria-hidden="true"><div class="scdb-card"><div class="scdb-head"><div><h2>Centro de Scouting · V2</h2><p>Datos cuantitativos de Supabase · conclusiones tácticas solo con evidencia</p></div><button class="scdb-close" type="button" onclick="document.getElementById('scdbModal').classList.remove('abierto')">Cerrar</button></div><div class="scdb-nav" id="scdbNav"><button data-tab="own">🟢 Ulacia · propio</button><button data-tab="rival">🔴 Rival · para Ulacia</button><button data-tab="matchup">⚔️ Matchup</button><button data-tab="informe">📋 Informe partido</button></div><div id="scdbContent"><div style="padding:18px"><h3>Scouting</h3><p>Inicializando análisis…</p></div></div></div></div>
 <script>
 (function(){
   window.abrirScoutingSeguro=function(){
