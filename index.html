@@ -2542,6 +2542,7 @@ function sync(){
  var teams=allTeams.filter(function(t){return !!equiposConPartido[n(t.id)]});
  var idsEquiposValidos={};teams.forEach(function(t){idsEquiposValidos[n(t.id)]=true});
  var players=allPlayers.filter(function(p){return !!idsEquiposValidos[n(p.equipo_id)]});
+ DB.playerDirectory=players.slice();
  var idsJugadoresValidos={};players.forEach(function(p){idsJugadoresValidos[n(p.id)]=true});
  var stats=allStats.filter(function(s){return !!idsJugadoresValidos[n(s.jugador_id)]});
  DB.teams={};teams.forEach(function(t){DB.teams[t.nombre]={name:t.nombre,id:n(t.id),role:t.nombre==="Ulacia ZKE"?"own":"opponent",roster:[],games:[],totals:{pts:0,reb:0,ast:0,to:0,val:0,t2m:0,t2a:0,t3m:0,t3a:0,ftm:0,fta:0,pf:0}};});
@@ -2714,6 +2715,8 @@ function renderScoutingUI(){
  };
  var planHtml=function(which){
    var ul=DB.teams["Ulacia ZKE"],rt=DB.teams[opp],ur=ul?ul.roster.slice().sort(function(x,y){return y.pts-x.pts}):[],rr=rt?rt.roster.slice().sort(function(x,y){return y.pts-x.pts}):[];
+   var rivalHasBoxscores=rr.length>0;
+   if(!rr.length&&rt&&Array.isArray(DB.playerDirectory)){rr=DB.playerDirectory.filter(function(p){return n(p.equipo_id)===n(rt.id)}).map(function(p){return{jugadorId:n(p.id),equipoId:n(p.equipo_id),nombre:p.nombre,pj:0,pts:null,reb:null,ast:null,val:null,p3:null}}).sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")});}
    var metric=function(label,value,note){return "<div class='scdb-plan-metric'><small>"+label+"</small><strong>"+value+"</strong><span>"+note+"</span></div>";};
    if(which==="ataque")return "<h4>Indicadores de ataque y concesión</h4>"+matchupAdvancedTable("ataque")+"<div class='scdb-plan-grid'>"+metric("Puntos por partido",f(ma[0].value),"Producción ofensiva de Ulacia")+
     metric("Tiros de 2",pct(ma[6].value),"Porcentaje de acierto")+
@@ -2726,7 +2729,7 @@ function renderScoutingUI(){
     metric("Asistencias del rival",f(mb[4].value),"Circulación de balón")+
     metric("Pérdidas del rival",f(mb[5].value),"Oportunidades potenciales para presionar")+"</div><h4>Principales amenazas anotadoras</h4>"+topPlayers(opp)+
     "<p class='scdb-note'>No se infiere una forma concreta de atacar ni un sistema defensivo sin datos de posesiones o revisión de vídeo.</p>";
-   if(which==="jugadores")return rr.length?"<div class='scdb-table-wrap'><table class='scdb-table scdb-opponent-players'><thead><tr><th>Jugador rival</th><th>PJ</th><th>PTS/PJ</th><th>REB/PJ</th><th>AST/PJ</th><th>VAL/PJ</th><th>3P%</th></tr></thead><tbody>"+rr.slice(0,8).map(function(p){return "<tr><td class='scdb-player'>"+linkJugadorNombre(p.jugadorId,p.nombre,p.equipoId)+"</td><td>"+p.pj+"</td><td>"+f(p.pts)+"</td><td>"+f(p.reb)+"</td><td>"+f(p.ast)+"</td><td>"+f(p.val)+"</td><td>"+(p.p3==null?"—":pct(p.p3))+"</td></tr>";}).join("")+"</tbody></table></div><p class='scdb-note'>Ordenados por puntos por partido, usando los boxscores disponibles.</p>":"<div class='scdb-empty'>No hay datos individuales del rival.</div>";
+   if(which==="jugadores")return rr.length?"<div class='scdb-table-wrap'><table class='scdb-table scdb-opponent-players'><thead><tr><th>Jugador rival</th><th>PJ</th><th>PTS/PJ</th><th>REB/PJ</th><th>AST/PJ</th><th>VAL/PJ</th><th>3P%</th></tr></thead><tbody>"+rr.slice(0,15).map(function(p){return "<tr><td class='scdb-player'>"+linkJugadorNombre(p.jugadorId,p.nombre,p.equipoId)+"</td><td>"+(p.pj||"—")+"</td><td>"+(p.pts==null?"—":f(p.pts))+"</td><td>"+(p.reb==null?"—":f(p.reb))+"</td><td>"+(p.ast==null?"—":f(p.ast))+"</td><td>"+(p.val==null?"—":f(p.val))+"</td><td>"+(p.p3==null?"—":pct(p.p3))+"</td></tr>";}).join("")+"</tbody></table></div><p class='scdb-note'>"+(rivalHasBoxscores?"Ordenados por puntos por partido, usando los boxscores disponibles.":"Se muestran los jugadores registrados en la plantilla. Las estadísticas aparecerán cuando haya boxscores individuales disponibles.")+"</p>":"<div class='scdb-empty'>No hay jugadores registrados para este rival en la base de datos.</div>";
    var edges=[{label:"Anotación media",a:ma[0].value,b:mb[0].value,high:true},{label:"Puntos recibidos",a:ma[1].value,b:mb[1].value,high:false},{label:"Diferencial",a:ma[2].value,b:mb[2].value,high:true},{label:"Pérdidas",a:ma[5].value,b:mb[5].value,high:false}];
    var videoFocus={explotar:[],castigar:[],proteger:[]};
    var addFocus=function(block,priority,area,signal,question,action){
