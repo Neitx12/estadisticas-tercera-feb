@@ -2673,7 +2673,7 @@ function renderScoutingUI(){
      if(metric==="ptsAgainst")return mode==="own"?(tot.oppPoss?100*tot.oppPts/tot.oppPoss:null):(tot.poss?100*tot.pts/tot.poss:null);
      if(metric==="pace")return count?tot.poss/count:null;
      if(metric==="ftAtt")return count?tot.fta/count:null;
-     if(metric==="ftReceived")return count?tot.ftReceived/count:null;
+     if(metric==="ftReceived")return count?(mode==="own"?tot.ftReceived/count:(mode==="opponents"?tot.fta/count:tot.fta/count)):null;
      if(metric==="threeShare")return tot.fga?100*tot.t3a/tot.fga:null;
      if(metric==="efg")return tot.fga?100*(tot.t2m+tot.t3m+0.5*tot.t3m)/tot.fga:null;
      if(metric==="orb")return (tot.orb+tot.oppDrb)?100*tot.orb/(tot.orb+tot.oppDrb):null;
