@@ -2696,9 +2696,16 @@ function renderScoutingUI(){
    var headers=which==="ataque"?["Indicador ↕","Ulacia ataque ↕","Rival concede ↕","Liga concede ↕"]:["Indicador ↕","Ulacia concede ↕","Rival ataque ↕","Liga ataque ↕"];
    var table="<div class='scdb-table-wrap'><table class='scdb-table scdb-four-factors'><thead><tr>"+headers.map(function(h){return "<th>"+h+"</th>"}).join("")+"</tr></thead><tbody>";
    rows.forEach(function(r){
-     var values=which==="ataque"
-       ?[metricValue(ownName,"own",r.metric),metricValue(opponentName,"opponents",r.metric),metricValue(null,"league",r.metric)]
-       :[metricValue(ownName,"opponents",r.metric),metricValue(opponentName,"own",r.metric),metricValue(null,"league",r.metric)];
+     var values;
+     if(r.metric==="ptsAgainst"){
+       values=which==="ataque"
+         ?[metricValue(ownName,"own","pts"),metricValue(opponentName,"own","ptsAgainst"),metricValue(null,"league","pts")]
+         :[metricValue(ownName,"own","ptsAgainst"),metricValue(opponentName,"own","pts"),metricValue(null,"league","pts")];
+     }else{
+       values=which==="ataque"
+         ?[metricValue(ownName,"own",r.metric),metricValue(opponentName,"opponents",r.metric),metricValue(null,"league",r.metric)]
+         :[metricValue(ownName,"opponents",r.metric),metricValue(opponentName,"own",r.metric),metricValue(null,"league",r.metric)];
+     }
      var cells=values.map(function(v){return "<td>"+fmtVal(v,r.digits)+(v!=null&&r.percent?"%":"")+"</td>"}).join("");
      table+="<tr><td class='scdb-player'>"+r.label+"</td>"+cells+"</tr>";
    });
