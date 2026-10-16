@@ -2742,12 +2742,7 @@ function renderScoutingUI(){
    var rivalHasBoxscores=rr.length>0;
    if(!rr.length&&rt&&Array.isArray(DB.playerDirectory)){rr=DB.playerDirectory.filter(function(p){return n(p.equipo_id)===n(rt.id)}).map(function(p){return{jugadorId:n(p.id),equipoId:n(p.equipo_id),nombre:p.nombre,pj:0,pts:null,reb:null,ast:null,val:null,p3:null}}).sort(function(a,b){return String(a.nombre||"").localeCompare(String(b.nombre||""),"es")});}
    var metric=function(label,value,note){return "<div class='scdb-plan-metric'><small>"+label+"</small><strong>"+value+"</strong><span>"+note+"</span></div>";};
-   if(which==="ataque")return "<h4>Indicadores de ataque y concesión</h4>"+matchupAdvancedTable("ataque")+"<div class='scdb-plan-grid'>"+metric("Puntos por partido",f(ma[0].value),"Producción ofensiva de Ulacia")+
-    metric("Tiros de 2",pct(ma[6].value),"Porcentaje de acierto")+
-    metric("Triples",pct(ma[7].value),"Porcentaje de acierto")+
-    metric("Asistencias",f(ma[4].value),"Por partido")+
-    metric("Pérdidas",f(ma[5].value),"Por partido; conviene limitar posesiones regaladas")+"</div><h4>Referencias ofensivas de Ulacia</h4>"+topPlayers("Ulacia ZKE")+
-    "<p class='scdb-note'>Pistas para preparar el ataque: contrastar estos promedios con el vídeo del rival antes de fijar sistemas o emparejamientos.</p>";
+   if(which==="ataque")return "<h4>Indicadores de ataque y concesión</h4>"+matchupAdvancedTable("ataque");
    if(which==="defensa")return "<h4>Indicadores defensivos y ataque rival</h4>"+matchupAdvancedTable("defensa")+"<div class='scdb-plan-grid'>"+metric("Puntos del rival",f(mb[0].value),"Anotación media por partido")+
     metric("Rebotes del rival",f(mb[3].value),"Capacidad de generar segundas opciones")+
     metric("Asistencias del rival",f(mb[4].value),"Circulación de balón")+
