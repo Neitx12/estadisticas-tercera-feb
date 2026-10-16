@@ -2829,6 +2829,7 @@ function renderScoutingUI(){
    var topTOVPlayers=function(){
      var team=DB.teams&&DB.teams[opp],stats=DB.boxscores||[],directory=DB.playerDirectory||[],ranked=[];
      var fmt=function(v){return v==null||!Number.isFinite(Number(v))?"—":Number(v).toLocaleString("es-ES",{maximumFractionDigits:1});};
+     var fmtMin=function(v){if(v==null||!Number.isFinite(Number(v)))return "—";var s=Math.round(Number(v)*60);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");};
      var pct=function(v){return v==null||!Number.isFinite(Number(v))?"—":fmt(v)+"%";};
      if(!team||!stats.length)return "<section class='scdb-tov-top'><h2>⚠️ Top 3 TOV% · "+esc(opp)+"</h2><p>No hay datos suficientes.</p></section>";
      var ids={};
@@ -2853,11 +2854,11 @@ function renderScoutingUI(){
        var astPct=astDen>0?100*x.ast/astDen:null;
        var usg=teamPoss>0&&x.mp>0?100*playerPoss*(teamMP/5)/(x.mp*teamPoss):null;
        var minPerGame=x.pj?x.mp/60/x.pj:0;
-       if(x.pj>0&&minPerGame>8&&tov!=null&&Number.isFinite(tov))ranked.push({name:x.player.name,pj:x.pj,min:minPerGame,tov:tov,astPct:astPct,usg:usg,to:x.to});
+       if(x.pj>0&&minPerGame>8&&tov!=null&&Number.isFinite(tov))ranked.push({name:x.player.name,pj:x.pj,min:minPerGame,tov:tov,astPct:astPct,usg:usg,to:x.to,ast:x.ast});
      });
      ranked.sort(function(a,b){return b.tov-a.tov;});ranked=ranked.slice(0,3);
      if(!ranked.length)return "<section class='scdb-tov-top'><h2>⚠️ Top 3 TOV% · "+esc(opp)+"</h2><p>No hay jugadores con más de 8 minutos por partido y datos suficientes.</p></section>";
-     return "<section class='scdb-tov-top'><h2>⚠️ Tres jugadores con mayor TOV% · "+esc(opp)+"</h2><p class='scdb-note'>Solo jugadores del rival seleccionado, con más de 8 minutos por partido de media. AST% y USG% calculados sobre los boxscores disponibles.</p><div class='scdb-table-wrap'><table class='scdb-table'><thead><tr><th>Jugador</th><th>TOV%</th><th>AST%</th><th>USG%</th><th>Pérdidas</th><th>Min/PJ</th></tr></thead><tbody>"+ranked.map(function(p,i){return "<tr><td>"+(i+1)+". "+esc(p.name)+"</td><td><strong>"+pct(p.tov)+"</strong></td><td>"+pct(p.astPct)+"</td><td>"+pct(p.usg)+"</td><td>"+p.to+"</td><td>"+fmt(p.min)+"</td></tr>";}).join("")+"</tbody></table></div></section>";
+     return "<section class='scdb-tov-top'><h2>⚠️ Tres jugadores con mayor TOV% · "+esc(opp)+"</h2><p class='scdb-note'>Solo jugadores del rival seleccionado, con más de 8 minutos por partido de media. AST% y USG% calculados sobre los boxscores disponibles.</p><div class='scdb-table-wrap'><table class='scdb-table'><thead><tr><th>Jugador</th><th>TOV%</th><th>AST%</th><th>USG%</th><th>AST</th><th>Pérdidas</th><th>Min/PJ</th></tr></thead><tbody>"+ranked.map(function(p,i){return "<tr><td>"+(i+1)+". "+esc(p.name)+"</td><td><strong>"+pct(p.tov)+"</strong></td><td>"+pct(p.astPct)+"</td><td>"+pct(p.usg)+"</td><td>"+p.ast+"</td><td>"+p.to+"</td><td>"+fmtMin(p.min)+"</td></tr>";}).join("")+"</tbody></table></div></section>";
    };
    printCss+=".scdb-tov-top{margin-top:10px;break-inside:avoid;page-break-inside:avoid}.scdb-tov-top h2{font-size:12px;margin:5px 0}.scdb-tov-top .scdb-table{font-size:8px}.scdb-tov-top .scdb-table th,.scdb-tov-top .scdb-table td{padding:3px;vertical-align:top;overflow-wrap:anywhere}";
    var topTSPlayers=function(){
