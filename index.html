@@ -2834,7 +2834,7 @@ function renderScoutingUI(){
      var ids={};
      directory.filter(function(p){return n(p.equipo_id)===n(team.id);}).forEach(function(p){ids[n(p.id)]={id:n(p.id),name:p.nombre||p.name||"Jugador"};});
      var totals={},teamMP=0,teamFGM=0,teamFGA=0,teamFTA=0,teamTO=0;
-     var seconds=function(v){if(typeof v==="number")return v;var s=String(v==null?"":v).trim();if(!s)return 0;if(/^\d+(\.\d+)?$/.test(s))return Number(s)*60;var m=s.match(/^(\d+):(\d{1,2})$/);return m?Number(m[1])*60+Number(m[2]):0;};
+     var seconds=function(v){if(typeof v==="number")return v*60;var s=String(v==null?"":v).trim();if(!s)return 0;if(/^\d+(\.\d+)?$/.test(s))return Number(s)*60;var m=s.match(/^(\d+):(\d{1,2})$/);return m?Number(m[1])*60+Number(m[2]):0;};
      stats.forEach(function(row){
        var id=n(row.jugador_id),player=ids[id];
        if(!player)return;
