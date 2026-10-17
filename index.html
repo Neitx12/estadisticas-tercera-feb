@@ -985,7 +985,7 @@ function renderTablaEquipoModal(d){
     ["3P",t.t3m+"/"+t.t3a,pctEquipoModal(t.t3m,t.t3a)],
     ["TL",t.ftm+"/"+t.fta,pctEquipoModal(t.ftm,t.fta)]
   ];
-  return '<p class="equipo-nota">'+g+' partido'+(g===1?'':'s')+' en el filtro seleccionado. Totales sumados de los boxscores de los jugadores del equipo.</p><div class="equipo-tabla-wrap"><table class="equipo-tabla"><thead><tr><th>Estadística</th><th>Total</th><th>Media / partido</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>').join('')+'</tbody></table></div>';
+  return '<p class="equipo-nota">'+g+' partido'+(g===1?'':'s')+' en el filtro seleccionado. Totales oficiales del boxscore del equipo; las estadísticas individuales se muestran por separado.</p><div class="equipo-tabla-wrap"><table class="equipo-tabla"><thead><tr><th>Estadística</th><th>Total</th><th>Media / partido</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>').join('')+'</tbody></table></div>';
 }
 function renderPlantillaEquipoModal(equipoId,rivalId,modo){
   const d=datosEquipoModal(equipoId,rivalId),g=d.t.g;
