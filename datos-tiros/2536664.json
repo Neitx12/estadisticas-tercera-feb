@@ -1,0 +1,28 @@
+{
+  "partidoId": "2536664",
+  "jornada": 1,
+  "partido": "Cantbasket04–Ávila",
+  "fuente": "FEB ShotChart",
+  "completo": false,
+  "nota": "Datos parciales de prueba: solo incluye los dos lanzamientos de ejemplo recibidos; no representa el cuadro de tiro completo.",
+  "SHOTS": [
+    {
+      "m": "0",
+      "t": "00:05",
+      "x": "36.882933427150135",
+      "y": "85.58052988291219",
+      "team": "1",
+      "player": "2",
+      "quarter": "3"
+    },
+    {
+      "m": "0",
+      "t": "09:51",
+      "x": "30.39492415617657",
+      "y": "18.527743999262192",
+      "team": "0",
+      "player": "5",
+      "quarter": "2"
+    }
+  ]
+}
