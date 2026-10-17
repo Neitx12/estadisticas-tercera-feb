@@ -948,12 +948,24 @@ function datosEquipoModal(equipoId, rivalId){
     return esEquipo&&rival&&num(p.jornada)>=minJ&&num(p.jornada)<=maxJ;
   });
   const ids=new Set(ps.map(p=>num(p.id)));
+  /* Las filas individuales siguen alimentando la tabla de jugadores; nunca se usan
+     para reconstruir los totales colectivos porque pueden excluir rebotes de equipo. */
   const filas=estadisticasJugadoresDB.filter(s=>ids.has(num(s.partido_id))).filter(s=>{
     const j=jugadoresDB.find(x=>num(x.id)===num(s.jugador_id));
     return j&&num(j.equipo_id)===num(equipoId);
   });
   const t={g:ps.length,pts:0,reb:0,ast:0,stl:0,blk:0,to:0,val:0,d2m:0,d2a:0,t3m:0,t3a:0,ftm:0,fta:0};
-  filas.forEach(s=>{t.pts+=num(s.puntos);t.reb+=num(s.reb_totales);t.ast+=num(s.asistencias);t.stl+=num(s.recuperaciones);t.blk+=num(s.tapones);t.to+=num(s.perdidas);t.val+=num(s.valoracion);t.d2m+=num(s.dosp_anotados);t.d2a+=num(s.dosp_intentos);t.t3m+=num(s.tresp_anotados);t.t3a+=num(s.tresp_intentos);t.ftm+=num(s.tl_anotados);t.fta+=num(s.tl_intentos)});
+  ps.forEach(p=>{
+    const local=num(p.equipo_local_id)===num(equipoId);
+    t.pts+=local?num(p.puntos_local):num(p.puntos_visitante);
+    const row=estadisticasDB.find(x=>num(x.partido_id)===num(p.id)&&num(x.equipo_id)===num(equipoId));
+    if(!row)return;
+    t.reb+=num(row.reb_totales);t.ast+=num(row.asistencias);t.stl+=num(row.recuperaciones);
+    t.blk+=num(row.tapones);t.to+=num(row.perdidas);t.val+=num(row.valoracion);
+    t.d2m+=num(row.dosp_anotados);t.d2a+=num(row.dosp_intentos);
+    t.t3m+=num(row.tresp_anotados);t.t3a+=num(row.tresp_intentos);
+    t.ftm+=num(row.tl_anotados);t.fta+=num(row.tl_intentos);
+  });
   return {ps:ps,filas:filas,t:t};
 }
 function mediaEquipoModal(v,g){return g?fmtPerfil(v/g,1):"—"}
