@@ -2914,6 +2914,124 @@ function renderScoutingUI(){
    };
    printCss+=".scdb-ts-top{margin-top:10px;break-inside:avoid;page-break-inside:avoid}.scdb-ts-top h2{font-size:12px;margin:5px 0}.scdb-ts-top .scdb-table{font-size:8px}.scdb-ts-top .scdb-table th,.scdb-ts-top .scdb-table td{padding:3px;vertical-align:top;overflow-wrap:anywhere}";
    var doc="<html><head><title>Matchup · Ulacia ZKE vs "+esc(opp)+"</title><style>"+printCss+"</style></head><body><h1>SCOUTING · MATCHUP</h1><p><strong>Ulacia ZKE vs "+esc(opp)+"</strong> · Informe de preparación</p><h2>Comparativa de rendimiento</h2>"+comparison+"<h2>Estadística avanzada del rival · comparación con la media de liga</h2><p>Perfil estadístico del rival seleccionado antes de definir el plan de partido.</p>"+matchupAdvancedTable("rivalLiga")+"<div class='scdb-attack-defense'><section><h2>Nuestro ataque</h2>"+planHtml("ataque")+"</section><section><h2>Nuestra defensa</h2>"+planHtml("defensa")+"</section></div>"+worstFTShooters()+topTOVPlayers()+topTSPlayers()+(opp==="Cantbasket04"?cantbasketRolesTable()+"":"")+"<script>window.onload=function(){window.focus();window.print();};<\/script>
+
+
+</body></html>";
+   win.document.open();win.document.write(doc);win.document.close();
+ };
+ var matchSel=document.getElementById("scdbMatchRival");if(matchSel)matchSel.onchange=function(){content.dataset.rival=this.value;renderScoutingUI();};
+}
+window.syncScouting=function(){return sync()}; window.renderScouting=function(){return renderScoutingUI()}; function pbpCurrent(){try{return typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null}catch(e){return null}}
+function addPbp(p){if(!p||!p.gameId)return;DB.pbp=DB.pbp.filter(function(x){return x.gameId!==p.gameId});DB.pbp.push(p)}
+function openScout(){var modal=document.getElementById("scdbModal");if(!modal){install();modal=document.getElementById("scdbModal")}if(!modal)return;modal.classList.add("abierto");modal.setAttribute("aria-hidden","false");var content=document.getElementById("scdbContent");try{var ok=sync();var p=pbpCurrent();if(p)addPbp(p);if(ok){if(window.renderScouting)window.renderScouting();else render()}else if(content){content.innerHTML="<div style=\"padding:20px\"><h3>Scouting sin datos</h3><p>Los datos de la página todavía se están cargando.</p></div>"}}catch(e){console.error("Scouting:",e);if(content)content.innerHTML="<div style=\"padding:20px\"><h3>Error de Scouting</h3><p>"+esc(e.message||e)+"</p></div>"}}
+window.openScout=function(){openScout()};
+function install(){
+ var target=document.querySelector(".tabs")||document.querySelector(".toolbar-row");
+ var staticBtn=document.getElementById("scdbStaticLaunch"); if(staticBtn){staticBtn.onclick=function(e){e.preventDefault();openScout()};staticBtn.addEventListener("click",openScout)} else if(target&&!document.getElementById("scdbLaunch")){var b=document.createElement("button");b.id="scdbLaunch";b.className="scdb-launch";b.textContent="🧠 Scouting";b.type="button";b.onclick=openScout;target.appendChild(b)}
+
+ window.cerrarScoutingDB=function(){document.getElementById("scdbModal")?.classList.remove("abierto")};
+ var tries=0,t=setInterval(function(){if(sync()){clearInterval(t);if(document.getElementById("scdbModal")?.classList.contains("abierto"))render()}if(++tries>100)clearInterval(t)},250);
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",install);else install();
+})();
+</script>
+<!-- SCOUTING-DATABASE-V1 -->
+<div id="scdbModal" class="scdb-modal" aria-hidden="true"><div class="scdb-card"><div class="scdb-head"><div><h2>Centro de Scouting · V2</h2><p>Datos cuantitativos de Supabase · conclusiones tácticas solo con evidencia</p></div><button class="scdb-close" type="button" onclick="document.getElementById('scdbModal').classList.remove('abierto')">Cerrar</button></div><div class="scdb-nav" id="scdbNav"><button data-tab="own">🟢 Ulacia · propio</button><button data-tab="rival">🔴 Rival · para Ulacia</button><button data-tab="matchup">⚔️ Matchup</button><button data-tab="informe">📋 Informe partido</button></div><div id="scdbContent"><div style="padding:18px"><h3>Scouting</h3><p>Inicializando análisis…</p></div></div></div></div>
+<script>
+(function(){
+  window.abrirScoutingSeguro=function(){
+    var modal=document.getElementById("scdbModal");
+    if(!modal)return;
+    modal.classList.add("abierto");
+    modal.setAttribute("aria-hidden","false");
+    try{
+      if(typeof window.openScout==="function") window.openScout();
+      else if(typeof window.syncScouting==="function") window.syncScouting();
+    }catch(e){console.error("Scouting:",e)}
+  };
+})();
+</script>
+
+<!-- PBP-COMBINACIONES-ARD-OCT2026 -->
+<style>
+#pbpCombLaunch{position:fixed;right:18px;bottom:18px;z-index:30;border:0;border-radius:12px;padding:13px 16px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff;font-weight:900;box-shadow:0 5px 20px #0003;cursor:pointer}
+#pbpCombModal{display:none;position:fixed;inset:0;z-index:100;background:#0f172abf;padding:16px;align-items:center;justify-content:center}
+#pbpCombModal.open{display:flex}
+#pbpCombModal .pc-card{background:#fff;width:min(1200px,100%);max-height:94vh;overflow:auto;border-radius:18px;padding:20px;color:#1f2937}
+#pbpCombModal .pc-head{display:flex;justify-content:space-between;align-items:start;gap:12px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff;margin:-20px -20px 16px;padding:18px 20px;border-radius:18px 18px 0 0}
+#pbpCombModal h2{margin:0 0 5px}#pbpCombModal .pc-note{font-size:12px;color:#64748b;line-height:1.45}
+#pbpCombModal .pc-filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+#pbpCombModal select{border:1px solid #cbd5e1;border-radius:8px;padding:9px;background:#fff}
+#pbpCombModal .pc-section{margin:16px 0}#pbpCombModal h3{margin:0 0 8px;color:#12343b}
+#pbpCombModal .pc-tablewrap{overflow:auto;border:1px solid #e5e7eb;border-radius:10px}
+#pbpCombModal table{min-width:850px;width:100%;border-collapse:collapse}
+#pbpCombModal th{position:static;background:#008f91;color:#fff;text-align:left;font-size:11px}
+#pbpCombModal td,#pbpCombModal th{padding:9px 8px;border-bottom:1px solid #e5e7eb;white-space:normal;text-align:left;font-size:12px}
+#pbpCombModal td.num{text-align:center;white-space:nowrap;font-weight:800}
+#pbpCombModal .plus{color:#16803a}#pbpCombModal .minus{color:#b91c1c}
+#pbpCombModal .pc-close{border:0;border-radius:8px;padding:9px 12px;font-weight:800;cursor:pointer}
+@media(max-width:650px){#pbpCombLaunch{right:10px;bottom:10px;font-size:12px}#pbpCombModal{padding:6px}#pbpCombModal .pc-card{padding:12px}#pbpCombModal .pc-head{margin:-12px -12px 12px;padding:14px 12px}}
+</style>
+<button id="pbpCombLaunch" type="button">🏀 Combinaciones PBP · J1</button>
+<div id="pbpCombModal" role="dialog" aria-modal="true" aria-label="Combinaciones PBP Ardoi Ulacia">
+ <div class="pc-card">
+  <div class="pc-head"><div><h2>Combinaciones PBP · Jornada 1</h2><div>Megacalzado Ardoi 65–85 Ulacia ZKE</div></div><button class="pc-close" id="pbpCombClose" type="button">Cerrar ✕</button></div>
+  <p class="pc-note"><b>Criterio:</b> el +/- real ordena la clasificación. El +/- por 40 minutos se muestra como dato complementario. PF/PC = puntos a favor y en contra mientras la combinación estuvo en pista. El tiempo es la suma de sus tramos coincidentes. Muestra corta: interpretar con cautela.</p>
+  <div class="pc-filters"><label>Equipo <select id="pcTeam"><option value="Ulacia ZKE">Ulacia ZKE</option></select></label><label>Combinación <select id="pcSize"><option value="5">Quintetos</option><option value="3">Tríos</option><option value="2">Parejas</option></select></label><label>Clasificación <select id="pcRank"><option>Mejores</option><option>Peores</option></select></label></div>
+  <div id="pcResults"></div>
+  <p class="pc-note">Fuente: Excel de Play by Play de los seis partidos de la Jornada 1. Cálculo reconstruido por intervalos de quinteto, con puntos a favor y en contra atribuidos a la alineación en pista. Se muestran combinaciones con al menos 3:00 minutos compartidos para reducir muestras demasiado pequeñas. Criterio de clasificación: +/- real acumulado (principal); +/- por 40 minutos es complementario.</p>
+ </div>
+</div>
+<script>
+(function(){
+var pcData=[];
+const pcNames={1:"Piélagos",2:"La Flecha",3:"Ardoi",4:"Ulacia ZKE",5:"Tabirako",6:"Iruki Take",7:"Solares",8:"San Prudencio",11:"Deusto Loyola",12:"Bezana",13:"Cantbasket04",14:"Ávila Auténtica"};
+function pcBuildData(d){
+ pcData=[];
+ Object.keys(d.teams||{}).forEach(function(id){
+  var team=pcNames[Number(id)];if(!team)return;
+  [5,3,2].forEach(function(n){
+   ["best","worst"].forEach(function(key){
+    var rows=(((d.teams[id]||{})[String(n)]||{})[key]||[]).slice().sort(function(a,b){
+     var difA=Number(a[4])||0,difB=Number(b[4])||0;
+     return key==="best"?(difB-difA): (difA-difB);
+    });
+    pcData.push({team:team,n:n,rank:key==="best"?"Mejores":"Peores",rows:rows.map(function(x){
+     var pm=Number(x[4])||0,rate=Number(x[5])||0;
+     return [String(x[1]),String(x[2]),String(x[3]),(pm>0?"+":"")+pm,(rate>0?"+":"")+rate.toFixed(1).replace(".",","),x[0].map(function(i){return d.players[i]||("Jugador "+i);}).join(" · ")];
+    })});
+   });
+  });
+ });
+ var sel=document.getElementById("pcTeam"),current=sel.value;
+ sel.innerHTML=Object.keys(pcNames).filter(function(id){return d.teams[id];}).map(function(id){var name=pcNames[id];return '<option value="'+name+'">'+name+'</option>';}).join("");
+ if(current&&Array.from(sel.options).some(function(o){return o.value===current;}))sel.value=current;
+ else if(Array.from(sel.options).some(function(o){return o.value==="Ulacia ZKE";}))sel.value="Ulacia ZKE";
+}
+var pcLoaded=false,pcLoading=false;
+function loadPcData(){
+ if(pcLoaded||pcLoading)return;
+ pcLoading=true;
+ fetch("./combinaciones-pbp-jornada1.json").then(function(r){if(!r.ok)throw new Error("No se pudo cargar el Excel procesado");return r.json();}).then(function(d){pcBuildData(d);pcLoaded=true;pcLoading=false;render();}).catch(function(){pcLoading=false;document.getElementById("pcResults").textContent="No se pudieron cargar las combinaciones verificadas del Excel.";});
+}
+const modal=document.getElementById('pbpCombModal');
+const launch=document.getElementById('pbpCombLaunch');
+const close=document.getElementById('pbpCombClose');
+function render(){
+ const team=document.getElementById('pcTeam').value, size=Number(document.getElementById('pcSize').value), rank=document.getElementById('pcRank').value;
+ const group=pcData.find(x=>x.team===team&&x.n===size&&x.rank===rank);
+ const rows=group?group.rows:[];
+ document.getElementById('pcResults').innerHTML='<section class="pc-section"><h3>'+rank+' '+({2:'parejas',3:'tríos',5:'quintetos'}[size])+' · '+team+'</h3><div class="pc-tablewrap"><table><thead><tr><th>Minutos</th><th>Puntos a favor</th><th>Puntos en contra</th><th>+/- real</th><th>+/- por 40 min</th><th>Jugadores</th></tr></thead><tbody>'+rows.map(r=>'<tr><td class="num">'+r[0]+'</td><td class="num">'+r[1]+'</td><td class="num">'+r[2]+'</td><td class="num '+(r[3].startsWith('+')?'plus':'minus')+'">'+r[3]+'</td><td class="num">'+r[4]+'</td><td>'+r[5]+'</td></tr>').join('')+'</tbody></table></div></section>';
+}
+launch.addEventListener('click',()=>{modal.classList.add('open');loadPcData();render()});
+close.addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+['pcTeam','pcSize','pcRank'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+})();
+</script>
+<!-- /PBP-COMBINACIONES-ARD-OCT2026 -->
+
 <!-- CUADRO-TIRO-FEB-PRUEBA -->
 <style>
 #febShotTest{margin:24px auto;padding:18px;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);max-width:1250px}
@@ -3047,123 +3165,6 @@ function renderScoutingUI(){
 })();
 </script>
 <!-- /CUADRO-TIRO-FEB-PRUEBA -->
-
-</body></html>";
-   win.document.open();win.document.write(doc);win.document.close();
- };
- var matchSel=document.getElementById("scdbMatchRival");if(matchSel)matchSel.onchange=function(){content.dataset.rival=this.value;renderScoutingUI();};
-}
-window.syncScouting=function(){return sync()}; window.renderScouting=function(){return renderScoutingUI()}; function pbpCurrent(){try{return typeof PBP_ADV_DATA!=="undefined"?PBP_ADV_DATA:null}catch(e){return null}}
-function addPbp(p){if(!p||!p.gameId)return;DB.pbp=DB.pbp.filter(function(x){return x.gameId!==p.gameId});DB.pbp.push(p)}
-function openScout(){var modal=document.getElementById("scdbModal");if(!modal){install();modal=document.getElementById("scdbModal")}if(!modal)return;modal.classList.add("abierto");modal.setAttribute("aria-hidden","false");var content=document.getElementById("scdbContent");try{var ok=sync();var p=pbpCurrent();if(p)addPbp(p);if(ok){if(window.renderScouting)window.renderScouting();else render()}else if(content){content.innerHTML="<div style=\"padding:20px\"><h3>Scouting sin datos</h3><p>Los datos de la página todavía se están cargando.</p></div>"}}catch(e){console.error("Scouting:",e);if(content)content.innerHTML="<div style=\"padding:20px\"><h3>Error de Scouting</h3><p>"+esc(e.message||e)+"</p></div>"}}
-window.openScout=function(){openScout()};
-function install(){
- var target=document.querySelector(".tabs")||document.querySelector(".toolbar-row");
- var staticBtn=document.getElementById("scdbStaticLaunch"); if(staticBtn){staticBtn.onclick=function(e){e.preventDefault();openScout()};staticBtn.addEventListener("click",openScout)} else if(target&&!document.getElementById("scdbLaunch")){var b=document.createElement("button");b.id="scdbLaunch";b.className="scdb-launch";b.textContent="🧠 Scouting";b.type="button";b.onclick=openScout;target.appendChild(b)}
-
- window.cerrarScoutingDB=function(){document.getElementById("scdbModal")?.classList.remove("abierto")};
- var tries=0,t=setInterval(function(){if(sync()){clearInterval(t);if(document.getElementById("scdbModal")?.classList.contains("abierto"))render()}if(++tries>100)clearInterval(t)},250);
-}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",install);else install();
-})();
-</script>
-<!-- SCOUTING-DATABASE-V1 -->
-<div id="scdbModal" class="scdb-modal" aria-hidden="true"><div class="scdb-card"><div class="scdb-head"><div><h2>Centro de Scouting · V2</h2><p>Datos cuantitativos de Supabase · conclusiones tácticas solo con evidencia</p></div><button class="scdb-close" type="button" onclick="document.getElementById('scdbModal').classList.remove('abierto')">Cerrar</button></div><div class="scdb-nav" id="scdbNav"><button data-tab="own">🟢 Ulacia · propio</button><button data-tab="rival">🔴 Rival · para Ulacia</button><button data-tab="matchup">⚔️ Matchup</button><button data-tab="informe">📋 Informe partido</button></div><div id="scdbContent"><div style="padding:18px"><h3>Scouting</h3><p>Inicializando análisis…</p></div></div></div></div>
-<script>
-(function(){
-  window.abrirScoutingSeguro=function(){
-    var modal=document.getElementById("scdbModal");
-    if(!modal)return;
-    modal.classList.add("abierto");
-    modal.setAttribute("aria-hidden","false");
-    try{
-      if(typeof window.openScout==="function") window.openScout();
-      else if(typeof window.syncScouting==="function") window.syncScouting();
-    }catch(e){console.error("Scouting:",e)}
-  };
-})();
-</script>
-
-<!-- PBP-COMBINACIONES-ARD-OCT2026 -->
-<style>
-#pbpCombLaunch{position:fixed;right:18px;bottom:18px;z-index:30;border:0;border-radius:12px;padding:13px 16px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff;font-weight:900;box-shadow:0 5px 20px #0003;cursor:pointer}
-#pbpCombModal{display:none;position:fixed;inset:0;z-index:100;background:#0f172abf;padding:16px;align-items:center;justify-content:center}
-#pbpCombModal.open{display:flex}
-#pbpCombModal .pc-card{background:#fff;width:min(1200px,100%);max-height:94vh;overflow:auto;border-radius:18px;padding:20px;color:#1f2937}
-#pbpCombModal .pc-head{display:flex;justify-content:space-between;align-items:start;gap:12px;background:linear-gradient(135deg,#00a6a6,#f0007f);color:#fff;margin:-20px -20px 16px;padding:18px 20px;border-radius:18px 18px 0 0}
-#pbpCombModal h2{margin:0 0 5px}#pbpCombModal .pc-note{font-size:12px;color:#64748b;line-height:1.45}
-#pbpCombModal .pc-filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-#pbpCombModal select{border:1px solid #cbd5e1;border-radius:8px;padding:9px;background:#fff}
-#pbpCombModal .pc-section{margin:16px 0}#pbpCombModal h3{margin:0 0 8px;color:#12343b}
-#pbpCombModal .pc-tablewrap{overflow:auto;border:1px solid #e5e7eb;border-radius:10px}
-#pbpCombModal table{min-width:850px;width:100%;border-collapse:collapse}
-#pbpCombModal th{position:static;background:#008f91;color:#fff;text-align:left;font-size:11px}
-#pbpCombModal td,#pbpCombModal th{padding:9px 8px;border-bottom:1px solid #e5e7eb;white-space:normal;text-align:left;font-size:12px}
-#pbpCombModal td.num{text-align:center;white-space:nowrap;font-weight:800}
-#pbpCombModal .plus{color:#16803a}#pbpCombModal .minus{color:#b91c1c}
-#pbpCombModal .pc-close{border:0;border-radius:8px;padding:9px 12px;font-weight:800;cursor:pointer}
-@media(max-width:650px){#pbpCombLaunch{right:10px;bottom:10px;font-size:12px}#pbpCombModal{padding:6px}#pbpCombModal .pc-card{padding:12px}#pbpCombModal .pc-head{margin:-12px -12px 12px;padding:14px 12px}}
-</style>
-<button id="pbpCombLaunch" type="button">🏀 Combinaciones PBP · J1</button>
-<div id="pbpCombModal" role="dialog" aria-modal="true" aria-label="Combinaciones PBP Ardoi Ulacia">
- <div class="pc-card">
-  <div class="pc-head"><div><h2>Combinaciones PBP · Jornada 1</h2><div>Megacalzado Ardoi 65–85 Ulacia ZKE</div></div><button class="pc-close" id="pbpCombClose" type="button">Cerrar ✕</button></div>
-  <p class="pc-note"><b>Criterio:</b> el +/- real ordena la clasificación. El +/- por 40 minutos se muestra como dato complementario. PF/PC = puntos a favor y en contra mientras la combinación estuvo en pista. El tiempo es la suma de sus tramos coincidentes. Muestra corta: interpretar con cautela.</p>
-  <div class="pc-filters"><label>Equipo <select id="pcTeam"><option value="Ulacia ZKE">Ulacia ZKE</option></select></label><label>Combinación <select id="pcSize"><option value="5">Quintetos</option><option value="3">Tríos</option><option value="2">Parejas</option></select></label><label>Clasificación <select id="pcRank"><option>Mejores</option><option>Peores</option></select></label></div>
-  <div id="pcResults"></div>
-  <p class="pc-note">Fuente: Excel de Play by Play de los seis partidos de la Jornada 1. Cálculo reconstruido por intervalos de quinteto, con puntos a favor y en contra atribuidos a la alineación en pista. Se muestran combinaciones con al menos 3:00 minutos compartidos para reducir muestras demasiado pequeñas. Criterio de clasificación: +/- real acumulado (principal); +/- por 40 minutos es complementario.</p>
- </div>
-</div>
-<script>
-(function(){
-var pcData=[];
-const pcNames={1:"Piélagos",2:"La Flecha",3:"Ardoi",4:"Ulacia ZKE",5:"Tabirako",6:"Iruki Take",7:"Solares",8:"San Prudencio",11:"Deusto Loyola",12:"Bezana",13:"Cantbasket04",14:"Ávila Auténtica"};
-function pcBuildData(d){
- pcData=[];
- Object.keys(d.teams||{}).forEach(function(id){
-  var team=pcNames[Number(id)];if(!team)return;
-  [5,3,2].forEach(function(n){
-   ["best","worst"].forEach(function(key){
-    var rows=(((d.teams[id]||{})[String(n)]||{})[key]||[]).slice().sort(function(a,b){
-     var difA=Number(a[4])||0,difB=Number(b[4])||0;
-     return key==="best"?(difB-difA): (difA-difB);
-    });
-    pcData.push({team:team,n:n,rank:key==="best"?"Mejores":"Peores",rows:rows.map(function(x){
-     var pm=Number(x[4])||0,rate=Number(x[5])||0;
-     return [String(x[1]),String(x[2]),String(x[3]),(pm>0?"+":"")+pm,(rate>0?"+":"")+rate.toFixed(1).replace(".",","),x[0].map(function(i){return d.players[i]||("Jugador "+i);}).join(" · ")];
-    })});
-   });
-  });
- });
- var sel=document.getElementById("pcTeam"),current=sel.value;
- sel.innerHTML=Object.keys(pcNames).filter(function(id){return d.teams[id];}).map(function(id){var name=pcNames[id];return '<option value="'+name+'">'+name+'</option>';}).join("");
- if(current&&Array.from(sel.options).some(function(o){return o.value===current;}))sel.value=current;
- else if(Array.from(sel.options).some(function(o){return o.value==="Ulacia ZKE";}))sel.value="Ulacia ZKE";
-}
-var pcLoaded=false,pcLoading=false;
-function loadPcData(){
- if(pcLoaded||pcLoading)return;
- pcLoading=true;
- fetch("./combinaciones-pbp-jornada1.json").then(function(r){if(!r.ok)throw new Error("No se pudo cargar el Excel procesado");return r.json();}).then(function(d){pcBuildData(d);pcLoaded=true;pcLoading=false;render();}).catch(function(){pcLoading=false;document.getElementById("pcResults").textContent="No se pudieron cargar las combinaciones verificadas del Excel.";});
-}
-const modal=document.getElementById('pbpCombModal');
-const launch=document.getElementById('pbpCombLaunch');
-const close=document.getElementById('pbpCombClose');
-function render(){
- const team=document.getElementById('pcTeam').value, size=Number(document.getElementById('pcSize').value), rank=document.getElementById('pcRank').value;
- const group=pcData.find(x=>x.team===team&&x.n===size&&x.rank===rank);
- const rows=group?group.rows:[];
- document.getElementById('pcResults').innerHTML='<section class="pc-section"><h3>'+rank+' '+({2:'parejas',3:'tríos',5:'quintetos'}[size])+' · '+team+'</h3><div class="pc-tablewrap"><table><thead><tr><th>Minutos</th><th>Puntos a favor</th><th>Puntos en contra</th><th>+/- real</th><th>+/- por 40 min</th><th>Jugadores</th></tr></thead><tbody>'+rows.map(r=>'<tr><td class="num">'+r[0]+'</td><td class="num">'+r[1]+'</td><td class="num">'+r[2]+'</td><td class="num '+(r[3].startsWith('+')?'plus':'minus')+'">'+r[3]+'</td><td class="num">'+r[4]+'</td><td>'+r[5]+'</td></tr>').join('')+'</tbody></table></div></section>';
-}
-launch.addEventListener('click',()=>{modal.classList.add('open');loadPcData();render()});
-close.addEventListener('click',()=>modal.classList.remove('open'));
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
-['pcTeam','pcSize','pcRank'].forEach(id=>document.getElementById(id).addEventListener('change',render));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
-})();
-</script>
-<!-- /PBP-COMBINACIONES-ARD-OCT2026 -->
-
 </body>
 <!-- SCOUTING-DEPLOY-TRIGGER-2026-10-07 -->
 </html>
