@@ -3039,9 +3039,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remo
 #febShotTest .shot-note{color:#64748b;font-size:13px;line-height:1.45}
 #febShotTest .shot-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:14px 0}
 #febShotTest label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase}
-#febShotTest select,#febShotTest input[type=file],#febShotTest textarea{border:1px solid #cbd5e1;border-radius:8px;padding:9px;background:#fff;color:#12343b;max-width:100%}
-#febShotTest textarea{width:100%;min-height:100px;font:12px/1.4 monospace}
-#febShotTest .shot-btn{border:0;border-radius:8px;background:#008f91;color:#fff;padding:10px 14px;font-weight:800;cursor:pointer}
+#febShotTest select{border:1px solid #cbd5e1;border-radius:8px;padding:9px;background:#fff;color:#12343b;max-width:100%}
 #febShotTest .shot-status{font-size:13px;font-weight:700;margin:10px 0}
 #febShotTest .shot-board{width:min(100%,560px);margin:12px auto;background:#f4e3bd;border:2px solid #8b6b42;border-radius:8px;overflow:hidden}
 #febShotTest svg{display:block;width:100%;height:auto}
@@ -3053,24 +3051,19 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remo
 @media(max-width:600px){#febShotTest{padding:12px;margin:14px auto}#febShotTest .shot-tools>*{width:100%}}
 </style>
 <section id="febShotTest">
-  <h2>Cuadro de tiro FEB · Prueba</h2>
-  <p class="shot-note">Visualiza los lanzamientos originales de FEB a partir de una respuesta JSON que contenga <code>SHOTS</code>. Importa el JSON descargado desde Network o pega aquí su contenido. Esta prueba no modifica las estadísticas guardadas.</p>
+  <h2>Cuadro de tiro FEB</h2>
+  <p class="shot-note">Los datos se cargan automáticamente desde los JSON guardados en la propia web. No necesitas subir archivos ni pegar datos manualmente.</p>
   <div class="shot-tools">
-    <label>Importar respuesta JSON <input id="febShotFile" type="file" accept=".json,application/json"></label>
-    <button class="shot-btn" id="febShotLoad" type="button">Representar lanzamientos</button>
-  </div>
-  <label for="febShotJson">O pega aquí el JSON de FEB</label>
-  <textarea id="febShotJson" placeholder='Pega el objeto completo que contiene "SHOTCHART" y "SHOTS"...'></textarea>
-  <div class="shot-tools">
+    <label>Partido <select id="febShotGame"><option value="2536664">Jornada 1 · Cantbasket04–Ávila</option></select></label>
     <label>Equipo <select id="febShotTeam"><option value="all">Todos</option></select></label>
     <label>Jugador / dorsal <select id="febShotPlayer"><option value="all">Todos</option></select></label>
     <label>Periodo <select id="febShotQuarter"><option value="all">Todos</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option><option value="5">Prórroga 1</option><option value="6">Prórroga 2</option></select></label>
   </div>
-  <div id="febShotStatus" class="shot-status" role="status">Importa el JSON de FEB para dibujar los tiros.</div>
+  <div id="febShotStatus" class="shot-status" role="status">Cargando datos guardados del partido…</div>
   <div class="shot-legend"><span><i class="shot-dot" style="background:#16a34a"></i> Canasta anotada</span><span><i class="shot-dot" style="background:#dc2626"></i> Tiro fallado</span></div>
   <div class="shot-board">
     <svg id="febShotSvg" viewBox="0 0 100 100" role="img" aria-label="Campo de baloncesto con posiciones de los lanzamientos">
-      <rect x="1" y="1" width="98" height="98" rx="1" fill="#f4e3bd" stroke="#8b6b42" stroke-width="0.8"/>
+      <rect x="1" y="1" width="98" height="98" rx="1" fill="#f4e3bd" stroke="#8b6b42" stroke-width=".8"/>
       <line x1="1" y1="50" x2="99" y2="50" stroke="#8b6b42" stroke-width=".7"/>
       <circle cx="50" cy="50" r="9" fill="none" stroke="#8b6b42" stroke-width=".7"/>
       <rect x="30" y="1" width="40" height="19" fill="none" stroke="#8b6b42" stroke-width=".7"/>
@@ -3082,26 +3075,23 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remo
       <g id="febShotPoints"></g>
     </svg>
   </div>
-  <p class="shot-note">Los puntos se colocan usando directamente las coordenadas <code>x</code> e <code>y</code> de FEB; verde = <code>m: 1</code>, rojo = <code>m: 0</code>. Los filtros permiten revisar equipo, dorsal y periodo. El diseño del campo es una representación de prueba y se ajustará si la plantilla oficial de FEB usa otra orientación o escala.</p>
+  <p class="shot-note">Cada punto usa las coordenadas originales <code>x</code> e <code>y</code> de FEB. Verde = canasta anotada (<code>m: 1</code>); rojo = tiro fallado (<code>m: 0</code>). Pasa el cursor sobre un punto para consultar el detalle.</p>
 </section>
 <script>
 (function(){
  const $=id=>document.getElementById(id);
- let allShots=[];
+ if(!$("febShotTest"))return;
+ let allShots=[],activeGame="2536664",datasetComplete=false;
+ const gameFiles={"2536664":"./datos-tiros/2536664.json"};
  function parseShotData(data){
    const found=[];
-   const seen=new Set();
    function walk(node,teamHint){
      if(!node||typeof node!=="object")return;
      if(Array.isArray(node)){node.forEach(v=>walk(v,teamHint));return;}
      const nextTeam=node.team!=null?String(node.team):teamHint;
-     if(Array.isArray(node.SHOTS)){
-       node.SHOTS.forEach(sh=>{
-         if(sh&&sh.x!=null&&sh.y!=null){
-           found.push({x:Number(sh.x),y:Number(sh.y),m:String(sh.m),t:String(sh.t||""),team:sh.team!=null?String(sh.team):(nextTeam||"—"),player:sh.player!=null?String(sh.player):"—",quarter:sh.quarter!=null?String(sh.quarter):"—"});
-         }
-       });
-     }
+     if(Array.isArray(node.SHOTS))node.SHOTS.forEach(sh=>{
+       if(sh&&sh.x!=null&&sh.y!=null)found.push({x:Number(sh.x),y:Number(sh.y),m:String(sh.m),t:String(sh.t||""),team:sh.team!=null?String(sh.team):(nextTeam||"—"),player:sh.player!=null?String(sh.player):"—",quarter:sh.quarter!=null?String(sh.quarter):"—"});
+     });
      Object.keys(node).forEach(k=>{if(k!=="SHOTS")walk(node[k],nextTeam);});
    }
    walk(data,null);
@@ -3115,8 +3105,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remo
    rebuildPlayers();
  }
  function rebuildPlayers(){
-   const team=$("febShotTeam").value;
-   const shots=allShots.filter(s=>team==="all"||s.team===team);
+   const team=$("febShotTeam").value,shots=allShots.filter(s=>team==="all"||s.team===team);
    const players=[...new Set(shots.map(s=>s.player))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
    const sel=$("febShotPlayer"),old=sel.value;
    sel.innerHTML='<option value="all">Todos</option>'+players.map(p=>'<option value="'+p.replace(/&/g,"&amp;").replace(/"/g,"&quot;")+'">Dorsal '+p+'</option>').join("");
@@ -3125,43 +3114,33 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remo
  function render(){
    const team=$("febShotTeam").value,player=$("febShotPlayer").value,quarter=$("febShotQuarter").value;
    const shots=allShots.filter(s=>(team==="all"||s.team===team)&&(player==="all"||s.player===player)&&(quarter==="all"||s.quarter===quarter));
-   const points=$("febShotPoints");
-   points.innerHTML="";
+   const points=$("febShotPoints");points.innerHTML="";
    shots.forEach(s=>{
-     const x=Math.max(1,Math.min(99,s.x)),y=Math.max(1,Math.min(99,s.y));
-     const made=s.m==="1";
-     const ns="http://www.w3.org/2000/svg";
-     const c=document.createElementNS(ns,"circle");
-     c.setAttribute("cx",x);c.setAttribute("cy",y);c.setAttribute("r","1.65");
-     c.setAttribute("class",made?"shot-made":"shot-missed");
-     c.setAttribute("opacity",".92");
-     c.setAttribute("tabindex","0");
-     c.setAttribute("aria-label",(made?"Canasta anotada":"Tiro fallado")+" · equipo "+s.team+" · dorsal "+s.player+" · Q"+s.quarter+" · "+s.t);
-     const title=document.createElementNS(ns,"title");
-     title.textContent=(made?"Anotado":"Fallado")+" | Equipo "+s.team+" | Dorsal "+s.player+" | Q"+s.quarter+" | "+s.t+" | x:"+s.x.toFixed(2)+" y:"+s.y.toFixed(2);
-     c.appendChild(title);points.appendChild(c);
+     const ns="http://www.w3.org/2000/svg",c=document.createElementNS(ns,"circle");
+     c.setAttribute("cx",Math.max(1,Math.min(99,s.x)));c.setAttribute("cy",Math.max(1,Math.min(99,s.y)));c.setAttribute("r","1.65");c.setAttribute("class",s.m==="1"?"shot-made":"shot-missed");c.setAttribute("opacity",".92");c.setAttribute("tabindex","0");
+     c.setAttribute("aria-label",(s.m==="1"?"Canasta anotada":"Tiro fallado")+" · equipo "+s.team+" · dorsal "+s.player+" · Q"+s.quarter+" · "+s.t);
+     const title=document.createElementNS(ns,"title");title.textContent=(s.m==="1"?"Anotado":"Fallado")+" | Equipo "+s.team+" | Dorsal "+s.player+" | Q"+s.quarter+" | "+s.t+" | x:"+s.x.toFixed(2)+" y:"+s.y.toFixed(2);c.appendChild(title);points.appendChild(c);
    });
    const made=shots.filter(s=>s.m==="1").length,missed=shots.filter(s=>s.m==="0").length;
-   $("febShotStatus").textContent=allShots.length
-     ?shots.length+" lanzamientos mostrados · "+made+" anotados · "+missed+" fallados"+(shots.some(s=>s.m!=="0"&&s.m!=="1")?" · "+shots.filter(s=>s.m!=="0"&&s.m!=="1").length+" con resultado no identificado":"")
-     :"No hay tiros que coincidan con los filtros. Comprueba el JSON o cambia los filtros.";
+   const caveat=datasetComplete?"":" · DATOS PARCIALES DE PRUEBA, no es el partido completo";
+   $("febShotStatus").textContent=shots.length+" lanzamientos mostrados · "+made+" anotados · "+missed+" fallados"+caveat;
  }
- function loadText(text){
+ async function loadGame(id){
+   activeGame=id;allShots=[];$("febShotPoints").innerHTML="";$("febShotStatus").textContent="Cargando datos guardados del partido…";
+   const path=gameFiles[id];
+   if(!path){$("febShotStatus").textContent="Todavía no hay un JSON incorporado para este partido.";return;}
    try{
-     const data=JSON.parse(text);
-     allShots=parseShotData(data);
-     if(!allShots.length){$("febShotStatus").textContent='No se encontró ningún lanzamiento con x, y y m dentro de SHOTS. Importa la respuesta JSON completa de FEB.';return;}
+     const response=await fetch(path,{cache:"no-store"});
+     if(!response.ok)throw new Error("HTTP "+response.status);
+     const data=await response.json();allShots=parseShotData(data);datasetComplete=data.completo===true;
+     if(!allShots.length)throw new Error("El JSON no contiene lanzamientos válidos");
      rebuildFilters();render();
-   }catch(e){$("febShotStatus").textContent="El contenido no es un JSON válido. Copia la respuesta completa de Network, sin texto adicional.";}
+   }catch(err){$("febShotStatus").textContent="No se pudieron cargar los datos guardados ("+err.message+").";}
  }
- $("febShotLoad").addEventListener("click",()=>loadText($("febShotJson").value.trim()));
- $("febShotFile").addEventListener("change",async e=>{
-   const file=e.target.files&&e.target.files[0];if(!file)return;
-   try{const text=await file.text();$("febShotJson").value=text;loadText(text);}catch(err){$("febShotStatus").textContent="No se pudo leer el archivo JSON.";}
- });
+ $("febShotGame").addEventListener("change",e=>loadGame(e.target.value));
  $("febShotTeam").addEventListener("change",()=>{rebuildPlayers();render();});
- $("febShotPlayer").addEventListener("change",render);
- $("febShotQuarter").addEventListener("change",render);
+ $("febShotPlayer").addEventListener("change",render);$("febShotQuarter").addEventListener("change",render);
+ loadGame(activeGame);
 })();
 </script>
 <!-- /CUADRO-TIRO-FEB-PRUEBA -->
